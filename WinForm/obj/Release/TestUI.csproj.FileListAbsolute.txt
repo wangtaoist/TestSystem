@@ -1,0 +1,15 @@
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\bin\Release\WinForm.exe
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\bin\Release\WinForm.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\bin\Release\TestBLL.dll
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\bin\Release\TestModel.dll
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\bin\Release\TestTool.dll
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\bin\Release\TestBLL.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\bin\Release\TestModel.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\bin\Release\TestTool.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\obj\Release\TestUI.csprojResolveAssemblyReference.cache
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\obj\Release\WinForm.Properties.Resources.resources
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\obj\Release\WinForm.Winform.resources
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\obj\Release\TestUI.csproj.GenerateResource.Cache
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\obj\Release\WinForm.exe
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\obj\Release\WinForm.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\WinForm\obj\Release\WinForm.frmSettingLogin.resources

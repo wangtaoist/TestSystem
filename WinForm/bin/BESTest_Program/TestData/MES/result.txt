@@ -1,0 +1,16 @@
+{
+  "SN": "GJ12251954000255",
+  "TestTime": "20190508090846",
+  "MAC": "E09DFA349216",
+  "TotalStatus": "Pass",
+  "BES_OpenSerialPort": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "BES_HWVersion": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"B816_V10\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"B816_V10\",\r\n  \"upperLimit\": \"\"\r\n}",
+  "BES_SoftVersion": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Amazon-1.0.0.100(LC)\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"Amazon-1.0.0.100(LC)\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "BES_ReadBTAddress": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"E09DFA349216\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "BES_HALLTest": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "BES_WriteSN": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "BES_CompareSN": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"GJ12251954000255\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "BES_ReadBattaryVoltage": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"3.999\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"3.8\",\r\n  \"upperLimit\": \"4.2\"\r\n}",
+  "BES_ReadNTC": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"877\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"795\",\r\n  \"upperLimit\": \"1000\"\r\n}",
+  "BES_ClosedSerialPort": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}"
+}

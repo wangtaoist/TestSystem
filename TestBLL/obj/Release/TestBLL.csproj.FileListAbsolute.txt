@@ -1,0 +1,9 @@
+I:\ICHSE\Program\TestProgram\TestSystem\TestBLL\bin\Release\TestBLL.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestBLL\bin\Release\TestBLL.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\TestBLL\bin\Release\TestDAL.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestBLL\bin\Release\TestModel.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestBLL\bin\Release\TestDAL.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\TestBLL\bin\Release\TestModel.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\TestBLL\obj\Release\TestBLL.csprojResolveAssemblyReference.cache
+I:\ICHSE\Program\TestProgram\TestSystem\TestBLL\obj\Release\TestBLL.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestBLL\obj\Release\TestBLL.pdb

@@ -1,0 +1,14 @@
+F:\TestProgram\TestSystem\WinForm\bin\Debug\WinForm.exe
+F:\TestProgram\TestSystem\WinForm\bin\Debug\WinForm.pdb
+F:\TestProgram\TestSystem\WinForm\bin\Debug\TestBLL.dll
+F:\TestProgram\TestSystem\WinForm\bin\Debug\TestModel.dll
+F:\TestProgram\TestSystem\WinForm\bin\Debug\TestBLL.pdb
+F:\TestProgram\TestSystem\WinForm\bin\Debug\TestModel.pdb
+F:\TestProgram\TestSystem\WinForm\obj\Debug\WinForm.csprojAssemblyReference.cache
+F:\TestProgram\TestSystem\WinForm\obj\Debug\WinForm.Properties.Resources.resources
+F:\TestProgram\TestSystem\WinForm\obj\Debug\WinForm.Winform.resources
+F:\TestProgram\TestSystem\WinForm\obj\Debug\WinForm.csproj.GenerateResource.cache
+F:\TestProgram\TestSystem\WinForm\obj\Debug\WinForm.csproj.CoreCompileInputs.cache
+F:\TestProgram\TestSystem\WinForm\obj\Debug\WinForm.csproj.CopyComplete
+F:\TestProgram\TestSystem\WinForm\obj\Debug\WinForm.exe
+F:\TestProgram\TestSystem\WinForm\obj\Debug\WinForm.pdb

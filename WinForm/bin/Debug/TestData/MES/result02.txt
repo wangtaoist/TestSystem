@@ -1,0 +1,17 @@
+{
+  "SN": "",
+  "TestTime": "20190415171536",
+  "MAC": "E09DFA349168",
+  "TotalStatus": "Pass",
+  "Run_MT8852_Script": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "Read_BD_Address": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"E09DFA349168\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "DUT_2402_Power": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"3.8\",\r\n  \"unit\": \"dBm\",\r\n  \"lowerLimit\": \"-2\",\r\n  \"upperLimit\": \"10\"\r\n}",
+  "DUT_2441_Power": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"2.18\",\r\n  \"unit\": \"dBm\",\r\n  \"lowerLimit\": \"-2\",\r\n  \"upperLimit\": \"10\"\r\n}",
+  "DUT_2480_Power": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"1.98\",\r\n  \"unit\": \"dBm\",\r\n  \"lowerLimit\": \"-2\",\r\n  \"upperLimit\": \"10\"\r\n}",
+  "DUT_2402_Sensitivity": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"0\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"0\",\r\n  \"upperLimit\": \"0.1\"\r\n}",
+  "DUT_2441_Sensitivity": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"0\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"0\",\r\n  \"upperLimit\": \"0.1\"\r\n}",
+  "DUT_2480_Sensitivity": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"0\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"0\",\r\n  \"upperLimit\": \"0.1\"\r\n}",
+  "DUT_InitCarrier": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"-10.6\",\r\n  \"unit\": \"kHz\",\r\n  \"lowerLimit\": \"-75\",\r\n  \"upperLimit\": \"75\"\r\n}",
+  "DUT_ModulationIndex": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"174.8\",\r\n  \"unit\": \"kHz\",\r\n  \"lowerLimit\": \"-250\",\r\n  \"upperLimit\": \"250\"\r\n}",
+  "DUT_CarrierDrift": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"-4.532\",\r\n  \"unit\": \"kHz\",\r\n  \"lowerLimit\": \"-15\",\r\n  \"upperLimit\": \"15\"\r\n}"
+}

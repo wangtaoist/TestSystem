@@ -1,0 +1,17 @@
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\TestDAL.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\TestDAL.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\ICSharpCode.SharpZipLib.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\NPOI.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\NPOI.OOXML.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\NPOI.OpenXml4Net.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\NPOI.OpenXmlFormats.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\RJCP.SerialPortStream.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\TestModel.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\TestTool.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\TestModel.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\TestTool.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\RJCP.SerialPortStream.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\bin\Release\RJCP.SerialPortStream.xml
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\obj\Release\TestDAL.csprojResolveAssemblyReference.cache
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\obj\Release\TestDAL.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestDAL\obj\Release\TestDAL.pdb

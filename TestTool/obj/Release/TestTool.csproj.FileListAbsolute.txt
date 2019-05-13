@@ -1,0 +1,4 @@
+I:\ICHSE\Program\TestProgram\TestSystem\TestTool\bin\Release\TestTool.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestTool\bin\Release\TestTool.pdb
+I:\ICHSE\Program\TestProgram\TestSystem\TestTool\obj\Release\TestTool.dll
+I:\ICHSE\Program\TestProgram\TestSystem\TestTool\obj\Release\TestTool.pdb
