@@ -97,7 +97,6 @@
     <Compile Include="ItemConfig.Designer.cs">
       <DependentUpon>ItemConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="TestEngineAPI.cs" />
     <Compile Include="Winform.cs">
       <SubType>Form</SubType>
     </Compile>

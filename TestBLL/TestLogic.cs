@@ -28,15 +28,15 @@ namespace TestBLL
             this.initPath = path;
             dataBase = new DataBase(path);
             config = GetConfigData();
-            csr = new CsrOperate();
-            operateBES = new OperateBES(config.SerialPort);
+            //csr = new CsrOperate();
+            operateBES = new OperateBES(config.SerialPort, testQueue);
+            operate = new OperateInstrument(config, testQueue);
         }
 
         public void InitTestPort(object obj)
         {
             try
-            {
-                operate = new OperateInstrument(config, testQueue);
+            {             
                 if (config.GPIB_Enable)
                 {
                     testQueue.Enqueue("打开和初始化MT8852");                 

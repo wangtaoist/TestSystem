@@ -101,7 +101,7 @@ namespace WinForm
             cht_PassRadio.Series[0].Points.DataBindXY(xValue, yValue);
 
             cht_PassRadio.Series[0].Points[0].Color = Color.Red;
-            cht_PassRadio.Series[0].Points[1].Color = Color.Green;
+            cht_PassRadio.Series[0].Points[1].Color = Color.SpringGreen;
         }
 
         private void btTest_Click(object sender, EventArgs e)
@@ -384,7 +384,7 @@ namespace WinForm
                 cht_PassRadio.Series[0].Points.DataBindXY(xValue, yValue);
 
                 cht_PassRadio.Series[0].Points[0].Color = Color.Red;
-                cht_PassRadio.Series[0].Points[1].Color = Color.Green;
+                cht_PassRadio.Series[0].Points[1].Color = Color.SpringGreen;
 
             }));
         }
