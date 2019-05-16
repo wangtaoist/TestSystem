@@ -86,6 +86,46 @@ namespace TestTool
             return list;
         }
 
+        public List<TestData> GetFailItem()
+        {
+            List<TestData> list = new List<TestData>();
+            DataTable dt = new DataTable();
+            OleDbCommand cmd = new OleDbCommand();
+            try
+            {
+                cmd.Connection = ConnectDB();
+                cmd.CommandText = "select * from Fail_Items";
+                cmd.CommandTimeout = 20;
+                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                da.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    list.Add(new TestData()
+                    {
+                        ID = (i + 1).ToString(),
+                        TestItem = dt.Rows[i].ItemArray[0].ToString(),
+                        TestItemName = dt.Rows[i].ItemArray[1].ToString(),
+                        Unit = dt.Rows[i].ItemArray[2].ToString(),
+                        UppLimit = dt.Rows[i].ItemArray[3].ToString(),
+                        LowLimit = dt.Rows[i].ItemArray[4].ToString(),
+                        beferTime = int.Parse(dt.Rows[i].ItemArray[5].ToString()),
+                        AfterTime = int.Parse(dt.Rows[i].ItemArray[6].ToString()),
+                        Remark = dt.Rows[i].ItemArray[7].ToString(),
+                        Other = dt.Rows[i].ItemArray[8].ToString(),
+                        Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString()),
+                        Show = bool.Parse(dt.Rows[i].ItemArray[10].ToString())
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            ClosedConnect();
+            return list;
+        }
+
         public ConfigData GetConfigData()
         {
             ConfigData list = new ConfigData();
@@ -238,6 +278,24 @@ namespace TestTool
             ClosedConnect();
         }
 
+        public void DelFailItem()
+        {
+            OleDbCommand cmd = new OleDbCommand();
+            try
+            {
+                cmd.Connection = ConnectDB();
+                cmd.CommandText = "delete from Fail_Items";
+                cmd.CommandTimeout = 20;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            ClosedConnect();
+        }
+
         public void DelTestRadio()
         {
             OleDbCommand cmd = new OleDbCommand();
@@ -271,6 +329,36 @@ namespace TestTool
                     sb.AppendFormat(",{0},{1}", item.beferTime, item.AfterTime);
                     sb.AppendFormat(",'{0}','{1}','{2}','{3}')"
                         , item.Remark, item.Other, item.Check,item.Show);
+
+                    cmd.CommandText = sb.ToString();
+                    cmd.CommandTimeout = 20;
+                    cmd.ExecuteNonQuery();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            ClosedConnect();
+        }
+
+        public void InsterFailItem(List<TestData> lists)
+        {
+            OleDbCommand cmd = new OleDbCommand();
+            try
+            {
+                cmd.Connection = ConnectDB();
+                foreach (var item in lists)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendFormat("insert into Fail_Items values('{0}'", item.TestItem);
+                    sb.AppendFormat(",'{0}','{1}'", item.TestItemName, item.Unit);
+                    sb.AppendFormat(",'{0}','{1}'", item.UppLimit, item.LowLimit);
+                    sb.AppendFormat(",{0},{1}", item.beferTime, item.AfterTime);
+                    sb.AppendFormat(",'{0}','{1}','{2}','{3}')"
+                        , item.Remark, item.Other, item.Check, item.Show);
 
                     cmd.CommandText = sb.ToString();
                     cmd.CommandTimeout = 20;

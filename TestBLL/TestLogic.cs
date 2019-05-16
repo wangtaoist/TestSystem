@@ -447,6 +447,12 @@ namespace TestBLL
             return list;
         }
 
+        public List<TestData> GetFailItem()
+        {
+            List<TestData> list = dataBase.GetFailItem();
+            return list;
+        }
+
         public TestRatio GetTestRadio()
         {
             TestRatio list = dataBase.GetTestRadio();

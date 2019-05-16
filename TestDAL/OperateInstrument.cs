@@ -129,6 +129,8 @@ namespace TestDAL
               , data.Current));
             PowerInst.VisaWrite(string.Format(":SOUR2:CURRent:LIMit:VALue  {0}"
               , data.Current));
+            PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe:AUTO ON"));
+            PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe:AUTO ON"));
         }
 
         public void initMultimeter()
@@ -692,26 +694,19 @@ namespace TestDAL
                 if(item.Unit.ToUpper() == "UA")
                 {
                     multiple = 1000000;
-                    PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe {0}"
-                        , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
-                   
                 }
                 else if (item.Unit.ToUpper() == "MA")
                 {
                     multiple = 1000;
-                    PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe {0}"
-                       , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
-                   
                 }
                 else
                 {
                     multiple = 1;
-                    PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe {0}"
-                       , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
                 }
 
                 for (int i = 0; i < 5; i++)
                 {
+                    Thread.Sleep(200);
                     lists.Add(double.Parse(PowerInst.VisaQuery(":MEASure1:CURRent:DC?")));
                 }
                 double current = lists.Average() * multiple;

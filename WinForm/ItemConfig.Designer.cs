@@ -33,6 +33,7 @@
             this.tb_Other = new System.Windows.Forms.TextBox();
             this.bt_Exit = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cb_Show = new System.Windows.Forms.CheckBox();
             this.cb_Check = new System.Windows.Forms.CheckBox();
             this.tb_ItemFriendname = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -61,11 +62,18 @@
             this.lst_installFunction = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tb_Remark = new System.Windows.Forms.TextBox();
-            this.cb_Show = new System.Windows.Forms.CheckBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lv_FailItems = new System.Windows.Forms.ListView();
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.gb_FunctionItem.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -120,6 +128,17 @@
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "测试项目配置";
+            // 
+            // cb_Show
+            // 
+            this.cb_Show.AutoSize = true;
+            this.cb_Show.Location = new System.Drawing.Point(322, 81);
+            this.cb_Show.Name = "cb_Show";
+            this.cb_Show.Size = new System.Drawing.Size(72, 16);
+            this.cb_Show.TabIndex = 2;
+            this.cb_Show.Text = "显示项目";
+            this.cb_Show.UseVisualStyleBackColor = true;
+            this.cb_Show.Visible = false;
             // 
             // cb_Check
             // 
@@ -256,7 +275,7 @@
             // 
             // gb_FunctionItem
             // 
-            this.gb_FunctionItem.Controls.Add(this.lst_Test_selectFunction);
+            this.gb_FunctionItem.Controls.Add(this.tabControl1);
             this.gb_FunctionItem.Controls.Add(this.label1);
             this.gb_FunctionItem.Controls.Add(this.lbl_installFunction);
             this.gb_FunctionItem.Controls.Add(this.cmd_down);
@@ -279,10 +298,10 @@
             this.lst_Test_selectFunction.ForeColor = System.Drawing.Color.Blue;
             this.lst_Test_selectFunction.FullRowSelect = true;
             this.lst_Test_selectFunction.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lst_Test_selectFunction.Location = new System.Drawing.Point(322, 34);
+            this.lst_Test_selectFunction.Location = new System.Drawing.Point(5, 4);
             this.lst_Test_selectFunction.MultiSelect = false;
             this.lst_Test_selectFunction.Name = "lst_Test_selectFunction";
-            this.lst_Test_selectFunction.Size = new System.Drawing.Size(226, 305);
+            this.lst_Test_selectFunction.Size = new System.Drawing.Size(213, 267);
             this.lst_Test_selectFunction.TabIndex = 4;
             this.lst_Test_selectFunction.UseCompatibleStateImageBehavior = false;
             this.lst_Test_selectFunction.View = System.Windows.Forms.View.Details;
@@ -388,16 +407,58 @@
             this.tb_Remark.Size = new System.Drawing.Size(172, 59);
             this.tb_Remark.TabIndex = 0;
             // 
-            // cb_Show
+            // tabControl1
             // 
-            this.cb_Show.AutoSize = true;
-            this.cb_Show.Location = new System.Drawing.Point(322, 81);
-            this.cb_Show.Name = "cb_Show";
-            this.cb_Show.Size = new System.Drawing.Size(72, 16);
-            this.cb_Show.TabIndex = 2;
-            this.cb_Show.Text = "显示项目";
-            this.cb_Show.UseVisualStyleBackColor = true;
-            this.cb_Show.Visible = false;
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(320, 35);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(235, 304);
+            this.tabControl1.TabIndex = 5;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.lst_Test_selectFunction);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(227, 276);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "正常测试";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.lv_FailItems);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(227, 276);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "测试Fail";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lv_FailItems
+            // 
+            this.lv_FailItems.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader2});
+            this.lv_FailItems.ForeColor = System.Drawing.Color.Blue;
+            this.lv_FailItems.FullRowSelect = true;
+            this.lv_FailItems.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lv_FailItems.Location = new System.Drawing.Point(7, 5);
+            this.lv_FailItems.MultiSelect = false;
+            this.lv_FailItems.Name = "lv_FailItems";
+            this.lv_FailItems.Size = new System.Drawing.Size(213, 267);
+            this.lv_FailItems.TabIndex = 5;
+            this.lv_FailItems.UseCompatibleStateImageBehavior = false;
+            this.lv_FailItems.View = System.Windows.Forms.View.Details;
+            this.lv_FailItems.SelectedIndexChanged += new System.EventHandler(this.lv_FailItems_SelectedIndexChanged);
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "";
+            this.columnHeader2.Width = 150;
             // 
             // ItemConfig
             // 
@@ -425,6 +486,9 @@
             this.gb_FunctionItem.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -464,5 +528,10 @@
         private System.Windows.Forms.TextBox tb_Remark;
         private System.Windows.Forms.CheckBox cb_Check;
         private System.Windows.Forms.CheckBox cb_Show;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ListView lv_FailItems;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }

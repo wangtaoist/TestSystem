@@ -23,7 +23,7 @@ namespace WinForm
         private string initPath, BtAddress;
         private Queue<string> TestQueue, TimeQueue;
         private frmSettingLogin login;
-        private List<TestData> TestItmes;
+        private List<TestData> TestItmes, FailItems;
         private bool queueFlag, testFlag,focusFlag;
         private Stopwatch stopwatch;
         private ConfigData config;
@@ -79,7 +79,8 @@ namespace WinForm
 
         public void FillTestItem()
         {
-             TestItmes = testLogic.GetTestItem();
+            TestItmes = testLogic.GetTestItem();
+            FailItems = testLogic.GetFailItem();
             for (int i = 0; i < TestItmes.Count; i++)
             {
                 dgv_Data.Rows.Add(new object[]
@@ -108,8 +109,8 @@ namespace WinForm
 
         private void btTest_Click(object sender, EventArgs e)
         {
-            //try
-            //{
+            try
+            {
                 ClsTestValue();
                 Thread.Sleep(500);
                 label_TestResult.Text = "Test";
@@ -117,7 +118,12 @@ namespace WinForm
                 btTest.Enabled = false;
                 tb_SN.Enabled = false;
                 lb_Message.Items.Clear();
-                stopwatch.Restart();
+            }
+            catch (Exception ex)
+            {
+                lb_Message.Items.Add(ex.Message);
+            }
+            stopwatch.Restart();
                 testFlag = true;
                 focusFlag = false;
                 BtAddress = tb_SN.Text.Trim();
@@ -127,11 +133,7 @@ namespace WinForm
                 Thread.Sleep(500);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestTime));
                 ThreadPool.QueueUserWorkItem(new WaitCallback(TestProcess));
-            //}
-            //catch(Exception ex)
-            //{
-            //    lb_Message.Items.Add(ex.Message);
-            //}
+          
         }
 
         public void ClsTestValue()
@@ -193,6 +195,14 @@ namespace WinForm
             }
         }
 
+        public void TestFailProcess(object obj)
+        {
+            foreach (var item in FailItems)
+            {
+                testLogic.TestProcess(item);
+            }
+        }
+
         public void ShowTestItem(TestData data)
         {
             int index = int.Parse(data.ID) - 1;
@@ -213,6 +223,7 @@ namespace WinForm
                     label_TestResult.Text = "Fail";
                     label_TestResult.BackColor = Color.Red;
                     testLogic.RstPower();
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(TestFailProcess));
                   
                     testFlag = false;
                     stopwatch.Stop();
@@ -300,6 +311,9 @@ namespace WinForm
                     tb_SN.Focus();
                     this.ActiveControl = tb_SN;
                 }));
+
+                ThreadPool.QueueUserWorkItem(new WaitCallback(TestFailProcess));
+
                 ShowTestRadio();
                 var bt = TestItmes.Where(s => s.TestItem.Contains("Address")).ToList();
                 testLogic.SaveTestLog(TestItmes
