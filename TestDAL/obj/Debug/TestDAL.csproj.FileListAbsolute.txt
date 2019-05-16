@@ -181,8 +181,6 @@ D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\TestModel.pdb
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\TestTool.pdb
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NationalInstruments.Common.xml
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NationalInstruments.VisaNS.xml
-D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\Newtonsoft.Json.pdb
-D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\Newtonsoft.Json.xml
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\RJCP.SerialPortStream.pdb
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\RJCP.SerialPortStream.xml
 D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.csprojAssemblyReference.cache

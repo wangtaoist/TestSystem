@@ -61,6 +61,7 @@
             this.lst_installFunction = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tb_Remark = new System.Windows.Forms.TextBox();
+            this.cb_Show = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.gb_FunctionItem.SuspendLayout();
@@ -97,6 +98,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cb_Show);
             this.groupBox1.Controls.Add(this.cb_Check);
             this.groupBox1.Controls.Add(this.tb_ItemFriendname);
             this.groupBox1.Controls.Add(this.label3);
@@ -386,6 +388,17 @@
             this.tb_Remark.Size = new System.Drawing.Size(172, 59);
             this.tb_Remark.TabIndex = 0;
             // 
+            // cb_Show
+            // 
+            this.cb_Show.AutoSize = true;
+            this.cb_Show.Location = new System.Drawing.Point(322, 81);
+            this.cb_Show.Name = "cb_Show";
+            this.cb_Show.Size = new System.Drawing.Size(72, 16);
+            this.cb_Show.TabIndex = 2;
+            this.cb_Show.Text = "显示项目";
+            this.cb_Show.UseVisualStyleBackColor = true;
+            this.cb_Show.Visible = false;
+            // 
             // ItemConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -450,5 +463,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox tb_Remark;
         private System.Windows.Forms.CheckBox cb_Check;
+        private System.Windows.Forms.CheckBox cb_Show;
     }
 }

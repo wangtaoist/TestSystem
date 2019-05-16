@@ -31,3 +31,9 @@ D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestModel\obj\Debug\TestMode
 D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestModel\obj\Debug\TestModel.csproj.CoreCompileInputs.cache
 D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestModel\obj\Debug\TestModel.dll
 D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestModel\obj\Debug\TestModel.pdb
+D:\Lchse\Program\Program\TestSystem\TestModel\bin\Debug\TestModel.dll
+D:\Lchse\Program\Program\TestSystem\TestModel\bin\Debug\TestModel.pdb
+D:\Lchse\Program\Program\TestSystem\TestModel\obj\Debug\TestModel.csprojAssemblyReference.cache
+D:\Lchse\Program\Program\TestSystem\TestModel\obj\Debug\TestModel.csproj.CoreCompileInputs.cache
+D:\Lchse\Program\Program\TestSystem\TestModel\obj\Debug\TestModel.dll
+D:\Lchse\Program\Program\TestSystem\TestModel\obj\Debug\TestModel.pdb

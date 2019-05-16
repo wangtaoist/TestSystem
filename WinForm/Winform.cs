@@ -26,6 +26,7 @@ namespace WinForm
         private List<TestData> TestItmes;
         private bool queueFlag, testFlag,focusFlag;
         private Stopwatch stopwatch;
+        private ConfigData config;
 
         public Winform()
         {
@@ -48,7 +49,8 @@ namespace WinForm
             testLogic = new TestLogic(TestQueue, initPath);
             FillTestItem();
             FillTestRadio();
-            this.Text = testLogic.GetConfigData().Title;
+            config = testLogic.GetConfigData();
+            this.Text = config.Title;
             label_Test_Version.Text = this.Text;
             stopwatch = new Stopwatch();
             //stopwatch.Start();
@@ -78,7 +80,7 @@ namespace WinForm
         public void FillTestItem()
         {
              TestItmes = testLogic.GetTestItem();
-             for (int i = 0; i < TestItmes.Count; i++)
+            for (int i = 0; i < TestItmes.Count; i++)
             {
                 dgv_Data.Rows.Add(new object[]
                 {
@@ -106,24 +108,30 @@ namespace WinForm
 
         private void btTest_Click(object sender, EventArgs e)
         {
-            ClsTestValue();
-            Thread.Sleep(500);
-            label_TestResult.Text = "Test";
-            label_TestResult.BackColor = Color.LightSteelBlue;
-            btTest.Enabled = false;
-            tb_SN.Enabled = false;
-            lb_Message.Items.Clear();
-            stopwatch.Restart();          
-            testFlag = true;
-            focusFlag = false;
-            BtAddress = tb_SN.Text.Trim();
-            testLogic.BTAddress = BtAddress;
+            //try
+            //{
+                ClsTestValue();
+                Thread.Sleep(500);
+                label_TestResult.Text = "Test";
+                label_TestResult.BackColor = Color.LightSteelBlue;
+                btTest.Enabled = false;
+                tb_SN.Enabled = false;
+                lb_Message.Items.Clear();
+                stopwatch.Restart();
+                testFlag = true;
+                focusFlag = false;
+                BtAddress = tb_SN.Text.Trim();
+                testLogic.BTAddress = BtAddress;
 
-            dgv_Data.ClearSelection();
-            Thread.Sleep(500);
-            ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestTime));
-            ThreadPool.QueueUserWorkItem(new WaitCallback(TestProcess));
-
+                dgv_Data.ClearSelection();
+                Thread.Sleep(500);
+                ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestTime));
+                ThreadPool.QueueUserWorkItem(new WaitCallback(TestProcess));
+            //}
+            //catch(Exception ex)
+            //{
+            //    lb_Message.Items.Add(ex.Message);
+            //}
         }
 
         public void ClsTestValue()
@@ -147,6 +155,7 @@ namespace WinForm
                     TestQueue.Enqueue(item.TestItemName + "开始测试");
                     Thread.Sleep(item.beferTime);
                     TestData testData = testLogic.TestProcess(item);
+
                     ShowTestItem(testData);
 
                     if (testData.Result == "Fail")
@@ -309,7 +318,7 @@ namespace WinForm
                 }
             }
 
-            dgv_Data.FirstDisplayedScrollingRowIndex = dgv_Data.Rows.Count - 1;
+            dgv_Data.FirstDisplayedScrollingRowIndex = index;
         }
 
         public void ShowTestStatus(string status)
@@ -336,17 +345,20 @@ namespace WinForm
                 //{
                 //this.BeginInvoke(new Action(delegate ()
                 //    {
-                if (TestQueue.Count != 0)
+                if (TestQueue.Count != 0 && TestQueue != null)
                 {
                     try
                     {
                         lb_Message.Items.Add(TestQueue.Dequeue());
                         Others.SendMessage(lb_Message.Handle, 0x0115, 1, 0);
                     }
-                    catch (Exception) { }
+                    catch (Exception ex)
+                    {
+                        //lb_Message.Items.Add(ex.Message);
+                    }
                 }
                 //}));
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 //}
             }
         }
@@ -391,22 +403,29 @@ namespace WinForm
 
         private void Tb_SN_KeyDown(object sender, KeyEventArgs e)
         {
-            focusFlag = false;
-            if(e.KeyCode == Keys.Enter)
+            try
             {
-                if (tb_SN.Text.Trim().StartsWith(testLogic.GetConfigData().CompareString)
-                    && tb_SN.Text.Trim().Length == testLogic.GetConfigData().SNLength)
+                focusFlag = false;
+                if (e.KeyCode == Keys.Enter)
                 {
-                    tb_SN.Enabled = false;
-                    //tb_SN.ReadOnly = true;
-                    btTest_Click(null, null);
+                    if (tb_SN.Text.Trim().StartsWith(config.CompareString)
+                        && tb_SN.Text.Trim().Length == config.SNLength)
+                    {
+                        tb_SN.Enabled = false;
+                        //btTest.PerformClick();
+                        btTest_Click(null, null);
+                    }
+                    else
+                    {
+                        MessageBox.Show("SN格式或者长度不够");
+                        tb_SN.Text = "";
+                        tb_SN.Select();
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("SN格式或者长度不够");
-                    tb_SN.Text = "";
-                    tb_SN.Select();
-                }
+            }
+            catch(Exception ex)
+            {
+                lb_Message.Items.Add(ex.Message);
             }
         }
 

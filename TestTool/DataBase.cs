@@ -72,8 +72,8 @@ namespace TestTool
                         AfterTime = int.Parse(dt.Rows[i].ItemArray[6].ToString()),
                         Remark = dt.Rows[i].ItemArray[7].ToString(),
                         Other = dt.Rows[i].ItemArray[8].ToString(),
-                        Check =bool.Parse( dt.Rows[i].ItemArray[9].ToString()),
-                        
+                        Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString()),
+                        Show = bool.Parse(dt.Rows[i].ItemArray[10].ToString())
                     });
                 }
             }
@@ -127,7 +127,8 @@ namespace TestTool
                 list.Serial_Enable = bool.Parse(dt.Rows[25].ItemArray[1].ToString());
                 list.Power_Enable = bool.Parse(dt.Rows[26].ItemArray[1].ToString());
                 list.CompareString = dt.Rows[27].ItemArray[1].ToString();
-                list.SNLength = int.Parse(dt.Rows[28].ItemArray[1].ToString());
+                list.SNLength = dt.Rows[28].ItemArray[1].ToString() == ""
+                    ? 0 : int.Parse(dt.Rows[28].ItemArray[1].ToString());
                 list.MultimeterPort = dt.Rows[29].ItemArray[1].ToString();
                 list.Multimeter_Select = bool.Parse(dt.Rows[30].ItemArray[1].ToString());
             }
@@ -268,7 +269,8 @@ namespace TestTool
                     sb.AppendFormat(",'{0}','{1}'", item.TestItemName, item.Unit);
                     sb.AppendFormat(",'{0}','{1}'", item.UppLimit, item.LowLimit);
                     sb.AppendFormat(",{0},{1}", item.beferTime, item.AfterTime);
-                    sb.AppendFormat(",'{0}','{1}','{2}')", item.Remark, item.Other, item.Check);
+                    sb.AppendFormat(",'{0}','{1}','{2}','{3}')"
+                        , item.Remark, item.Other, item.Check,item.Show);
 
                     cmd.CommandText = sb.ToString();
                     cmd.CommandTimeout = 20;

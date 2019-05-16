@@ -121,14 +121,14 @@ namespace TestDAL
         public void InitPower()
         {
             PowerInst.Rst();
-            //PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
-            //    , data.Voltage1));
-            //PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}"
-            //   , data.Voltage2));
-            //PowerInst.VisaWrite(string.Format(":SOUR1:CURRent:LIMit:VALue  {0}"
-            //  , data.Current));
-            //PowerInst.VisaWrite(string.Format(":SOUR2:CURRent:LIMit:VALue  {0}"
-            //  , data.Current));
+            PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
+                , data.Voltage1));
+            PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}"
+               , data.Voltage2));
+            PowerInst.VisaWrite(string.Format(":SOUR1:CURRent:LIMit:VALue  {0}"
+              , data.Current));
+            PowerInst.VisaWrite(string.Format(":SOUR2:CURRent:LIMit:VALue  {0}"
+              , data.Current));
         }
 
         public void initMultimeter()
@@ -163,6 +163,24 @@ namespace TestDAL
                 item.Result = "Pass";
                 item.Value = "Pass";
                 queue.Enqueue("打开MT8852 Pass");
+            }
+            catch (Exception ex)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+            }
+            return item;
+        }
+
+        public TestData Closed_MT8852(TestData item)
+        {
+            try
+            {
+                instrument.Closed();
+                //InitInstr();
+                item.Result = "Pass";
+                item.Value = "Pass";
+                queue.Enqueue("关闭MT8852 Pass");
             }
             catch (Exception ex)
             {
@@ -369,15 +387,15 @@ namespace TestDAL
             double avgPower = 0;
             if (item.Other.Split(':')[1] == data.Low_Freq)
             {
-                retureVal = instrument.VisaQuery("XRESULT SS,HOPONANY");
+                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFL");
             }
             else if (item.Other.Split(':')[1] == data.Mod_Freq)
             {
-                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFL");
+                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFM");
             }
             else if (item.Other.Split(':')[1] == data.Hi_Freq)
             {
-                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFM");
+                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFH");
             }
             if (retureVal.Contains("XSS"))
             {
@@ -580,10 +598,10 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
-               , data.Voltage1));
-                PowerInst.VisaWrite(string.Format(":SOUR1:CURRent:LIMit:VALue  {0}"
-             , data.Current));
+             //   PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
+             //  , data.Voltage1));
+             //   PowerInst.VisaWrite(string.Format(":SOUR1:CURRent:LIMit:VALue  {0}"
+             //, data.Current));
                 PowerInst.VisaWrite(":OUTPut1:STAT ON");
                 item.Result = "Pass";
                 item.Value = "Pass";
@@ -604,10 +622,10 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}"
-             , data.Voltage2));
-                PowerInst.VisaWrite(string.Format(":SOUR2:CURRent:LIMit:VALue  {0}"
-             , data.Current));
+                //   PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}"
+                //, data.Voltage2));
+                //   PowerInst.VisaWrite(string.Format(":SOUR2:CURRent:LIMit:VALue  {0}"
+                //, data.Current));
                 PowerInst.VisaWrite(":OUTPut2:STAT ON");
                 item.Result = "Pass";
                 item.Value = "Pass";
@@ -670,29 +688,44 @@ namespace TestDAL
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
                 List<double> lists = new List<double>();
+                double multiple = 1;
+                if(item.Unit.ToUpper() == "UA")
+                {
+                    multiple = 1000000;
+                    PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe {0}"
+                        , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
+                   
+                }
+                else if (item.Unit.ToUpper() == "MA")
+                {
+                    multiple = 1000;
+                    PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe {0}"
+                       , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
+                   
+                }
+                else
+                {
+                    multiple = 1;
+                    PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe {0}"
+                       , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
+                }
+
                 for (int i = 0; i < 5; i++)
                 {
                     lists.Add(double.Parse(PowerInst.VisaQuery(":MEASure1:CURRent:DC?")));
                 }
-                double current = lists.Average();
-                if (item.Unit.ToUpper() == "UA")
-                {
-                    current *= 1000000;
-                }
-                else if (item.Unit.ToUpper() == "MA")
-                {
-                    current *= 1000;
-                }
+                double current = lists.Average() * multiple;
+               
                 if (current <= double.Parse(item.UppLimit)
                    && current >= double.Parse(item.LowLimit))
                 {
                     item.Result = "Pass";
-                    item.Value = current.ToString();                   
+                    item.Value = Math.Round(current, 3).ToString();       
                 }
                 else
                 {
                     item.Result = "Fail";
-                    item.Value = current.ToString();
+                    item.Value = Math.Round(current, 3).ToString();
                     if (item.Check)
                     {
                         PowerInst.Rst();
@@ -760,29 +793,44 @@ namespace TestDAL
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
                 List<double> lists = new List<double>();
+                double multiple = 1;
+                if (item.Unit.ToUpper() == "UA")
+                {
+                    multiple = 1000000;
+                    PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe {0}"
+                        , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
+
+                }
+                else if (item.Unit.ToUpper() == "MA")
+                {
+                    multiple = 1000;
+                    PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe {0}"
+                       , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
+
+                }
+                else
+                {
+                    multiple = 1;
+                    PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe {0}"
+                       , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
+                }
+
                 for (int i = 0; i < 5; i++)
                 {
                     lists.Add(double.Parse(PowerInst.VisaQuery(":MEASure2:CURRent:DC?")));
                 }
-                double current = lists.Average();
-                if (item.Unit.ToUpper() == "UA")
-                {
-                    current *= 1000000;
-                }
-                else if (item.Unit.ToUpper() == "MA")
-                {
-                    current *= 1000;
-                }
+                double current = lists.Average() * multiple;
+
                 if (current <= double.Parse(item.UppLimit)
                    && current >= double.Parse(item.LowLimit))
                 {
                     item.Result = "Pass";
-                    item.Value = current.ToString();
+                    item.Value = Math.Round(current, 3).ToString();
                 }
                 else
                 {
                     item.Result = "Fail";
-                    item.Value = current.ToString();
+                    item.Value = Math.Round(current, 3).ToString();
                     if (item.Check)
                     {
                         PowerInst.Rst();
@@ -1183,7 +1231,7 @@ namespace TestDAL
                 MultimeterInst.VisaWrite(":FUNC  \"VOLT:DC\";:VOLT:DC:RANG:AUTO ON");
                 //*OPC;:SAMP:COUN 10;:TRIG:SOUR IMM;:READ?;
                 Thread.Sleep(200);
-                string[] values = MultimeterInst.VisaQuery("*OPC;:SAMP:COUN 5;:TRIG:SOUR IMM;:READ?").Split(',');
+                string[] values = MultimeterInst.VisaQuery(":SAMP:COUN 5;:TRIG:SOUR IMM;:READ?").Split(',');
                 List<double> voltages = new List<double>();
                 for (int i = 0; i < values.Length; i++)
                 {
@@ -1223,7 +1271,7 @@ namespace TestDAL
                 Thread.Sleep(200);
                 MultimeterInst.VisaWrite(":FUNC  \"CURR:DC\";:CURR:DC:RANG:AUTO ON;");
                 Thread.Sleep(200);
-                string[] values = MultimeterInst.VisaQuery("*OPC;:SAMP:COUN 5;:TRIG:SOUR IMM;:READ?").Split(',');
+                string[] values = MultimeterInst.VisaQuery(":SAMP:COUN 5;:TRIG:SOUR IMM;:READ?").Split(',');
                 List<double> currents = new List<double>();
                 for (int i = 0; i < values.Length; i++)
                 {

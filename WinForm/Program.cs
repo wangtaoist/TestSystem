@@ -24,7 +24,7 @@ namespace WinForm
                 MessageBox.Show(ex.Message, "错误信息"
                     , MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-          
+
         }
     }
 }

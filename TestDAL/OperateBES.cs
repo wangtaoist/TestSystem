@@ -574,6 +574,41 @@ namespace TestDAL
             return data;
         }
 
+        public TestData BES_Enter_DUTMode(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x0d, 0x00, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+
+                if (values[2] == 0x00 && values[3] == 0x00)
+                {
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                    if (data.Check)
+                    {
+                        Serial.ClosedPort();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
         public TestData BES_Shutdown(TestData data)
         {
             try

@@ -103,6 +103,16 @@ namespace TestBLL
                     {
                         break;
                     }
+                case "Open_MT8852":
+                    {
+                        data = operate.Open_MT8852(data);
+                        break;
+                    }
+                case "Closed_MT8852":
+                    {
+                        data = operate.Closed_MT8852(data);
+                        break;
+                    }
                 case "Run_MT8852_Script":
                     {
                         data = operate.Run_Script(data);
@@ -262,12 +272,12 @@ namespace TestBLL
                         break;
                     }               
                 case "BES_Enter_TestMode":
-                    {
-                        
+                    {                    
                         break;
                     }
                 case "BES_Enter_DUTMode":
                     {
+                        data = operateBES.BES_Enter_DUTMode(data);
                         break;
                     }
                 case "BES_SoftVersion":
