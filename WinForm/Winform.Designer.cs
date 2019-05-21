@@ -37,6 +37,7 @@
             this.配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TestItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,6 +120,7 @@
             this.配置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ConfigToolStripMenuItem,
             this.TestItemToolStripMenuItem,
+            this.ReLoadToolStripMenuItem,
             this.ExitToolStripMenuItem});
             this.配置ToolStripMenuItem.Name = "配置ToolStripMenuItem";
             this.配置ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
@@ -137,6 +139,13 @@
             this.TestItemToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.TestItemToolStripMenuItem.Text = "测试项目配置";
             this.TestItemToolStripMenuItem.Click += new System.EventHandler(this.TestItemToolStripMenuItem_Click);
+            // 
+            // ReLoadToolStripMenuItem
+            // 
+            this.ReLoadToolStripMenuItem.Name = "ReLoadToolStripMenuItem";
+            this.ReLoadToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.ReLoadToolStripMenuItem.Text = "重新加载程序";
+            this.ReLoadToolStripMenuItem.Click += new System.EventHandler(this.ReLoadToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
@@ -386,7 +395,7 @@
             this.groupBox9.Size = new System.Drawing.Size(68, 57);
             this.groupBox9.TabIndex = 3;
             this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "比率";
+            this.groupBox9.Text = "Pass比率";
             // 
             // label_Defect_rate
             // 
@@ -478,6 +487,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Winform";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -544,6 +554,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.ToolStripMenuItem ReLoadToolStripMenuItem;
     }
 }
 

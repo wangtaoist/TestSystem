@@ -51,8 +51,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.bt_Save = new System.Windows.Forms.Button();
             this.gb_FunctionItem = new System.Windows.Forms.GroupBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lst_Test_selectFunction = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lv_FailItems = new System.Windows.Forms.ListView();
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_installFunction = new System.Windows.Forms.Label();
             this.cmd_down = new System.Windows.Forms.Button();
@@ -62,18 +67,13 @@
             this.lst_installFunction = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tb_Remark = new System.Windows.Forms.TextBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.lv_FailItems = new System.Windows.Forms.ListView();
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.gb_FunctionItem.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -81,7 +81,7 @@
             this.groupBox2.Controls.Add(this.tb_Other);
             this.groupBox2.Location = new System.Drawing.Point(8, 469);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(252, 86);
+            this.groupBox2.Size = new System.Drawing.Size(218, 86);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "其他配置";
@@ -91,7 +91,7 @@
             this.tb_Other.Location = new System.Drawing.Point(6, 18);
             this.tb_Other.Multiline = true;
             this.tb_Other.Name = "tb_Other";
-            this.tb_Other.Size = new System.Drawing.Size(241, 59);
+            this.tb_Other.Size = new System.Drawing.Size(200, 59);
             this.tb_Other.TabIndex = 0;
             // 
             // bt_Exit
@@ -291,6 +291,27 @@
             this.gb_FunctionItem.TabStop = false;
             this.gb_FunctionItem.Text = "测试项目选项";
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(320, 35);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(235, 304);
+            this.tabControl1.TabIndex = 5;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.lst_Test_selectFunction);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(227, 276);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "正常测试";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
             // lst_Test_selectFunction
             // 
             this.lst_Test_selectFunction.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -311,6 +332,38 @@
             // 
             this.columnHeader1.Text = "";
             this.columnHeader1.Width = 150;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.lv_FailItems);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(227, 276);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "测试Fail";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lv_FailItems
+            // 
+            this.lv_FailItems.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader2});
+            this.lv_FailItems.ForeColor = System.Drawing.Color.Blue;
+            this.lv_FailItems.FullRowSelect = true;
+            this.lv_FailItems.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lv_FailItems.Location = new System.Drawing.Point(7, 5);
+            this.lv_FailItems.MultiSelect = false;
+            this.lv_FailItems.Name = "lv_FailItems";
+            this.lv_FailItems.Size = new System.Drawing.Size(213, 267);
+            this.lv_FailItems.TabIndex = 5;
+            this.lv_FailItems.UseCompatibleStateImageBehavior = false;
+            this.lv_FailItems.View = System.Windows.Forms.View.Details;
+            this.lv_FailItems.SelectedIndexChanged += new System.EventHandler(this.lv_FailItems_SelectedIndexChanged);
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "";
+            this.columnHeader2.Width = 150;
             // 
             // label1
             // 
@@ -391,9 +444,9 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.tb_Remark);
-            this.groupBox3.Location = new System.Drawing.Point(266, 468);
+            this.groupBox3.Location = new System.Drawing.Point(232, 468);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(188, 87);
+            this.groupBox3.Size = new System.Drawing.Size(222, 87);
             this.groupBox3.TabIndex = 14;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "其他配置说明";
@@ -404,61 +457,8 @@
             this.tb_Remark.Multiline = true;
             this.tb_Remark.Name = "tb_Remark";
             this.tb_Remark.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tb_Remark.Size = new System.Drawing.Size(172, 59);
+            this.tb_Remark.Size = new System.Drawing.Size(210, 59);
             this.tb_Remark.TabIndex = 0;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(320, 35);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(235, 304);
-            this.tabControl1.TabIndex = 5;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.lst_Test_selectFunction);
-            this.tabPage1.Location = new System.Drawing.Point(4, 24);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(227, 276);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "正常测试";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.lv_FailItems);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(227, 276);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "测试Fail";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // lv_FailItems
-            // 
-            this.lv_FailItems.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader2});
-            this.lv_FailItems.ForeColor = System.Drawing.Color.Blue;
-            this.lv_FailItems.FullRowSelect = true;
-            this.lv_FailItems.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lv_FailItems.Location = new System.Drawing.Point(7, 5);
-            this.lv_FailItems.MultiSelect = false;
-            this.lv_FailItems.Name = "lv_FailItems";
-            this.lv_FailItems.Size = new System.Drawing.Size(213, 267);
-            this.lv_FailItems.TabIndex = 5;
-            this.lv_FailItems.UseCompatibleStateImageBehavior = false;
-            this.lv_FailItems.View = System.Windows.Forms.View.Details;
-            this.lv_FailItems.SelectedIndexChanged += new System.EventHandler(this.lv_FailItems_SelectedIndexChanged);
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "";
-            this.columnHeader2.Width = 150;
             // 
             // ItemConfig
             // 
@@ -484,11 +484,11 @@
             this.groupBox1.PerformLayout();
             this.gb_FunctionItem.ResumeLayout(false);
             this.gb_FunctionItem.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }

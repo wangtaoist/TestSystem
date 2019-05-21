@@ -20,7 +20,6 @@ namespace TestModel
         public string Remark;
         public string Other;
         public bool Check;
-        public bool Show;
        
     }
 

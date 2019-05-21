@@ -73,7 +73,6 @@ namespace TestTool
                         Remark = dt.Rows[i].ItemArray[7].ToString(),
                         Other = dt.Rows[i].ItemArray[8].ToString(),
                         Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString()),
-                        Show = bool.Parse(dt.Rows[i].ItemArray[10].ToString())
                     });
                 }
             }
@@ -113,7 +112,6 @@ namespace TestTool
                         Remark = dt.Rows[i].ItemArray[7].ToString(),
                         Other = dt.Rows[i].ItemArray[8].ToString(),
                         Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString()),
-                        Show = bool.Parse(dt.Rows[i].ItemArray[10].ToString())
                     });
                 }
             }
@@ -327,8 +325,8 @@ namespace TestTool
                     sb.AppendFormat(",'{0}','{1}'", item.TestItemName, item.Unit);
                     sb.AppendFormat(",'{0}','{1}'", item.UppLimit, item.LowLimit);
                     sb.AppendFormat(",{0},{1}", item.beferTime, item.AfterTime);
-                    sb.AppendFormat(",'{0}','{1}','{2}','{3}')"
-                        , item.Remark, item.Other, item.Check,item.Show);
+                    sb.AppendFormat(",'{0}','{1}','{2}')"
+                        , item.Remark, item.Other, item.Check);
 
                     cmd.CommandText = sb.ToString();
                     cmd.CommandTimeout = 20;
@@ -357,8 +355,8 @@ namespace TestTool
                     sb.AppendFormat(",'{0}','{1}'", item.TestItemName, item.Unit);
                     sb.AppendFormat(",'{0}','{1}'", item.UppLimit, item.LowLimit);
                     sb.AppendFormat(",{0},{1}", item.beferTime, item.AfterTime);
-                    sb.AppendFormat(",'{0}','{1}','{2}','{3}')"
-                        , item.Remark, item.Other, item.Check, item.Show);
+                    sb.AppendFormat(",'{0}','{1}','{2}')"
+                        , item.Remark, item.Other, item.Check);
 
                     cmd.CommandText = sb.ToString();
                     cmd.CommandTimeout = 20;

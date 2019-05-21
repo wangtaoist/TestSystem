@@ -253,7 +253,7 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
-                TestItem = "BES_HWVersion",
+                TestItem = "BES_HALLTest",
                 Remark = "BES系列耳机HALL测试，要特别注意测试时未吸合状态"
             });
             list.Add(new InitTestItem()
@@ -273,13 +273,20 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "BES_ReadSN",
+                Remark = "读取BES系列耳机SN"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "BES_ReadBattarySN",
                 Remark = "读取BES系列耳机电池SN"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_ReadProductColor",
-                Remark = "读取BES系列耳机产品颜色，在下限中输入，包括华为橙色/ 华为黑色/华为绿色/华为银色和荣耀橙色/荣耀黑色/荣耀绿色/荣耀银色"
+                Remark = "读取BES系列耳机产品颜色，在下限中输入，" +
+                "包括华为橙色/ 华为黑色/华为绿色/华为银色/华为紫色/华为橘红色" +
+                "和荣耀灰色/荣耀蓝色/荣耀红色/荣耀营销色"
             });
             list.Add(new InitTestItem()
             {
@@ -386,7 +393,9 @@ namespace TestDAL
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_WriteProductColor",
-                Remark = "写入BES系列耳机产品颜色，在下限中输入，包括华为橙色/ 华为黑色/华为绿色/华为银色和荣耀橙色/荣耀黑色/荣耀绿色/荣耀银色"
+                Remark = "写入BES系列耳机产品颜色，在下限中输入，" +
+                "包括华为橙色/ 华为黑色/华为绿色/华为银色/华为紫色/华为橘红色" +
+                "和荣耀灰色/荣耀蓝色/荣耀红色/荣耀营销色"
             });
             list.Add(new InitTestItem()
             {

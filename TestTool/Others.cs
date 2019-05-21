@@ -15,6 +15,16 @@ namespace TestTool
         [DllImport("User32.dll")]
         public static extern Int32 SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
+        [DllImport("User32")]
+        public extern static void mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
+        [DllImport("User32")]
+        public extern static void SetCursorPos(int x, int y);
+
+        [DllImport("user32.dll", EntryPoint = "GetForegroundWindow", CharSet = System.Runtime.InteropServices.CharSet.Auto, ExactSpelling = true)]
+        public static extern IntPtr GetF(); //获得本窗体的句柄
+        [DllImport("user32.dll", EntryPoint = "SetForegroundWindow")]
+        public static extern bool SetF(IntPtr hWnd); //设置此窗体为活动窗体
+
         public static void setResolution(double newx, double newy, Control cons)
         {
             foreach (Control con in cons.Controls)

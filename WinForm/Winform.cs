@@ -55,7 +55,8 @@ namespace WinForm
             stopwatch = new Stopwatch();
             //stopwatch.Start();
             tb_SN.Select();
-            dgv_Data.ClearSelection();         
+            dgv_Data.ClearSelection();
+            lb_Message.Items.Clear();
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(testLogic.InitTestPort));
             ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
@@ -121,19 +122,19 @@ namespace WinForm
             }
             catch (Exception ex)
             {
-                lb_Message.Items.Add(ex.Message);
+                TestQueue.Enqueue(ex.Message);
             }
             stopwatch.Restart();
-                testFlag = true;
-                focusFlag = false;
-                BtAddress = tb_SN.Text.Trim();
-                testLogic.BTAddress = BtAddress;
+            testFlag = true;
+            focusFlag = false;
+            BtAddress = tb_SN.Text.Trim();
+            testLogic.BTAddress = BtAddress;
 
-                dgv_Data.ClearSelection();
-                Thread.Sleep(500);
-                ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestTime));
-                ThreadPool.QueueUserWorkItem(new WaitCallback(TestProcess));
-          
+            dgv_Data.ClearSelection();
+            Thread.Sleep(500);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestTime));
+            ThreadPool.QueueUserWorkItem(new WaitCallback(TestProcess));
+
         }
 
         public void ClsTestValue()
@@ -206,13 +207,20 @@ namespace WinForm
         public void ShowTestItem(TestData data)
         {
             int index = int.Parse(data.ID) - 1;
+            if (data.Result == "" || data.Value == "")
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
             dgv_Data.Rows[index].Cells[5].Value = data.Value;
             dgv_Data.Rows[index].Cells[6].Value = data.Result;
+
 
             if (data.Result == "Pass")
             {
                 dgv_Data.Rows[index].DefaultCellStyle.BackColor = Color.SpringGreen;
             }
+
             else
             {
                 if (data.Check)
@@ -222,7 +230,7 @@ namespace WinForm
                     dgv_Data.Rows[index].DefaultCellStyle.BackColor = Color.Red;
                     label_TestResult.Text = "Fail";
                     label_TestResult.BackColor = Color.Red;
-                    testLogic.RstPower();
+                    //testLogic.RstPower();
                     ThreadPool.QueueUserWorkItem(new WaitCallback(TestFailProcess));
                   
                     testFlag = false;
@@ -355,25 +363,25 @@ namespace WinForm
         {
             while (queueFlag)
             {
-                //lock (this)
-                //{
-                //this.BeginInvoke(new Action(delegate ()
-                //    {
-                if (TestQueue.Count != 0 && TestQueue != null)
+                lock (this)
                 {
-                    try
-                    {
-                        lb_Message.Items.Add(TestQueue.Dequeue());
-                        Others.SendMessage(lb_Message.Handle, 0x0115, 1, 0);
-                    }
-                    catch (Exception ex)
-                    {
-                        //lb_Message.Items.Add(ex.Message);
-                    }
+                    this.BeginInvoke(new Action(()=>
+                        {
+                            if (TestQueue.Count != 0 && TestQueue != null)
+                            {
+                                try
+                                {
+                                    lb_Message.Items.Add(TestQueue.Dequeue());
+                                    Others.SendMessage(lb_Message.Handle, 0x0115, 1, 0);
+                                }
+                                catch (Exception ex)
+                                {
+                                    lb_Message.Items.Add(ex.Message);
+                                }
+                            }
+                        }));
+                    Thread.Sleep(50);
                 }
-                //}));
-                Thread.Sleep(50);
-                //}
             }
         }
 
@@ -439,12 +447,19 @@ namespace WinForm
             }
             catch(Exception ex)
             {
-                lb_Message.Items.Add(ex.Message);
+                TestQueue.Enqueue(ex.Message);
             }
+        }
+
+        private void ReLoadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dgv_Data.Rows.Clear();
+            Winform_Load(null, null);
         }
 
         private void cht_PassRadio_Click(object sender, EventArgs e)
         {
+            focusFlag = false;
             frmSettingLogin login = new frmSettingLogin();
             if(login.ShowDialog(this) == DialogResult.OK)
             {
@@ -457,6 +472,7 @@ namespace WinForm
         private void ConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
             login = new frmSettingLogin();
+            focusFlag = false;
             var dialong = login.ShowDialog(this);
             if (dialong == System.Windows.Forms.DialogResult.OK)
             {
@@ -475,6 +491,7 @@ namespace WinForm
         private void TestItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             login = new frmSettingLogin();
+            focusFlag = false;
             var dialong = login.ShowDialog(this);
             if (dialong == System.Windows.Forms.DialogResult.OK)
             {
@@ -515,13 +532,20 @@ namespace WinForm
         {
             while (focusFlag)
             {
+                //int x = this.Location.X;
+                //int y = this.Location.Y;
                 this.BeginInvoke(new Action(() =>
                 {
+                    //Others.mouse_event((int)0x0002, x, y, 0, IntPtr.Zero);
+                    if(this.Handle != Others.GetF())
+                    {
+                        Others.SetF(this.Handle);
+                    }
                     tb_SN.Select();
                     tb_SN.Focus();
-                    this.ActiveControl = tb_SN;
+                    
                 }));
-                Thread.Sleep(200);
+                Thread.Sleep(1000);
             }
            
         }

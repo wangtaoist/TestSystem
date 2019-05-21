@@ -46,8 +46,8 @@ D:\Lchse\Program\Program\TestSystem\TestTool\bin\Debug\TestTool.dll
 D:\Lchse\Program\Program\TestSystem\TestTool\bin\Debug\TestTool.pdb
 D:\Lchse\Program\Program\TestSystem\TestTool\bin\Debug\TestModel.dll
 D:\Lchse\Program\Program\TestSystem\TestTool\bin\Debug\TestModel.pdb
+D:\Lchse\Program\Program\TestSystem\TestTool\obj\Debug\TestTool.csprojAssemblyReference.cache
 D:\Lchse\Program\Program\TestSystem\TestTool\obj\Debug\TestTool.csproj.CoreCompileInputs.cache
 D:\Lchse\Program\Program\TestSystem\TestTool\obj\Debug\TestTool.csproj.CopyComplete
 D:\Lchse\Program\Program\TestSystem\TestTool\obj\Debug\TestTool.dll
 D:\Lchse\Program\Program\TestSystem\TestTool\obj\Debug\TestTool.pdb
-D:\Lchse\Program\Program\TestSystem\TestTool\obj\Debug\TestTool.csprojAssemblyReference.cache

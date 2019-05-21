@@ -70,6 +70,7 @@ namespace WinForm
                 tb_Remark.Text = item.Remark;
                 cb_Check.Checked = item.Check;
                 //cb_Show.Checked = item.Show;
+                tb_Remark.Text = item.Remark;
             }
          
         }
@@ -92,6 +93,7 @@ namespace WinForm
                 tb_Remark.Text = item.Remark;
                 cb_Check.Checked = item.Check;
                 //cb_Show.Checked = item.Show;
+                tb_Remark.Text = item.Remark;
             }
         }
 
@@ -143,12 +145,14 @@ namespace WinForm
 
         private void cmd_insert_Click(object sender, EventArgs e)
         {
+            int index = lst_installFunction.SelectedIndex;
             if (tabControl1.SelectedIndex == 0)
             {
                 TestItems.Add(new TestData()
                 {
-                    TestItem = lst_installFunction.SelectedItem.ToString(),
-                    TestItemName = lst_installFunction.SelectedItem.ToString()
+                    TestItem = initTestItems[index].TestItem,
+                    TestItemName = initTestItems[index].TestItem,
+                    Remark = initTestItems[index].Remark
                 });
                 lst_Test_selectFunction.Items.Add(lst_installFunction.SelectedItem.ToString());
                 lst_Test_selectFunction.Items[lst_Test_selectFunction.Items.Count - 1].Selected = true;
@@ -159,8 +163,9 @@ namespace WinForm
             {
                 FailItems.Add(new TestData()
                 {
-                    TestItem = lst_installFunction.SelectedItem.ToString(),
-                    TestItemName = lst_installFunction.SelectedItem.ToString()
+                    TestItem = initTestItems[index].TestItem,
+                    TestItemName = initTestItems[index].TestItem,
+                    Remark = initTestItems[index].Remark
                 });
                 lv_FailItems.Items.Add(lst_installFunction.SelectedItem.ToString());
                 lv_FailItems.Items[lv_FailItems.Items.Count - 1].Selected = true;

@@ -167,6 +167,7 @@ D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\TestDAL.pdb
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\ICSharpCode.SharpZipLib.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NationalInstruments.Common.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NationalInstruments.VisaNS.dll
+D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\Newtonsoft.Json.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NPOI.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NPOI.OOXML.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NPOI.OpenXml4Net.dll

@@ -247,18 +247,38 @@ namespace TestDAL
                 {
                     string sn = Encoding.ASCII.GetString(values).Replace("\0", "")
                         .Remove(0, 2).ToUpper();
-                    if (btAddress == sn)
+                    if (btAddress != "")
                     {
-                        data.Result = "Pass";
-                        data.Value = sn;
+                        if (btAddress == sn)
+                        {
+                            data.Result = "Pass";
+                            data.Value = sn;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = sn;
+                            if (data.Check)
+                            {
+                                Serial.ClosedPort();
+                            }
+                        }
                     }
                     else
                     {
-                        data.Result = "Fail";
-                        data.Value = sn;
-                        if (data.Check)
+                        if(sn.StartsWith(data.LowLimit))
                         {
-                            Serial.ClosedPort();
+                            data.Result = "Pass";
+                            data.Value = sn;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = sn;
+                            if (data.Check)
+                            {
+                                Serial.ClosedPort();
+                            }
                         }
                     }
                 }
@@ -387,19 +407,38 @@ namespace TestDAL
 
                 string batt = Encoding.ASCII.GetString(values).Replace("\0", "")
                     .Remove(0, 3);
-
-                if (btAddress == batt)
+                if (btAddress != "")
                 {
-                    data.Result = "Pass";
-                    data.Value = batt;
+                    if (btAddress == batt)
+                    {
+                        data.Result = "Pass";
+                        data.Value = batt;
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = batt;
+                        if (data.Check)
+                        {
+                            Serial.ClosedPort();
+                        }
+                    }
                 }
                 else
                 {
-                    data.Result = "Fail";
-                    data.Value = batt;
-                    if (data.Check)
+                    if(batt.StartsWith(data.LowLimit))
                     {
-                        Serial.ClosedPort();
+                        data.Result = "Pass";
+                        data.Value = batt;
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = batt;
+                        if (data.Check)
+                        {
+                            Serial.ClosedPort();
+                        }
                     }
                 }
             }
@@ -439,14 +478,18 @@ namespace TestDAL
                         prod = "华为绿色";
                     else if (product == 0x03)
                         prod = "华为银色";
+                    else if (product == 0x04)
+                        prod = "华为紫色";
+                    else if (product == 0x05)
+                        prod = "华为橘红色";
                     else if (product == 0x10)
-                        prod = "荣耀橙色";
+                        prod = "荣耀灰色";
                     else if (product == 0x11)
-                        prod = "荣耀黑色";
+                        prod = "荣耀蓝色";
                     else if (product == 0x12)
-                        prod = "荣耀绿色";
+                        prod = "荣耀红色";
                     else if (product == 0x13)
-                        prod = "荣耀银色";
+                        prod = "荣耀营销色";
                     if (data.LowLimit == prod)
                     {
                         data.Result = "Pass";
@@ -967,20 +1010,21 @@ namespace TestDAL
                                 if (values[5] == 0x00)
                                 {
                                     //hALL.Invoke(new Action(() => { hALL.Close(); }));
-                                    hALL.Close();
+                                   
                                     data.Value = "Pass";
                                     data.Result = "Pass";
+                                    hALL.Close();
                                     break;
                                 }
                                 if (values[5] != 0x00 && i == 9)
-                                {
-                                    hALL.Close();
+                                {                                 
                                     data.Value = "Fail";
                                     data.Result = "Fail";
                                     if (data.Check)
                                     {
                                         Serial.ClosedPort();
                                     }
+                                    hALL.Close();
                                 }
 
                                 Thread.Sleep(500);
@@ -989,7 +1033,6 @@ namespace TestDAL
                         thread.Start();
                         hALL.ShowDialog();
                     }
-
                     else
                     {
                         data.Result = "Fail";
@@ -1157,13 +1200,17 @@ namespace TestDAL
                     bytes[5] = 0x02;
                 else if (name == "华为银色")
                     bytes[5] = 0x03;
-                else if (name == "荣耀橙色")
+                else if (name == "华为紫色")
+                    bytes[5] = 0x04;
+                else if (name == "华为橘红色")
+                    bytes[5] = 0x05;
+                else if (name == "荣耀灰色")
                     bytes[5] = 0x10;
-                else if (name == "荣耀黑色")
+                else if (name == "荣耀蓝色")
                     bytes[5] = 0x11;
-                else if (name == "荣耀绿色")
+                else if (name == "荣耀红色")
                     bytes[5] = 0x12;
-                else if (name == "荣耀银色")
+                else if (name == "荣耀营销色")
                     bytes[5] = 0x13;
                 byte[] values = Serial.VisaQuery(bytes);
                 if (values[3] == bytes[5])
