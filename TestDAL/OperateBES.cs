@@ -5,6 +5,7 @@ using System.Text;
 using TestModel;
 using System.Windows.Forms;
 using System.Threading;
+using TestTool;
 
 namespace TestDAL
 {
@@ -14,11 +15,13 @@ namespace TestDAL
         private string port;
         public string btAddress = string.Empty;
         private Queue<string> queue;
+        public DataBase dataBase;
+        public ConfigData config;
 
-        public OperateBES(string port,Queue<string> queue)
+        public OperateBES(string port,Queue<string> queue,bool serialStatus)
         {
             this.port = port;
-            Serial = new SerialOperate(port);
+            Serial = new SerialOperate(port, serialStatus);
             this.queue = queue;
         }
 
@@ -547,7 +550,7 @@ namespace TestDAL
                 }
                 else if (values[3] == 0x01 && values[4] == 0x00)
                 {
-                    retName = "荣耀英文";
+                    retName = "荣耀中文";
                 }
                 else if (values[3] == 0x01 && values[4] == 0x01)
                 {
@@ -590,6 +593,42 @@ namespace TestDAL
                 byte[] values = Serial.VisaQuery(bytes);
 
                 if (values[2] == 0x00 && values[3] == 0x00)
+                {
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                    if (data.Check)
+                    {
+                        Serial.ClosedPort();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_SetVolume(TestData data)
+        {
+            try
+            {
+               // 04 ff 14 00 01 11
+                byte[] bytes = { 0x04, 0xff, 0x14, 0x00, 0x01,0x11 };
+                byte[] values = Serial.VisaQuery(bytes);
+
+                if (values[3] == 0x01 && values[4] == 0x11)
                 {
                     data.Result = "Pass";
                     data.Value = "Pass";
@@ -958,14 +997,16 @@ namespace TestDAL
             try
             {
                 byte[] bytes = { 0x04, 0xff, 0x01, 0x01, 0x02, 0x01, 0x00 };
-                byte station = byte.Parse(data.LowLimit
-                    , System.Globalization.NumberStyles.HexNumber);
-
+                //byte station = byte.Parse(data.LowLimit
+                //    , System.Globalization.NumberStyles.HexNumber);
+              
                 byte[] values = Serial.VisaQuery(bytes);
-                if (values[3] >= station)
+                string flag = Encoding.ASCII.GetString(values, 3, 2);
+                int result = string.Compare(flag, data.LowLimit);
+                if ( result >= 0 )
                 {
                     data.Result = "Pass";
-                    data.Value = Convert.ToString(values[3], 16);
+                    data.Value = flag.ToString();
                 }
 
                 else
@@ -1072,7 +1113,16 @@ namespace TestDAL
             {
                 byte[] bytes = { 0x04, 0xff, 0x00, 0x00, 0x00 };
                 //byte[] values = Serial.VisaQuery(bytes);
-                byte[] address = Encoding.ASCII.GetBytes(btAddress);
+                byte[] address = new byte[0];
+                if (config.AutoSNTest)
+                {
+                    address = Encoding.ASCII.GetBytes(GetProductSN(
+                        config.SNHear, config.SNLine));
+                }
+                else
+                {
+                    address = Encoding.ASCII.GetBytes(btAddress);
+                }
                 byte length = byte.Parse(address.Length.ToString());
                 byte[] value = new byte[bytes.Length + address.Length];
                 bytes.CopyTo(value, 0);
@@ -1347,25 +1397,30 @@ namespace TestDAL
             try
             {
                 byte[] bytes = { 0x04, 0xff, 0x01, 0x00, 0x02, 0x00, 0x00 };
-                byte station = byte.Parse(data.LowLimit
-                    , System.Globalization.NumberStyles.HexNumber);
-                bytes[5] = station;
+                //byte station = byte.Parse(data.LowLimit
+                //    , System.Globalization.NumberStyles.HexNumber);
+                byte[] station = Encoding.ASCII.GetBytes(data.LowLimit.Trim());
+                bytes[5] = station[0];
+                bytes[6] = station[1];
                 byte[] values = Serial.VisaQuery(bytes);
-                if (values[3] == station)
-                {
-                    data.Result = "Pass";
-                    data.Value = Convert.ToString(values[3], 16);
-                }
+                string flag = Encoding.ASCII.GetString(values, 3, 2);
+                data.Result = "Pass";
+                data.Value = "Pass";
+                //if (flag == data.LowLimit)
+                //{
+                //    data.Result = "Pass";
+                //    data.Value = flag;
+                //}
 
-                else
-                {
-                    data.Result = "Fail";
-                    data.Value = Convert.ToString(values[3], 16);
-                    if (data.Check)
-                    {
-                        Serial.ClosedPort();
-                    }
-                }
+                //else
+                //{
+                //    data.Result = "Fail";
+                //    data.Value = flag;
+                //    if (data.Check)
+                //    {
+                //        Serial.ClosedPort();
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -1378,6 +1433,84 @@ namespace TestDAL
                 }
             }
             return data;
+        }
+
+        public string BES_ReadBTAddress()
+        {
+            string address = string.Empty;
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x05, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+
+                if (values[2] == 0x06)
+                {
+                     address = string.Format("{0:x2}:{1:x2}:{2:x2}:{3:x2}:{4:x2}:{5:x2}"
+                        , values[8], values[7], values[6], values[5], values[4], values[3]);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Serial.ClosedPort();
+            }
+            return address;
+        }
+
+        public void SetVolume()
+        {
+            //04 ff 14 00 01 11
+            Serial.setVolume(new byte[] { 0x04, 0xff, 0x14, 0x00, 0x01, 0x11 });
+        }
+
+        private string GetProductSN(string Head, string line)
+        {
+            string sn = string.Empty;
+            string year = DateTime.Now.Year.ToString().Substring(2, 2);
+            string[] months = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C" };
+            string[] days = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F",
+          "G", "H","J","K","L","M","N","P","R","S","T","U","V","W","X","Y"};
+
+            string month = months[DateTime.Now.Month - 1];
+            string day = days[DateTime.Now.Day - 1];
+            var table = dataBase.Getsn();
+            string num = table.Rows[0][1].ToString();
+            string compDay = table.Rows[0][0].ToString();
+            if(!day.Equals(compDay))
+            {
+                num = "1";
+            }
+            switch (num.Length)
+            {
+                case 1:
+                    {
+                        num = string.Format("0000{0}", num);
+                        break;
+                    }
+                case 2:
+                    {
+                        num = string.Format("000{0}", num);
+                        break;
+                    }
+                case 3:
+                    {
+                        num = string.Format("00{0}", num);
+                        break;
+                    }
+                case 4:
+                    {
+                        num = string.Format("0{0}", num);
+                        break;
+                    }
+                case 5:
+                    {
+                        num = string.Format("{0}", num);
+                        break;
+                    }
+            }
+            sn = string.Format("{0}{1}{2}{3}{4}{5}", Head, year, month, day, line, num);
+            dataBase.UpdateSN(day, int.Parse(num) + 1);
+            return sn;
         }
     }
 }

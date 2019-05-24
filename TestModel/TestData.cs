@@ -56,6 +56,14 @@ namespace TestModel
         public int SNLength;
         public string MultimeterPort;
         public bool Multimeter_Select;
+        public bool AudioEnable;
+        public string AudioPath;
+        public bool SerialSelect;
+        public bool AutoSNTest;
+        public string SNHear;
+        public string SNLine;
+        public bool AutoFixture;
+        public string FixturePort;
     }
 
     public class TestRatio

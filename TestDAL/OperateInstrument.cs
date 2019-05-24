@@ -211,16 +211,16 @@ namespace TestDAL
         public void InitPower()
         {
             PowerInst.Rst();
-            PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
-                , data.Voltage1));
-            PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}"
-               , data.Voltage2));
-            PowerInst.VisaWrite(string.Format(":SOUR1:CURRent:LIMit:VALue  {0}"
-              , data.Current));
-            PowerInst.VisaWrite(string.Format(":SOUR2:CURRent:LIMit:VALue  {0}"
-              , data.Current));
-            PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe:AUTO ON"));
-            PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe:AUTO ON"));
+            //PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
+            //    , data.Voltage1));
+            //PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}"
+            //   , data.Voltage2));
+            //PowerInst.VisaWrite(string.Format(":SOUR1:CURRent:LIMit:VALue  {0}"
+            //  , data.Current));
+            //PowerInst.VisaWrite(string.Format(":SOUR2:CURRent:LIMit:VALue  {0}"
+            //  , data.Current));
+            //PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe:AUTO ON"));
+            //PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe:AUTO ON"));
         }
 
         public void initMultimeter()
@@ -723,10 +723,11 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-             //   PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
-             //  , data.Voltage1));
-             //   PowerInst.VisaWrite(string.Format(":SOUR1:CURRent:LIMit:VALue  {0}"
-             //, data.Current));
+                PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe:AUTO ON"));
+                PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
+               , data.Voltage1));
+                PowerInst.VisaWrite(string.Format(":SOUR1:CURRent:LIMit:VALue  {0}"
+             , data.Current));
                 PowerInst.VisaWrite(":OUTPut1:STAT ON");
                 item.Result = "Pass";
                 item.Value = "Pass";
@@ -747,10 +748,11 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                //   PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}"
-                //, data.Voltage2));
-                //   PowerInst.VisaWrite(string.Format(":SOUR2:CURRent:LIMit:VALue  {0}"
-                //, data.Current));
+                PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe:AUTO ON"));
+                PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}"
+             , data.Voltage2));
+                PowerInst.VisaWrite(string.Format(":SOUR2:CURRent:LIMit:VALue  {0}"
+             , data.Current));
                 PowerInst.VisaWrite(":OUTPut2:STAT ON");
                 item.Result = "Pass";
                 item.Value = "Pass";
@@ -1040,7 +1042,7 @@ namespace TestDAL
             try
             {
                 PowerInst.OpenVisa(data.PowerPort);
-                InitPower();
+                //InitPower();
                 item.Result = "Pass";
                 item.Value = "Pass";
                 queue.Enqueue("打开电源供应器成功");

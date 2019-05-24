@@ -21,6 +21,7 @@ namespace TestBLL
         public string BTAddress;
         public string PorductSN;
         public string BattarySN;
+        private AudioOperate Audio;
    
         public TestLogic(Queue<string> queue,string path)
         {
@@ -29,8 +30,22 @@ namespace TestBLL
             dataBase = new DataBase(path);
             config = GetConfigData();
             //csr = new CsrOperate();
-            operateBES = new OperateBES(config.SerialPort, testQueue);
+            operateBES = new OperateBES(config.SerialPort
+                , testQueue, config.SerialSelect);
+            if(config.AutoSNTest)
+            {
+                operateBES.config = config;
+                operateBES.dataBase = dataBase;
+                operateBES.BES_WriteSN(new TestData());
+            }
+                   
             operate = new OperateInstrument(config, testQueue);
+            if(config.AudioEnable)
+            {
+                queue.Enqueue("加载Audio项目文件");
+                Audio = new AudioOperate(config, operateBES);
+                queue.Enqueue("加载Audio项目文件完成");
+            }
         }
 
         public void InitTestPort(object obj)
@@ -46,7 +61,7 @@ namespace TestBLL
                 if (config.Power_Enable)
                 {
                     testQueue.Enqueue("打开和初始化仪电源供应器");
-                    operate.InitPower();
+                    //operate.InitPower();
                     testQueue.Enqueue("打开和初始化仪器完成");
                 }
                 if(config.Multimeter_Select)
@@ -203,52 +218,52 @@ namespace TestBLL
                     }
                 case "HP66319D_Open":
                     {
-                        data = operate.K2300Series_Open(data);
+                        data = operate.HP66319D_Open(data);
                         break;
                     }
                 case "HP66319D_ChannelOne_OutPut":
                     {
-                        data = operate.K2300Series_ChannelOne_OutPut(data);
+                        data = operate.HP66319D_ChannelOne_OutPut(data);
                         break;
                     }
                 case "HP66319D_ChannelTwo_OutPut":
                     {
-                        data = operate.K2300Series_ChannelTwo_OutPut(data);
+                        data = operate.HP66319D_ChannelTwo_OutPut(data);
                         break;
                     }
                 case "HP66319D_ChannelOne_ReadVoltage":
                     {
-                        data = operate.K2300Series_ChannelOne_ReadVoltage(data);
+                        data = operate.HP66319D_ChannelOne_ReadVoltage(data);
                         break;
                     }
                 case "HP66319D_ChannelOne_ReadCurrent":
                     {
-                        data = operate.K2300Series_ChannelOne_ReadCurrent(data);
+                        data = operate.HP66319D_ChannelOne_ReadCurrent(data);
                         break;
                     }
                 case "HP66319D_ChannelTwo_ReadVoltage":
                     {
-                        data = operate.K2300Series_ChannelTwo_ReadVoltage(data);
+                        data = operate.HP66319D_ChannelTwo_ReadVoltage(data);
                         break;
                     }
                 case "HP66319D_ChannelTwo_ReadCurrent":
                     {
-                        data = operate.K2300Series_ChannelTwo_ReadCurrent(data);
+                        data = operate.HP66319D_ChannelTwo_ReadCurrent(data);
                         break;
                     }
                 case "HP66319D_ChannelOne_StopOut":
                     {
-                        data = operate.K2300Series_ChannelOne_StopOut(data);
+                        data = operate.HP66319D_ChannelOne_StopOut(data);
                         break;
                     }
                 case "HP66319D_ChannelTwo_StopOut":
                     {
-                        data = operate.K2300Series_ChannelTwo_StopOut(data);
+                        data = operate.HP66319D_ChannelTwo_StopOut(data);
                         break;
                     }
                 case "HP66319D_Closed":
                     {
-                        data = operate.K2300Series_Closed(data);
+                        data = operate.HP66319D_Closed(data);
                         break;
                     }
                 case "Key34461_Open":
@@ -350,6 +365,11 @@ namespace TestBLL
                         data = operateBES.BES_Pair(data);
                         break;
                     }
+                case "BES_SetVolume":
+                    {
+                        data = operateBES.BES_SetVolume(data);
+                        break;
+                    }
                 case "BES_Shutdown":
                     {
                         data = operateBES.BES_Shutdown(data);
@@ -437,6 +457,81 @@ namespace TestBLL
                         data = operateBES.ClosedSerialPort(data);
                         break;
                     }
+                case "SwitchToA2dp":
+                    {
+                        data = Audio.SwitchToA2dp(data);
+                        break;
+                    }
+                case "SwitchToHfp":
+                    {
+                        data = Audio.SwitchToHfp(data);
+                        break;
+                    }
+                case "EarPair":
+                    {
+                        data = Audio.EarPair(data);
+                        break;
+                    }
+                case "SpeakerLevel_Left":
+                    {
+                        data = Audio.SpeakerLevel_Left(data);
+                        break;
+                    }
+                case "SpeakerLevel_Right":
+                    {
+                        data = Audio.SpeakerLevel_Right(data);
+                        break;
+                    }
+                case "SpeakerTHD_Left":
+                    {
+                        data = Audio.SpeakerTHD_Left(data);
+                        break;
+                    }
+                case "SpeakerTHD_Right":
+                    {
+                        data = Audio.SpeakerTHD_Right(data);
+                        break;
+                    }
+                case "SpeakerSNR_Left":
+                    {
+                        data = Audio.SpeakerSNR_Left(data);
+                        break;
+                    }
+                case "SpeakerSNR_Right":
+                    {
+                        data = Audio.SpeakerSNR_Right(data);
+                        break;
+                    }
+                case "SpeakerCrosstalk_Left":
+                    {
+                        data = Audio.SpeakerCrosstalk_Left(data);
+                        break;
+                    }
+                case "SpeakerCrosstalk_Right":
+                    {
+                        data = Audio.SpeakerCrosstalk_Right(data);
+                        break;
+                    }
+                case "MicphoneLevel":
+                    {
+                        data = Audio.MicphoneLevel(data);
+                        break;
+                    }
+                case "MicphoneTHD":
+                    {
+                        data = Audio.MicphoneTHD(data);
+                        break;
+                    }
+                case "MicphoneSNR":
+                    {
+                        data = Audio.MicphoneSNR(data);
+                        break;
+                    }
+                case "DisConnect":
+                    {
+                        data = Audio.DisConnect(data);
+                        break;
+                    }
             }
             return data;
         }
@@ -474,6 +569,10 @@ namespace TestBLL
             if (operate != null)
             {
                 operate.CloesdInstr();
+            }
+            if(config.AudioEnable)
+            {
+                Audio.ExitA2();
             }
         }
 

@@ -27,7 +27,9 @@ namespace WinForm
         private bool queueFlag, testFlag,focusFlag;
         private Stopwatch stopwatch;
         private ConfigData config;
-
+        private const int WM_DEVICE_CHANGE = 0x219;
+        private const int DBT_DEVICEARRIVAL = 0x8000;
+        private const int DBT_DEVICE_REMOVE_COMPLETE = 0x8004;
         public Winform()
         {
             InitializeComponent();
@@ -60,6 +62,8 @@ namespace WinForm
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(testLogic.InitTestPort));
             ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
+
+            int i = string.Compare("02", "0a");
         }    
 
         private void Winform_Resize(object sender, EventArgs e)
@@ -363,8 +367,8 @@ namespace WinForm
         {
             while (queueFlag)
             {
-                lock (this)
-                {
+                //lock (this)
+                //{
                     this.BeginInvoke(new Action(()=>
                         {
                             if (TestQueue.Count != 0 && TestQueue != null)
@@ -381,7 +385,7 @@ namespace WinForm
                             }
                         }));
                     Thread.Sleep(50);
-                }
+                //}
             }
         }
 
@@ -389,8 +393,8 @@ namespace WinForm
         {
             while (testFlag)
             {
-                lock (this)
-                {
+                //lock (this)
+                //{
                     string time = String.Format("{0:00}:{1:00}"
                             , stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds);
                     this.BeginInvoke(new Action(delegate ()
@@ -398,7 +402,7 @@ namespace WinForm
                         label_Time.Text = time;
                     }));
                     Thread.Sleep(200);
-                }
+                //}
 
             }         
         }
@@ -473,6 +477,7 @@ namespace WinForm
         {
             login = new frmSettingLogin();
             focusFlag = false;
+            queueFlag = false;
             var dialong = login.ShowDialog(this);
             if (dialong == System.Windows.Forms.DialogResult.OK)
             {
@@ -548,6 +553,23 @@ namespace WinForm
                 Thread.Sleep(1000);
             }
            
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+
+            if (m.WParam.ToInt32() == DBT_DEVICEARRIVAL)
+            {
+                if (config.AutoSNTest)
+                {
+                    btTest_Click(null, null);
+                }
+            }
+            else if (m.WParam.ToInt32() == DBT_DEVICE_REMOVE_COMPLETE)
+            {
+                TestQueue.Enqueue("拔出设备");
+            }
+            base.WndProc(ref m);
         }
     }
 }

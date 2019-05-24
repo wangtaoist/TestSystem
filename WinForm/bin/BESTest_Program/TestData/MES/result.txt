@@ -1,10 +1,10 @@
 {
   "SN": "",
-  "TestTime": "20190519211909",
+  "TestTime": "20190523112309",
   "MAC": "",
   "TotalStatus": "Fail",
-  "BES_OpenSerialPort": "{\r\n  \"isPass\": \"Fail\",\r\n  \"data\": \"Fail\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
-  "BES_HWVersion": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"B816_V10\",\r\n  \"upperLimit\": \"\"\r\n}",
+  "BES_OpenSerialPort": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "BES_HWVersion": "{\r\n  \"isPass\": \"Fail\",\r\n  \"data\": \"Fail\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"B816_V10\",\r\n  \"upperLimit\": \"\"\r\n}",
   "BES_SoftVersion": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"Amazon-1.0.0.100(LC)\",\r\n  \"upperLimit\": \"NA\"\r\n}",
   "BES_ReadSN": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
   "BES_ReadBattarySN": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",

@@ -12,7 +12,7 @@ namespace TestTool
     public class DataBase
     {
         private string dbPath;
-        private OleDbConnection oleDbConnection;
+        private static OleDbConnection oleDbConnection;
 
         public DataBase(string path)
         {
@@ -169,6 +169,18 @@ namespace TestTool
                     ? 0 : int.Parse(dt.Rows[28].ItemArray[1].ToString());
                 list.MultimeterPort = dt.Rows[29].ItemArray[1].ToString();
                 list.Multimeter_Select = bool.Parse(dt.Rows[30].ItemArray[1].ToString());
+
+                list.AudioEnable = bool.Parse(dt.Rows[31].ItemArray[1].ToString());
+                list.AudioPath = dt.Rows[32].ItemArray[1].ToString();
+
+                list.SerialSelect = bool.Parse(dt.Rows[33].ItemArray[1].ToString());
+
+                list.AutoSNTest = bool.Parse(dt.Rows[34].ItemArray[1].ToString());
+                list.SNHear = dt.Rows[35].ItemArray[1].ToString();
+                list.SNLine = dt.Rows[36].ItemArray[1].ToString();
+
+                list.AutoFixture = bool.Parse(dt.Rows[37].ItemArray[1].ToString());
+                list.FixturePort = dt.Rows[38].ItemArray[1].ToString();
             }
             catch (Exception)
             {
@@ -420,6 +432,44 @@ namespace TestTool
                 //    , radio.Total, radio.Pass, radio.PassRadio);
                 string command = string.Format("update Test_Message  set Total='{0}',Pass='{1}',Pass_Rate='{2}'"
                     , radio.Total, radio.Pass, radio.PassRadio);
+                cmd.CommandText = command;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public DataTable Getsn()
+        {
+            DataTable dt = new DataTable();
+            OleDbCommand cmd = new OleDbCommand();
+            try
+            {
+                cmd.Connection = ConnectDB();
+                cmd.CommandText = "select * from SN";
+                cmd.CommandTimeout = 20;
+                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                da.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
+
+        public void UpdateSN(string day,int num)
+        {
+            OleDbCommand cmd = new OleDbCommand();
+            try
+            {
+                cmd.Connection = ConnectDB();
+                //cmd.CommandText = string.Format("insert into Test_Message values('{0}','{1}','{2}')"
+                //    , radio.Total, radio.Pass, radio.PassRadio);
+                string command = string.Format("update SN set SN.day='{0}',SN.SN='{1}'"
+                    , day, num);
                 cmd.CommandText = command;
                 cmd.ExecuteNonQuery();
             }

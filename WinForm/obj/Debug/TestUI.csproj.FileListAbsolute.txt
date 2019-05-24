@@ -196,14 +196,11 @@ D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\TestModel.dll
 D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\TestTool.dll
 D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\NationalInstruments.VisaNS.dll
 D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\Newtonsoft.Json.dll
-D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\RJCP.SerialPortStream.dll
 D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\TestBLL.pdb
 D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\TestDAL.pdb
 D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\TestModel.pdb
 D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\TestTool.pdb
 D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\NationalInstruments.VisaNS.xml
-D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\RJCP.SerialPortStream.pdb
-D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\RJCP.SerialPortStream.xml
 D:\Lchse\Program\Program\TestSystem\WinForm\obj\Debug\TestUI.csprojAssemblyReference.cache
 D:\Lchse\Program\Program\TestSystem\WinForm\obj\Debug\WinForm.About.resources
 D:\Lchse\Program\Program\TestSystem\WinForm\obj\Debug\WinForm.ConfigSetting.resources
@@ -216,3 +213,7 @@ D:\Lchse\Program\Program\TestSystem\WinForm\obj\Debug\TestUI.csproj.CoreCompileI
 D:\Lchse\Program\Program\TestSystem\WinForm\obj\Debug\TestUI.csproj.CopyComplete
 D:\Lchse\Program\Program\TestSystem\WinForm\obj\Debug\Test_Program.exe
 D:\Lchse\Program\Program\TestSystem\WinForm\obj\Debug\Test_Program.pdb
+D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\ATCAPI.dll
+D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\RJCP.SerialPortStream.dll
+D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\RJCP.SerialPortStream.pdb
+D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\RJCP.SerialPortStream.xml

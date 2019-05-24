@@ -293,6 +293,12 @@ namespace TestDAL
                 TestItem = "BES_Pair",
                 Remark = "BES系列耳机配对"
             });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_SetVolume",
+                Remark = "BES系列耳机到最大音量"
+            });
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_Shutdown",
@@ -434,6 +440,82 @@ namespace TestDAL
             //list.Add("CSR_Open_Connection");
             //list.Add("CSR_Open_Connection");
             //list.Add("CSR_Open_Connection");
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SwitchToA2dp",
+                Remark = "控制耳机进入A2DP模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SwitchToHfp",
+                Remark = "控制耳机进入HFP模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "EarPair",
+                Remark = "A2和耳机配对"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerLevel_Left",
+                Remark = "测试左SPK电平"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerLevel_Right",
+                Remark = "测试右SPK电平"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerTHD_Left",
+                Remark = "测试左SPK THD+N"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerTHD_Right",
+                Remark = "测试右SPK THD+N"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerSNR_Left",
+                Remark = "测试左SPK信噪比"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerSNR_Right",
+                Remark = "测试右SPK信噪比"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerCrosstalk_Left",
+                Remark = "测试左SPK Crosstalk"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerCrosstalk_Right",
+                Remark = "测试右SPK Crosstalk"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "MicphoneLevel",
+                Remark = "测试Mic电平"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "MicphoneTHD",
+                Remark = "测试Mic THD+N"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "MicphoneSNR",
+                Remark = "关闭和释放BES系列耳机串口"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "DisConnect",
+                Remark = "断开A2与耳机的连接"
+            });
 
             return list;
         }

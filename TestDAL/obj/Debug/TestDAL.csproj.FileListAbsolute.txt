@@ -191,3 +191,4 @@ D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.csproj.CoreCompile
 D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.csproj.CopyComplete
 D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.pdb
+D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\ATCAPI.dll

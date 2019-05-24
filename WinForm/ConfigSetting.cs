@@ -67,6 +67,21 @@ namespace WinForm
 
             Multimeter_Select.Checked = configData.Multimeter_Select;
             cb_Multimeter.SelectedItem = configData.MultimeterPort;
+
+            cb_AudioEnable.Checked = configData.AudioEnable;
+            tb_Path.Text = configData.AudioPath;
+
+            cb_AudioEnable.Checked = configData.AudioEnable;
+            tb_Path.Text = configData.AudioPath;
+
+            cb_SerialSelect.Checked = configData.SerialSelect;
+
+            cb_SNAuto.Checked = configData.AutoSNTest;
+            tb_SNHear.Text = configData.SNHear;
+            tb_Line.Text = configData.SNLine;
+
+            cb_FixAuto.Checked = configData.AutoFixture;
+            cb_FixPort.SelectedItem = configData.FixturePort;
         }
 
         public void GetInstPort()
@@ -118,6 +133,14 @@ namespace WinForm
             dic.Add("SNLength", tb_SNLength.Text.Trim());
             dic.Add("MultimeterPort", cb_Multimeter.SelectedItem);
             dic.Add("Multimeter_Enable", Multimeter_Select.Checked);
+            dic.Add("AudioEnable", cb_AudioEnable.Checked);
+            dic.Add("AudioPath", tb_Path.Text.Trim());
+            dic.Add("SerialSelect", cb_SerialSelect.Checked);
+            dic.Add("SNAuto", cb_SNAuto.Checked);
+            dic.Add("SNHear", tb_SNHear.Text.Trim());
+            dic.Add("SNLine", tb_Line.Text.Trim());
+            dic.Add("FixAuto", cb_FixAuto.Checked);
+            dic.Add("FixPort", cb_FixPort.SelectedItem);
             dataBase.UpdateConfigData(dic);
             this.DialogResult = System.Windows.Forms.DialogResult.Yes;
         }
@@ -128,6 +151,18 @@ namespace WinForm
             {
                 this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             }
+        }
+
+        private void bt_Select_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "A2项目文件|*.abprojx|All files(*.*)|*.*";
+            openFileDialog1.InitialDirectory = Application.StartupPath;
+            openFileDialog1.ShowDialog();
+            if(openFileDialog1.FileName != "")
+            {
+                tb_Path.Text = openFileDialog1.FileName.Trim();
+            }
+
         }
     }
 }
