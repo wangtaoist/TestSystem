@@ -14,6 +14,7 @@ namespace TestDAL
         private ConfigData config;
         private double[] SpkLevels, SpkTHD, SpkSNR, SpkCrossralk;
         private OperateBES Operate;
+        private int testNum;
 
         public AudioOperate(ConfigData config, OperateBES operate)
         {
@@ -127,9 +128,15 @@ namespace TestDAL
                     {
                         data.Result = "Pass";
                         data.Value = Math.Round(SpkLevels[0], 3).ToString();
+                        testNum = 0;
                     }
                     else
                     {
+                        testNum += 1;
+                        if (testNum != 2)
+                        {
+                            SpeakerLevel_Left(data);
+                        }
                         data.Result = "Fail";
                         data.Value = Math.Round(SpkLevels[0], 3).ToString();
                     }
@@ -418,9 +425,15 @@ namespace TestDAL
                     {
                         data.Result = "Pass";
                         data.Value = Math.Round(MicSNR[0], 3).ToString();
+                        testNum = 0;
                     }
                     else
                     {
+                        testNum += 1;
+                        if(testNum != 2)
+                        {
+                            MicphoneSNR(data);
+                        }
                         data.Result = "Fail";
                         data.Value = Math.Round(MicSNR[0], 3).ToString();
                     }

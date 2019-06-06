@@ -13,6 +13,7 @@ using TestBLL;
 using System.Threading;
 using System.Diagnostics;
 using TestEngineAPI;
+using System.IO.Ports;
 
 namespace WinForm
 {
@@ -30,6 +31,7 @@ namespace WinForm
         private const int WM_DEVICE_CHANGE = 0x219;
         private const int DBT_DEVICEARRIVAL = 0x8000;
         private const int DBT_DEVICE_REMOVE_COMPLETE = 0x8004;
+
         public Winform()
         {
             InitializeComponent();
@@ -162,6 +164,7 @@ namespace WinForm
                     TestQueue.Enqueue(item.TestItemName + "开始测试");
                     Thread.Sleep(item.beferTime);
                     TestData testData = testLogic.TestProcess(item);
+                    TestQueue.Enqueue(item.TestItemName + "测试完成");
 
                     ShowTestItem(testData);
 
@@ -173,7 +176,7 @@ namespace WinForm
                         }
                     }
                     Thread.Sleep(item.AfterTime);
-                    TestQueue.Enqueue(item.TestItemName + "测试完成");
+                  
                 }
             }
             catch (Exception ex)
@@ -559,10 +562,16 @@ namespace WinForm
         {
 
             if (m.WParam.ToInt32() == DBT_DEVICEARRIVAL)
-            {
+            {              
+                TestQueue.Enqueue("插入设备");
                 if (config.AutoSNTest)
                 {
-                    btTest_Click(null, null);
+                    if (SerialPort.GetPortNames().Where(s => 
+                    s.Contains(config.SerialPort)).Count() > 0)
+                    {
+                        focusFlag = false;
+                        btTest_Click(null, null);
+                    }
                 }
             }
             else if (m.WParam.ToInt32() == DBT_DEVICE_REMOVE_COMPLETE)

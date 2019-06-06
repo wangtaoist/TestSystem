@@ -75,6 +75,7 @@ namespace TestDAL
                 //instrument.VisaWrite(string.Format("OPCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
                 instrument.VisaWrite("OPCFG 3,PKTTYPE, DH1");
                 instrument.VisaWrite("OPCFG 3,NUMPKTS,10");
+                instrument.VisaWrite("OPCFG 3,HOPPING,HOPOFF");
             }
 
             if (data.IC)
@@ -84,6 +85,7 @@ namespace TestDAL
                 //instrument.VisaWrite(string.Format("ICCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
                 //instrument.VisaWrite("ICCFG 3,HOPMODE, ANY");
                 instrument.VisaWrite("ICCFG 3,NUMPKTS,10");
+                instrument.VisaWrite("ICCFG 3,HOPPING,HOPOFF");
             }
             if (data.CD)
             {
@@ -94,6 +96,7 @@ namespace TestDAL
                 instrument.VisaWrite("CDCFG 3,PKTSIZE,THREESLOT,FALSE");
                 instrument.VisaWrite("CDCFG 3,PKTSIZE,FIVESLOT,FALSE");
                 instrument.VisaWrite("CDCFG 3,NUMPKTS,10");
+                instrument.VisaWrite("CDCFG 3,HOPPING,HOPOFF");
             }
             if (data.MI)
             {
@@ -152,12 +155,14 @@ namespace TestDAL
             //TXPWR 3,-10.0
             if (data.OP)
             {
+                //HOPPING
                 instrument.VisaWrite("TXPWR 3,-40");
                 // instrument.VisaWrite(string.Format("OPCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
                 //instrument.VisaWrite(string.Format("OPCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
                 //instrument.VisaWrite(string.Format("OPCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
                 instrument.VisaWrite("OPCFG 3,PKTTYPE, DH1");
                 instrument.VisaWrite("OPCFG 3,NUMPKTS,10");
+                instrument.VisaWrite("OPCFG 3,HOPPING,HOPON");
             }
 
             if (data.IC)
@@ -167,6 +172,7 @@ namespace TestDAL
                 //instrument.VisaWrite(string.Format("ICCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
                 //instrument.VisaWrite("ICCFG 3,HOPMODE, ANY");
                 instrument.VisaWrite("ICCFG 3,NUMPKTS,10");
+                //instrument.VisaWrite("ICCFG 3,HOPPING,HOPOFF");
             }
             if (data.CD)
             {
@@ -211,6 +217,7 @@ namespace TestDAL
         public void InitPower()
         {
             PowerInst.Rst();
+            PowerInst.VisaWrite(string.Format("INST:COUP:OUTP:STAT NONE"));
             //PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
             //    , data.Voltage1));
             //PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}"
@@ -472,15 +479,15 @@ namespace TestDAL
             instrument.Cls();
             if (item.Other.Split(':')[1] == data.Low_Freq)
             {
-                retureVal = instrument.VisaQuery("XRESULT OP,HOPONL");            
+                retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFL");            
             }
             else if(item.Other.Split(':')[1] == data.Mod_Freq)
             {
-                retureVal = instrument.VisaQuery("XRESULT OP,HOPONM");
+                retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFM");
             }
             else if(item.Other.Split(':')[1] == data.Hi_Freq)
             {
-                retureVal = instrument.VisaQuery("XRESULT OP,HOPONH");
+                retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFH");
             }
             if (retureVal.Contains("XOP"))
             {
@@ -1061,9 +1068,12 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                PowerInst.VisaWrite(string.Format(":SOUR:VOLT:LEVel {0}"
+                //INST: COUP: OUTP: STAT NONE
+                //PowerInst.VisaWrite(string.Format("INST: COUP: OUTP: STAT NONE"));
+
+               PowerInst.VisaWrite(string.Format(":SOUR:VOLT1:LEVel {0}"
                , data.Voltage1));
-                PowerInst.VisaWrite(string.Format(":SOUR:CURR2:VALue  {0} MA"
+                PowerInst.VisaWrite(string.Format(":SOUR:CURR1  {0} "
              , data.Current));
                 PowerInst.VisaWrite(":OUTPut1:STAT ON");
                 item.Result = "Pass";
@@ -1084,9 +1094,10 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
+               // PowerInst.VisaWrite(string.Format("INST: COUP: OUTP: STAT NONE"));
                 PowerInst.VisaWrite(string.Format(":SOUR:VOLT2:LEVel {0}"
              , data.Voltage2));
-                PowerInst.VisaWrite(string.Format(":SOUR:CURR2:VALue  {0}"
+                PowerInst.VisaWrite(string.Format(":SOUR:CURR2  {0}"
              , data.Current));
                 PowerInst.VisaWrite(":OUTPut2:STAT ON");
                 item.Result = "Pass";
@@ -1107,7 +1118,7 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                double voltage = double.Parse(PowerInst.VisaQuery(" FETC:VOLT:DC? "));
+                double voltage = double.Parse(PowerInst.VisaQuery("MEAS:VOLTage1?"));
                 if (item.Unit.ToUpper() == "MV")
                 {
                     voltage *= 1000;
@@ -1146,7 +1157,7 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                double current = double.Parse(PowerInst.VisaQuery("FETC:CURR:DC?"));
+                double current = double.Parse(PowerInst.VisaQuery("MEAS:CURRent1?"));
                 if (item.Unit.ToUpper() == "UA")
                 {
                     current *= 1000000;
@@ -1189,7 +1200,7 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                double voltage = double.Parse(PowerInst.VisaQuery("FETC:VOLT2:DC? "));
+                double voltage = double.Parse(PowerInst.VisaQuery("MEAS:VOLTage2?"));
                 if (item.Unit.ToUpper() == "MV")
                 {
                     voltage *= 1000;
@@ -1198,7 +1209,16 @@ namespace TestDAL
                     && voltage >= double.Parse(item.LowLimit))
                 {
                     item.Result = "Pass";
-                    item.Value = "Pass";
+                    item.Value = voltage.ToString();
+                }
+                else
+                {
+                    item.Result = "Fail";
+                    item.Value = voltage.ToString();
+                    if (item.Check)
+                    {
+                        PowerInst.Closed();
+                    }
                 }
             }
             catch (Exception ex)
@@ -1219,7 +1239,7 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                double current = double.Parse(PowerInst.VisaQuery("FETC:CURR2:DC?"));
+                double current = double.Parse(PowerInst.VisaQuery("MEAS:CURRent2?"));
                 if (item.Unit.ToUpper() == "UA")
                 {
                     current *= 1000000;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace WinForm
@@ -13,17 +14,29 @@ namespace WinForm
         [STAThread]
         static void Main()
         {
-            try
+            //try
+            //{
+            bool createNew;
+            using (Mutex mutex = new Mutex(true, Application.ProductName, out createNew))
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Winform());
+                if (createNew)
+                {
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Application.Run(new Winform());
+                }
+                else
+                {
+                    MessageBox.Show("应用程序已经运行,请勿重复打开!"
+                        , "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "错误信息"
-                    , MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message, "错误信息"
+            //        , MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
 
         }
     }

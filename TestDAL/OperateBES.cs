@@ -21,7 +21,7 @@ namespace TestDAL
         public OperateBES(string port,Queue<string> queue,bool serialStatus)
         {
             this.port = port;
-            Serial = new SerialOperate(port, serialStatus);
+            Serial = new SerialOperate(port, serialStatus,queue);
             this.queue = queue;
         }
 
@@ -807,6 +807,16 @@ namespace TestDAL
                 {
                     double voltage = double.Parse(string.Format("{0}{1}{2}{3}"
                         , values[4], values[5], values[6], values[7])) / 1000;
+                    //电池电压大于等于4.4时在重新测试一次
+                    if(voltage >=4.4)
+                    {
+                        values = Serial.VisaQuery(bytes);
+                        if(values[3] == 0x04)
+                        {
+                            voltage = double.Parse(string.Format("{0}{1}{2}{3}"
+                        , values[4], values[5], values[6], values[7])) / 1000;
+                        }
+                    }
                     if (voltage >= double.Parse(data.LowLimit)
                         && voltage <= double.Parse(data.UppLimit))
                     {
@@ -956,11 +966,11 @@ namespace TestDAL
                 byte[] values = Serial.VisaQuery(bytes);
                 string mode = "";
 
-                if (values[3] == 0x00)
+                if (values[3] == 0x01)
                 {
                     mode = "工厂模式";
                 }
-                else if (values[3] == 0x01)
+                else if (values[3] == 0x00)
                 {
                     mode = "用户模式";
                 }
@@ -1037,28 +1047,36 @@ namespace TestDAL
             try
             {
                 byte[] bytes = { 0x04, 0xff, 0x10, 0x01, 0x00, 0x03 };
-                byte[] values = Serial.VisaQuery(bytes);
+                byte[] values = new byte[0];
+                List<byte> status = new List<byte>();
+                //for (int i = 0; i < 3; i++)
+                //{
+                values = Serial.VisaQuery(bytes);
+                //Thread.Sleep(100);
+                //status.Add(values[5]);
+                //}                        
                 if (values[3] == 0x02)
                 {
                     HALLTest hALL = new HALLTest();
+                    //hALL.ShowDialog();
                     if (values[5] == 0x01)
                     {
                         Thread thread = new Thread(() =>
+                    {
+                        try
                         {
                             for (int i = 0; i < 10; i++)
                             {
                                 values = Serial.VisaQuery(bytes);
                                 if (values[5] == 0x00)
                                 {
-                                    //hALL.Invoke(new Action(() => { hALL.Close(); }));
-                                   
                                     data.Value = "Pass";
                                     data.Result = "Pass";
                                     hALL.Close();
                                     break;
                                 }
                                 if (values[5] != 0x00 && i == 9)
-                                {                                 
+                                {
                                     data.Value = "Fail";
                                     data.Result = "Fail";
                                     if (data.Check)
@@ -1067,10 +1085,20 @@ namespace TestDAL
                                     }
                                     hALL.Close();
                                 }
-
                                 Thread.Sleep(500);
                             }
-                        });
+                        }
+                        catch (Exception ex)
+                        {
+                            data.Value = "Fail";
+                            data.Result = "Fail";
+                            if (data.Check)
+                            {
+                                Serial.ClosedPort();
+                            }
+                            hALL.Close();
+                        }
+                    });
                         thread.Start();
                         hALL.ShowDialog();
                     }
@@ -1116,8 +1144,9 @@ namespace TestDAL
                 byte[] address = new byte[0];
                 if (config.AutoSNTest)
                 {
-                    address = Encoding.ASCII.GetBytes(GetProductSN(
-                        config.SNHear, config.SNLine));
+                    btAddress = GetProductSN(config.SNHear, config.SNLine);
+                    address = Encoding.ASCII.GetBytes(btAddress);
+                  
                 }
                 else
                 {
@@ -1356,19 +1385,19 @@ namespace TestDAL
                 byte[] bytes = { 0x04, 0xff, 0x18, 0x00, 0x01, 0x00 };
                 if (data.LowLimit == "工厂模式")
                 {
-                    bytes[5] = 0x00;
+                    bytes[5] = 0x01;
                 }
                 else if (data.LowLimit == "用户模式")
                 {
-                    bytes[5] = 0x01;
+                    bytes[5] = 0x00;
                 }
                 byte[] values = Serial.VisaQuery(bytes);
-                if (values[3] == 0x00)
+                if (values[3] == 0x01)
                 {
                     data.Result = "Pass";
                     data.Value = "工厂模式";
                 }
-                else if (values[3] == 0x01)
+                else if (values[3] == 0x00)
                 {
                     data.Result = "Pass";
                     data.Value = "用户模式";
@@ -1421,6 +1450,58 @@ namespace TestDAL
                 //        Serial.ClosedPort();
                 //    }
                 //}
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_WriteHWVersion(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x03, 0x00, 0x00 };
+                //byte[] values = Serial.VisaQuery(bytes);
+                byte[] address = new byte[0];
+                //if (config.AutoSNTest)
+                //{
+                //    btAddress = GetProductSN(config.SNHear, config.SNLine);
+                //    address = Encoding.ASCII.GetBytes(btAddress);
+
+                //}
+                //else
+                //{
+                address = Encoding.ASCII.GetBytes(data.LowLimit.Trim());
+                //}
+                byte length = byte.Parse(data.LowLimit.Trim().Length.ToString());
+                byte[] value = new byte[bytes.Length + address.Length];
+                bytes.CopyTo(value, 0);
+                value[4] = length;
+                address.CopyTo(value, 5);
+
+                byte[] ret = Serial.VisaQuery(value);
+                if (ret[2] == length)
+                {
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                    if (data.Check)
+                    {
+                        Serial.ClosedPort();
+                    }
+                }
             }
             catch (Exception ex)
             {

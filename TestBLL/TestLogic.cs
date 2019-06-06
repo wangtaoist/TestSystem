@@ -22,8 +22,8 @@ namespace TestBLL
         public string PorductSN;
         public string BattarySN;
         private AudioOperate Audio;
-   
-        public TestLogic(Queue<string> queue,string path)
+
+        public TestLogic(Queue<string> queue, string path)
         {
             this.testQueue = queue;
             this.initPath = path;
@@ -32,13 +32,13 @@ namespace TestBLL
             //csr = new CsrOperate();
             operateBES = new OperateBES(config.SerialPort
                 , testQueue, config.SerialSelect);
-            if(config.AutoSNTest)
-            {
-                operateBES.config = config;
-                operateBES.dataBase = dataBase;
-                operateBES.BES_WriteSN(new TestData());
-            }
-                   
+            //if(config.AutoSNTest)
+            //{
+            operateBES.config = config;
+            operateBES.dataBase = dataBase;
+            //operateBES.BES_WriteSN(new TestData());
+            //}
+             
             operate = new OperateInstrument(config, testQueue);
             if(config.AudioEnable)
             {
@@ -61,7 +61,7 @@ namespace TestBLL
                 if (config.Power_Enable)
                 {
                     testQueue.Enqueue("打开和初始化仪电源供应器");
-                    //operate.InitPower();
+                    operate.InitPower();
                     testQueue.Enqueue("打开和初始化仪器完成");
                 }
                 if(config.Multimeter_Select)
@@ -445,6 +445,11 @@ namespace TestBLL
                 case "BES_WriteTestStation":
                     {
                         data = operateBES.BES_WriteTestStation(data);
+                        break;
+                    }
+                case "BES_WriteHWVersion":
+                    {
+                        data = operateBES.BES_WriteHWVersion(data);
                         break;
                     }
                 case "BES_OpenSerialPort":

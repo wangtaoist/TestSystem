@@ -17,11 +17,13 @@ namespace TestDAL
         private SerialPort Session1;
         private string ResourceName;
         private bool serialStatus;
+        private Queue<string> queue;
 
-        public SerialOperate(string ResourceName,bool status)
+        public SerialOperate(string ResourceName,bool status,Queue<string> queue)
         {
             this.ResourceName = ResourceName;
             this.serialStatus = status;
+            this.queue = queue;
         }
 
         public void OpenSerialPort()
@@ -93,6 +95,8 @@ namespace TestDAL
             {
                 if (serialStatus)
                 {
+                    Session1.DiscardInBuffer();
+                    Session1.DiscardOutBuffer();
                     Session1.Write(data, 0, data.Length);
                     Thread.Sleep(200);
                     num = Session1.ReadByte();
@@ -101,6 +105,8 @@ namespace TestDAL
                 }
                 else
                 {
+                    //Session.DiscardInBuffer();
+                    //Session.DiscardOutBuffer();
                     Session.Write(data, 0, data.Length);
                     Thread.Sleep(200);
                     num = Session.ReadByte();
@@ -123,7 +129,7 @@ namespace TestDAL
             }
             catch(Exception ex)
             {
-                throw ex;
+                queue.Enqueue(ex.Message);
             }
             return values;
         }
@@ -133,13 +139,13 @@ namespace TestDAL
             //Thread.Sleep(500);
             if (serialStatus)
             {
-                Session1.Write(data, 0, data.Length);
+                //Session1.Write(data, 0, data.Length);
                 Thread.Sleep(500);
                 Session1.Write(data, 0, data.Length);
             }
             else
             {
-                Session.Write(data, 0, data.Length);
+                //Session.Write(data, 0, data.Length);
                 Thread.Sleep(500);
                 Session.Write(data, 0, data.Length);
             }
