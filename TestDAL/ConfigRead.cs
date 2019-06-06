@@ -420,6 +420,11 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "BES_WriteHWVersion",
+                Remark = "写入BES系列耳机蓝牙硬件版本"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "BES_ClosedSerialPort",
                 Remark = "关闭和释放BES系列耳机串口"
             });

@@ -75,6 +75,7 @@ namespace TestDAL
                 //instrument.VisaWrite(string.Format("OPCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
                 instrument.VisaWrite("OPCFG 3,PKTTYPE, DH1");
                 instrument.VisaWrite("OPCFG 3,NUMPKTS,10");
+                instrument.VisaWrite("OPCFG 3,HOPPING,HOPOFF");
             }
 
             if (data.IC)
@@ -84,6 +85,7 @@ namespace TestDAL
                 //instrument.VisaWrite(string.Format("ICCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
                 //instrument.VisaWrite("ICCFG 3,HOPMODE, ANY");
                 instrument.VisaWrite("ICCFG 3,NUMPKTS,10");
+                instrument.VisaWrite("ICCFG 3,HOPPING,HOPOFF");
             }
             if (data.CD)
             {
@@ -94,6 +96,7 @@ namespace TestDAL
                 instrument.VisaWrite("CDCFG 3,PKTSIZE,THREESLOT,FALSE");
                 instrument.VisaWrite("CDCFG 3,PKTSIZE,FIVESLOT,FALSE");
                 instrument.VisaWrite("CDCFG 3,NUMPKTS,10");
+                instrument.VisaWrite("CDCFG 3,HOPPING,HOPOFF");
             }
             if (data.MI)
             {
@@ -152,12 +155,14 @@ namespace TestDAL
             //TXPWR 3,-10.0
             if (data.OP)
             {
+                //HOPPING
                 instrument.VisaWrite("TXPWR 3,-40");
                 // instrument.VisaWrite(string.Format("OPCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
                 //instrument.VisaWrite(string.Format("OPCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
                 //instrument.VisaWrite(string.Format("OPCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
                 instrument.VisaWrite("OPCFG 3,PKTTYPE, DH1");
                 instrument.VisaWrite("OPCFG 3,NUMPKTS,10");
+                instrument.VisaWrite("OPCFG 3,HOPPING,HOPON");
             }
 
             if (data.IC)
@@ -167,6 +172,7 @@ namespace TestDAL
                 //instrument.VisaWrite(string.Format("ICCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
                 //instrument.VisaWrite("ICCFG 3,HOPMODE, ANY");
                 instrument.VisaWrite("ICCFG 3,NUMPKTS,10");
+                //instrument.VisaWrite("ICCFG 3,HOPPING,HOPOFF");
             }
             if (data.CD)
             {
@@ -472,15 +478,15 @@ namespace TestDAL
             instrument.Cls();
             if (item.Other.Split(':')[1] == data.Low_Freq)
             {
-                retureVal = instrument.VisaQuery("XRESULT OP,HOPONL");            
+                retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFL");            
             }
             else if(item.Other.Split(':')[1] == data.Mod_Freq)
             {
-                retureVal = instrument.VisaQuery("XRESULT OP,HOPONM");
+                retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFM");
             }
             else if(item.Other.Split(':')[1] == data.Hi_Freq)
             {
-                retureVal = instrument.VisaQuery("XRESULT OP,HOPONH");
+                retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFH");
             }
             if (retureVal.Contains("XOP"))
             {

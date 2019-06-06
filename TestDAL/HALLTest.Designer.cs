@@ -53,6 +53,7 @@
             this.Name = "HALLTest";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "霍尔测试";
+            this.TopMost = true;
             this.ResumeLayout(false);
 
         }
