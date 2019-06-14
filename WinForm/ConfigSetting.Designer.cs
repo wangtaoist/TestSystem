@@ -32,6 +32,8 @@
             this.tb_Title = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cb_LEDPort = new System.Windows.Forms.ComboBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.cb_Serial = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cb_Power = new System.Windows.Forms.ComboBox();
@@ -75,6 +77,7 @@
             this.tb_Voltage1 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cb_LEDEnable = new System.Windows.Forms.CheckBox();
             this.Multimeter_Select = new System.Windows.Forms.CheckBox();
             this.Power_Select = new System.Windows.Forms.CheckBox();
             this.Serial_Select = new System.Windows.Forms.CheckBox();
@@ -92,15 +95,22 @@
             this.label20 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.cb_SNAuto = new System.Windows.Forms.CheckBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.tb_SNHear = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
             this.tb_Line = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.tb_SNHear = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.cb_SNAuto = new System.Windows.Forms.CheckBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.cb_FixPort = new System.Windows.Forms.ComboBox();
+            this.label23 = new System.Windows.Forms.Label();
             this.cb_FixAuto = new System.Windows.Forms.CheckBox();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.cb_PlugEnable = new System.Windows.Forms.CheckBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.tb_MaxSet = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.tb_PlugNumber = new System.Windows.Forms.TextBox();
+            this.bt_Clear = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -112,6 +122,7 @@
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            this.groupBox12.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -144,6 +155,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cb_LEDPort);
+            this.groupBox2.Controls.Add(this.label24);
             this.groupBox2.Controls.Add(this.cb_Serial);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.cb_Power);
@@ -154,10 +167,27 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Location = new System.Drawing.Point(8, 52);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(507, 55);
+            this.groupBox2.Size = new System.Drawing.Size(507, 78);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "测试仪器端口设置";
+            // 
+            // cb_LEDPort
+            // 
+            this.cb_LEDPort.FormattingEnabled = true;
+            this.cb_LEDPort.Location = new System.Drawing.Point(36, 52);
+            this.cb_LEDPort.Name = "cb_LEDPort";
+            this.cb_LEDPort.Size = new System.Drawing.Size(99, 20);
+            this.cb_LEDPort.TabIndex = 1;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(5, 55);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(23, 12);
+            this.label24.TabIndex = 0;
+            this.label24.Text = "LED";
             // 
             // cb_Serial
             // 
@@ -235,7 +265,7 @@
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Location = new System.Drawing.Point(9, 358);
+            this.groupBox3.Location = new System.Drawing.Point(9, 450);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(507, 50);
             this.groupBox3.TabIndex = 2;
@@ -304,7 +334,7 @@
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Controls.Add(this.label6);
-            this.groupBox4.Location = new System.Drawing.Point(174, 410);
+            this.groupBox4.Location = new System.Drawing.Point(174, 502);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(347, 105);
             this.groupBox4.TabIndex = 2;
@@ -409,7 +439,7 @@
             // 
             // bt_Save
             // 
-            this.bt_Save.Location = new System.Drawing.Point(223, 522);
+            this.bt_Save.Location = new System.Drawing.Point(221, 617);
             this.bt_Save.Name = "bt_Save";
             this.bt_Save.Size = new System.Drawing.Size(117, 43);
             this.bt_Save.TabIndex = 3;
@@ -424,7 +454,7 @@
             this.groupBox5.Controls.Add(this.cb_ss);
             this.groupBox5.Controls.Add(this.cb_ic);
             this.groupBox5.Controls.Add(this.cb_op);
-            this.groupBox5.Location = new System.Drawing.Point(9, 284);
+            this.groupBox5.Location = new System.Drawing.Point(9, 376);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(507, 70);
             this.groupBox5.TabIndex = 4;
@@ -489,7 +519,7 @@
             this.groupBox6.Controls.Add(this.label14);
             this.groupBox6.Controls.Add(this.tb_Voltage1);
             this.groupBox6.Controls.Add(this.label13);
-            this.groupBox6.Location = new System.Drawing.Point(9, 410);
+            this.groupBox6.Location = new System.Drawing.Point(9, 502);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(154, 105);
             this.groupBox6.TabIndex = 5;
@@ -546,16 +576,27 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.cb_LEDEnable);
             this.groupBox7.Controls.Add(this.Multimeter_Select);
             this.groupBox7.Controls.Add(this.Power_Select);
             this.groupBox7.Controls.Add(this.Serial_Select);
             this.groupBox7.Controls.Add(this.GPIB_Select);
-            this.groupBox7.Location = new System.Drawing.Point(8, 153);
+            this.groupBox7.Location = new System.Drawing.Point(8, 182);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(243, 55);
+            this.groupBox7.Size = new System.Drawing.Size(297, 55);
             this.groupBox7.TabIndex = 6;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "仪器使用选择";
+            // 
+            // cb_LEDEnable
+            // 
+            this.cb_LEDEnable.AutoSize = true;
+            this.cb_LEDEnable.Location = new System.Drawing.Point(233, 25);
+            this.cb_LEDEnable.Name = "cb_LEDEnable";
+            this.cb_LEDEnable.Size = new System.Drawing.Size(42, 16);
+            this.cb_LEDEnable.TabIndex = 0;
+            this.cb_LEDEnable.Text = "LED";
+            this.cb_LEDEnable.UseVisualStyleBackColor = true;
             // 
             // Multimeter_Select
             // 
@@ -603,31 +644,31 @@
             this.groupBox8.Controls.Add(this.tb_CompareString);
             this.groupBox8.Controls.Add(this.label18);
             this.groupBox8.Controls.Add(this.label17);
-            this.groupBox8.Location = new System.Drawing.Point(258, 153);
+            this.groupBox8.Location = new System.Drawing.Point(311, 182);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(257, 55);
+            this.groupBox8.Size = new System.Drawing.Size(204, 55);
             this.groupBox8.TabIndex = 7;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "SN比对及长度";
             // 
             // tb_SNLength
             // 
-            this.tb_SNLength.Location = new System.Drawing.Point(183, 23);
+            this.tb_SNLength.Location = new System.Drawing.Point(165, 23);
             this.tb_SNLength.Name = "tb_SNLength";
-            this.tb_SNLength.Size = new System.Drawing.Size(66, 21);
+            this.tb_SNLength.Size = new System.Drawing.Size(35, 21);
             this.tb_SNLength.TabIndex = 1;
             // 
             // tb_CompareString
             // 
             this.tb_CompareString.Location = new System.Drawing.Point(62, 23);
             this.tb_CompareString.Name = "tb_CompareString";
-            this.tb_CompareString.Size = new System.Drawing.Size(73, 21);
+            this.tb_CompareString.Size = new System.Drawing.Size(57, 21);
             this.tb_CompareString.TabIndex = 1;
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(141, 26);
+            this.label18.Location = new System.Drawing.Point(122, 26);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(41, 12);
             this.label18.TabIndex = 0;
@@ -649,7 +690,7 @@
             this.groupBox9.Controls.Add(this.cb_AudioEnable);
             this.groupBox9.Controls.Add(this.tb_Path);
             this.groupBox9.Controls.Add(this.label20);
-            this.groupBox9.Location = new System.Drawing.Point(8, 107);
+            this.groupBox9.Location = new System.Drawing.Point(8, 136);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(507, 40);
             this.groupBox9.TabIndex = 8;
@@ -714,24 +755,44 @@
             this.groupBox10.Controls.Add(this.tb_SNHear);
             this.groupBox10.Controls.Add(this.label21);
             this.groupBox10.Controls.Add(this.cb_SNAuto);
-            this.groupBox10.Location = new System.Drawing.Point(9, 215);
+            this.groupBox10.Location = new System.Drawing.Point(9, 244);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(298, 63);
             this.groupBox10.TabIndex = 9;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "SN自动测试设置";
             // 
-            // groupBox11
+            // tb_Line
             // 
-            this.groupBox11.Controls.Add(this.cb_FixPort);
-            this.groupBox11.Controls.Add(this.label23);
-            this.groupBox11.Controls.Add(this.cb_FixAuto);
-            this.groupBox11.Location = new System.Drawing.Point(313, 215);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(202, 63);
-            this.groupBox11.TabIndex = 9;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "屏蔽箱自动测试设置";
+            this.tb_Line.Location = new System.Drawing.Point(225, 29);
+            this.tb_Line.Name = "tb_Line";
+            this.tb_Line.Size = new System.Drawing.Size(62, 21);
+            this.tb_Line.TabIndex = 2;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(191, 33);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(29, 12);
+            this.label22.TabIndex = 1;
+            this.label22.Text = "线体";
+            // 
+            // tb_SNHear
+            // 
+            this.tb_SNHear.Location = new System.Drawing.Point(110, 28);
+            this.tb_SNHear.Name = "tb_SNHear";
+            this.tb_SNHear.Size = new System.Drawing.Size(74, 21);
+            this.tb_SNHear.TabIndex = 2;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(54, 32);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(53, 12);
+            this.label21.TabIndex = 1;
+            this.label21.Text = "SN首字符";
             // 
             // cb_SNAuto
             // 
@@ -743,37 +804,25 @@
             this.cb_SNAuto.Text = "自动";
             this.cb_SNAuto.UseVisualStyleBackColor = true;
             // 
-            // label21
+            // groupBox11
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(54, 32);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(53, 12);
-            this.label21.TabIndex = 1;
-            this.label21.Text = "SN首字符";
+            this.groupBox11.Controls.Add(this.cb_FixPort);
+            this.groupBox11.Controls.Add(this.label23);
+            this.groupBox11.Controls.Add(this.cb_FixAuto);
+            this.groupBox11.Location = new System.Drawing.Point(313, 244);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(202, 63);
+            this.groupBox11.TabIndex = 9;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "屏蔽箱自动测试设置";
             // 
-            // tb_SNHear
+            // cb_FixPort
             // 
-            this.tb_SNHear.Location = new System.Drawing.Point(110, 28);
-            this.tb_SNHear.Name = "tb_SNHear";
-            this.tb_SNHear.Size = new System.Drawing.Size(74, 21);
-            this.tb_SNHear.TabIndex = 2;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(191, 33);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(29, 12);
-            this.label22.TabIndex = 1;
-            this.label22.Text = "线体";
-            // 
-            // tb_Line
-            // 
-            this.tb_Line.Location = new System.Drawing.Point(225, 29);
-            this.tb_Line.Name = "tb_Line";
-            this.tb_Line.Size = new System.Drawing.Size(62, 21);
-            this.tb_Line.TabIndex = 2;
+            this.cb_FixPort.FormattingEnabled = true;
+            this.cb_FixPort.Location = new System.Drawing.Point(131, 28);
+            this.cb_FixPort.Name = "cb_FixPort";
+            this.cb_FixPort.Size = new System.Drawing.Size(60, 20);
+            this.cb_FixPort.TabIndex = 1;
             // 
             // label23
             // 
@@ -783,14 +832,6 @@
             this.label23.Size = new System.Drawing.Size(65, 12);
             this.label23.TabIndex = 0;
             this.label23.Text = "屏蔽箱串口";
-            // 
-            // cb_FixPort
-            // 
-            this.cb_FixPort.FormattingEnabled = true;
-            this.cb_FixPort.Location = new System.Drawing.Point(131, 28);
-            this.cb_FixPort.Name = "cb_FixPort";
-            this.cb_FixPort.Size = new System.Drawing.Size(60, 20);
-            this.cb_FixPort.TabIndex = 1;
             // 
             // cb_FixAuto
             // 
@@ -802,12 +843,80 @@
             this.cb_FixAuto.Text = "自动";
             this.cb_FixAuto.UseVisualStyleBackColor = true;
             // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.bt_Clear);
+            this.groupBox12.Controls.Add(this.tb_PlugNumber);
+            this.groupBox12.Controls.Add(this.label26);
+            this.groupBox12.Controls.Add(this.cb_PlugEnable);
+            this.groupBox12.Controls.Add(this.tb_MaxSet);
+            this.groupBox12.Controls.Add(this.label25);
+            this.groupBox12.Location = new System.Drawing.Point(8, 314);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(507, 56);
+            this.groupBox12.TabIndex = 10;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "插拔次数设置";
+            // 
+            // cb_PlugEnable
+            // 
+            this.cb_PlugEnable.AutoSize = true;
+            this.cb_PlugEnable.Location = new System.Drawing.Point(8, 24);
+            this.cb_PlugEnable.Name = "cb_PlugEnable";
+            this.cb_PlugEnable.Size = new System.Drawing.Size(72, 16);
+            this.cb_PlugEnable.TabIndex = 0;
+            this.cb_PlugEnable.Text = "是否启用";
+            this.cb_PlugEnable.UseVisualStyleBackColor = true;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(88, 26);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(77, 12);
+            this.label25.TabIndex = 1;
+            this.label25.Text = "最大次数设置";
+            // 
+            // tb_MaxSet
+            // 
+            this.tb_MaxSet.Location = new System.Drawing.Point(169, 22);
+            this.tb_MaxSet.Name = "tb_MaxSet";
+            this.tb_MaxSet.Size = new System.Drawing.Size(74, 21);
+            this.tb_MaxSet.TabIndex = 2;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(253, 27);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(65, 12);
+            this.label26.TabIndex = 1;
+            this.label26.Text = "已使用次数";
+            // 
+            // tb_PlugNumber
+            // 
+            this.tb_PlugNumber.Location = new System.Drawing.Point(322, 23);
+            this.tb_PlugNumber.Name = "tb_PlugNumber";
+            this.tb_PlugNumber.Size = new System.Drawing.Size(62, 21);
+            this.tb_PlugNumber.TabIndex = 2;
+            // 
+            // bt_Clear
+            // 
+            this.bt_Clear.Location = new System.Drawing.Point(421, 24);
+            this.bt_Clear.Name = "bt_Clear";
+            this.bt_Clear.Size = new System.Drawing.Size(75, 23);
+            this.bt_Clear.TabIndex = 3;
+            this.bt_Clear.Text = "清除次数";
+            this.bt_Clear.UseVisualStyleBackColor = true;
+            this.bt_Clear.Click += new System.EventHandler(this.bt_Clear_Click);
+            // 
             // ConfigSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(523, 576);
+            this.ClientSize = new System.Drawing.Size(523, 672);
+            this.Controls.Add(this.groupBox12);
             this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox9);
@@ -848,6 +957,8 @@
             this.groupBox10.PerformLayout();
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -927,5 +1038,15 @@
         private System.Windows.Forms.ComboBox cb_FixPort;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.CheckBox cb_FixAuto;
+        private System.Windows.Forms.ComboBox cb_LEDPort;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.CheckBox cb_LEDEnable;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.Button bt_Clear;
+        private System.Windows.Forms.TextBox tb_PlugNumber;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.CheckBox cb_PlugEnable;
+        private System.Windows.Forms.TextBox tb_MaxSet;
+        private System.Windows.Forms.Label label25;
     }
 }

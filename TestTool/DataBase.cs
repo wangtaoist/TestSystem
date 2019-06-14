@@ -181,6 +181,13 @@ namespace TestTool
 
                 list.AutoFixture = bool.Parse(dt.Rows[37].ItemArray[1].ToString());
                 list.FixturePort = dt.Rows[38].ItemArray[1].ToString();
+
+                list.LEDEnable = bool.Parse(dt.Rows[39].ItemArray[1].ToString());
+                list.LEDPort = dt.Rows[40].ItemArray[1].ToString();
+
+                list.PlugEnable = bool.Parse(dt.Rows[41].ItemArray[1].ToString());
+                list.MaxSet = dt.Rows[42].ItemArray[1].ToString();
+                list.PlugNumber = dt.Rows[43].ItemArray[1].ToString();
             }
             catch (Exception)
             {
@@ -486,6 +493,70 @@ namespace TestTool
             radio.Total = 0;
             radio.PassRadio = 0;
             UpdataRadio(radio);
+        }
+
+        public void ClsPlug()
+        {
+            OleDbCommand cmd = new OleDbCommand();
+            try
+            {
+                cmd.Connection = ConnectDB();
+                string comm = string.Format("update Application_Config set data='{0}' " +
+                    "where parameter='{1}'", 0, "PlugNumber");
+                cmd.CommandText = comm;
+                cmd.CommandTimeout = 20;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            ClosedConnect();
+        }
+
+        public int GetPlugNumber()
+        {
+            int number = 0;
+            DataTable dt = new DataTable();
+            OleDbCommand cmd = new OleDbCommand();
+            try
+            {
+                cmd.Connection = ConnectDB();
+                cmd.CommandText = "select data from Application_Config where " +
+                    "parameter='PlugNumber'";
+                cmd.CommandTimeout = 20;
+                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                da.Fill(dt);
+
+                number = int.Parse(dt.Rows[0].ItemArray[0].ToString());
+               
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            ClosedConnect();
+            return number;
+        }
+
+        public void UpdataPlugNumber(int number)
+        {
+            OleDbCommand cmd = new OleDbCommand();
+            try
+            {
+                cmd.Connection = ConnectDB();
+                //cmd.CommandText = string.Format("insert into Test_Message values('{0}','{1}','{2}')"
+                //    , radio.Total, radio.Pass, radio.PassRadio);
+                string command = string.Format("update Application_Config set data='{0}' " +
+                    "where parameter='PlugNumber'", number);
+                cmd.CommandText = command;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

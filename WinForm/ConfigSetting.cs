@@ -82,6 +82,13 @@ namespace WinForm
 
             cb_FixAuto.Checked = configData.AutoFixture;
             cb_FixPort.SelectedItem = configData.FixturePort;
+
+            cb_LEDPort.SelectedItem = configData.LEDPort;
+            cb_LEDEnable.Checked = configData.LEDEnable;
+
+            cb_PlugEnable.Checked = configData.PlugEnable;
+            tb_MaxSet.Text = configData.MaxSet;
+            tb_PlugNumber.Text = configData.PlugNumber;
         }
 
         public void GetInstPort()
@@ -89,12 +96,19 @@ namespace WinForm
             List<string> list = Instrument.GetLocalName();
 
             //cb_GPIB.DataSource = list;
-            cb_Serial.DataSource = SerialPort.GetPortNames();
+            string[] ports = SerialPort.GetPortNames();
+            
             for (int i = 0; i < list.Count; i++)
             {
                 cb_GPIB.Items.Add(list[i]);
                 cb_Power.Items.Add(list[i]);
                 cb_Multimeter.Items.Add(list[i]);
+            }
+            for (int i = 0; i < ports.Length; i++)
+            {
+                cb_LEDPort.Items.Add(ports[i]);
+                cb_Serial.Items.Add(ports[i]);
+                cb_FixPort.Items.Add(ports[i]);
             }
             //cb_Power.DataSource = list;
         }
@@ -141,6 +155,11 @@ namespace WinForm
             dic.Add("SNLine", tb_Line.Text.Trim());
             dic.Add("FixAuto", cb_FixAuto.Checked);
             dic.Add("FixPort", cb_FixPort.SelectedItem);
+            dic.Add("LEDEnable", cb_LEDEnable.Checked);
+            dic.Add("LEDPort", cb_LEDPort.SelectedItem);
+            dic.Add("PlugEnable", cb_PlugEnable.Checked);
+            dic.Add("MaxSet", tb_MaxSet.Text.Trim());
+            dic.Add("PlugNumber", tb_PlugNumber.Text.Trim());
             dataBase.UpdateConfigData(dic);
             this.DialogResult = System.Windows.Forms.DialogResult.Yes;
         }
@@ -163,6 +182,12 @@ namespace WinForm
                 tb_Path.Text = openFileDialog1.FileName.Trim();
             }
 
+        }
+
+        private void bt_Clear_Click(object sender, EventArgs e)
+        {
+            dataBase.ClsPlug();
+            tb_PlugNumber.Text = dataBase.GetPlugNumber().ToString();
         }
     }
 }

@@ -28,9 +28,11 @@ namespace WinForm
         private bool queueFlag, testFlag,focusFlag;
         private Stopwatch stopwatch;
         private ConfigData config;
+        private SerialPort FixturePort;
         private const int WM_DEVICE_CHANGE = 0x219;
         private const int DBT_DEVICEARRIVAL = 0x8000;
         private const int DBT_DEVICE_REMOVE_COMPLETE = 0x8004;
+        private System.Windows.Forms.Timer time;
 
         public Winform()
         {
@@ -65,9 +67,20 @@ namespace WinForm
             ThreadPool.QueueUserWorkItem(new WaitCallback(testLogic.InitTestPort));
             ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
 
-            int i = string.Compare("02", "0a");
-        }    
-
+            if(config.AutoFixture)
+            {
+                FixturePort = new SerialPort();
+                FixturePort.BaudRate = 9600;
+                FixturePort.PortName = config.FixturePort;
+                FixturePort.DataReceived += FixturePort_DataReceived;
+                if(FixturePort.IsOpen)
+                {
+                    FixturePort.Close();
+                }
+                FixturePort.Open();
+            }
+        }
+  
         private void Winform_Resize(object sender, EventArgs e)
         {
             double xRate = this.Width / widthX;
@@ -181,6 +194,7 @@ namespace WinForm
             }
             catch (Exception ex)
             {
+                OpenFixture();
                 TestQueue.Enqueue(ex.Message);
                 label_TestResult.Text = "Fail";
                 label_TestResult.BackColor = Color.Red;
@@ -200,6 +214,7 @@ namespace WinForm
                     focusFlag = true;
                     ThreadPool.QueueUserWorkItem(new WaitCallback(FocusTextBox));
                 }
+              
             }
         }
 
@@ -232,6 +247,8 @@ namespace WinForm
             {
                 if (data.Check)
                 {
+                    OpenFixture();
+                    PlugManagement();
                     tb_SN.Enabled = true;
                     btTest.Enabled = true;
                     dgv_Data.Rows[index].DefaultCellStyle.BackColor = Color.Red;
@@ -276,14 +293,22 @@ namespace WinForm
 
             if (TestItmes.Where(s => s.Result == "Pass").Count() == TestItmes.Count)
             {
+                OpenFixture();
+                PlugManagement();
                 tb_SN.Enabled = true;
                 btTest.Enabled = true;
-                testFlag = false;
-                stopwatch.Stop();
-                label_TestResult.Text = "Pass";
-                label_TestResult.BackColor = Color.SpringGreen;
-                testLogic.UpdataTestCount(true);
+                
                
+                if (TestItmes.Where(s => s.TestItem.Contains("BES_ClearPair"))
+                    .Count() == 0)
+                {
+                    testFlag = false;
+                    stopwatch.Stop();
+                    label_TestResult.Text = "Pass";
+                    label_TestResult.BackColor = Color.SpringGreen;
+                   
+                }
+                testLogic.UpdataTestCount(true);
                 //Thread.Sleep(1000);
                 ShowTestRadio();
                 tb_SN.Text = "";
@@ -310,7 +335,9 @@ namespace WinForm
                 }
             }
             else if (TestItmes.Where(s => s.Result != "").Count() == TestItmes.Count)
-            {              
+            {
+                OpenFixture();
+                PlugManagement();
                 btTest.Enabled = true;
                 tb_SN.Enabled = true;
                 tb_SN.Text = "";
@@ -481,6 +508,10 @@ namespace WinForm
             login = new frmSettingLogin();
             focusFlag = false;
             queueFlag = false;
+            if(config.AutoFixture == true)
+            {
+                FixturePort.Close();
+            }
             var dialong = login.ShowDialog(this);
             if (dialong == System.Windows.Forms.DialogResult.OK)
             {
@@ -500,6 +531,10 @@ namespace WinForm
         {
             login = new frmSettingLogin();
             focusFlag = false;
+            if (config.AutoFixture == true)
+            {
+                FixturePort.Close();
+            }
             var dialong = login.ShowDialog(this);
             if (dialong == System.Windows.Forms.DialogResult.OK)
             {
@@ -577,8 +612,77 @@ namespace WinForm
             else if (m.WParam.ToInt32() == DBT_DEVICE_REMOVE_COMPLETE)
             {
                 TestQueue.Enqueue("拔出设备");
+                //lb_Message.Items.Add("拔出设备");
+                if (TestItmes.Where(s => s.TestItem.Contains("ClearPair")).Count() >= 1
+                    && TestItmes.Where(s => s.Result == "Pass").Count() 
+                    == TestItmes.Count)
+                {
+                    stopwatch.Stop();
+                    //Thread.Sleep(5000);
+                    time = new System.Windows.Forms.Timer();
+                    time.Interval = 1000;
+                    time.Tick += Time_Tick;
+                    time.Start();
+                   
+                    testFlag = false;
+                }
             }
             base.WndProc(ref m);
+        }
+
+        private void Time_Tick(object sender, EventArgs e)
+        {
+            label_TestResult.Text = "Pass";
+            label_TestResult.BackColor = Color.SpringGreen;
+            time.Stop();
+        }
+
+        private void FixturePort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if(FixturePort.ReadByte() > 0)
+            {
+                Thread.Sleep(1000);
+                string cmd = FixturePort.ReadExisting();
+                TestQueue.Enqueue("屏蔽箱返回值：" + cmd);
+                if ((cmd.Contains("READY") || cmd.Contains("EADY")) 
+                    || (cmd.Contains("ADY") || cmd.Contains("AD")))
+                {
+                    focusFlag = false;
+                    btTest_Click(null, null);
+                }
+                else if(cmd.Contains("N"))
+                {
+                    TestQueue.Enqueue("屏蔽箱打开成功");
+                }
+                FixturePort.DiscardInBuffer();
+                FixturePort.DiscardOutBuffer();
+            }
+        }
+
+        private void OpenFixture()
+        {
+            if(config.AutoFixture)
+            {
+                FixturePort.WriteLine("OPEN" + "\r");
+            }
+        }
+
+        private void PlugManagement()
+        {
+            if(config.PlugEnable)
+            {
+                int MaxNum = int.Parse(config.MaxSet);
+                int PlugNumber = testLogic.GetPlugNumber() + 1;
+                if(PlugNumber >= MaxNum)
+                {
+                    MessageBox.Show("插座已达到最大使用次数，请进行更换", "Message"
+                        , MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    testLogic.SetPlugNumber(PlugNumber);
+                }
+            }
         }
     }
 }

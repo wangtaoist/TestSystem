@@ -695,7 +695,7 @@ namespace TestDAL
         {
             try
             {
-                byte[] bytes = { 0x04, 0xff, 0x0b, 0x00, 0x00 };
+                byte[] bytes = { 0x04, 0xff, 0x0b, 0x01};
                 byte[] values = Serial.VisaQuery(bytes);
 
                 if (values[2] == 0x00 && values[3] == 0x00)
@@ -782,6 +782,30 @@ namespace TestDAL
                         Serial.ClosedPort();
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_ShippingMode(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x1a, 0x01 };
+                byte[] values = Serial.VisaQuery(bytes);
+
+
+                data.Result = "Pass";
+                data.Value = "Pass";
             }
             catch (Exception ex)
             {
@@ -1099,6 +1123,99 @@ namespace TestDAL
                             hALL.Close();
                         }
                     });
+                        thread.Start();
+                        hALL.ShowDialog();
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                        if (data.Check)
+                        {
+                            Serial.ClosedPort();
+                        }
+                    }
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                    if (data.Check)
+                    {
+                        Serial.ClosedPort();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_PowerKeyTest(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x10, 0x01, 0x00, 0x03 };
+                byte[] values = new byte[0];
+                List<byte> status = new List<byte>();
+                //for (int i = 0; i < 3; i++)
+                //{
+                values = Serial.VisaQuery(bytes);
+                //Thread.Sleep(100);
+                //status.Add(values[5]);
+                //}                        
+                if (values[3] == 0x02)
+                {
+                    HALLTest hALL = new HALLTest();
+                    //hALL.ShowDialog();
+                    if (values[5] == 0x01)
+                    {
+                        Thread thread = new Thread(() =>
+                        {
+                            try
+                            {
+                                for (int i = 0; i < 10; i++)
+                                {
+                                    values = Serial.VisaQuery(bytes);
+                                    if (values[5] == 0x00)
+                                    {
+                                        data.Value = "Pass";
+                                        data.Result = "Pass";
+                                        hALL.Close();
+                                        break;
+                                    }
+                                    if (values[5] != 0x00 && i == 9)
+                                    {
+                                        data.Value = "Fail";
+                                        data.Result = "Fail";
+                                        if (data.Check)
+                                        {
+                                            Serial.ClosedPort();
+                                        }
+                                        hALL.Close();
+                                    }
+                                    Thread.Sleep(500);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                data.Value = "Fail";
+                                data.Result = "Fail";
+                                if (data.Check)
+                                {
+                                    Serial.ClosedPort();
+                                }
+                                hALL.Close();
+                            }
+                        });
                         thread.Start();
                         hALL.ShowDialog();
                     }

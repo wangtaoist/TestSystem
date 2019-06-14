@@ -217,26 +217,25 @@ namespace WinForm
                         lst_Test_selectFunction.Select();
                     }
                 }
-                else if (tabControl1.SelectedIndex == 1)
+            }
+            else if (tabControl1.SelectedIndex == 1)
+            {
+                var collect = lv_FailItems.SelectedIndices;
+                if (collect.Count > 0)
                 {
-                    collect = lv_FailItems.SelectedIndices;
-                    if (collect.Count > 0)
+                    int i = collect[0];
+                    if (i != 0)
                     {
-                        int i = collect[0];
-                        if (i != 0)
-                        {
-                            TestData data = FailItems[i];
-                            FailItems.RemoveAt(i);
-                            lv_FailItems.Items.RemoveAt(i);
-                            FailItems.Insert(i - 1, data);
-                            lv_FailItems.Items.Insert(i - 1, data.TestItemName);
-                            lv_FailItems.Items[i - 1].Selected = true;
-                            lv_FailItems.Select();
-                        }
+                        TestData data = FailItems[i];
+                        FailItems.RemoveAt(i);
+                        lv_FailItems.Items.RemoveAt(i);
+                        FailItems.Insert(i - 1, data);
+                        lv_FailItems.Items.Insert(i - 1, data.TestItemName);
+                        lv_FailItems.Items[i - 1].Selected = true;
+                        lv_FailItems.Select();
                     }
                 }
             }
-
         }
 
         private void cmd_down_Click(object sender, EventArgs e)

@@ -14,7 +14,6 @@ namespace TestDAL
         private ConfigData config;
         private double[] SpkLevels, SpkTHD, SpkSNR, SpkCrossralk;
         private OperateBES Operate;
-        private int testNum;
 
         public AudioOperate(ConfigData config, OperateBES operate)
         {
@@ -114,31 +113,29 @@ namespace TestDAL
             try
             {
                 //Operate.BES_SetVolume(data);
-                Operate.SetVolume();
-                ATc.Sequence["Speaker"]["Level and Gain"].Run();
-                if (ATc.Sequence["Speaker"]["Level and Gain"].HasSequenceResults)
+                for (int i = 0; i < 3; i++)
                 {
-                    ISequenceResultCollection results = ATc.Sequence["Speaker"]["Level and Gain"]
-                        .SequenceResults;
-
-                   SpkLevels = results[0].GetMeterValues();
-
-                    if(SpkLevels[0] <= double.Parse(data.UppLimit) 
-                        && SpkLevels[0] >= double.Parse(data.LowLimit))
+                    Operate.SetVolume();
+                    ATc.Sequence["Speaker"]["Level and Gain"].Run();
+                    if (ATc.Sequence["Speaker"]["Level and Gain"].HasSequenceResults)
                     {
-                        data.Result = "Pass";
-                        data.Value = Math.Round(SpkLevels[0], 3).ToString();
-                        testNum = 0;
-                    }
-                    else
-                    {
-                        testNum += 1;
-                        if (testNum != 2)
+                        ISequenceResultCollection results = ATc.Sequence["Speaker"]["Level and Gain"]
+                            .SequenceResults;
+
+                        SpkLevels = results[0].GetMeterValues();
+
+                        if (SpkLevels[0] <= double.Parse(data.UppLimit)
+                            && SpkLevels[0] >= double.Parse(data.LowLimit))
                         {
-                            SpeakerLevel_Left(data);
+                            data.Result = "Pass";
+                            data.Value = Math.Round(SpkLevels[0], 3).ToString();
+                            break;
                         }
-                        data.Result = "Fail";
-                        data.Value = Math.Round(SpkLevels[0], 3).ToString();
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = Math.Round(SpkLevels[0], 3).ToString();
+                        }
                     }
                 }
             }
@@ -178,23 +175,26 @@ namespace TestDAL
         {
             try
             {
-                ATc.Sequence["Speaker"]["THD+N"].Run();
-
-                if (ATc.Sequence["Speaker"]["THD+N"].HasSequenceResults)
+                for (int i = 0; i < 3; i++)
                 {
-                    ISequenceResultCollection results = ATc.Sequence["Speaker"]["THD+N"]
-                        .SequenceResults;
-                    SpkTHD = results[2].GetMeterValues();
-                    if (SpkTHD[0] <= double.Parse(data.UppLimit)
-                         && SpkTHD[0] >= double.Parse(data.LowLimit))
+                    ATc.Sequence["Speaker"]["THD+N"].Run();
+                    if (ATc.Sequence["Speaker"]["THD+N"].HasSequenceResults)
                     {
-                        data.Result = "Pass";
-                        data.Value = Math.Round(SpkTHD[0], 3).ToString();
-                    }
-                    else
-                    {
-                        data.Result = "Fail";
-                        data.Value = Math.Round(SpkTHD[0], 3).ToString();
+                        ISequenceResultCollection results = ATc.Sequence["Speaker"]["THD+N"]
+                            .SequenceResults;
+                        SpkTHD = results[2].GetMeterValues();
+                        if (SpkTHD[0] <= double.Parse(data.UppLimit)
+                             && SpkTHD[0] >= double.Parse(data.LowLimit))
+                        {
+                            data.Result = "Pass";
+                            data.Value = Math.Round(SpkTHD[0], 3).ToString();
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = Math.Round(SpkTHD[0], 3).ToString();
+                        }
                     }
                 }
             }
@@ -234,23 +234,27 @@ namespace TestDAL
         {
             try
             {
-                ATc.Sequence["Speaker"]["Signal to Noise Ratio"].Run();
-
-                if (ATc.Sequence["Speaker"]["Signal to Noise Ratio"].HasSequenceResults)
+                for (int i = 0; i < 3; i++)
                 {
-                    ISequenceResultCollection results = ATc.Sequence["Speaker"]["Signal to Noise Ratio"]
-                        .SequenceResults;
-                    SpkSNR = results[0].GetMeterValues();
-                    if (SpkSNR[0] <= double.Parse(data.UppLimit)
-                         && SpkSNR[0] >= double.Parse(data.LowLimit))
+                    ATc.Sequence["Speaker"]["Signal to Noise Ratio"].Run();
+
+                    if (ATc.Sequence["Speaker"]["Signal to Noise Ratio"].HasSequenceResults)
                     {
-                        data.Result = "Pass";
-                        data.Value = Math.Round(SpkSNR[0], 3).ToString();
-                    }
-                    else
-                    {
-                        data.Result = "Fail";
-                        data.Value = Math.Round(SpkSNR[0], 3).ToString();
+                        ISequenceResultCollection results = ATc.Sequence["Speaker"]["Signal to Noise Ratio"]
+                            .SequenceResults;
+                        SpkSNR = results[0].GetMeterValues();
+                        if (SpkSNR[0] <= double.Parse(data.UppLimit)
+                             && SpkSNR[0] >= double.Parse(data.LowLimit))
+                        {
+                            data.Result = "Pass";
+                            data.Value = Math.Round(SpkSNR[0], 3).ToString();
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = Math.Round(SpkSNR[0], 3).ToString();
+                        }
                     }
                 }
             }
@@ -290,23 +294,27 @@ namespace TestDAL
         {
             try
             {
-                ATc.Sequence["Speaker"]["Crosstalk, One Channel Undriven"].Run();
-
-                if (ATc.Sequence["Speaker"]["Crosstalk, One Channel Undriven"].HasSequenceResults)
+                for (int i = 0; i < 3; i++)
                 {
-                    ISequenceResultCollection results = ATc.Sequence["Speaker"]
-                        ["Crosstalk, One Channel Undriven"] .SequenceResults;
-                    SpkCrossralk = results[0].GetMeterValues();
-                    if (SpkCrossralk[0] <= double.Parse(data.UppLimit)
-                         && SpkCrossralk[0] >= double.Parse(data.LowLimit))
+                    ATc.Sequence["Speaker"]["Crosstalk, One Channel Undriven"].Run();
+
+                    if (ATc.Sequence["Speaker"]["Crosstalk, One Channel Undriven"].HasSequenceResults)
                     {
-                        data.Result = "Pass";
-                        data.Value = Math.Round(SpkCrossralk[0], 3).ToString();
-                    }
-                    else
-                    {
-                        data.Result = "Fail";
-                        data.Value = Math.Round(SpkCrossralk[0], 3).ToString();
+                        ISequenceResultCollection results = ATc.Sequence["Speaker"]
+                            ["Crosstalk, One Channel Undriven"].SequenceResults;
+                        SpkCrossralk = results[0].GetMeterValues();
+                        if (SpkCrossralk[0] <= double.Parse(data.UppLimit)
+                             && SpkCrossralk[0] >= double.Parse(data.LowLimit))
+                        {
+                            data.Result = "Pass";
+                            data.Value = Math.Round(SpkCrossralk[0], 3).ToString();
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = Math.Round(SpkCrossralk[0], 3).ToString();
+                        }
                     }
                 }
             }
@@ -347,25 +355,28 @@ namespace TestDAL
         {
             try
             {
-                ATc.Sequence["Micphone"]["Level and Gain"].Run();
-                if (ATc.Sequence["Micphone"]["Level and Gain"].HasSequenceResults)
+                for (int i = 0; i < 3; i++)
                 {
-                    ISequenceResultCollection results = ATc.Sequence["Micphone"]
-                        ["Level and Gain"]
-                        .SequenceResults;
-
-                    double[] MicLevels = results[0].GetMeterValues();
-
-                    if (MicLevels[0] <= double.Parse(data.UppLimit)
-                        && MicLevels[0] >= double.Parse(data.LowLimit))
+                    ATc.Sequence["Micphone"]["Level and Gain"].Run();
+                    if (ATc.Sequence["Micphone"]["Level and Gain"].HasSequenceResults)
                     {
-                        data.Result = "Pass";
-                        data.Value = Math.Round(MicLevels[0], 3).ToString();
-                    }
-                    else
-                    {
-                        data.Result = "Fail";
-                        data.Value = Math.Round(MicLevels[0], 3).ToString();
+                        ISequenceResultCollection results = ATc.Sequence["Micphone"]
+                            ["Level and Gain"].SequenceResults;
+
+                        double[] MicLevels = results[0].GetMeterValues();
+
+                        if (MicLevels[0] <= double.Parse(data.UppLimit)
+                            && MicLevels[0] >= double.Parse(data.LowLimit))
+                        {
+                            data.Result = "Pass";
+                            data.Value = Math.Round(MicLevels[0], 3).ToString();
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = Math.Round(MicLevels[0], 3).ToString();
+                        }
                     }
                 }
             }
@@ -381,23 +392,27 @@ namespace TestDAL
         {
             try
             {
-                ATc.Sequence["Micphone"]["THD+N"].Run();
-
-                if (ATc.Sequence["Micphone"]["THD+N"].HasSequenceResults)
+                for (int i = 0; i < 3; i++)
                 {
-                    ISequenceResultCollection results = ATc.Sequence["Micphone"]["THD+N"]
-                        .SequenceResults;
-                  double[]  MicTHD = results[2].GetMeterValues();
-                    if (MicTHD[0] <= double.Parse(data.UppLimit)
-                         && MicTHD[0] >= double.Parse(data.LowLimit))
+                    ATc.Sequence["Micphone"]["THD+N"].Run();
+
+                    if (ATc.Sequence["Micphone"]["THD+N"].HasSequenceResults)
                     {
-                        data.Result = "Pass";
-                        data.Value = Math.Round(MicTHD[0], 3).ToString();
-                    }
-                    else
-                    {
-                        data.Result = "Fail";
-                        data.Value = Math.Round(MicTHD[0], 3).ToString();
+                        ISequenceResultCollection results = ATc.Sequence["Micphone"]["THD+N"]
+                            .SequenceResults;
+                        double[] MicTHD = results[2].GetMeterValues();
+                        if (MicTHD[0] <= double.Parse(data.UppLimit)
+                             && MicTHD[0] >= double.Parse(data.LowLimit))
+                        {
+                            data.Result = "Pass";
+                            data.Value = Math.Round(MicTHD[0], 3).ToString();
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = Math.Round(MicTHD[0], 3).ToString();
+                        }
                     }
                 }
             }
@@ -413,29 +428,27 @@ namespace TestDAL
         {
             try
             {
-                ATc.Sequence["Micphone"]["Signal to Noise Ratio"].Run();
-
-                if (ATc.Sequence["Micphone"]["Signal to Noise Ratio"].HasSequenceResults)
+                for (int i = 0; i < 3; i++)
                 {
-                    ISequenceResultCollection results = ATc.Sequence["Micphone"]["Signal to Noise Ratio"]
-                        .SequenceResults;
-                    double[] MicSNR = results[0].GetMeterValues();
-                    if (MicSNR[0] <= double.Parse(data.UppLimit)
-                         && MicSNR[0] >= double.Parse(data.LowLimit))
+                    ATc.Sequence["Micphone"]["Signal to Noise Ratio"].Run();
+
+                    if (ATc.Sequence["Micphone"]["Signal to Noise Ratio"].HasSequenceResults)
                     {
-                        data.Result = "Pass";
-                        data.Value = Math.Round(MicSNR[0], 3).ToString();
-                        testNum = 0;
-                    }
-                    else
-                    {
-                        testNum += 1;
-                        if(testNum != 2)
+                        ISequenceResultCollection results = ATc.Sequence["Micphone"]["Signal to Noise Ratio"]
+                            .SequenceResults;
+                        double[] MicSNR = results[0].GetMeterValues();
+                        if (MicSNR[0] <= double.Parse(data.UppLimit)
+                             && MicSNR[0] >= double.Parse(data.LowLimit))
                         {
-                            MicphoneSNR(data);
+                            data.Result = "Pass";
+                            data.Value = Math.Round(MicSNR[0], 3).ToString();
+                            break;
                         }
-                        data.Result = "Fail";
-                        data.Value = Math.Round(MicSNR[0], 3).ToString();
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = Math.Round(MicSNR[0], 3).ToString();
+                        }
                     }
                 }
             }

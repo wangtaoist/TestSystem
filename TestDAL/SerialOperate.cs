@@ -82,7 +82,7 @@ namespace TestDAL
             try
             {
                 Thread.Sleep(100);
-                //Session.Write(cmd);
+                Session.Write(cmd, 0, cmd.Length);
             }
             catch { }
         }
@@ -105,8 +105,8 @@ namespace TestDAL
                 }
                 else
                 {
-                    //Session.DiscardInBuffer();
-                    //Session.DiscardOutBuffer();
+                    Session.DiscardInBuffer();
+                    Session.DiscardOutBuffer();
                     Session.Write(data, 0, data.Length);
                     Thread.Sleep(200);
                     num = Session.ReadByte();

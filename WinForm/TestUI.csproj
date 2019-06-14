@@ -16,6 +16,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
@@ -98,6 +100,12 @@
     <Compile Include="ItemConfig.Designer.cs">
       <DependentUpon>ItemConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlugSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlugSetup.Designer.cs">
+      <DependentUpon>PlugSetup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Winform.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +126,9 @@
     <EmbeddedResource Include="ItemConfig.resx">
       <DependentUpon>ItemConfig.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PlugSetup.resx">
+      <DependentUpon>PlugSetup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -130,6 +141,8 @@
     <EmbeddedResource Include="Winform.resx">
       <DependentUpon>Winform.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -173,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ichse.ico" />
+    <Content Include="License-LGPL.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

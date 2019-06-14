@@ -64,6 +64,11 @@ namespace TestModel
         public string SNLine;
         public bool AutoFixture;
         public string FixturePort;
+        public bool LEDEnable;
+        public string LEDPort;
+        public bool PlugEnable;
+        public string MaxSet;
+        public string PlugNumber;
     }
 
     public class TestRatio

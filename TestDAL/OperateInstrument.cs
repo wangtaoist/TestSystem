@@ -48,7 +48,7 @@ namespace TestDAL
             instrument.VisaWrite("OPMD SCRIPT");
             instrument.VisaWrite("SCPTSEL 3");
             instrument.VisaWrite("SCRIPTMODE 3,STANDARD");
-
+            instrument.VisaWrite("TXPWR 3,-40");
             //SCPTCFG 3,OP,ON;MI;IC;CD;SS
             //PC;MS;MP
             //ALLTSTS
@@ -69,7 +69,6 @@ namespace TestDAL
             //TXPWR 3,-10.0
             if (data.OP)
             {
-                instrument.VisaWrite("TXPWR 3,-40");
                 // instrument.VisaWrite(string.Format("OPCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
                 //instrument.VisaWrite(string.Format("OPCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
                 //instrument.VisaWrite(string.Format("OPCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
@@ -138,86 +137,86 @@ namespace TestDAL
             //SCPTCFG 3,OP,ON;MI;IC;CD;SS
             //PC;MS;MP
             //ALLTSTS
-            instrument.VisaWrite("SCPTCFG 3,ALLTSTS,OFF");
-            if (data.OP)
-                instrument.VisaWrite("SCPTCFG 3,OP,ON");
-            if (data.MI)
-                instrument.VisaWrite("SCPTCFG 3,MI,ON");
-            if (data.IC)
-                instrument.VisaWrite("SCPTCFG 3,IC,ON");
-            if (data.CD)
-                instrument.VisaWrite("SCPTCFG 3,CD,ON");
-            if (data.SS)
-                instrument.VisaWrite("SCPTCFG 3,SS,ON");
-            //instrument.VisaWrite("SCPTCFG 3,PC,OFF");
-            //instrument.VisaWrite("SCPTCFG 3,MS,OFF");
-            //instrument.VisaWrite("SCPTCFG 3,MP,OFF");
-            //TXPWR 3,-10.0
-            if (data.OP)
-            {
-                //HOPPING
-                instrument.VisaWrite("TXPWR 3,-40");
-                // instrument.VisaWrite(string.Format("OPCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
-                //instrument.VisaWrite(string.Format("OPCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
-                //instrument.VisaWrite(string.Format("OPCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
-                instrument.VisaWrite("OPCFG 3,PKTTYPE, DH1");
-                instrument.VisaWrite("OPCFG 3,NUMPKTS,10");
-                instrument.VisaWrite("OPCFG 3,HOPPING,HOPON");
-            }
+            //instrument.VisaWrite("SCPTCFG 3,ALLTSTS,OFF");
+            //if (data.OP)
+            //    instrument.VisaWrite("SCPTCFG 3,OP,ON");
+            //if (data.MI)
+            //    instrument.VisaWrite("SCPTCFG 3,MI,ON");
+            //if (data.IC)
+            //    instrument.VisaWrite("SCPTCFG 3,IC,ON");
+            //if (data.CD)
+            //    instrument.VisaWrite("SCPTCFG 3,CD,ON");
+            //if (data.SS)
+            //    instrument.VisaWrite("SCPTCFG 3,SS,ON");
+            ////instrument.VisaWrite("SCPTCFG 3,PC,OFF");
+            ////instrument.VisaWrite("SCPTCFG 3,MS,OFF");
+            ////instrument.VisaWrite("SCPTCFG 3,MP,OFF");
+            ////TXPWR 3,-10.0
+            //if (data.OP)
+            //{
+            //    //HOPPING
+            //    instrument.VisaWrite("TXPWR 3,-40");
+            //    // instrument.VisaWrite(string.Format("OPCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
+            //    //instrument.VisaWrite(string.Format("OPCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
+            //    //instrument.VisaWrite(string.Format("OPCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
+            //    instrument.VisaWrite("OPCFG 3,PKTTYPE, DH1");
+            //    instrument.VisaWrite("OPCFG 3,NUMPKTS,10");
+            //    instrument.VisaWrite("OPCFG 3,HOPPING,HOPON");
+            //}
 
-            if (data.IC)
-            {
-                //instrument.VisaWrite(string.Format("ICCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
-                //instrument.VisaWrite(string.Format("ICCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
-                //instrument.VisaWrite(string.Format("ICCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
-                //instrument.VisaWrite("ICCFG 3,HOPMODE, ANY");
-                instrument.VisaWrite("ICCFG 3,NUMPKTS,10");
-                //instrument.VisaWrite("ICCFG 3,HOPPING,HOPOFF");
-            }
-            if (data.CD)
-            {
-                //instrument.VisaWrite(string.Format("CDCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
-                //instrument.VisaWrite(string.Format("CDCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
-                //instrument.VisaWrite(string.Format("CDCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
-                instrument.VisaWrite("CDCFG 3,PKTSIZE,ONESLOT,TRUE");
-                instrument.VisaWrite("CDCFG 3,PKTSIZE,THREESLOT,FALSE");
-                instrument.VisaWrite("CDCFG 3,PKTSIZE,FIVESLOT,FALSE");
-                instrument.VisaWrite("CDCFG 3,NUMPKTS,10");
-            }
-            if (data.MI)
-            {
-                //instrument.VisaWrite(string.Format("MICFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
-                //instrument.VisaWrite(string.Format("MICFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
-                //instrument.VisaWrite(string.Format("MICFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
-                instrument.VisaWrite("MICFG 3,NUMPKTS,10");
-            }
-            if (data.SS)
-            {
-                //instrument.VisaWrite(string.Format("SSCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
-                //instrument.VisaWrite(string.Format("SSCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
-                //instrument.VisaWrite(string.Format("SSCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
-                instrument.VisaWrite(string.Format("SSCFG 3,NUMPKTS, {0}", data.number_of_packets));
-                instrument.VisaWrite(string.Format("SSCFG 3,TXPWR, {0}", data.Sen_TX_Power));
-                //SSCFG 3,HOPPING, HOPBOTH
-                //SSCFG 3,HOPMODE, DEFINED
-                instrument.VisaWrite("SSCFG 3,HOPPING, HOPBOTH");
-                //instrument.VisaWrite("CDCFG 3,PKTSIZE,FIVESLOT,FALSE");
-            }
-            //instrument.VisaWrite(string.Format("OPCFG 3,AVGMXLIM, {0}", data.AvgPowerHi));
-            //instrument.VisaWrite(string.Format("OPCFG 3,AVGMNLIM, {0}", data.AvgPowerLow));
-            //instrument.VisaWrite(string.Format("OPCFG 3,PEAKLIM, {0}", data.PeakPower));
+            //if (data.IC)
+            //{
+            //    //instrument.VisaWrite(string.Format("ICCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
+            //    //instrument.VisaWrite(string.Format("ICCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
+            //    //instrument.VisaWrite(string.Format("ICCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
+            //    //instrument.VisaWrite("ICCFG 3,HOPMODE, ANY");
+            //    instrument.VisaWrite("ICCFG 3,NUMPKTS,10");
+            //    //instrument.VisaWrite("ICCFG 3,HOPPING,HOPOFF");
+            //}
+            //if (data.CD)
+            //{
+            //    //instrument.VisaWrite(string.Format("CDCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
+            //    //instrument.VisaWrite(string.Format("CDCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
+            //    //instrument.VisaWrite(string.Format("CDCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
+            //    instrument.VisaWrite("CDCFG 3,PKTSIZE,ONESLOT,TRUE");
+            //    instrument.VisaWrite("CDCFG 3,PKTSIZE,THREESLOT,FALSE");
+            //    instrument.VisaWrite("CDCFG 3,PKTSIZE,FIVESLOT,FALSE");
+            //    instrument.VisaWrite("CDCFG 3,NUMPKTS,10");
+            //}
+            //if (data.MI)
+            //{
+            //    //instrument.VisaWrite(string.Format("MICFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
+            //    //instrument.VisaWrite(string.Format("MICFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
+            //    //instrument.VisaWrite(string.Format("MICFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
+            //    instrument.VisaWrite("MICFG 3,NUMPKTS,10");
+            //}
+            //if (data.SS)
+            //{
+            //    //instrument.VisaWrite(string.Format("SSCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
+            //    //instrument.VisaWrite(string.Format("SSCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
+            //    //instrument.VisaWrite(string.Format("SSCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
+            //    instrument.VisaWrite(string.Format("SSCFG 3,NUMPKTS, {0}", data.number_of_packets));
+            //    instrument.VisaWrite(string.Format("SSCFG 3,TXPWR, {0}", data.Sen_TX_Power));
+            //    //SSCFG 3,HOPPING, HOPBOTH
+            //    //SSCFG 3,HOPMODE, DEFINED
+            //    instrument.VisaWrite("SSCFG 3,HOPPING, HOPBOTH");
+            //    //instrument.VisaWrite("CDCFG 3,PKTSIZE,FIVESLOT,FALSE");
+            //}
+            ////instrument.VisaWrite(string.Format("OPCFG 3,AVGMXLIM, {0}", data.AvgPowerHi));
+            ////instrument.VisaWrite(string.Format("OPCFG 3,AVGMNLIM, {0}", data.AvgPowerLow));
+            ////instrument.VisaWrite(string.Format("OPCFG 3,PEAKLIM, {0}", data.PeakPower));
 
-            instrument.VisaWrite(string.Format("PATHOFF 3,TABLE"));
-            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,0, {0}", data.Low_Loss));
-            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,39, {0}", data.Mod_Loss));
-            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,78, {0}", data.Hi_Loss));
+            //instrument.VisaWrite(string.Format("PATHOFF 3,TABLE"));
+            //instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,0, {0}", data.Low_Loss));
+            //instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,39, {0}", data.Mod_Loss));
+            //instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,78, {0}", data.Hi_Loss));
 
         }
 
         public void InitPower()
         {
             PowerInst.Rst();
-            PowerInst.VisaWrite(string.Format("INST:COUP:OUTP:STAT NONE"));
+            
             //PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
             //    , data.Voltage1));
             //PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}"
@@ -276,7 +275,10 @@ namespace TestDAL
             try
             {
                 instrument.VisaWrite("DISCONNECT");
-                instrument.Cls();
+                InitInstr();
+                //instrument.Rst();
+                //Set8852();
+                //instrument.Cls();
                 instrument.Closed();
                 //InitInstr();
                 item.Result = "Pass";
@@ -292,12 +294,14 @@ namespace TestDAL
         }
 
         public TestData Run_Script(TestData item)
-        {          
+        {
+            instrument.VisaWrite("DISCONNECT");
             instrument.VisaWrite("SYSCFG EUTSRCE,INQUIR");
             //instrument.VisaWrite("SYSCFG INQSET,RNUM,12");
             instrument.VisaWrite(string.Format("SYSCFG INQSET,TIMEOUT,{0}", data.Inquiry_TimeOut));
             //INQUIRY   INQRSP?
             instrument.VisaWrite("INQUIRY");
+            
             //instrument.VisaWrite("CONNECT");
             string btAddress = string.Empty;
             bool page = false;
@@ -316,16 +320,20 @@ namespace TestDAL
                     page = true;
                     break;
                 }
-                //else if(ret.StartsWith("0"))
-                //{
-                //    queue.Enqueue("呼叫中......");
-                //    //instrument.VisaWrite("INQUIRY");
-                //}
+                else if (ret.StartsWith("0") && (i == 15 || i == 30))
+                {
+                    queue.Enqueue("再次呼叫中......");
+                    //INQCANCEL
+                    instrument.VisaWrite("INQCANCEL");
+                    Thread.Sleep(1000);
+                    instrument.VisaWrite("INQUIRY");
+                }
                 if (i == 49 && !(ret.StartsWith("1")))
                 {
                     item.Result = "Fail";
                     item.Value = "Fail";
                     queue.Enqueue("呼叫超时，请检查耳机");
+                    instrument.VisaWrite("INQCANCEL");
                 }
                 Thread.Sleep(200);
             }
@@ -349,11 +357,11 @@ namespace TestDAL
                         queue.Enqueue("连接成功");
                         break;
                     }
-                    //else if(conn == "0")
-                    //{
-                    //    queue.Enqueue("连接中......");
-                    //    //instrument.VisaWrite("CONNECT");
-                    //}
+                    else if (conn == "0" && (j  == 25))
+                    {
+                        queue.Enqueue("再次连接中......");
+                        instrument.VisaWrite("CONNECT");
+                    }
 
                     if (j == 49 && connStatus != true)
                     {
@@ -430,7 +438,6 @@ namespace TestDAL
                         //queue.Enqueue(val);
                         if (val == "45")
                         {
-
                             item.Result = "Pass";
                             item.Value = "Pass";
                             queue.Enqueue("Script 运行完成");
@@ -447,13 +454,13 @@ namespace TestDAL
                             queue.Enqueue("连接超时，请检查耳机");
                             break;
                         }
-                        else
-                        {
-                            item.Result = "Fail";
-                            item.Value = "Fail";
-                            queue.Enqueue("测试异常，请检查MT8852");
-                            break;
-                        }
+                        //else
+                        //{
+                        //    item.Result = "Fail";
+                        //    item.Value = "Fail";
+                        //    queue.Enqueue("测试异常，请检查MT8852");
+                        //    break;
+                        //}
                         if (index == 99 && val != "45")
                         {
                             item.Result = "Fail";
@@ -774,6 +781,31 @@ namespace TestDAL
             return item;
         }
 
+        public TestData K2300Series_ChannelOne_OverVoltage(TestData item)
+        {
+            try
+            {
+                //PowerInst.OpenVisa(data.PowerPort);
+                //InitPower();
+                PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe:AUTO ON"));
+                PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
+               , item.LowLimit));
+                PowerInst.VisaWrite(string.Format(":SOUR1:CURRent:LIMit:VALue  {0}"
+             , data.Current));
+                PowerInst.VisaWrite(":OUTPut1:STAT ON");
+                item.Result = "Pass";
+                item.Value = "Pass";
+                queue.Enqueue("通道1输出电压");
+            }
+            catch (Exception ex)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+                PowerInst.Rst();
+            }
+            return item;
+        }
+
         public TestData K2300Series_ChannelOne_ReadVoltage(TestData item)
         {
             try
@@ -795,11 +827,11 @@ namespace TestDAL
                 {
                     item.Result = "Fail";
                     item.Value = voltage.ToString();
-                    if (item.Check)
-                    {
-                        PowerInst.Rst();
-                        PowerInst.Closed();
-                    }
+                    //if (item.Check)
+                    //{
+                    //    PowerInst.Rst();
+                    //    PowerInst.Closed();
+                    //}
                 }
             }
             catch (Exception ex)
@@ -841,6 +873,8 @@ namespace TestDAL
                     Thread.Sleep(200);
                     lists.Add(double.Parse(PowerInst.VisaQuery(":MEASure1:CURRent:DC?")));
                 }
+                lists.Remove(lists.Max());
+                lists.Remove(lists.Min());
                 double current = lists.Average() * multiple;
                
                 if (current <= double.Parse(item.UppLimit)
@@ -853,11 +887,11 @@ namespace TestDAL
                 {
                     item.Result = "Fail";
                     item.Value = Math.Round(current, 3).ToString();
-                    if (item.Check)
-                    {
-                        PowerInst.Rst();
-                        PowerInst.Closed();
-                    }
+                    //if (item.Check)
+                    //{
+                    //    PowerInst.Rst();
+                    //    PowerInst.Closed();
+                    //}
                 }
             }
             catch (Exception ex)
@@ -894,11 +928,11 @@ namespace TestDAL
                 {
                     item.Result = "Fail";
                     item.Value = voltage.ToString();
-                    if (item.Check)
-                    {
-                        PowerInst.Rst();
-                        PowerInst.Closed();
-                    }
+                    //if (item.Check)
+                    //{
+                    //    PowerInst.Rst();
+                    //    PowerInst.Closed();
+                    //}
                 }
             }
             catch (Exception ex)
@@ -946,6 +980,8 @@ namespace TestDAL
                 {
                     lists.Add(double.Parse(PowerInst.VisaQuery(":MEASure2:CURRent:DC?")));
                 }
+                lists.Remove(lists.Max());
+                lists.Remove(lists.Min());
                 double current = lists.Average() * multiple;
 
                 if (current <= double.Parse(item.UppLimit)
@@ -958,11 +994,11 @@ namespace TestDAL
                 {
                     item.Result = "Fail";
                     item.Value = Math.Round(current, 3).ToString();
-                    if (item.Check)
-                    {
-                        PowerInst.Rst();
-                        PowerInst.Closed();
-                    }
+                    //if (item.Check)
+                    //{
+                    //    PowerInst.Rst();
+                    //    PowerInst.Closed();
+                    //}
                 }
             }
             catch (Exception ex)
@@ -984,6 +1020,7 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
+                PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}", 0));
                 PowerInst.VisaWrite(":OUTPut1:STAT OFF");
                 item.Result = "Pass";
                 item.Value = "Pass";
@@ -993,11 +1030,11 @@ namespace TestDAL
             {
                 item.Result = "Fail";
                 item.Value = "Fail";
-                if (item.Check)
-                {
-                    PowerInst.Rst();
-                    PowerInst.Closed();
-                }
+                //if (item.Check)
+                //{
+                //    PowerInst.Rst();
+                //    PowerInst.Closed();
+                //}
             }
             return item;
         }
@@ -1008,6 +1045,7 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
+                PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}", 0));
                 PowerInst.VisaWrite(":OUTPut2:STAT OFF");
                 item.Result = "Pass";
                 item.Value = "Pass";
@@ -1017,11 +1055,11 @@ namespace TestDAL
             {
                 item.Result = "Fail";
                 item.Value = "Fail";
-                if (item.Check)
-                {
-                    PowerInst.Rst();
-                    PowerInst.Closed();
-                }
+                //if (item.Check)
+                //{
+                //    PowerInst.Rst();
+                //    PowerInst.Closed();
+                //}
             }
             return item;
         }
@@ -1049,6 +1087,8 @@ namespace TestDAL
             try
             {
                 PowerInst.OpenVisa(data.PowerPort);
+                PowerInst.VisaWrite(string.Format("INST:COUP:OUTP:STAT NONE"));
+                
                 //InitPower();
                 item.Result = "Pass";
                 item.Value = "Pass";
@@ -1070,9 +1110,33 @@ namespace TestDAL
                 //InitPower();
                 //INST: COUP: OUTP: STAT NONE
                 //PowerInst.VisaWrite(string.Format("INST: COUP: OUTP: STAT NONE"));
-
-               PowerInst.VisaWrite(string.Format(":SOUR:VOLT1:LEVel {0}"
+                PowerInst.VisaWrite(string.Format(":SOUR:VOLT1:LEVel {0}"
                , data.Voltage1));
+                PowerInst.VisaWrite(string.Format(":SOUR:CURR1  {0} "
+             , data.Current));
+                PowerInst.VisaWrite(":OUTPut1:STAT ON");
+                item.Result = "Pass";
+                item.Value = "Pass";
+                queue.Enqueue("通道1输出电压");
+            }
+            catch (Exception ex)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+            }
+            return item;
+        }
+
+        public TestData HP66319D_ChannelOne_OverVoltage(TestData item)
+        {
+            try
+            {
+                //PowerInst.OpenVisa(data.PowerPort);
+                //InitPower();
+                //INST: COUP: OUTP: STAT NONE
+                //PowerInst.VisaWrite(string.Format("INST: COUP: OUTP: STAT NONE"));
+                PowerInst.VisaWrite(string.Format(":SOUR:VOLT1:LEVel {0}"
+               , item.LowLimit));
                 PowerInst.VisaWrite(string.Format(":SOUR:CURR1  {0} "
              , data.Current));
                 PowerInst.VisaWrite(":OUTPut1:STAT ON");
@@ -1133,10 +1197,10 @@ namespace TestDAL
                 {
                     item.Result = "Fail";
                     item.Value = voltage.ToString();
-                    if (item.Check)
-                    {
-                        PowerInst.Closed();
-                    }
+                    //if (item.Check)
+                    //{
+                    //    PowerInst.Closed();
+                    //}
                 }
             }
             catch (Exception ex)
@@ -1157,7 +1221,17 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                double current = double.Parse(PowerInst.VisaQuery("MEAS:CURRent1?"));
+                PowerInst.VisaWrite("SENS:CURR:RANG 0.02");
+                List<double> list = new List<double>();
+                for (int i = 0; i < 5; i++)
+                {
+                    double curr = double.Parse(PowerInst.VisaQuery("MEAS:CURRent1?"));
+                    Thread.Sleep(50);
+                    list.Add(curr);
+                }
+                list.Remove(list.Max());
+                list.Remove(list.Min());
+                double current = list.Average();
                 if (item.Unit.ToUpper() == "UA")
                 {
                     current *= 1000000;
@@ -1170,26 +1244,26 @@ namespace TestDAL
                    && current >= double.Parse(item.LowLimit))
                 {
                     item.Result = "Pass";
-                    item.Value = current.ToString();
+                    item.Value = Math.Round(current, 3).ToString();
                 }
                 else
                 {
                     item.Result = "Fail";
-                    item.Value = current.ToString();
-                    if (item.Check)
-                    {
-                        PowerInst.Closed();
-                    }
+                    item.Value = Math.Round(current, 3).ToString();
+                    //if (item.Check)
+                    //{
+                    //    PowerInst.Closed();
+                    //}
                 }
             }
             catch (Exception ex)
             {
                 item.Result = "Fail";
                 item.Value = "Fail";
-                if (item.Check)
-                {
-                    PowerInst.Closed();
-                }
+                //if (item.Check)
+                //{
+                //    PowerInst.Closed();
+                //}
             }
             return item;
         }
@@ -1215,10 +1289,10 @@ namespace TestDAL
                 {
                     item.Result = "Fail";
                     item.Value = voltage.ToString();
-                    if (item.Check)
-                    {
-                        PowerInst.Closed();
-                    }
+                    //if (item.Check)
+                    //{
+                    //    PowerInst.Closed();
+                    //}
                 }
             }
             catch (Exception ex)
@@ -1239,7 +1313,18 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                double current = double.Parse(PowerInst.VisaQuery("MEAS:CURRent2?"));
+                //PowerInst.VisaWrite("SENS:CURR:RANG 0.02");
+                PowerInst.VisaWrite("SENS:CURR:RANG 0.02");
+                List<double> list = new List<double>();
+                for (int i = 0; i < 5; i++)
+                {
+                    double curr = double.Parse(PowerInst.VisaQuery("MEAS:CURRent2?"));
+                    Thread.Sleep(100);
+                    list.Add(curr);
+                }
+                list.Remove(list.Max());
+                list.Remove(list.Min());
+                double current = list.Average();
                 if (item.Unit.ToUpper() == "UA")
                 {
                     current *= 1000000;
@@ -1252,26 +1337,26 @@ namespace TestDAL
                    && current >= double.Parse(item.LowLimit))
                 {
                     item.Result = "Pass";
-                    item.Value = current.ToString();
+                    item.Value = Math.Round(current, 3).ToString();
                 }
                 else
                 {
                     item.Result = "Fail";
-                    item.Value = current.ToString();
-                    if (item.Check)
-                    {
-                        PowerInst.Closed();
-                    }
+                    item.Value = Math.Round(current, 3).ToString();
+                    //if (item.Check)
+                    //{
+                    //    PowerInst.Closed();
+                    //}
                 }
             }
             catch (Exception ex)
             {
                 item.Result = "Fail";
                 item.Value = "Fail";
-                if (item.Check)
-                {
-                    PowerInst.Closed();
-                }
+                //if (item.Check)
+                //{
+                //    PowerInst.Closed();
+                //}
             }
             return item;
         }
@@ -1291,10 +1376,10 @@ namespace TestDAL
             {
                 item.Result = "Fail";
                 item.Value = "Fail";
-                if (item.Check)
-                {
-                    PowerInst.Closed();
-                }
+                //if (item.Check)
+                //{
+                //    PowerInst.Closed();
+                //}
             }
             return item;
         }
@@ -1314,10 +1399,10 @@ namespace TestDAL
             {
                 item.Result = "Fail";
                 item.Value = "Fail";
-                if (item.Check)
-                {
-                    PowerInst.Closed();
-                }
+                //if (item.Check)
+                //{
+                //    PowerInst.Closed();
+                //}
             }
             return item;
         }
@@ -1346,6 +1431,7 @@ namespace TestDAL
             {
                 MultimeterInst.OpenVisa(data.MultimeterPort);
                 MultimeterInst.Cls();
+                //MultimeterInst.VisaWrite("SYST:LOC");
                 //InitPower();
                 if (data.MultimeterPort.StartsWith("ASRL"))
                 {
@@ -1373,10 +1459,13 @@ namespace TestDAL
                 Thread.Sleep(200);
                 string[] values = MultimeterInst.VisaQuery(":SAMP:COUN 5;:TRIG:SOUR IMM;:READ?").Split(',');
                 List<double> voltages = new List<double>();
+                //MultimeterInst.VisaWrite("SYST:LOC");
                 for (int i = 0; i < values.Length; i++)
                 {
                     voltages.Add(double.Parse(values[i].Trim()));
                 }
+                voltages.Remove(voltages.Max());
+                voltages.Remove(voltages.Min());
                 double voltage = voltages.Average();
                 if(item.Unit.ToUpper() == "MV")
                 {
@@ -1386,12 +1475,12 @@ namespace TestDAL
                     && voltage >= double.Parse(item.LowLimit))
                 {
                     item.Result = "Pass";
-                    item.Value = voltage.ToString();
+                    item.Value = Math.Round(voltage, 3).ToString();
                 }
                 else
                 {
                     item.Result = "Fail";
-                    item.Value = voltage.ToString();
+                    item.Value = Math.Round(voltage, 3).ToString();
                 }
             }
             catch (Exception ex)
@@ -1413,10 +1502,13 @@ namespace TestDAL
                 Thread.Sleep(200);
                 string[] values = MultimeterInst.VisaQuery(":SAMP:COUN 5;:TRIG:SOUR IMM;:READ?").Split(',');
                 List<double> currents = new List<double>();
+                //MultimeterInst.VisaWrite("SYST:LOC");
                 for (int i = 0; i < values.Length; i++)
                 {
                     currents.Add(double.Parse(values[i].Trim()));
                 }
+                currents.Remove(currents.Max());
+                currents.Remove(currents.Min());
                 double current = currents.Average();
                 if (item.Unit.ToUpper() == "MA")
                 {
@@ -1430,12 +1522,12 @@ namespace TestDAL
                     && current >= double.Parse(item.LowLimit))
                 {
                     item.Result = "Pass";
-                    item.Value = current.ToString();
+                    item.Value = Math.Round(current, 3).ToString();
                 }
                 else
                 {
                     item.Result = "Fail";
-                    item.Value = current.ToString();
+                    item.Value = Math.Round(current, 3).ToString();
                 }
             }
             catch (Exception ex)

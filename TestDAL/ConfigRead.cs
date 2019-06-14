@@ -88,10 +88,16 @@ namespace TestDAL
                 TestItem = "K2300Series_ChannelOne_OutPut",
                 Remark = "K2300系列电源通道1输出"
             });
+          
             list.Add(new InitTestItem()
             {
                 TestItem = "K2300Series_ChannelTwo_OutPut",
                 Remark = "K2300系列电源通道2输出"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "K2300Series_ChannelOne_OverVoltage",
+                Remark = "K2300系列电源通道1输出过压电压，电压在下限设置"
             });
             list.Add(new InitTestItem()
             {
@@ -153,6 +159,11 @@ namespace TestDAL
             {
                 TestItem = "HP66319D_ChannelTwo_OutPut",
                 Remark = "HP66319D系列电源通道2输出"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "HP66319D_ChannelOne_OverVoltage",
+                Remark = "HP66319D系列电源通道1输出过压电压，电压在下限设置"
             });
             list.Add(new InitTestItem()
             {
@@ -256,6 +267,11 @@ namespace TestDAL
                 TestItem = "BES_HALLTest",
                 Remark = "BES系列耳机HALL测试，要特别注意测试时未吸合状态"
             });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_PowerKeyTest",
+            //    Remark = "BES系列耳机开机键测试(侧按键)"
+            //});
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_WhiteLight",
@@ -303,6 +319,11 @@ namespace TestDAL
             {
                 TestItem = "BES_Shutdown",
                 Remark = "BES系列耳机关机"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_ShippingMode",
+                Remark = "BES系列耳机进入ShippingMode"
             });
             list.Add(new InitTestItem()
             {
@@ -520,6 +541,22 @@ namespace TestDAL
             {
                 TestItem = "DisConnect",
                 Remark = "断开A2与耳机的连接"
+            });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "OpenLedPort",
+                Remark = "打开LED测试仪串口"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "LED1Test",
+                Remark = "测试LED1，上下限参数为：R,G,B,亮度"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "ClosedLEDPort",
+                Remark = "关闭LED测试仪串口"
             });
 
             return list;

@@ -110,7 +110,7 @@ namespace TestDAL
             try
             {
                 Thread.Sleep(50);
-                Session.Write(string.Format("{0};*OPC\n", cmd));
+                Session.Write(string.Format("*OPC;{0}\n", cmd));
             }
             catch { }
         }
@@ -118,7 +118,7 @@ namespace TestDAL
         public string VisaQuery(string cmd)
         {
             Thread.Sleep(50);
-            return Session.Query(string.Format("{0};*OPC;\n", cmd)).Trim();
+            return Session.Query(string.Format("*OPC;{0}\n", cmd)).Trim();
         }
 
         public void Closed()

@@ -22,6 +22,7 @@ namespace TestBLL
         public string PorductSN;
         public string BattarySN;
         private AudioOperate Audio;
+        private OperateLED operateLED;
 
         public TestLogic(Queue<string> queue, string path)
         {
@@ -45,6 +46,11 @@ namespace TestBLL
                 queue.Enqueue("加载Audio项目文件");
                 Audio = new AudioOperate(config, operateBES);
                 queue.Enqueue("加载Audio项目文件完成");
+            }
+            if(config.LEDEnable)
+            {
+                queue.Enqueue("打开LED测试仪");
+                operateLED = new OperateLED(config);
             }
         }
 
@@ -181,6 +187,11 @@ namespace TestBLL
                         data = operate.K2300Series_ChannelTwo_OutPut(data);
                         break;
                     }
+                case "K2300Series_ChannelOne_OverVoltage":
+                    {
+                        data = operate.K2300Series_ChannelOne_OverVoltage(data);
+                        break;
+                    }
                 case "K2300Series_ChannelOne_ReadVoltage":
                     {
                         data = operate.K2300Series_ChannelOne_ReadVoltage(data);
@@ -229,6 +240,11 @@ namespace TestBLL
                 case "HP66319D_ChannelTwo_OutPut":
                     {
                         data = operate.HP66319D_ChannelTwo_OutPut(data);
+                        break;
+                    }
+                case "HP66319D_ChannelOne_OverVoltage":
+                    {
+                        data = operate.HP66319D_ChannelOne_OverVoltage(data);
                         break;
                     }
                 case "HP66319D_ChannelOne_ReadVoltage":
@@ -360,6 +376,11 @@ namespace TestBLL
                         operateBES.BES_HALLTest(data);
                         break;
                     }
+                case "BES_PowerKeyTest":
+                    {
+                        operateBES.BES_PowerKeyTest(data);
+                        break;
+                    }
                 case "BES_Pair":
                     {
                         data = operateBES.BES_Pair(data);
@@ -373,6 +394,11 @@ namespace TestBLL
                 case "BES_Shutdown":
                     {
                         data = operateBES.BES_Shutdown(data);
+                        break;
+                    }
+                case "BES_ShippingMode":
+                    {
+                        data = operateBES.BES_ShippingMode(data);
                         break;
                     }
                 case "BES_Reset":
@@ -537,6 +563,23 @@ namespace TestBLL
                         data = Audio.DisConnect(data);
                         break;
                     }
+                case "OpenLedPort":
+                    {
+                        data = operateLED.OpenLedPort(data);
+                        break;
+                    }
+                case "LED1Test":
+                    {
+                        data = operateLED.LED1Test(data);
+                        break;
+                    }
+                case "ClosedLEDPort":
+                    {
+                        data = operateLED.ClosedLEDPort(data);
+                        break;
+                    }
+
+
             }
             return data;
         }
@@ -600,6 +643,16 @@ namespace TestBLL
         public void RstPower()
         {
             operate.InitPower();
+        }
+
+        public int GetPlugNumber()
+        {
+            return dataBase.GetPlugNumber();
+        }
+
+        public void SetPlugNumber(int number)
+        {
+            dataBase.UpdataPlugNumber(number);
         }
     }
 }
