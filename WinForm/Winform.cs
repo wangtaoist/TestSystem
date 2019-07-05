@@ -33,6 +33,7 @@ namespace WinForm
         private const int DBT_DEVICEARRIVAL = 0x8000;
         private const int DBT_DEVICE_REMOVE_COMPLETE = 0x8004;
         private System.Windows.Forms.Timer time;
+        private System.Threading.Timer ShowTime;
 
         public Winform()
         {
@@ -67,7 +68,7 @@ namespace WinForm
             ThreadPool.QueueUserWorkItem(new WaitCallback(testLogic.InitTestPort));
             ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
 
-            if(config.AutoFixture)
+            if (config.AutoFixture)
             {
                 FixturePort = new SerialPort();
                 FixturePort.BaudRate = 9600;
@@ -80,7 +81,7 @@ namespace WinForm
                 FixturePort.Open();
             }
         }
-  
+    
         private void Winform_Resize(object sender, EventArgs e)
         {
             double xRate = this.Width / widthX;
@@ -101,13 +102,19 @@ namespace WinForm
         {
             TestItmes = testLogic.GetTestItem();
             FailItems = testLogic.GetFailItem();
+            int j = 0;
             for (int i = 0; i < TestItmes.Count; i++)
             {
-                dgv_Data.Rows.Add(new object[]
+              
+                if (TestItmes[i].Show)
                 {
-                    TestItmes[i].ID,TestItmes[i].TestItemName,TestItmes[i].LowLimit
+                    j += 1;
+                    dgv_Data.Rows.Add(new object[]
+                    {
+                    j,TestItmes[i].TestItemName,TestItmes[i].LowLimit
                     ,TestItmes[i].UppLimit,TestItmes[i].Unit,"",""
-                });
+                    });
+                }
             }
         }
 
@@ -163,8 +170,12 @@ namespace WinForm
                 dgv_Data.Rows[i].Cells[5].Value = "";
                 dgv_Data.Rows[i].Cells[6].Value = "";
                 dgv_Data.Rows[i].DefaultCellStyle.BackColor = SystemColors.Window;
+               
+            }
+            for (int i = 0; i < TestItmes.Count; i++)
+            {
                 TestItmes[i].Result = "";
-                TestItmes[i].Value = "";              
+                TestItmes[i].Value = "";
             }
         }
 
@@ -228,77 +239,96 @@ namespace WinForm
 
         public void ShowTestItem(TestData data)
         {
-            int index = int.Parse(data.ID) - 1;
+            int index = 0;
             if (data.Result == "" || data.Value == "")
             {
                 data.Result = "Fail";
                 data.Value = "Fail";
             }
-            dgv_Data.Rows[index].Cells[5].Value = data.Value;
-            dgv_Data.Rows[index].Cells[6].Value = data.Result;
-
-
-            if (data.Result == "Pass")
+            if (data.Show)
             {
-                dgv_Data.Rows[index].DefaultCellStyle.BackColor = Color.SpringGreen;
-            }
+                index = int.Parse(data.ID) - 1;
+                dgv_Data.Rows[index].Cells[5].Value = data.Value;
+                dgv_Data.Rows[index].Cells[6].Value = data.Result;
 
-            else
-            {
-                if (data.Check)
+                if (data.Result == "Pass")
                 {
-                    OpenFixture();
-                    PlugManagement();
-                    tb_SN.Enabled = true;
-                    btTest.Enabled = true;
-                    dgv_Data.Rows[index].DefaultCellStyle.BackColor = Color.Red;
-                    label_TestResult.Text = "Fail";
-                    label_TestResult.BackColor = Color.Red;
-                    //testLogic.RstPower();
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(TestFailProcess));
-                  
-                    testFlag = false;
-                    stopwatch.Stop();
-                    testLogic.UpdataTestCount(false);
-                    tb_SN.Text = "";
-                    tb_SN.Invoke(new Action(() => 
-                    {
-                        tb_SN.Select();
-                        tb_SN.Focus();
-                        this.ActiveControl = tb_SN;
-                    }));
-                    ShowTestRadio();
-                    var bt = TestItmes.Where(s => s.TestItem.Contains("Address")).ToList();
-                    testLogic.SaveTestLog(TestItmes
-                        , new LogColume()
-                        {
-                            SN = BtAddress,
-                            TestTime = DateTime.Now.ToString("yyyyMMddHHddss"),
-                            MAC =  bt.Count > 0 ? bt[0].Value: "" ,
-                            //MAC = BtAddress,
-                            TotalStatus = "Fail"
-                        });
-                    if (Others.isWin10())
-                    {
-                        focusFlag = true;
-                        ThreadPool.QueueUserWorkItem(new WaitCallback(FocusTextBox));
-                    }
+                    dgv_Data.Rows[index].DefaultCellStyle.BackColor = Color.SpringGreen;
                 }
+
                 else
                 {
-                    dgv_Data.Rows[index].DefaultCellStyle.BackColor = Color.Red;
+                    if (data.Check)
+                    {
+                        OpenFixture();
+                        PlugManagement();
+                        tb_SN.Enabled = true;
+                        btTest.Enabled = true;
+                        dgv_Data.Rows[index].DefaultCellStyle.BackColor = Color.Red;
+                        label_TestResult.Text = "Fail";
+                        label_TestResult.BackColor = Color.Red;
+                        //testLogic.RstPower();
+                        ThreadPool.QueueUserWorkItem(new WaitCallback(TestFailProcess));
+
+                        testFlag = false;
+                        stopwatch.Stop();
+                        testLogic.UpdataTestCount(false);
+                        tb_SN.Text = "";
+                        tb_SN.Invoke(new Action(() =>
+                        {
+                            tb_SN.Select();
+                            tb_SN.Focus();
+                            this.ActiveControl = tb_SN;
+                        }));
+                        ShowTestRadio();
+                        var bt = TestItmes.Where(s => s.TestItem.Contains("Address")).ToList();
+                        testLogic.SaveTestLog(TestItmes
+                            , new LogColume()
+                            {
+                                SN = BtAddress,
+                                TestTime = DateTime.Now.ToString("yyyyMMddHHddss"),
+                                MAC = bt.Count > 0 ? bt[0].Value : "",
+                                //MAC = BtAddress,
+                                TotalStatus = "Fail"
+                            });
+                        if (Others.isWin10())
+                        {
+                            focusFlag = true;
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(FocusTextBox));
+                        }
+                       
+                    }
+                    else
+                    {
+                        dgv_Data.Rows[index].DefaultCellStyle.BackColor = Color.Red;
+                    }
+
                 }
-
             }
-
+            else
+            {
+                if(data.Result == "Fail")
+                {
+                    int row = dgv_Data.Rows.Count;
+                    int i = 0;
+                    for (; i < row; i++)
+                    {
+                        if(dgv_Data.Rows[i].Cells[6].Value.ToString() == "")
+                        {
+                            break;
+                        }
+                    }
+                    dgv_Data.Rows[i].DefaultCellStyle.BackColor = Color.Red;
+                    ShowFailResult(index);
+                }
+            }
             if (TestItmes.Where(s => s.Result == "Pass").Count() == TestItmes.Count)
             {
                 OpenFixture();
                 PlugManagement();
                 tb_SN.Enabled = true;
                 btTest.Enabled = true;
-                
-               
+
                 if (TestItmes.Where(s => s.TestItem.Contains("BES_ClearPair"))
                     .Count() == 0)
                 {
@@ -306,13 +336,13 @@ namespace WinForm
                     stopwatch.Stop();
                     label_TestResult.Text = "Pass";
                     label_TestResult.BackColor = Color.SpringGreen;
-                   
+
                 }
                 testLogic.UpdataTestCount(true);
                 //Thread.Sleep(1000);
                 ShowTestRadio();
                 tb_SN.Text = "";
-                tb_SN.Invoke(new Action(() => 
+                tb_SN.Invoke(new Action(() =>
                 {
                     tb_SN.Select();
                     tb_SN.Focus();
@@ -333,9 +363,24 @@ namespace WinForm
                     focusFlag = true;
                     ThreadPool.QueueUserWorkItem(new WaitCallback(FocusTextBox));
                 }
+               
+                if (TestItmes.Where(s => s.TestItem.Contains("ClearPair")).Count() == 0)
+                {
+                    ShowTime = new System.Threading.Timer(new TimerCallback(ShowTime_Tick));
+                    ShowTime.Change(3000, 5000);
+                }
+
             }
             else if (TestItmes.Where(s => s.Result != "").Count() == TestItmes.Count)
             {
+                ShowFailResult(index);
+            }
+
+            dgv_Data.FirstDisplayedScrollingRowIndex = index;
+        }
+
+        public void ShowFailResult(int index)
+        {
                 OpenFixture();
                 PlugManagement();
                 btTest.Enabled = true;
@@ -347,7 +392,7 @@ namespace WinForm
                 label_TestResult.BackColor = Color.Red;
                 testLogic.UpdataTestCount(false);
                 tb_SN.Text = "";
-                tb_SN.Invoke(new Action(() => 
+                tb_SN.Invoke(new Action(() =>
                 {
                     tb_SN.Select();
                     tb_SN.Focus();
@@ -372,8 +417,7 @@ namespace WinForm
                     focusFlag = true;
                     ThreadPool.QueueUserWorkItem(new WaitCallback(FocusTextBox));
                 }
-            }
-
+            
             dgv_Data.FirstDisplayedScrollingRowIndex = index;
         }
 
@@ -625,6 +669,10 @@ namespace WinForm
                     time.Start();
                    
                     testFlag = false;
+
+                    ShowTime = new System.Threading.Timer(new TimerCallback(ShowTime_Tick));
+                    ShowTime.Change(3000,3000);
+
                 }
             }
             base.WndProc(ref m);
@@ -635,6 +683,13 @@ namespace WinForm
             label_TestResult.Text = "Pass";
             label_TestResult.BackColor = Color.SpringGreen;
             time.Stop();
+        }
+
+        private void ShowTime_Tick(object sender)
+        {
+            label_TestResult.Text = "Ready";
+            label_TestResult.BackColor = Color.LightSteelBlue;
+            ShowTime.Dispose();
         }
 
         private void FixturePort_DataReceived(object sender, SerialDataReceivedEventArgs e)

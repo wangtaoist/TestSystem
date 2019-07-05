@@ -138,12 +138,11 @@
             this.cb_Show.TabIndex = 2;
             this.cb_Show.Text = "显示项目";
             this.cb_Show.UseVisualStyleBackColor = true;
-            this.cb_Show.Visible = false;
             // 
             // cb_Check
             // 
             this.cb_Check.AutoSize = true;
-            this.cb_Check.Location = new System.Drawing.Point(470, 53);
+            this.cb_Check.Location = new System.Drawing.Point(454, 53);
             this.cb_Check.Name = "cb_Check";
             this.cb_Check.Size = new System.Drawing.Size(72, 16);
             this.cb_Check.TabIndex = 2;

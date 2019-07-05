@@ -101,17 +101,24 @@ namespace TestDAL
             {
                 byte[] bytes = { 0x04, 0xff, 0x03, 0x01, 0x00 };
                 byte[] values = Serial.VisaQuery(bytes);
-                var version = Encoding.ASCII.GetString(values).Replace("\0", "")
-                    .Remove(0, 3);
-                if (data.LowLimit.Equals(version))
+               // int length = Convert.ToInt16(values[2]);
+                // var version = Encoding.ASCII.GetString(values).Replace("\0", "")
+                //  .Remove(0, 3);
+               
+                StringBuilder version = new StringBuilder();
+                for (int i = 3; i < 11; i++)
+                {
+                    version.Append(Convert.ToInt16(values[i]));
+                }
+                if (data.LowLimit.Equals(version.ToString()))
                 {
                     data.Result = "Pass";
-                    data.Value = version;
+                    data.Value = version.ToString();
                 }
                 else
                 {
                     data.Result = "Fail";
-                    data.Value = version;
+                    data.Value = version.ToString();
                     if (data.Check)
                     {
                         Serial.ClosedPort();
@@ -252,7 +259,7 @@ namespace TestDAL
                         .Remove(0, 2).ToUpper();
                     if (btAddress != "")
                     {
-                        if (btAddress == sn)
+                        if (btAddress == sn && btAddress.StartsWith(data.LowLimit))
                         {
                             data.Result = "Pass";
                             data.Value = sn;
@@ -412,7 +419,7 @@ namespace TestDAL
                     .Remove(0, 3);
                 if (btAddress != "")
                 {
-                    if (btAddress == batt)
+                    if (btAddress == batt && btAddress.StartsWith(data.LowLimit))
                     {
                         data.Result = "Pass";
                         data.Value = batt;
@@ -1587,25 +1594,30 @@ namespace TestDAL
             {
                 byte[] bytes = { 0x04, 0xff, 0x03, 0x00, 0x00 };
                 //byte[] values = Serial.VisaQuery(bytes);
-                byte[] address = new byte[0];
+               
                 //if (config.AutoSNTest)
                 //{
                 //    btAddress = GetProductSN(config.SNHear, config.SNLine);
                 //    address = Encoding.ASCII.GetBytes(btAddress);
-
                 //}
                 //else
                 //{
-                address = Encoding.ASCII.GetBytes(data.LowLimit.Trim());
+                //address = Encoding.ASCII.GetBytes(data.LowLimit.Trim());
                 //}
+                // address = Others.HexStringToByteArray(data.LowLimit);
                 byte length = byte.Parse(data.LowLimit.Trim().Length.ToString());
-                byte[] value = new byte[bytes.Length + address.Length];
+                byte[] address = new byte[data.LowLimit.Trim().Length];
+                byte[] value = new byte[bytes.Length + length];
                 bytes.CopyTo(value, 0);
                 value[4] = length;
+               
+                for (int i = 0; i < length; i++)
+                {
+                    address[i] = byte.Parse(data.LowLimit.Trim().Substring(i, 1));
+                }
                 address.CopyTo(value, 5);
-
                 byte[] ret = Serial.VisaQuery(value);
-                if (ret[2] == length)
+                if (ret[2] == 0x08)
                 {
                     data.Result = "Pass";
                     data.Value = "Pass";

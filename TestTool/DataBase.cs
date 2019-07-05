@@ -58,11 +58,15 @@ namespace TestTool
                 cmd.CommandTimeout = 20;
                 OleDbDataAdapter da = new OleDbDataAdapter(cmd);
                 da.Fill(dt);
+                int j = 0;
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
+                    bool show = bool.Parse(dt.Rows[i].ItemArray[10].ToString()
+                       == "" ? "false" : dt.Rows[i].ItemArray[10].ToString());
+                 
                     list.Add(new TestData()
                     {
-                        ID = (i + 1).ToString(),
+                        ID = show == true ? (j += 1).ToString() : "",
                         TestItem = dt.Rows[i].ItemArray[0].ToString(),
                         TestItemName = dt.Rows[i].ItemArray[1].ToString(),
                         Unit = dt.Rows[i].ItemArray[2].ToString(),
@@ -72,7 +76,10 @@ namespace TestTool
                         AfterTime = int.Parse(dt.Rows[i].ItemArray[6].ToString()),
                         Remark = dt.Rows[i].ItemArray[7].ToString(),
                         Other = dt.Rows[i].ItemArray[8].ToString(),
-                        Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString()),
+                        Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString() == "" 
+                        ? "false": dt.Rows[i].ItemArray[9].ToString()),
+                        Show = bool.Parse(dt.Rows[i].ItemArray[10].ToString() == ""
+                        ? "false" : dt.Rows[i].ItemArray[10].ToString())
                     });
                 }
             }
@@ -111,7 +118,11 @@ namespace TestTool
                         AfterTime = int.Parse(dt.Rows[i].ItemArray[6].ToString()),
                         Remark = dt.Rows[i].ItemArray[7].ToString(),
                         Other = dt.Rows[i].ItemArray[8].ToString(),
-                        Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString()),
+                        Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString() == ""
+                        ? "false" : dt.Rows[i].ItemArray[9].ToString()),
+                        Show = bool.Parse(dt.Rows[i].ItemArray[10].ToString() == ""
+                        ? "false" : dt.Rows[i].ItemArray[10].ToString())
+
                     });
                 }
             }
@@ -344,8 +355,8 @@ namespace TestTool
                     sb.AppendFormat(",'{0}','{1}'", item.TestItemName, item.Unit);
                     sb.AppendFormat(",'{0}','{1}'", item.UppLimit, item.LowLimit);
                     sb.AppendFormat(",{0},{1}", item.beferTime, item.AfterTime);
-                    sb.AppendFormat(",'{0}','{1}','{2}')"
-                        , item.Remark, item.Other, item.Check);
+                    sb.AppendFormat(",'{0}','{1}','{2}','{3}')"
+                        , item.Remark, item.Other, item.Check, item.Show);
 
                     cmd.CommandText = sb.ToString();
                     cmd.CommandTimeout = 20;
@@ -374,8 +385,8 @@ namespace TestTool
                     sb.AppendFormat(",'{0}','{1}'", item.TestItemName, item.Unit);
                     sb.AppendFormat(",'{0}','{1}'", item.UppLimit, item.LowLimit);
                     sb.AppendFormat(",{0},{1}", item.beferTime, item.AfterTime);
-                    sb.AppendFormat(",'{0}','{1}','{2}')"
-                        , item.Remark, item.Other, item.Check);
+                    sb.AppendFormat(",'{0}','{1}','{2}','{3}')"
+                        , item.Remark, item.Other, item.Check, item.Show);
 
                     cmd.CommandText = sb.ToString();
                     cmd.CommandTimeout = 20;

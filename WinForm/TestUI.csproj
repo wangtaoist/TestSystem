@@ -100,12 +100,6 @@
     <Compile Include="ItemConfig.Designer.cs">
       <DependentUpon>ItemConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlugSetup.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PlugSetup.Designer.cs">
-      <DependentUpon>PlugSetup.cs</DependentUpon>
-    </Compile>
     <Compile Include="Winform.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,9 +119,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ItemConfig.resx">
       <DependentUpon>ItemConfig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PlugSetup.resx">
-      <DependentUpon>PlugSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
