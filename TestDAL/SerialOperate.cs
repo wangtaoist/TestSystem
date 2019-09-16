@@ -97,6 +97,7 @@ namespace TestDAL
                 {
                     Session1.DiscardInBuffer();
                     Session1.DiscardOutBuffer();
+                    Thread.Sleep(100);
                     Session1.Write(data, 0, data.Length);
                     Thread.Sleep(200);
                     num = Session1.ReadByte();

@@ -42,7 +42,7 @@ namespace TestDAL
 
                         string HiLimit = string.Format(",,,,{0}", string.Join(","
                            , datas.Select(s => s.UppLimit).ToList()));
-                        sw.WriteLine(lowLimit);
+                        sw.WriteLine(HiLimit);
 
                         string row = string.Format("{0},{1},{2},{3},{4}"
                             , colume.SN, colume.TestTime, colume.MAC, colume.TotalStatus

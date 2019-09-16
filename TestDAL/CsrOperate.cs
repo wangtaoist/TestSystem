@@ -19,9 +19,10 @@ namespace TestDAL
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    int port = int.Parse(item.Other.Split(':')[1]);
+                    //int port = int.Parse(item.Other.Split(':')[1]);
                     //csrHandle = TestEngine.openTestEngineSpiTrans("SPITRANS=USB SPIPORT=0", 0);
-                    csrHandle = TestEngine.openTestEngineSpi(port, 0, 2);
+                    //csrHandle = TestEngine.openTestEngineSpi(port, 0, 2);
+                    csrHandle = TestEngine.openTestEngineSpi(1, 0, 1);
                     if (csrHandle != 0)
                     {
                         item.Result = "Pass";
@@ -47,6 +48,16 @@ namespace TestDAL
             try
             {
                 if (csrHandle != 0) return;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    csrHandle = TestEngine.openTestEngineSpi(1, 0, 1);
+                    if(csrHandle != 0)
+                    {
+                        break;
+                    }
+                }
+                
                 #region
                 //switch (portMode)
                 //{

@@ -129,28 +129,28 @@
             // ConfigToolStripMenuItem
             // 
             this.ConfigToolStripMenuItem.Name = "ConfigToolStripMenuItem";
-            this.ConfigToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ConfigToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.ConfigToolStripMenuItem.Text = "测试参数配置";
             this.ConfigToolStripMenuItem.Click += new System.EventHandler(this.ConfigToolStripMenuItem_Click);
             // 
             // TestItemToolStripMenuItem
             // 
             this.TestItemToolStripMenuItem.Name = "TestItemToolStripMenuItem";
-            this.TestItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.TestItemToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.TestItemToolStripMenuItem.Text = "测试项目配置";
             this.TestItemToolStripMenuItem.Click += new System.EventHandler(this.TestItemToolStripMenuItem_Click);
             // 
             // ReLoadToolStripMenuItem
             // 
             this.ReLoadToolStripMenuItem.Name = "ReLoadToolStripMenuItem";
-            this.ReLoadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ReLoadToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.ReLoadToolStripMenuItem.Text = "重新加载程序";
             this.ReLoadToolStripMenuItem.Click += new System.EventHandler(this.ReLoadToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.ExitToolStripMenuItem.Text = "退出";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 

@@ -16,7 +16,7 @@ namespace WinForm
         {
             //try
             //{
-            bool createNew;
+                bool createNew;
             using (Mutex mutex = new Mutex(true, Application.ProductName, out createNew))
             {
                 if (createNew)

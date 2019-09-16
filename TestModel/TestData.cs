@@ -21,6 +21,7 @@ namespace TestModel
         public string Other;
         public bool Check;
         public bool Show;
+        public string FillValue;
     }
 
     public class ConfigData
@@ -69,6 +70,8 @@ namespace TestModel
         public bool PlugEnable;
         public string MaxSet;
         public string PlugNumber;
+        public string _4010Port;
+        public bool _4010Enable;
     }
 
     public class TestRatio

@@ -12,12 +12,15 @@ namespace TestDAL
     {
         private ATC ATc;
         private ConfigData config;
-        private double[] SpkLevels, SpkTHD, SpkSNR, SpkCrossralk;
+        private double[] SpkLevels, SpkTHD, SpkSNR, SpkCrossralk, LowNoise;
         private OperateBES Operate;
+        private string btAddress;
+        private bool btStatus;
 
         public AudioOperate(ConfigData config, OperateBES operate)
         {
             this.config = config;
+            btAddress = string.Empty;
             ATc = new ATC();
             ATc.Visible = false;
             //Thread thread = new Thread(() => 
@@ -32,18 +35,30 @@ namespace TestDAL
             //});
             // thread.Start();
             this.Operate = operate;
+            btStatus = true;
         }
 
         public TestData OpenA2(TestData data)
         {
             try
             {
+
+                //ATc.BtsimSettings.Reset();
+                ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Btsim;
+                ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.AnalogBalanced;
                 ATc.BtsimSettings.Reset();
+                //ATc.BluetoothSettings.ClearDeviceList();
+                //ATc.BluetoothSettings.ProfileSet = BluetoothProfileSet.A2dpSourceHfpGatewayAvrcp;
+                //ATc.BluetoothSettings.InquiryTimeout = 5;
                 data.Result = "Pass";
                 data.Value = "Pass";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                btStatus = false;
+                ATc.BluetoothSettings.ClearDeviceList();
+                ATc.BluetoothSettings.ProfileSet = BluetoothProfileSet.A2dpSourceHfpGatewayAvrcp;
+                ATc.BluetoothSettings.InquiryTimeout = 5;
                 data.Result = "Pass";
                 data.Value = "Pass";
             }
@@ -54,9 +69,31 @@ namespace TestDAL
         {
             try
             {
-                ATc.BtsimSettings.SwitchToA2dp();
-                data.Value = "Pass";
-                data.Result = "Pass";
+                if(btStatus)
+                {
+                    ATc.BtsimSettings.SwitchToA2dp();
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    ATc.BluetoothSettings.ConnectA2dp(btAddress);
+                    if(ATc.BluetoothSettings.AcceptA2dpConnections)
+                    {
+                        data.Value = "Pass";
+                        data.Result = "Pass";
+                    }
+                    else
+                    {
+                        data.Value = "Fail";
+                        data.Result = "Fail";
+                    }
+                }
+                //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Bluetooth;
+                //ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.AnalogBalanced;
+              
+                //ATc.BluetoothSettings.ConnectA2dp(btAddress);
+              
             }
             catch (Exception ex)
             {
@@ -70,7 +107,19 @@ namespace TestDAL
         {
             try
             {
-                ATc.BtsimSettings.SwitchToHfp();
+                if (btStatus)
+                {
+                    ATc.BtsimSettings.SwitchToHfp();
+                }
+                else
+                {
+                    ATc.BluetoothSettings.ConnectHfp(btAddress);
+                    ATc.BluetoothSettings.HfpAudioGatewayCommand(BluetoothHfpAgCommand.OpenSco);
+                }
+                //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.AnalogUnbalanced;
+                //ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.Bluetooth;
+                //ATc.BluetoothSettings.ConnectHfp(btAddress);
+                //ATc.BluetoothSettings.HfpAudioGatewayCommand(BluetoothHfpAgCommand.OpenSco);
                 data.Value = "Pass";
                 data.Result = "Pass";
             }
@@ -86,19 +135,41 @@ namespace TestDAL
         {
             try
             {
-                ATc.BtsimSettings.Reset();
-                string btAddress = Operate.BES_ReadBTAddress();
-                ATc.BtsimSettings.ConnectToDevice(btAddress, "1", 10);
-                if(ATc.BtsimSettings.AppState == BtsimAppState.Connected)
+                //ATc.BtsimSettings.Reset();
+                btAddress = Operate.BES_ReadBTAddress();
+                if(btStatus)
                 {
-                    data.Result = "Pass";
-                    data.Value = "Pass";
+                    ATc.BtsimSettings.ConnectToDevice(btAddress, "1", 10);
+                    if (ATc.BtsimSettings.AppState == BtsimAppState.Connected)
+                    //if(conn)
+                    {
+                        data.Result = "Pass";
+                        data.Value = "Pass";
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
                 }
-                else
+               else
                 {
-                    data.Result = "Fail";
-                    data.Value = "Fail";
+                   
+                    bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
+                    if (conn)
+                    {
+                        data.Result = "Pass";
+                        data.Value = "Pass";
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+
                 }
+                //bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
+                
             }
             catch (Exception)
             {
@@ -124,17 +195,21 @@ namespace TestDAL
 
                         SpkLevels = results[0].GetMeterValues();
 
-                        if (SpkLevels[0] <= double.Parse(data.UppLimit)
-                            && SpkLevels[0] >= double.Parse(data.LowLimit))
+                        if (SpkLevels[0] + double.Parse(data.FillValue)
+                            <= double.Parse(data.UppLimit)
+                            && SpkLevels[0] + double.Parse(data.FillValue)
+                            >= double.Parse(data.LowLimit))
                         {
                             data.Result = "Pass";
-                            data.Value = Math.Round(SpkLevels[0], 3).ToString();
+                            data.Value = Math.Round(SpkLevels[0] 
+                                + double.Parse(data.FillValue), 3).ToString();
                             break;
                         }
                         else
                         {
                             data.Result = "Fail";
-                            data.Value = Math.Round(SpkLevels[0], 3).ToString();
+                            data.Value = Math.Round(SpkLevels[0] 
+                                + double.Parse(data.FillValue), 3).ToString();
                         }
                     }
                 }
@@ -151,11 +226,14 @@ namespace TestDAL
         {
             try
             {
-                if (SpkLevels[1] <= double.Parse(data.UppLimit)
-                        && SpkLevels[1] >= double.Parse(data.LowLimit))
+                if (SpkLevels[1] + double.Parse(data.FillValue)
+                    <= double.Parse(data.UppLimit)
+                        && SpkLevels[1] + double.Parse(data.FillValue) 
+                        >= double.Parse(data.LowLimit))
                 {
                     data.Result = "Pass";
-                    data.Value = Math.Round(SpkLevels[1], 3).ToString();
+                    data.Value = Math.Round(SpkLevels[1] 
+                        + double.Parse(data.FillValue), 3).ToString();
                 }
                 else
                 {
@@ -183,17 +261,21 @@ namespace TestDAL
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]["THD+N"]
                             .SequenceResults;
                         SpkTHD = results[2].GetMeterValues();
-                        if (SpkTHD[0] <= double.Parse(data.UppLimit)
-                             && SpkTHD[0] >= double.Parse(data.LowLimit))
+                        if (SpkTHD[0] + double.Parse(data.FillValue)
+                            <= double.Parse(data.UppLimit)
+                             && SpkTHD[0] + double.Parse(data.FillValue) 
+                             >= double.Parse(data.LowLimit))
                         {
                             data.Result = "Pass";
-                            data.Value = Math.Round(SpkTHD[0], 3).ToString();
+                            data.Value = Math.Round(SpkTHD[0] 
+                                + double.Parse(data.FillValue), 3).ToString();
                             break;
                         }
                         else
                         {
                             data.Result = "Fail";
-                            data.Value = Math.Round(SpkTHD[0], 3).ToString();
+                            data.Value = Math.Round(SpkTHD[0] 
+                                + double.Parse(data.FillValue), 3).ToString();
                         }
                     }
                 }
@@ -210,16 +292,20 @@ namespace TestDAL
         {
             try
             {
-                if (SpkTHD[1] <= double.Parse(data.UppLimit)
-                        && SpkTHD[1] >= double.Parse(data.LowLimit))
+                if (SpkTHD[1] + double.Parse(data.FillValue)
+                    <= double.Parse(data.UppLimit)
+                        && SpkTHD[1] + double.Parse(data.FillValue)
+                        >= double.Parse(data.LowLimit))
                 {
                     data.Result = "Pass";
-                    data.Value = Math.Round(SpkTHD[1], 3).ToString();
+                    data.Value = Math.Round(SpkTHD[1]
+                         + double.Parse(data.FillValue), 3).ToString();
                 }
                 else
                 {
                     data.Result = "Fail";
-                    data.Value = Math.Round(SpkTHD[1], 3).ToString();
+                    data.Value = Math.Round(SpkTHD[1]
+                         + double.Parse(data.FillValue), 3).ToString();
                 }
             }
             catch (Exception ex)
@@ -243,17 +329,21 @@ namespace TestDAL
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]["Signal to Noise Ratio"]
                             .SequenceResults;
                         SpkSNR = results[0].GetMeterValues();
-                        if (SpkSNR[0] <= double.Parse(data.UppLimit)
-                             && SpkSNR[0] >= double.Parse(data.LowLimit))
+                        if (SpkSNR[0] + double.Parse(data.FillValue)
+                            <= double.Parse(data.UppLimit)
+                             && SpkSNR[0] + double.Parse(data.FillValue)
+                             >= double.Parse(data.LowLimit))
                         {
                             data.Result = "Pass";
-                            data.Value = Math.Round(SpkSNR[0], 3).ToString();
+                            data.Value = Math.Round(SpkSNR[0]
+                                 + double.Parse(data.FillValue), 3).ToString();
                             break;
                         }
                         else
                         {
                             data.Result = "Fail";
-                            data.Value = Math.Round(SpkSNR[0], 3).ToString();
+                            data.Value = Math.Round(SpkSNR[0]
+                                 + double.Parse(data.FillValue), 3).ToString();
                         }
                     }
                 }
@@ -270,16 +360,88 @@ namespace TestDAL
         {
             try
             {
-                if (SpkSNR[1] <= double.Parse(data.UppLimit)
-                        && SpkSNR[1] >= double.Parse(data.LowLimit))
+                if (SpkSNR[1] + double.Parse(data.FillValue)
+                    <= double.Parse(data.UppLimit)
+                        && SpkSNR[1] + double.Parse(data.FillValue)
+                        >= double.Parse(data.LowLimit))
                 {
                     data.Result = "Pass";
-                    data.Value = Math.Round(SpkSNR[1], 3).ToString();
+                    data.Value = Math.Round(SpkSNR[1]
+                         + double.Parse(data.FillValue), 3).ToString();
                 }
                 else
                 {
                     data.Result = "Fail";
-                    data.Value = Math.Round(SpkSNR[1], 3).ToString();
+                    data.Value = Math.Round(SpkSNR[1]
+                         + double.Parse(data.FillValue), 3).ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData SpeakerNoise_Left(TestData data)
+        {
+            try
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    ATc.Sequence["Speaker"]["THD+N"].Run();
+
+                    if (ATc.Sequence["Speaker"]["THD+N"].HasSequenceResults)
+                    {
+                        ISequenceResultCollection results = ATc.Sequence["Speaker"]["THD+N"]
+                            .SequenceResults;
+                        LowNoise = results[7].GetMeterValues();
+                        if (SpkSNR[0] + double.Parse(data.FillValue)
+                            <= double.Parse(data.UppLimit)
+                             && SpkSNR[0] + double.Parse(data.FillValue)
+                             >= double.Parse(data.LowLimit))
+                        {
+                            data.Result = "Pass";
+                            data.Value = Math.Round(LowNoise[0] 
+                                + double.Parse(data.FillValue), 3).ToString();
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = Math.Round(LowNoise[0]
+                                 + double.Parse(data.FillValue), 3).ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData SpeakerNoise_Right(TestData data)
+        {
+            try
+            {
+                if (LowNoise[1] + double.Parse(data.FillValue)
+                    <= double.Parse(data.UppLimit)
+                        && LowNoise[1] + double.Parse(data.FillValue)
+                        >= double.Parse(data.LowLimit))
+                {
+                    data.Result = "Pass";
+                    data.Value = Math.Round(LowNoise[1] 
+                        + double.Parse(data.FillValue), 3).ToString();
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = Math.Round(LowNoise[1]
+                         + double.Parse(data.FillValue), 3).ToString();
                 }
             }
             catch (Exception ex)
@@ -303,17 +465,21 @@ namespace TestDAL
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]
                             ["Crosstalk, One Channel Undriven"].SequenceResults;
                         SpkCrossralk = results[0].GetMeterValues();
-                        if (SpkCrossralk[0] <= double.Parse(data.UppLimit)
-                             && SpkCrossralk[0] >= double.Parse(data.LowLimit))
+                        if (SpkCrossralk[0] + double.Parse(data.FillValue)
+                            <= double.Parse(data.UppLimit)
+                             && SpkCrossralk[0] + double.Parse(data.FillValue)
+                             >= double.Parse(data.LowLimit))
                         {
                             data.Result = "Pass";
-                            data.Value = Math.Round(SpkCrossralk[0], 3).ToString();
+                            data.Value = Math.Round(SpkCrossralk[0]
+                                + double.Parse(data.FillValue), 3).ToString();
                             break;
                         }
                         else
                         {
                             data.Result = "Fail";
-                            data.Value = Math.Round(SpkCrossralk[0], 3).ToString();
+                            data.Value = Math.Round(SpkCrossralk[0]
+                                 + double.Parse(data.FillValue), 3).ToString();
                         }
                     }
                 }
@@ -330,16 +496,20 @@ namespace TestDAL
         {
             try
             {
-                if (SpkCrossralk[1] <= double.Parse(data.UppLimit)
-                        && SpkCrossralk[1] >= double.Parse(data.LowLimit))
+                if (SpkCrossralk[1] + double.Parse(data.FillValue)
+                    <= double.Parse(data.UppLimit)
+                        && SpkCrossralk[1] + double.Parse(data.FillValue)
+                        >= double.Parse(data.LowLimit))
                 {
                     data.Result = "Pass";
-                    data.Value = Math.Round(SpkCrossralk[1], 3).ToString();
+                    data.Value = Math.Round(SpkCrossralk[1]
+                         + double.Parse(data.FillValue), 3).ToString();
                 }
                 else
                 {
                     data.Result = "Fail";
-                    data.Value = Math.Round(SpkCrossralk[1], 3).ToString();
+                    data.Value = Math.Round(SpkCrossralk[1]
+                         + double.Parse(data.FillValue), 3).ToString();
                 }
             }
             catch (Exception ex)
@@ -365,17 +535,21 @@ namespace TestDAL
 
                         double[] MicLevels = results[0].GetMeterValues();
 
-                        if (MicLevels[0] <= double.Parse(data.UppLimit)
-                            && MicLevels[0] >= double.Parse(data.LowLimit))
+                        if (MicLevels[0] + double.Parse(data.FillValue)
+                            <= double.Parse(data.UppLimit)
+                            && MicLevels[0] + double.Parse(data.FillValue)
+                            >= double.Parse(data.LowLimit))
                         {
                             data.Result = "Pass";
-                            data.Value = Math.Round(MicLevels[0], 3).ToString();
+                            data.Value = Math.Round(MicLevels[0]
+                                 + double.Parse(data.FillValue), 3).ToString();
                             break;
                         }
                         else
                         {
                             data.Result = "Fail";
-                            data.Value = Math.Round(MicLevels[0], 3).ToString();
+                            data.Value = Math.Round(MicLevels[0]
+                                 + double.Parse(data.FillValue), 3).ToString();
                         }
                     }
                 }
@@ -401,17 +575,21 @@ namespace TestDAL
                         ISequenceResultCollection results = ATc.Sequence["Micphone"]["THD+N"]
                             .SequenceResults;
                         double[] MicTHD = results[2].GetMeterValues();
-                        if (MicTHD[0] <= double.Parse(data.UppLimit)
-                             && MicTHD[0] >= double.Parse(data.LowLimit))
+                        if (MicTHD[0] + double.Parse(data.FillValue)
+                            <= double.Parse(data.UppLimit)
+                             && MicTHD[0] + double.Parse(data.FillValue)
+                             >= double.Parse(data.LowLimit))
                         {
                             data.Result = "Pass";
-                            data.Value = Math.Round(MicTHD[0], 3).ToString();
+                            data.Value = Math.Round(MicTHD[0]
+                                 + double.Parse(data.FillValue), 3).ToString();
                             break;
                         }
                         else
                         {
                             data.Result = "Fail";
-                            data.Value = Math.Round(MicTHD[0], 3).ToString();
+                            data.Value = Math.Round(MicTHD[0]
+                                 + double.Parse(data.FillValue), 3).ToString();
                         }
                     }
                 }
@@ -437,17 +615,21 @@ namespace TestDAL
                         ISequenceResultCollection results = ATc.Sequence["Micphone"]["Signal to Noise Ratio"]
                             .SequenceResults;
                         double[] MicSNR = results[0].GetMeterValues();
-                        if (MicSNR[0] <= double.Parse(data.UppLimit)
-                             && MicSNR[0] >= double.Parse(data.LowLimit))
+                        if (MicSNR[0] + double.Parse(data.FillValue)
+                            <= double.Parse(data.UppLimit)
+                             && MicSNR[0] + double.Parse(data.FillValue)
+                             >= double.Parse(data.LowLimit))
                         {
                             data.Result = "Pass";
-                            data.Value = Math.Round(MicSNR[0], 3).ToString();
+                            data.Value = Math.Round(MicSNR[0] 
+                                + double.Parse(data.FillValue), 3).ToString();
                             break;
                         }
                         else
                         {
                             data.Result = "Fail";
-                            data.Value = Math.Round(MicSNR[0], 3).ToString();
+                            data.Value = Math.Round(MicSNR[0]
+                                 + double.Parse(data.FillValue), 3).ToString();
                         }
                     }
                 }
@@ -464,7 +646,15 @@ namespace TestDAL
         {
             try
             {
-                ATc.BtsimSettings.Disconnect();
+                if(btStatus)
+                {
+                    ATc.BtsimSettings.Disconnect();
+                }
+                else
+                {
+                    ATc.BluetoothSettings.Disconnect();
+                }
+                
                 data.Result = "Pass";
                 data.Value = "Pass";
             }

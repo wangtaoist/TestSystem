@@ -67,6 +67,8 @@
             this.lst_installFunction = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tb_Remark = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tb_FillValue = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.gb_FunctionItem.SuspendLayout();
@@ -116,6 +118,8 @@
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.tb_limitMin);
             this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.tb_FillValue);
+            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.tb_limitMax);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.tb_unit);
@@ -132,17 +136,17 @@
             // cb_Show
             // 
             this.cb_Show.AutoSize = true;
-            this.cb_Show.Location = new System.Drawing.Point(322, 81);
+            this.cb_Show.Location = new System.Drawing.Point(309, 81);
             this.cb_Show.Name = "cb_Show";
-            this.cb_Show.Size = new System.Drawing.Size(72, 16);
+            this.cb_Show.Size = new System.Drawing.Size(228, 16);
             this.cb_Show.TabIndex = 2;
-            this.cb_Show.Text = "显示项目";
+            this.cb_Show.Text = "显示项目(是否在界面显示该测试项目)";
             this.cb_Show.UseVisualStyleBackColor = true;
             // 
             // cb_Check
             // 
             this.cb_Check.AutoSize = true;
-            this.cb_Check.Location = new System.Drawing.Point(454, 53);
+            this.cb_Check.Location = new System.Drawing.Point(476, 53);
             this.cb_Check.Name = "cb_Check";
             this.cb_Check.Size = new System.Drawing.Size(72, 16);
             this.cb_Check.TabIndex = 2;
@@ -217,7 +221,7 @@
             // 
             this.tb_limitMax.Location = new System.Drawing.Point(275, 48);
             this.tb_limitMax.Name = "tb_limitMax";
-            this.tb_limitMax.Size = new System.Drawing.Size(168, 21);
+            this.tb_limitMax.Size = new System.Drawing.Size(85, 21);
             this.tb_limitMax.TabIndex = 1;
             // 
             // label5
@@ -448,7 +452,7 @@
             this.groupBox3.Size = new System.Drawing.Size(222, 87);
             this.groupBox3.TabIndex = 14;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "其他配置说明";
+            this.groupBox3.Text = "测试参数配置说明";
             // 
             // tb_Remark
             // 
@@ -458,6 +462,22 @@
             this.tb_Remark.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tb_Remark.Size = new System.Drawing.Size(210, 59);
             this.tb_Remark.TabIndex = 0;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(367, 53);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(29, 12);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "补偿";
+            // 
+            // tb_FillValue
+            // 
+            this.tb_FillValue.Location = new System.Drawing.Point(403, 49);
+            this.tb_FillValue.Name = "tb_FillValue";
+            this.tb_FillValue.Size = new System.Drawing.Size(55, 21);
+            this.tb_FillValue.TabIndex = 1;
             // 
             // ItemConfig
             // 
@@ -532,5 +552,7 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ListView lv_FailItems;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.TextBox tb_FillValue;
+        private System.Windows.Forms.Label label9;
     }
 }

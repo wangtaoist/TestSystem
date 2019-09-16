@@ -31,9 +31,10 @@ namespace WinForm
             GetInstPort();
             configData = dataBase.GetConfigData();
             tb_Title.Text = configData.Title;
-            cb_GPIB.SelectedItem = configData.VisaPort;
-            cb_Serial.SelectedItem = configData.SerialPort;
-            cb_Power.SelectedItem = configData.PowerPort;
+            cb_GPIB.SelectedText = configData.VisaPort;
+            //cb_Serial.SelectedItem = configData.SerialPort;
+            cb_Serial.SelectedText = configData.SerialPort;
+            cb_Power.SelectedText = configData.PowerPort;
             tb_RXPower.Text = configData.Sen_TX_Power;
             tb_Packets.Text = configData.number_of_packets;
             tb_InqTimeOut.Text = configData.Inquiry_TimeOut;
@@ -66,7 +67,7 @@ namespace WinForm
             tb_SNLength.Text = configData.SNLength.ToString();
 
             Multimeter_Select.Checked = configData.Multimeter_Select;
-            cb_Multimeter.SelectedItem = configData.MultimeterPort;
+            cb_Multimeter.SelectedText = configData.MultimeterPort;
 
             cb_AudioEnable.Checked = configData.AudioEnable;
             tb_Path.Text = configData.AudioPath;
@@ -81,14 +82,17 @@ namespace WinForm
             tb_Line.Text = configData.SNLine;
 
             cb_FixAuto.Checked = configData.AutoFixture;
-            cb_FixPort.SelectedItem = configData.FixturePort;
+            cb_FixPort.SelectedText = configData.FixturePort;
 
-            cb_LEDPort.SelectedItem = configData.LEDPort;
+            cb_LEDPort.SelectedText = configData.LEDPort;
             cb_LEDEnable.Checked = configData.LEDEnable;
 
             cb_PlugEnable.Checked = configData.PlugEnable;
             tb_MaxSet.Text = configData.MaxSet;
             tb_PlugNumber.Text = configData.PlugNumber;
+
+            cb_4010.SelectedText = configData._4010Port;
+            select_4010.Checked = configData._4010Enable;
         }
 
         public void GetInstPort()
@@ -103,6 +107,7 @@ namespace WinForm
                 cb_GPIB.Items.Add(list[i]);
                 cb_Power.Items.Add(list[i]);
                 cb_Multimeter.Items.Add(list[i]);
+                cb_4010.Items.Add(list[i]);
             }
             for (int i = 0; i < ports.Length; i++)
             {
@@ -117,9 +122,9 @@ namespace WinForm
         {
             Dictionary<string, object> dic = new Dictionary<string, object>();
             dic.Add("Title", tb_Title.Text.Trim());
-            dic.Add("VisaPort", cb_GPIB.SelectedItem);
-            dic.Add("SerialPort", cb_Serial.SelectedItem);
-            dic.Add("PowerPort", cb_Power.SelectedItem);
+            dic.Add("VisaPort", cb_GPIB.Text);
+            dic.Add("SerialPort", cb_Serial.Text);
+            dic.Add("PowerPort", cb_Power.Text);
             dic.Add("Sen_TX_Power", tb_RXPower.Text.Trim());
             dic.Add("number_of_packets", tb_Packets.Text.Trim());
             dic.Add("Low_Freq", tb_LowFreq.Text.Trim());
@@ -145,7 +150,7 @@ namespace WinForm
             dic.Add("Power_Enable",Power_Select.Checked);
             dic.Add("CompareSN", tb_CompareString.Text.Trim());
             dic.Add("SNLength", tb_SNLength.Text.Trim());
-            dic.Add("MultimeterPort", cb_Multimeter.SelectedItem);
+            dic.Add("MultimeterPort", cb_Multimeter.Text);
             dic.Add("Multimeter_Enable", Multimeter_Select.Checked);
             dic.Add("AudioEnable", cb_AudioEnable.Checked);
             dic.Add("AudioPath", tb_Path.Text.Trim());
@@ -154,12 +159,14 @@ namespace WinForm
             dic.Add("SNHear", tb_SNHear.Text.Trim());
             dic.Add("SNLine", tb_Line.Text.Trim());
             dic.Add("FixAuto", cb_FixAuto.Checked);
-            dic.Add("FixPort", cb_FixPort.SelectedItem);
+            dic.Add("FixPort", cb_FixPort.Text);
             dic.Add("LEDEnable", cb_LEDEnable.Checked);
-            dic.Add("LEDPort", cb_LEDPort.SelectedItem);
+            dic.Add("LEDPort", cb_LEDPort.Text);
             dic.Add("PlugEnable", cb_PlugEnable.Checked);
             dic.Add("MaxSet", tb_MaxSet.Text.Trim());
             dic.Add("PlugNumber", tb_PlugNumber.Text.Trim());
+            dic.Add("_4010Port", cb_4010.Text);
+            dic.Add("_4010Enable", select_4010.Checked);
             dataBase.UpdateConfigData(dic);
             this.DialogResult = System.Windows.Forms.DialogResult.Yes;
         }

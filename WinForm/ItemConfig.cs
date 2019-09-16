@@ -71,7 +71,7 @@ namespace WinForm
                 cb_Check.Checked = item.Check;
                 cb_Show.Checked = item.Show;
                 tb_Remark.Text = item.Remark;
-
+                tb_FillValue.Text = item.FillValue;
             }
          
         }
@@ -117,6 +117,7 @@ namespace WinForm
                     TestItems[i].Other = tb_Other.Text.Trim();
                     TestItems[i].Check = cb_Check.Checked;
                     TestItems[i].Show = cb_Show.Checked;
+                    TestItems[i].FillValue = tb_FillValue.Text;
 
                     lst_Test_selectFunction.Items[i].Text = tb_ItemFriendname.Text.Trim();
                 }

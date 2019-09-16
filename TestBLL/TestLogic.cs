@@ -6,6 +6,7 @@ using TestModel;
 using TestTool;
 using System.Data;
 using TestDAL;
+using System.Threading;
 
 namespace TestBLL
 {
@@ -76,6 +77,12 @@ namespace TestBLL
                     operate.initMultimeter();
                     testQueue.Enqueue("打开和初始化万用表完成");
                 }
+                if(config._4010Enable)
+                {
+                    testQueue.Enqueue("打开和初始化仪4010");
+                    operate.init4010();
+                    testQueue.Enqueue("打开和初始化4010完成");
+                }
             }
             catch (Exception ex)
             {
@@ -90,38 +97,27 @@ namespace TestBLL
             {
                 case "CSR_Open_Connection":
                     {
-                        data = csr.OpenPort(data);
-                        break;
-                    }
-                case "CSR_Check_PsKey":
-                    {
-                        break;
-                    }
-                case "MT8852_Read_BD_Address":
-                    {
-                       data = operate.GetBTAddress(data);
+                        data = operate.Open_CSR_Port(data);
                         break;
                     }
                 case "CSR_Cal_Freq":
                     {
-                        data = operate.CalFreq(data);
+                        data = operate.CSR_CalFreq(data);
                         break;
                     }
                 case "CSR_Offset_Gain":
                     {
-                        data = csr.ReadOffset(data);
+                        data = operate.CSR_Read_Trim(data);
                         break;
                     }
                 case "CSR_Enter_TestMode":
                     {
+                        data = operate.CSR_EnableTestMode(data);
                         break;
                     }
-                case "1455_Open_Connection":
+                case "CSR_Cloesd_Port":
                     {
-                        break;
-                    }
-                case "CalFreq_Run_8852_Script":
-                    {
+                        data = operate.CSR_Read_Trim(data);
                         break;
                     }
                 case "Open_MT8852":
@@ -137,6 +133,45 @@ namespace TestBLL
                 case "Run_MT8852_Script":
                     {
                         data = operate.Run_Script(data);
+                        break;
+                    }
+                case "Run_MT8852_CalcFreqScript":
+                    {
+                        byte sampTrim = 0x44;
+                        TestData calData = null;
+                        operateBES.BES_WriteTrim(sampTrim);
+                        for (int i = 0; i < 3; i++)
+                        {
+                            operate.Run_MT8852_CalcFreqScript(data);
+                            calData = operate.GetInitialcarrier(data);
+                            testQueue.Enqueue("频率偏移:" + calData.Value);
+                            if (calData.Result == "Pass")
+                            {
+                                data.Result = "Pass";
+                                data.Value = calData.Value;
+                                break;
+                            }
+                            else
+                            {
+                                int freqOff = (int)double.Parse(calData.Value) * 2;
+                                byte trim = (byte)(sampTrim - Convert.ToByte(Math.Abs(freqOff)));
+                                testQueue.Enqueue("写入Trim:" + trim);
+                                Thread.Sleep(1000);
+                                operateBES.BES_WriteTrim(trim);
+                            }
+                            Thread.Sleep(200);
+                            if (i == 2)
+                            {
+                                data.Result = "Fail";
+                                data.Value = calData.Value;
+                            }
+                        }
+                        //data = operate.Run_MT8852_CalcFreqScript(data);
+                        break;
+                    }
+                case "MT8852_Read_BD_Address":
+                    {
+                        data = operate.GetBTAddress(data);
                         break;
                     }
                 case "DUT_Power":
@@ -164,6 +199,91 @@ namespace TestBLL
                         data = operate.GetCarrierdrift(data);
                         break;
                     }
+
+                case "Open_4010":
+                    {
+                        data = operate.Open_4010(data);
+                        break;
+                    }
+                case "Run_4010Script":
+                    {
+                        data = operate.Run_4010Script(data);
+                        break;
+                    }
+                case "Agilent4010_CalcFreq":
+                    {
+                        byte sampTrim = 0x44;
+                        operateBES.BES_WriteTrim(sampTrim);
+                        //operateBES.BES_Enter_DUTMode(new TestData());
+                        for (int i = 0; i < 5; i++)
+                        {
+                            operate.Agilent4010_CalcFreq();
+                            TestData calData = operate.Get4010Initialcarrier(data);
+                            if(calData.Result == "Pass")
+                            {
+                                data.Result = "Pass";
+                                data.Value = calData.Value;
+                                break;
+                            }
+                            else
+                            {
+                                int freqOff = (int)double.Parse(calData.Value) * 2;
+                               byte trim =(byte) (sampTrim - Convert.ToByte(Math.Abs(freqOff)));
+                                Thread.Sleep(1000);
+                                operateBES.BES_WriteTrim(trim);
+                            }
+                            Thread.Sleep(200);
+                            if(i == 4 )
+                            {
+                                data.Result = "Fail";
+                                data.Value = "Fail";
+                            }
+                        }
+                       
+                        break;
+                    }
+                case "Run_4010CalcFreqAfterScript":
+                    {
+                        data = operate.Run_4010CalcFreqAfterScript(data);
+                        break;
+                    }
+                case "Get4010TXPower":
+                    {
+                        data = operate.Get4010TXPower(data);
+                        break;
+                    }
+                case "Get4010SingleSensitivity":
+                    {
+                        data = operate.Get4010SingleSensitivity(data);
+                        break;
+                    }
+                case "Get4010Modulationindex":
+                    {
+                        data = operate.Get4010Modulationindex(data);
+                        break;
+                    }
+                case "Get4010Initialcarrier":
+                    {
+                        data = operate.Get4010Initialcarrier(data);
+                        break;
+                    }
+                case "Get4010Carrierdrift":
+                    {
+                        data = operate.Get4010Carrierdrift(data);
+                        break;
+                    }
+                case "Get4010BTAddress":
+                    {
+                        data = operate.Get4010BTAddress(data);
+                        break;
+                    }
+
+                case "Closed_4010":
+                    {
+                        data = operate.Closed_4010(data);
+                        break;
+                    }
+
                 case "CSR_Write_PsKey":
                     {
                         break;
@@ -200,6 +320,11 @@ namespace TestBLL
                 case "K2300Series_ChannelOne_ReadCurrent":
                     {
                         data = operate.K2300Series_ChannelOne_ReadCurrent(data);
+                        break;
+                    }
+                case "K2300Series_ChannelTwo_OverVoltage":
+                    {
+                        data = operate.K2300Series_ChannelTwo_OverVoltage(data);
                         break;
                     }
                 case "K2300Series_ChannelTwo_ReadVoltage":
@@ -247,6 +372,11 @@ namespace TestBLL
                         data = operate.HP66319D_ChannelOne_OverVoltage(data);
                         break;
                     }
+                case "HP66319D_ChannelTwo_OverVoltage":
+                    {
+                        data = operate.HP66319D_ChannelTwo_OverVoltage(data);
+                        break;
+                    }
                 case "HP66319D_ChannelOne_ReadVoltage":
                     {
                         data = operate.HP66319D_ChannelOne_ReadVoltage(data);
@@ -257,6 +387,7 @@ namespace TestBLL
                         data = operate.HP66319D_ChannelOne_ReadCurrent(data);
                         break;
                     }
+
                 case "HP66319D_ChannelTwo_ReadVoltage":
                     {
                         data = operate.HP66319D_ChannelTwo_ReadVoltage(data);
@@ -292,9 +423,24 @@ namespace TestBLL
                         data = operate.Key34461_ReadVoltage(data);
                         break;
                     }
+                case "Key34461_ReadACVoltage":
+                    {
+                        data = operate.Key34461_ReadACVoltage(data);
+                        break;
+                    }
                 case "Key34461_ReadCurrent":
                     {
                         data = operate.Key34461_ReadCurrent(data);
+                        break;
+                    }
+                case "Key34461_ReadResistance":
+                    {
+                        data = operate.Key34461_ReadResistance(data);
+                        break;
+                    }
+                case "Key34461_ReadContinuity":
+                    {
+                        data = operate.Key34461_ReadContinuity(data);
                         break;
                     }
                 case "Key34461_Closed":
@@ -319,6 +465,16 @@ namespace TestBLL
                 case "BES_HWVersion":
                     {
                         data = operateBES.ReadHWVersion(data);
+                        break;
+                    }
+                case "BES_ReadTrim":
+                    {
+                        data = operateBES.BES_ReadTrim(data);
+                        break;
+                    }
+                case "BES_HWVersion_ASCII":
+                    {
+                        data = operateBES.ReadHWVersion_ASCII(data);
                         break;
                     }
                 case "BES_WhiteLight":
@@ -478,6 +634,31 @@ namespace TestBLL
                         data = operateBES.BES_WriteHWVersion(data);
                         break;
                     }
+                case "BES_WriteHWVersion_ASCII":
+                    {
+                        data = operateBES.BES_WriteHWVersion_ASCII(data);
+                        break;
+                    }
+                case "BES_ControlMic1":
+                    {
+                        data = operateBES.BES_ControlMic1(data);
+                        break;
+                    }
+                case "BES_ControlMic2":
+                    {
+                        data = operateBES.BES_ControlMic2(data);
+                        break;
+                    }
+                case "BES_ControlMic3":
+                    {
+                        data = operateBES.BES_ControlMic3(data);
+                        break;
+                    }
+                case "BES_ControlMicAllOpen":
+                    {
+                        data = operateBES.BES_ControlMicAllOpen(data);
+                        break;
+                    }
                 case "BES_OpenSerialPort":
                     {
                         data = operateBES.OpenSerialPort(data);
@@ -491,6 +672,11 @@ namespace TestBLL
                 case "SwitchToA2dp":
                     {
                         data = Audio.SwitchToA2dp(data);
+                        break;
+                    }
+                case "OpenA2":
+                    {
+                        data = Audio.OpenA2(data);
                         break;
                     }
                 case "SwitchToHfp":
@@ -541,6 +727,16 @@ namespace TestBLL
                 case "SpeakerCrosstalk_Right":
                     {
                         data = Audio.SpeakerCrosstalk_Right(data);
+                        break;
+                    }
+                case "SpeakerNoise_Left":
+                    {
+                        data = Audio.SpeakerNoise_Left(data);
+                        break;
+                    }
+                case "SpeakerNoise_Right":
+                    {
+                        data = Audio.SpeakerNoise_Right(data);
                         break;
                     }
                 case "MicphoneLevel":

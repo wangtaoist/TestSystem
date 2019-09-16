@@ -18,9 +18,34 @@ namespace TestDAL
             //list.Add("CSR_Offset_Gain");
             //list.Add("CSR_Enter_TestMode");
             //list.Add("1455_Open_Connection");
-
-
             //list.Add("Enter_DUT_Mode");
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CSR_Open_Connection",
+                Remark = "打开CSR端口，使用SPI方式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CSR_Cal_Freq",
+                Remark = "CSR校正频率，校正时需要一直处于开机状态"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CSR_Offset_Gain",
+                Remark = "读取CSR校正Trim值"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CSR_Enter_TestMode",
+                Remark = "CSR进入测试模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CSR_Cloesd_Port",
+                Remark = "关闭CSR端口"
+            });
+
             list.Add(new InitTestItem()
             {
                 TestItem = "Open_MT8852",
@@ -35,6 +60,11 @@ namespace TestDAL
             {
                 TestItem = "Run_MT8852_Script",
                 Remark = "运行MT8852脚本，进行测试"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Run_MT8852_CalcFreqScript",
+                Remark = "运行MT8852校准频率脚本，进行测试"
             });
             list.Add(new InitTestItem()
             {
@@ -77,18 +107,72 @@ namespace TestDAL
             //list.Add("CSR_Write_PsKey");
             //list.Add("RunExternalApp");
             //list.Add("CSR_Offset_Gain");
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Agilent4010_CalcFreq",
+                Remark = "使用Agilent4010对耳机进行频率校准，通过测试指令写入trim值"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Open_4010",
+                Remark = "打开Agilent4010端口"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Closed_4010",
+                Remark = "关闭Agilent4010端口"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Run_4010CalcFreqAfterScript",
+                Remark = "运行Agilent4010校正频率之后测试Script"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Run_4010Script",
+                Remark = "运行Agilent4010测试Script"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Get4010TXPower",
+                Remark = "测试Agilent4010发送功率"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Get4010SingleSensitivity",
+                Remark = "测试Agilent4010BER"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Get4010Modulationindex",
+                Remark = "测试Agilent4010调制指数"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Get4010Initialcarrier",
+                Remark = "测试Agilent4010初始载波"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Get4010Carrierdrift",
+                Remark = "测试Agilent4010载波漂移"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Get4010BTAddress",
+                Remark = "获取Agilent测试耳机蓝牙地址"
+            });
 
             list.Add(new InitTestItem()
             {
                 TestItem = "K2300Series_Open",
-                Remark = "打开K2300系列电源端口"
+                Remark = "K2300系列电源打开"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "K2300Series_ChannelOne_OutPut",
                 Remark = "K2300系列电源通道1输出"
             });
-          
             list.Add(new InitTestItem()
             {
                 TestItem = "K2300Series_ChannelTwo_OutPut",
@@ -101,6 +185,11 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "K2300Series_ChannelTwo_ChargeOutPut",
+                Remark = "K2300系列电源通道2输出充电电压，电压在下限设置"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "K2300Series_ChannelOne_ReadVoltage",
                 Remark = "读取K2300系列电源通道1电压"
             });
@@ -108,6 +197,11 @@ namespace TestDAL
             {
                 TestItem = "K2300Series_ChannelOne_ReadCurrent",
                 Remark = "读取K2300系列电源通道1电流"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "K2300Series_ChannelTwo_OverVoltage",
+                Remark = "K2300系列电源通道2输出过压电压，电压在下限设置"
             });
             list.Add(new InitTestItem()
             {
@@ -167,6 +261,11 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "HP66319D_ChannelTwo_ChargeOutPut",
+                Remark = "HP66319D系列电源通道2输出充电电压，电压在下限设置"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "HP66319D_ChannelOne_ReadVoltage",
                 Remark = "读取HP66319D系列电源通道1电压"
             });
@@ -174,6 +273,11 @@ namespace TestDAL
             {
                 TestItem = "HP66319D_ChannelOne_ReadCurrent",
                 Remark = "读取HP66319D系列电源通道1电流"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "HP66319D_ChannelTwo_OverVoltage",
+                Remark = "HP66319D系列电源通道2输出过压电压，电压在下限设置"
             });
             list.Add(new InitTestItem()
             {
@@ -220,12 +324,27 @@ namespace TestDAL
             list.Add(new InitTestItem()
             {
                 TestItem = "Key34461_ReadVoltage",
-                Remark = "Key34461读取电压"
+                Remark = "Key34461读取直流电压"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Key34461_ReadACVoltage",
+                Remark = "Key34461读取交流电压"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Key34461_ReadResistance",
+                Remark = "Key34461读取电阻，单位：Ω，KΩ，MΩ"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Key34461_ReadContinuity",
+                Remark = "Key34461读取通断"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "Key34461_ReadCurrent",
-                Remark = "Key34461读取电流"
+                Remark = "Key34461读取电流，单位：mA,uA"
             });
             list.Add(new InitTestItem()
             {
@@ -261,6 +380,16 @@ namespace TestDAL
             {
                 TestItem = "BES_HWVersion",
                 Remark = "读取BES系列耳机固体版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_ReadTrim",
+                Remark = "读取BES系列耳机校正频率Trim值"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_HWVersion_ASCII",
+                Remark = "读取BES系列耳机固体版本_ASCII"
             });
             list.Add(new InitTestItem()
             {
@@ -444,6 +573,32 @@ namespace TestDAL
                 TestItem = "BES_WriteHWVersion",
                 Remark = "写入BES系列耳机蓝牙硬件版本"
             });
+            //BES_WriteHWVersion_ASCII
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_WriteHWVersion_ASCII",
+                Remark = "写入BES系列耳机蓝牙硬件版本_ASCII"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_ControlMic1",
+                Remark = "控制NTG主板主Mic打开"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_ControlMic2",
+                Remark = "控制NTG主板副Mic1打开"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_ControlMic3",
+                Remark = "控制NTG主板副Mic2打开"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_ControlMicAllOpen",
+                Remark = "控制NTG主板Mic全部打开"
+            });
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_ClosedSerialPort",
@@ -469,6 +624,11 @@ namespace TestDAL
 
             list.Add(new InitTestItem()
             {
+                TestItem = "OpenA2",
+                Remark = "打开与配置A2"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "SwitchToA2dp",
                 Remark = "控制耳机进入A2DP模式"
             });
@@ -485,57 +645,67 @@ namespace TestDAL
             list.Add(new InitTestItem()
             {
                 TestItem = "SpeakerLevel_Left",
-                Remark = "测试左SPK电平"
+                Remark = "测试左SPK电平，单位：Vrmas"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "SpeakerLevel_Right",
-                Remark = "测试右SPK电平"
+                Remark = "测试右SPK电平，单位：Vrmas"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "SpeakerTHD_Left",
-                Remark = "测试左SPK THD+N"
+                Remark = "测试左SPK THD+N Radio，单位：%"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "SpeakerTHD_Right",
-                Remark = "测试右SPK THD+N"
+                Remark = "测试右SPK THD+N Radio，单位：%"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "SpeakerSNR_Left",
-                Remark = "测试左SPK信噪比"
+                Remark = "测试左SPK信噪比，单位dB"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "SpeakerSNR_Right",
-                Remark = "测试右SPK信噪比"
+                Remark = "测试右SPK信噪比，单位dB"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerNoise_Left",
+                Remark = "测试左SPK低噪音电平，单位：Vrms"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerNoise_Right",
+                Remark = "测试右SPK低噪音电平，单位：Vrms"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "SpeakerCrosstalk_Left",
-                Remark = "测试左SPK Crosstalk"
+                Remark = "测试左SPK Crosstalk，单位dB"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "SpeakerCrosstalk_Right",
-                Remark = "测试右SPK Crosstalk"
+                Remark = "测试右SPK Crosstalk，单位dB"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "MicphoneLevel",
-                Remark = "测试Mic电平"
+                Remark = "测试Mic电平，单位是Vrms"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "MicphoneTHD",
-                Remark = "测试Mic THD+N"
+                Remark = "测试Mic THD+N Radio，单位是%"
             });
             list.Add(new InitTestItem()
             {
                 TestItem = "MicphoneSNR",
-                Remark = "关闭和释放BES系列耳机串口"
+                Remark = "测试Mic 信噪比，单位是dB"
             });
             list.Add(new InitTestItem()
             {

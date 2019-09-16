@@ -32,6 +32,8 @@
             this.tb_Title = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cb_4010 = new System.Windows.Forms.ComboBox();
+            this.label27 = new System.Windows.Forms.Label();
             this.cb_LEDPort = new System.Windows.Forms.ComboBox();
             this.label24 = new System.Windows.Forms.Label();
             this.cb_Serial = new System.Windows.Forms.ComboBox();
@@ -80,6 +82,7 @@
             this.cb_LEDEnable = new System.Windows.Forms.CheckBox();
             this.Multimeter_Select = new System.Windows.Forms.CheckBox();
             this.Power_Select = new System.Windows.Forms.CheckBox();
+            this.select_4010 = new System.Windows.Forms.CheckBox();
             this.Serial_Select = new System.Windows.Forms.CheckBox();
             this.GPIB_Select = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -105,12 +108,12 @@
             this.label23 = new System.Windows.Forms.Label();
             this.cb_FixAuto = new System.Windows.Forms.CheckBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.cb_PlugEnable = new System.Windows.Forms.CheckBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.tb_MaxSet = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.tb_PlugNumber = new System.Windows.Forms.TextBox();
             this.bt_Clear = new System.Windows.Forms.Button();
+            this.tb_PlugNumber = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.cb_PlugEnable = new System.Windows.Forms.CheckBox();
+            this.tb_MaxSet = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -155,6 +158,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cb_4010);
+            this.groupBox2.Controls.Add(this.label27);
             this.groupBox2.Controls.Add(this.cb_LEDPort);
             this.groupBox2.Controls.Add(this.label24);
             this.groupBox2.Controls.Add(this.cb_Serial);
@@ -171,6 +176,23 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "测试仪器端口设置";
+            // 
+            // cb_4010
+            // 
+            this.cb_4010.FormattingEnabled = true;
+            this.cb_4010.Location = new System.Drawing.Point(176, 52);
+            this.cb_4010.Name = "cb_4010";
+            this.cb_4010.Size = new System.Drawing.Size(99, 20);
+            this.cb_4010.TabIndex = 1;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(145, 55);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(29, 12);
+            this.label27.TabIndex = 0;
+            this.label27.Text = "4010";
             // 
             // cb_LEDPort
             // 
@@ -579,6 +601,7 @@
             this.groupBox7.Controls.Add(this.cb_LEDEnable);
             this.groupBox7.Controls.Add(this.Multimeter_Select);
             this.groupBox7.Controls.Add(this.Power_Select);
+            this.groupBox7.Controls.Add(this.select_4010);
             this.groupBox7.Controls.Add(this.Serial_Select);
             this.groupBox7.Controls.Add(this.GPIB_Select);
             this.groupBox7.Location = new System.Drawing.Point(8, 182);
@@ -591,7 +614,7 @@
             // cb_LEDEnable
             // 
             this.cb_LEDEnable.AutoSize = true;
-            this.cb_LEDEnable.Location = new System.Drawing.Point(233, 25);
+            this.cb_LEDEnable.Location = new System.Drawing.Point(256, 25);
             this.cb_LEDEnable.Name = "cb_LEDEnable";
             this.cb_LEDEnable.Size = new System.Drawing.Size(42, 16);
             this.cb_LEDEnable.TabIndex = 0;
@@ -601,7 +624,7 @@
             // Multimeter_Select
             // 
             this.Multimeter_Select.AutoSize = true;
-            this.Multimeter_Select.Location = new System.Drawing.Point(168, 25);
+            this.Multimeter_Select.Location = new System.Drawing.Point(199, 25);
             this.Multimeter_Select.Name = "Multimeter_Select";
             this.Multimeter_Select.Size = new System.Drawing.Size(60, 16);
             this.Multimeter_Select.TabIndex = 0;
@@ -611,17 +634,27 @@
             // Power_Select
             // 
             this.Power_Select.AutoSize = true;
-            this.Power_Select.Location = new System.Drawing.Point(115, 24);
+            this.Power_Select.Location = new System.Drawing.Point(152, 25);
             this.Power_Select.Name = "Power_Select";
             this.Power_Select.Size = new System.Drawing.Size(48, 16);
             this.Power_Select.TabIndex = 0;
             this.Power_Select.Text = "电源";
             this.Power_Select.UseVisualStyleBackColor = true;
             // 
+            // select_4010
+            // 
+            this.select_4010.AutoSize = true;
+            this.select_4010.Location = new System.Drawing.Point(53, 25);
+            this.select_4010.Name = "select_4010";
+            this.select_4010.Size = new System.Drawing.Size(48, 16);
+            this.select_4010.TabIndex = 0;
+            this.select_4010.Text = "4010";
+            this.select_4010.UseVisualStyleBackColor = true;
+            // 
             // Serial_Select
             // 
             this.Serial_Select.AutoSize = true;
-            this.Serial_Select.Location = new System.Drawing.Point(62, 25);
+            this.Serial_Select.Location = new System.Drawing.Point(103, 25);
             this.Serial_Select.Name = "Serial_Select";
             this.Serial_Select.Size = new System.Drawing.Size(48, 16);
             this.Serial_Select.TabIndex = 0;
@@ -631,7 +664,7 @@
             // GPIB_Select
             // 
             this.GPIB_Select.AutoSize = true;
-            this.GPIB_Select.Location = new System.Drawing.Point(8, 25);
+            this.GPIB_Select.Location = new System.Drawing.Point(6, 25);
             this.GPIB_Select.Name = "GPIB_Select";
             this.GPIB_Select.Size = new System.Drawing.Size(48, 16);
             this.GPIB_Select.TabIndex = 0;
@@ -858,31 +891,22 @@
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "插拔次数设置";
             // 
-            // cb_PlugEnable
+            // bt_Clear
             // 
-            this.cb_PlugEnable.AutoSize = true;
-            this.cb_PlugEnable.Location = new System.Drawing.Point(8, 24);
-            this.cb_PlugEnable.Name = "cb_PlugEnable";
-            this.cb_PlugEnable.Size = new System.Drawing.Size(72, 16);
-            this.cb_PlugEnable.TabIndex = 0;
-            this.cb_PlugEnable.Text = "是否启用";
-            this.cb_PlugEnable.UseVisualStyleBackColor = true;
+            this.bt_Clear.Location = new System.Drawing.Point(421, 24);
+            this.bt_Clear.Name = "bt_Clear";
+            this.bt_Clear.Size = new System.Drawing.Size(75, 23);
+            this.bt_Clear.TabIndex = 3;
+            this.bt_Clear.Text = "清除次数";
+            this.bt_Clear.UseVisualStyleBackColor = true;
+            this.bt_Clear.Click += new System.EventHandler(this.bt_Clear_Click);
             // 
-            // label25
+            // tb_PlugNumber
             // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(88, 26);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(77, 12);
-            this.label25.TabIndex = 1;
-            this.label25.Text = "最大次数设置";
-            // 
-            // tb_MaxSet
-            // 
-            this.tb_MaxSet.Location = new System.Drawing.Point(169, 22);
-            this.tb_MaxSet.Name = "tb_MaxSet";
-            this.tb_MaxSet.Size = new System.Drawing.Size(74, 21);
-            this.tb_MaxSet.TabIndex = 2;
+            this.tb_PlugNumber.Location = new System.Drawing.Point(322, 23);
+            this.tb_PlugNumber.Name = "tb_PlugNumber";
+            this.tb_PlugNumber.Size = new System.Drawing.Size(62, 21);
+            this.tb_PlugNumber.TabIndex = 2;
             // 
             // label26
             // 
@@ -893,22 +917,31 @@
             this.label26.TabIndex = 1;
             this.label26.Text = "已使用次数";
             // 
-            // tb_PlugNumber
+            // cb_PlugEnable
             // 
-            this.tb_PlugNumber.Location = new System.Drawing.Point(322, 23);
-            this.tb_PlugNumber.Name = "tb_PlugNumber";
-            this.tb_PlugNumber.Size = new System.Drawing.Size(62, 21);
-            this.tb_PlugNumber.TabIndex = 2;
+            this.cb_PlugEnable.AutoSize = true;
+            this.cb_PlugEnable.Location = new System.Drawing.Point(8, 24);
+            this.cb_PlugEnable.Name = "cb_PlugEnable";
+            this.cb_PlugEnable.Size = new System.Drawing.Size(72, 16);
+            this.cb_PlugEnable.TabIndex = 0;
+            this.cb_PlugEnable.Text = "是否启用";
+            this.cb_PlugEnable.UseVisualStyleBackColor = true;
             // 
-            // bt_Clear
+            // tb_MaxSet
             // 
-            this.bt_Clear.Location = new System.Drawing.Point(421, 24);
-            this.bt_Clear.Name = "bt_Clear";
-            this.bt_Clear.Size = new System.Drawing.Size(75, 23);
-            this.bt_Clear.TabIndex = 3;
-            this.bt_Clear.Text = "清除次数";
-            this.bt_Clear.UseVisualStyleBackColor = true;
-            this.bt_Clear.Click += new System.EventHandler(this.bt_Clear_Click);
+            this.tb_MaxSet.Location = new System.Drawing.Point(169, 22);
+            this.tb_MaxSet.Name = "tb_MaxSet";
+            this.tb_MaxSet.Size = new System.Drawing.Size(74, 21);
+            this.tb_MaxSet.TabIndex = 2;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(88, 26);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(77, 12);
+            this.label25.TabIndex = 1;
+            this.label25.Text = "最大次数设置";
             // 
             // ConfigSetting
             // 
@@ -1048,5 +1081,8 @@
         private System.Windows.Forms.CheckBox cb_PlugEnable;
         private System.Windows.Forms.TextBox tb_MaxSet;
         private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.ComboBox cb_4010;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.CheckBox select_4010;
     }
 }

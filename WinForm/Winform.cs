@@ -233,7 +233,9 @@ namespace WinForm
         {
             foreach (var item in FailItems)
             {
+                Thread.Sleep(item.beferTime);
                 testLogic.TestProcess(item);
+                Thread.Sleep(item.AfterTime);
             }
         }
 
@@ -329,15 +331,14 @@ namespace WinForm
                 tb_SN.Enabled = true;
                 btTest.Enabled = true;
 
-                if (TestItmes.Where(s => s.TestItem.Contains("BES_ClearPair"))
-                    .Count() == 0)
-                {
+                //if (TestItmes.Where(s => s.TestItem.Contains("BES_ClearPair")).Count() == 0 
+                //    && TestItmes.Where(s => s.TestItem.Contains("BES_Shutdown")).Count() == 0)
+                //{
                     testFlag = false;
                     stopwatch.Stop();
                     label_TestResult.Text = "Pass";
                     label_TestResult.BackColor = Color.SpringGreen;
-
-                }
+                //}
                 testLogic.UpdataTestCount(true);
                 //Thread.Sleep(1000);
                 ShowTestRadio();
@@ -364,11 +365,12 @@ namespace WinForm
                     ThreadPool.QueueUserWorkItem(new WaitCallback(FocusTextBox));
                 }
                
-                if (TestItmes.Where(s => s.TestItem.Contains("ClearPair")).Count() == 0)
-                {
+                //if (TestItmes.Where(s => s.TestItem.Contains("ClearPair")).Count() == 0
+                //    && TestItmes.Where(s => s.TestItem.Contains("Shutdown")).Count() == 0)
+                //{
                     ShowTime = new System.Threading.Timer(new TimerCallback(ShowTime_Tick));
                     ShowTime.Change(3000, 5000);
-                }
+                //}
 
             }
             else if (TestItmes.Where(s => s.Result != "").Count() == TestItmes.Count)
@@ -624,17 +626,17 @@ namespace WinForm
                 this.BeginInvoke(new Action(() =>
                 {
                     //Others.mouse_event((int)0x0002, x, y, 0, IntPtr.Zero);
-                    if(this.Handle != Others.GetF())
+                    if (this.Handle != Others.GetF())
                     {
                         Others.SetF(this.Handle);
                     }
                     tb_SN.Select();
                     tb_SN.Focus();
-                    
+
                 }));
                 Thread.Sleep(1000);
             }
-           
+
         }
 
         protected override void WndProc(ref Message m)
@@ -657,23 +659,24 @@ namespace WinForm
             {
                 TestQueue.Enqueue("拔出设备");
                 //lb_Message.Items.Add("拔出设备");
-                if (TestItmes.Where(s => s.TestItem.Contains("ClearPair")).Count() >= 1
-                    && TestItmes.Where(s => s.Result == "Pass").Count() 
-                    == TestItmes.Count)
-                {
-                    stopwatch.Stop();
-                    //Thread.Sleep(5000);
-                    time = new System.Windows.Forms.Timer();
-                    time.Interval = 1000;
-                    time.Tick += Time_Tick;
-                    time.Start();
+                //if ((TestItmes.Where(s => s.TestItem.Contains("ClearPair")).Count() >= 1 ||
+                //    TestItmes.Where(s => s.TestItem.Contains("Shutdown")).Count() >= 1)
+                //    && TestItmes.Where(s => s.Result == "Pass").Count() 
+                //    == TestItmes.Count) 
+                //{
+                //    stopwatch.Stop();
+                //    //Thread.Sleep(5000);
+                //    time = new System.Windows.Forms.Timer();
+                //    time.Interval = 1000;
+                //    time.Tick += Time_Tick;
+                //    time.Start();
                    
-                    testFlag = false;
+                //    testFlag = false;
 
-                    ShowTime = new System.Threading.Timer(new TimerCallback(ShowTime_Tick));
-                    ShowTime.Change(3000,3000);
+                //    ShowTime = new System.Threading.Timer(new TimerCallback(ShowTime_Tick));
+                //    ShowTime.Change(3000,3000);
 
-                }
+                //}
             }
             base.WndProc(ref m);
         }

@@ -79,13 +79,14 @@ namespace TestTool
                         Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString() == "" 
                         ? "false": dt.Rows[i].ItemArray[9].ToString()),
                         Show = bool.Parse(dt.Rows[i].ItemArray[10].ToString() == ""
-                        ? "false" : dt.Rows[i].ItemArray[10].ToString())
+                        ? "false" : dt.Rows[i].ItemArray[10].ToString()),
+                        FillValue = dt.Rows[i].ItemArray[11].ToString() == "" ? "0"
+                        :dt.Rows[i].ItemArray[11].ToString()
                     });
                 }
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             ClosedConnect();
@@ -121,8 +122,9 @@ namespace TestTool
                         Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString() == ""
                         ? "false" : dt.Rows[i].ItemArray[9].ToString()),
                         Show = bool.Parse(dt.Rows[i].ItemArray[10].ToString() == ""
-                        ? "false" : dt.Rows[i].ItemArray[10].ToString())
-
+                        ? "false" : dt.Rows[i].ItemArray[10].ToString()),
+                         FillValue = dt.Rows[i].ItemArray[11].ToString() == "" ? "0"
+                        : dt.Rows[i].ItemArray[11].ToString()
                     });
                 }
             }
@@ -199,6 +201,9 @@ namespace TestTool
                 list.PlugEnable = bool.Parse(dt.Rows[41].ItemArray[1].ToString());
                 list.MaxSet = dt.Rows[42].ItemArray[1].ToString();
                 list.PlugNumber = dt.Rows[43].ItemArray[1].ToString();
+
+                list._4010Port = dt.Rows[44].ItemArray[1].ToString();
+                list._4010Enable = bool.Parse(dt.Rows[45].ItemArray[1].ToString());
             }
             catch (Exception)
             {
@@ -355,8 +360,9 @@ namespace TestTool
                     sb.AppendFormat(",'{0}','{1}'", item.TestItemName, item.Unit);
                     sb.AppendFormat(",'{0}','{1}'", item.UppLimit, item.LowLimit);
                     sb.AppendFormat(",{0},{1}", item.beferTime, item.AfterTime);
-                    sb.AppendFormat(",'{0}','{1}','{2}','{3}')"
-                        , item.Remark, item.Other, item.Check, item.Show);
+                    sb.AppendFormat(",'{0}','{1}','{2}','{3}','{4}')"
+                        , item.Remark, item.Other, item.Check
+                        , item.Show, item.FillValue);
 
                     cmd.CommandText = sb.ToString();
                     cmd.CommandTimeout = 20;
@@ -385,8 +391,9 @@ namespace TestTool
                     sb.AppendFormat(",'{0}','{1}'", item.TestItemName, item.Unit);
                     sb.AppendFormat(",'{0}','{1}'", item.UppLimit, item.LowLimit);
                     sb.AppendFormat(",{0},{1}", item.beferTime, item.AfterTime);
-                    sb.AppendFormat(",'{0}','{1}','{2}','{3}')"
-                        , item.Remark, item.Other, item.Check, item.Show);
+                    sb.AppendFormat(",'{0}','{1}','{2}','{3}','{4}')"
+                        , item.Remark, item.Other, item.Check
+                        , item.Show, item.FillValue);
 
                     cmd.CommandText = sb.ToString();
                     cmd.CommandTimeout = 20;

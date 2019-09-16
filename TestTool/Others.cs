@@ -25,6 +25,10 @@ namespace TestTool
         [DllImport("user32.dll", EntryPoint = "SetForegroundWindow")]
         public static extern bool SetF(IntPtr hWnd); //设置此窗体为活动窗体
 
+        [DllImport("transferdll.dll",EntryPoint = "dldstart", CharSet = System.Runtime.InteropServices.CharSet.Auto, ExactSpelling = true)]
+        public static extern bool dldstart(IntPtr hWnd); //设置此窗体为活动窗体
+
+
         public static void setResolution(double newx, double newy, Control cons)
         {
             foreach (Control con in cons.Controls)

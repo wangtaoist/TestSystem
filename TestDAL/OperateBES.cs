@@ -28,6 +28,7 @@ namespace TestDAL
         public TestData OpenSerialPort(TestData data)
         {
             try
+
             {
                 Serial.OpenSerialPort();
                 data.Result = "Pass";
@@ -64,6 +65,7 @@ namespace TestDAL
             try
             {
                 byte[] bytes = { 0x04, 0xff, 0x02, 0x01, 0x00 };
+                Thread.Sleep(500);
                 byte[] values = Serial.VisaQuery(bytes);
                 var version = Encoding.ASCII.GetString(values).Replace("\0", "")
                     .Remove(0, 3);
@@ -136,6 +138,50 @@ namespace TestDAL
                 }
             }
           
+            return data;
+        }
+
+        public TestData ReadHWVersion_ASCII(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x03, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+                // int length = Convert.ToInt16(values[2]);
+                var version = Encoding.ASCII.GetString(values).Replace("\0", "")
+                 .Remove(0, 3);
+
+                //StringBuilder version = new StringBuilder();
+                //for (int i = 3; i < 11; i++)
+                //{
+                //    version.Append(Convert.ToInt16(values[i]));
+                //}
+                if (data.LowLimit.Equals(version.ToString()))
+                {
+                    data.Result = "Pass";
+                    data.Value = version.ToString();
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = version.ToString();
+                    if (data.Check)
+                    {
+                        Serial.ClosedPort();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+
             return data;
         }
 
@@ -808,8 +854,9 @@ namespace TestDAL
             try
             {
                 byte[] bytes = { 0x04, 0xff, 0x1a, 0x01 };
+                //Thread.Sleep(5000);
                 byte[] values = Serial.VisaQuery(bytes);
-
+                
 
                 data.Result = "Pass";
                 data.Value = "Pass";
@@ -913,6 +960,41 @@ namespace TestDAL
                             Serial.ClosedPort();
                         }
                     }
+                }
+
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                    if (data.Check)
+                    {
+                        Serial.ClosedPort();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_ReadTrim(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x08, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+                if (values[1] == 0x08)
+                {
+                    data.Result = "Pass";
+                    data.Value = values[3].ToString("X2");
                 }
 
                 else
@@ -1645,6 +1727,178 @@ namespace TestDAL
             return data;
         }
 
+        public TestData BES_WriteHWVersion_ASCII(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x03, 0x00, 0x00 };
+                //byte[] values = Serial.VisaQuery(bytes);
+
+                //if (config.AutoSNTest)
+                //{
+                //    btAddress = GetProductSN(config.SNHear, config.SNLine);
+                //    address = Encoding.ASCII.GetBytes(btAddress);
+                //}
+                //else
+                //{
+                byte[] address = Encoding.ASCII.GetBytes(data.LowLimit.Trim());
+                //}
+                // address = Others.HexStringToByteArray(data.LowLimit);
+                byte length = byte.Parse(data.LowLimit.Trim().Length.ToString());
+                //byte[] address = new byte[data.LowLimit.Trim().Length];
+                byte[] value = new byte[bytes.Length + length];
+                bytes.CopyTo(value, 0);
+                value[4] = length;
+
+                //for (int i = 0; i < length; i++)
+                //{
+                //    address[i] = byte.Parse(data.LowLimit.Trim().Substring(i, 1));
+                //}
+                address.CopyTo(value, 5);
+                byte[] ret = Serial.VisaQuery(value);
+                if (ret[2] == length)
+                {
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                    if (data.Check)
+                    {
+                        Serial.ClosedPort();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_ControlMic1(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x22, 0x00, 0x01, 0x01 };
+                byte[] values = Serial.VisaQuery(bytes);
+               if(values[0] == 0x04)
+                {
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
+               else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_ControlMic2(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x22, 0x00, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+                if (values[0] == 0x04)
+                {
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_ControlMic3(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x22, 0x00, 0x01, 0x02 };
+                byte[] values = Serial.VisaQuery(bytes);
+                if (values[1] == 0x04)
+                {
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_ControlMicAllOpen(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x22, 0x00, 0x01, 0x03 };
+                byte[] values = Serial.VisaQuery(bytes);
+                if (values[1] == 0x04)
+                {
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
         public string BES_ReadBTAddress()
         {
             string address = string.Empty;
@@ -1665,6 +1919,27 @@ namespace TestDAL
                 Serial.ClosedPort();
             }
             return address;
+        }
+
+        public bool BES_WriteTrim(byte trim)
+        {
+            bool status = false; ;
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x08, 0x00, 0x01, trim };
+                byte[] values = Serial.VisaQuery(bytes);
+
+                if (values[3] == trim)
+                {
+                    status = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Serial.ClosedPort();
+            }
+            return status;
         }
 
         public void SetVolume()
