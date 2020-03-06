@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("Lchse_TDE_Program")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("产线测试软件")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Lchse")]
+[assembly: AssemblyCompany("江西联创宏声电子股份有限公司")]
 [assembly: AssemblyProduct("Test_Program")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2019")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2020")]
+[assembly: AssemblyTrademark("Lchse")]
 [assembly: AssemblyCulture("")]
 
 // 将 ComVisible 设置为 false 会使此程序集中的类型
@@ -33,4 +33,4 @@ using System.Runtime.InteropServices;
 // 方法是按如下所示使用“*”: :
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("19.04.11.01")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("20.03.03.01")]

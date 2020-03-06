@@ -23,14 +23,14 @@
         #region Windows 窗体设计器生成的代码
 
         /// <summary>
-        /// 设计器支持所需的方法 - 不要修改
-        /// 使用代码编辑器修改此方法的内容。
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Winform));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -68,6 +68,10 @@
             this.label_TestResult = new System.Windows.Forms.Label();
             this.tb_SN = new System.Windows.Forms.TextBox();
             this.btTest = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.mES功能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mESToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -108,10 +112,11 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.配置ToolStripMenuItem,
+            this.mES功能ToolStripMenuItem,
             this.关于ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(765, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(764, 25);
             this.menuStrip1.TabIndex = 15;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -129,28 +134,33 @@
             // ConfigToolStripMenuItem
             // 
             this.ConfigToolStripMenuItem.Name = "ConfigToolStripMenuItem";
-            this.ConfigToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.ConfigToolStripMenuItem.ShortcutKeyDisplayString = "";
+            this.ConfigToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.ConfigToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.ConfigToolStripMenuItem.Text = "测试参数配置";
             this.ConfigToolStripMenuItem.Click += new System.EventHandler(this.ConfigToolStripMenuItem_Click);
             // 
             // TestItemToolStripMenuItem
             // 
             this.TestItemToolStripMenuItem.Name = "TestItemToolStripMenuItem";
-            this.TestItemToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.TestItemToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.TestItemToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.TestItemToolStripMenuItem.Text = "测试项目配置";
             this.TestItemToolStripMenuItem.Click += new System.EventHandler(this.TestItemToolStripMenuItem_Click);
             // 
             // ReLoadToolStripMenuItem
             // 
             this.ReLoadToolStripMenuItem.Name = "ReLoadToolStripMenuItem";
-            this.ReLoadToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.ReLoadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.ReLoadToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.ReLoadToolStripMenuItem.Text = "重新加载程序";
             this.ReLoadToolStripMenuItem.Click += new System.EventHandler(this.ReLoadToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.ExitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.ExitToolStripMenuItem.Text = "退出";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -165,7 +175,8 @@
             // AboutToolStripMenuItem
             // 
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.AboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.AboutToolStripMenuItem.Text = "关于";
             this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
@@ -181,7 +192,7 @@
             // 
             // label_Test_Version
             // 
-            this.label_Test_Version.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.label_Test_Version.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Bold);
             this.label_Test_Version.Location = new System.Drawing.Point(6, 14);
             this.label_Test_Version.Name = "label_Test_Version";
             this.label_Test_Version.Size = new System.Drawing.Size(551, 92);
@@ -192,16 +203,16 @@
             // cht_PassRadio
             // 
             this.cht_PassRadio.BackColor = System.Drawing.SystemColors.Control;
-            chartArea2.BackColor = System.Drawing.SystemColors.Control;
-            chartArea2.Name = "ChartArea1";
-            this.cht_PassRadio.ChartAreas.Add(chartArea2);
+            chartArea1.BackColor = System.Drawing.SystemColors.Control;
+            chartArea1.Name = "ChartArea1";
+            this.cht_PassRadio.ChartAreas.Add(chartArea1);
             this.cht_PassRadio.Location = new System.Drawing.Point(162, 20);
             this.cht_PassRadio.Name = "cht_PassRadio";
             this.cht_PassRadio.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series2.Name = "Series1";
-            this.cht_PassRadio.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series1.Name = "Series1";
+            this.cht_PassRadio.Series.Add(series1);
             this.cht_PassRadio.Size = new System.Drawing.Size(120, 109);
             this.cht_PassRadio.TabIndex = 6;
             this.cht_PassRadio.Text = "chart1";
@@ -220,7 +231,7 @@
             // label_Time
             // 
             this.label_Time.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label_Time.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Time.Font = new System.Drawing.Font("Arial", 9F);
             this.label_Time.Location = new System.Drawing.Point(5, 15);
             this.label_Time.Name = "label_Time";
             this.label_Time.Size = new System.Drawing.Size(58, 35);
@@ -230,7 +241,7 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.dgv_Data);
-            this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.groupBox4.Location = new System.Drawing.Point(4, 136);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(466, 355);
@@ -342,7 +353,7 @@
             // lb_Message
             // 
             this.lb_Message.BackColor = System.Drawing.Color.White;
-            this.lb_Message.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lb_Message.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.lb_Message.ForeColor = System.Drawing.Color.Black;
             this.lb_Message.FormattingEnabled = true;
             this.lb_Message.ItemHeight = 16;
@@ -380,7 +391,7 @@
             // 
             this.label_TotalNumber.BackColor = System.Drawing.SystemColors.Control;
             this.label_TotalNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label_TotalNumber.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_TotalNumber.Font = new System.Drawing.Font("Arial", 9F);
             this.label_TotalNumber.Location = new System.Drawing.Point(5, 14);
             this.label_TotalNumber.Name = "label_TotalNumber";
             this.label_TotalNumber.Size = new System.Drawing.Size(59, 35);
@@ -390,7 +401,7 @@
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.label_Defect_rate);
-            this.groupBox9.Location = new System.Drawing.Point(7, 73);
+            this.groupBox9.Location = new System.Drawing.Point(6, 74);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(68, 57);
             this.groupBox9.TabIndex = 3;
@@ -401,7 +412,7 @@
             // 
             this.label_Defect_rate.BackColor = System.Drawing.SystemColors.Control;
             this.label_Defect_rate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label_Defect_rate.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Defect_rate.Font = new System.Drawing.Font("Arial", 9F);
             this.label_Defect_rate.Location = new System.Drawing.Point(4, 14);
             this.label_Defect_rate.Name = "label_Defect_rate";
             this.label_Defect_rate.Size = new System.Drawing.Size(58, 35);
@@ -422,7 +433,7 @@
             // 
             this.label_PassNumber.BackColor = System.Drawing.SystemColors.Control;
             this.label_PassNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label_PassNumber.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_PassNumber.Font = new System.Drawing.Font("Arial", 9F);
             this.label_PassNumber.Location = new System.Drawing.Point(4, 14);
             this.label_PassNumber.Name = "label_PassNumber";
             this.label_PassNumber.Size = new System.Drawing.Size(59, 35);
@@ -442,7 +453,7 @@
             // label_TestResult
             // 
             this.label_TestResult.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label_TestResult.Font = new System.Drawing.Font("Courier New", 58F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_TestResult.Font = new System.Drawing.Font("Courier New", 58F);
             this.label_TestResult.ForeColor = System.Drawing.Color.Black;
             this.label_TestResult.Location = new System.Drawing.Point(3, 12);
             this.label_TestResult.Name = "label_TestResult";
@@ -453,7 +464,7 @@
             // 
             // tb_SN
             // 
-            this.tb_SN.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.tb_SN.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
             this.tb_SN.Location = new System.Drawing.Point(475, 504);
             this.tb_SN.Name = "tb_SN";
             this.tb_SN.Size = new System.Drawing.Size(286, 38);
@@ -463,7 +474,7 @@
             // 
             // btTest
             // 
-            this.btTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F);
             this.btTest.Location = new System.Drawing.Point(474, 542);
             this.btTest.Name = "btTest";
             this.btTest.Size = new System.Drawing.Size(287, 45);
@@ -472,11 +483,30 @@
             this.btTest.UseVisualStyleBackColor = true;
             this.btTest.Click += new System.EventHandler(this.btTest_Click);
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // mES功能ToolStripMenuItem
+            // 
+            this.mES功能ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mESToolStripMenuItem});
+            this.mES功能ToolStripMenuItem.Name = "mES功能ToolStripMenuItem";
+            this.mES功能ToolStripMenuItem.Size = new System.Drawing.Size(70, 21);
+            this.mES功能ToolStripMenuItem.Text = "MES功能";
+            // 
+            // mESToolStripMenuItem
+            // 
+            this.mESToolStripMenuItem.Name = "mESToolStripMenuItem";
+            this.mESToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mESToolStripMenuItem.Text = "MES功能设置";
+            this.mESToolStripMenuItem.Click += new System.EventHandler(this.mESToolStripMenuItem_Click);
+            // 
             // Winform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 591);
+            this.ClientSize = new System.Drawing.Size(764, 591);
             this.Controls.Add(this.tb_SN);
             this.Controls.Add(this.btTest);
             this.Controls.Add(this.groupBox6);
@@ -490,9 +520,8 @@
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Winform";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WinForm";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Winform_FormClosed);
             this.Load += new System.EventHandler(this.Winform_Load);
             this.Resize += new System.EventHandler(this.Winform_Resize);
@@ -534,11 +563,8 @@
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.DataVisualization.Charting.Chart cht_PassRadio;
         private System.Windows.Forms.GroupBox groupBox7;
-        public System.Windows.Forms.Label label_TotalNumber;
         private System.Windows.Forms.GroupBox groupBox9;
-        public System.Windows.Forms.Label label_Defect_rate;
         private System.Windows.Forms.GroupBox groupBox8;
-        public System.Windows.Forms.Label label_PassNumber;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label label_TestResult;
         private System.Windows.Forms.TextBox tb_SN;
@@ -555,6 +581,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.ToolStripMenuItem ReLoadToolStripMenuItem;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Label label_PassNumber;
+        private System.Windows.Forms.Label label_Defect_rate;
+        private System.Windows.Forms.Label label_TotalNumber;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem mES功能ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mESToolStripMenuItem;
     }
 }
 

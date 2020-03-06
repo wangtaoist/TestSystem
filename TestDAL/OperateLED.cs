@@ -11,7 +11,7 @@ namespace TestDAL
    public class OperateLED
     {
         private ConfigData config;
-        private SerialPort serialPort;
+        private static SerialPort serialPort;
 
         public OperateLED(ConfigData data)
         {
@@ -108,6 +108,38 @@ namespace TestDAL
                 data.Value = "Fail";
             }
             return data;
+        }
+
+        public static byte[] ReadSerialData(byte[] buff)
+        {
+            byte[] retBuff = new byte[512];
+            try
+            {
+                //04 FF 03 01 00 00
+
+                //01 00 
+                //01 03 00 00 01 01 00 
+                //02 03 05 6B 00 01 00 
+                //03 03 04 86 00 01 00 
+                //04 03 00 00 00 01 00 
+                //05 03 00 00 00 01 00 
+                //07 03 08 1C 00 01 00 
+                //08 03 07 D8 00 01 00 
+                //09 03 08 32 00 01 00 
+                //0A 03 00 00 00
+                serialPort.DiscardInBuffer();
+                serialPort.DiscardOutBuffer();
+                //buff = { 0x04, 0xff, 0x03, 0x01, 0x00, 0x00 };
+                serialPort.Write(buff, 0, buff.Length);
+                Thread.Sleep(200);
+                serialPort.Read(retBuff, 0, retBuff.Length);
+                
+            }
+            catch (Exception)
+            {
+                retBuff = null;
+            }
+            return retBuff;
         }
 
 

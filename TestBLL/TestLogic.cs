@@ -7,33 +7,43 @@ using TestTool;
 using System.Data;
 using TestDAL;
 using System.Threading;
+using System.IO.Ports;
+using System.Web.Services.Description;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
+
 
 namespace TestBLL
 {
     public class TestLogic
     {
-        private Queue<string> testQueue;
+        private Queue<string> testQueue,statusQueue;
         private string initPath;
         private DataBase dataBase;
         private OperateInstrument operate;
         private ConfigData config;
         private CsrOperate csr;
         private OperateBES operateBES;
+        private OperateRelay operateRelay;
         public string BTAddress;
         public string PorductSN;
         public string BattarySN;
         private AudioOperate Audio;
         private OperateLED operateLED;
+        public SerialPort FixPort;
+        public string PackSN;
 
-        public TestLogic(Queue<string> queue, string path)
+        public TestLogic(Queue<string> queue, string path,Queue<string> statusQueue)
         {
             this.testQueue = queue;
+            this.statusQueue = statusQueue;
             this.initPath = path;
             dataBase = new DataBase(path);
             config = GetConfigData();
             //csr = new CsrOperate();
             operateBES = new OperateBES(config.SerialPort
-                , testQueue, config.SerialSelect);
+                , testQueue, config.SerialSelect, statusQueue);
             //if(config.AutoSNTest)
             //{
             operateBES.config = config;
@@ -53,6 +63,12 @@ namespace TestBLL
                 queue.Enqueue("打开LED测试仪");
                 operateLED = new OperateLED(config);
             }
+            if(config.RelayEnable)
+            {
+                queue.Enqueue("打开继电器");
+                operateRelay = new OperateRelay(config);
+            }
+
         }
 
         public void InitTestPort(object obj)
@@ -95,29 +111,81 @@ namespace TestBLL
         {
             switch (data.TestItem)
             {
-                case "CSR_Open_Connection":
+                case "MessageBox":
                     {
-                        data = operate.Open_CSR_Port(data);
+                        string[] agrm = data.Other.Split(';');
+                       
+                        var box = AutoClosingMessageBox.Show(agrm[0], "Message"
+                            , int.Parse(agrm[1]), MessageBoxButtons.YesNo);
+                        //var box = MessageBox.Show(data.Other, "Message"
+                        //    , MessageBoxButtons.YesNo,
+                        //    MessageBoxIcon.Question);
+                        if(box == DialogResult.Yes)
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                        }
                         break;
                     }
-                case "CSR_Cal_Freq":
+                case "QCC_Open_Connection":
                     {
-                        data = operate.CSR_CalFreq(data);
+                        data = operate.Open_QCC_Port(data);
                         break;
                     }
-                case "CSR_Offset_Gain":
+                case "QCC_ReadBtAdress":
                     {
-                        data = operate.CSR_Read_Trim(data);
+                        data = operate.QCC_ReadBtAdress(data);
                         break;
                     }
-                case "CSR_Enter_TestMode":
+                case "QCC_Write_BtAddress":
                     {
-                        data = operate.CSR_EnableTestMode(data);
+                        operate.BtAddress = BTAddress;
+                        data = operate.QCC_Write_BtAddress(data);
                         break;
                     }
-                case "CSR_Cloesd_Port":
+                case "QCC_Cal_Freq":
                     {
-                        data = operate.CSR_Read_Trim(data);
+                        data = operate.QCC_CalFreq(data);
+                        break;
+                    }
+                case "QCC_Offset_Gain":
+                    {
+                        data = operate.QCC_Read_Trim(data);
+                        break;
+                    }
+                case "QCC_Enter_TestMode":
+                    {
+                        data = operate.QCC_EnableTestMode(data);
+                        break;
+                    }
+                case "QCC_Cloesd_Port":
+                    {
+                        data = operate.QCC_Closed_Port(data);
+                        break;
+                    }
+                case "OpenCsrDev":
+                    {
+                        data = operate.OpenCsrDev(data);
+                        break;
+                    }
+                case "ReadCsrBDAddress":
+                    {
+                        data = operate.ReadCsrBDAddress(data);
+                        break;
+                    }
+                case "CsrEnableTestMode":
+                    {
+                        data = operate.CsrEnableTestMode(data);
+                        break;
+                    }
+                case "CsrClosedPort":
+                    {
+                        data = operate.CsrClosedPort(data);
                         break;
                     }
                 case "Open_MT8852":
@@ -135,40 +203,60 @@ namespace TestBLL
                         data = operate.Run_Script(data);
                         break;
                     }
+                case "Run_MT8852_CalcFreq":
+                    {
+                        data = operate.Run_MT8852_CalcFreq(data);
+                        break;
+                    }
+                case "Run_MT8852_CsrCalcFreq":
+                    {
+                        data = operate.Run_MT8852_CsrCalcFreq(data);
+                        break;
+                    }
                 case "Run_MT8852_CalcFreqScript":
                     {
                         byte sampTrim = 0x44;
                         TestData calData = null;
                         operateBES.BES_WriteTrim(sampTrim);
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 5; i++)
                         {
-                            operate.Run_MT8852_CalcFreqScript(data);
-                            calData = operate.GetInitialcarrier(data);
-                            testQueue.Enqueue("频率偏移:" + calData.Value);
-                            if (calData.Result == "Pass")
+                            if (operate.Run_MT8852_CalcFreqScript(data).Result == "Pass")
                             {
-                                data.Result = "Pass";
-                                data.Value = calData.Value;
-                                break;
+                                calData = operate.GetInitialcarrier(data);
+                                testQueue.Enqueue("频率偏移:" + calData.Value);
+                                if (calData.Result == "Pass")
+                                {
+                                    data.Result = "Pass";
+                                    data.Value = calData.Value;
+                                    operate.InitInstr();
+                                    break;
+                                }
+                                else
+                                {
+                                    int freqOff = (int)double.Parse(calData.Value) * 2;
+                                    byte trim = (byte)(sampTrim - Convert.ToByte(Math.Abs(freqOff)));
+                                    testQueue.Enqueue("写入Trim:" + trim);
+                                    Thread.Sleep(1000);
+                                    operateBES.BES_WriteTrim(trim);
+                                }
+                                Thread.Sleep(200);
+                                if (i == 4)
+                                {
+                                    data.Result = "Fail";
+                                    data.Value = calData.Value;
+                                }
                             }
                             else
                             {
-                                int freqOff = (int)double.Parse(calData.Value) * 2;
-                                byte trim = (byte)(sampTrim - Convert.ToByte(Math.Abs(freqOff)));
-                                testQueue.Enqueue("写入Trim:" + trim);
-                                Thread.Sleep(1000);
-                                operateBES.BES_WriteTrim(trim);
-                            }
-                            Thread.Sleep(200);
-                            if (i == 2)
-                            {
                                 data.Result = "Fail";
-                                data.Value = calData.Value;
+                                data.Value = "Fail";
+                                break;
                             }
                         }
                         //data = operate.Run_MT8852_CalcFreqScript(data);
                         break;
                     }
+                
                 case "MT8852_Read_BD_Address":
                     {
                         data = operate.GetBTAddress(data);
@@ -489,11 +577,20 @@ namespace TestBLL
                     }
                 case "BES_ReadSN":
                     {
+                        if(PackSN != null && PackSN.Length == 20)
+                        {
+                            operateBES.PackSN = PackSN;
+                        }
+                        
                         data = operateBES.BES_ReadSN(data);
                         break;
                     }
                 case "BES_CompareSN":
                     {
+                        if (PackSN != null && PackSN.Length == 20)
+                        {
+                            operateBES.PackSN = PackSN;
+                        }
                         data = operateBES.BES_CompareSN(data);
                         break;
                     }
@@ -504,6 +601,7 @@ namespace TestBLL
                     }
                 case "BES_ReadBTAddress":
                     {
+                        operateBES.PackSN = PackSN;
                         data = operateBES.BES_ReadBTAddress(data);
                         break;
                     }
@@ -529,12 +627,21 @@ namespace TestBLL
                     }
                 case "BES_HALLTest":
                     {
+                        if(config.AutoHALL)
+                        {
+                            operateBES.FixPort = this.FixPort;
+                        }
                         operateBES.BES_HALLTest(data);
                         break;
                     }
                 case "BES_PowerKeyTest":
                     {
                         operateBES.BES_PowerKeyTest(data);
+                        break;
+                    }
+                case "BES_HALLClosedTest":
+                    {
+                        operateBES.BES_HALLClosedTest(data);
                         break;
                     }
                 case "BES_Pair":
@@ -629,6 +736,72 @@ namespace TestBLL
                         data = operateBES.BES_WriteTestStation(data);
                         break;
                     }
+                case "BES_BurnIN":
+                    {
+                        data = operateBES.BES_BurnIN(data);
+                        break;
+                    }
+                case "BES_ReadBurnIN":
+                    {
+                        data = operateBES.BES_ReadBurnIN(data);
+                        break;
+                    }
+                case "BES_Read_NormalBurnIN_HALL":
+                    {
+                        data = operateBES.BES_Read_NormalBurnIN_HALL(data);
+                        break;
+                    }
+                case "BES_Read_NormalBurnIN_Power":
+                    {
+                        data = operateBES.BES_Read_NormalBurnIN_Power(data);
+                        break;
+                    }
+                case "BES_Read_NormalBurnIN_Charge":
+                    {
+                        data = operateBES.BES_Read_NormalBurnIN_Charge(data);
+                        break;
+                    }
+                case "BES_Read_MaxPowerBurnIN_HALL":
+                    {
+                        data = operateBES.BES_Read_MaxPowerBurnIN_HALL(data);
+                        break;
+                    }
+                case "BES_Read_MaxPowerBurnIN_Power":
+                    {
+                        data = operateBES.BES_Read_MaxPowerBurnIN_Power(data);
+                        break;
+                    }
+                case "BES_Read_MaxPowerBurnIN_Charge":
+                    {
+                        data = operateBES.BES_Read_MaxPowerBurnIN_Charge(data);
+                        break;
+                    }
+                case "BES_Read_SleepBurnIN_HALL":
+                    {
+                        data = operateBES.BES_Read_SleepBurnIN_HALL(data);
+                        break;
+                    }
+                case "BES_Read_SleepBurnIN_Power":
+                    {
+                        data = operateBES.BES_Read_SleepBurnIN_Power(data);
+                        break;
+                    }
+                case "BES_Read_SleepBurnIN_Charge":
+                    {
+                        data = operateBES.BES_Read_SleepBurnIN_Charge(data);
+                        break;
+                    }
+                case "BES_Read_BurnIN_Memory":
+                    {
+                        data = operateBES.BES_Read_BurnIN_Memory(data);
+                        break;
+                    }
+                case "BES_Read_BurnIN_LowBattery":
+                    {
+                        data = operateBES.BES_Read_BurnIN_LowBattery(data);
+                        break;
+                    }
+
                 case "BES_WriteHWVersion":
                     {
                         data = operateBES.BES_WriteHWVersion(data);
@@ -669,6 +842,26 @@ namespace TestBLL
                         data = operateBES.ClosedSerialPort(data);
                         break;
                     }
+                case "BES_ExitCDC":
+                    {
+                        data = operateBES.BES_ExitCDC(data);
+                        break;
+                    }
+                case "BES_Enter_UsbAudio":
+                    {
+                        data = operateBES.BES_Enter_UsbAudio(data);
+                        break;
+                    }
+                case "BES_ReadTouchData":
+                    {
+                        data = operateBES.BES_ReadTouchData(data);
+                        break;
+                    }
+                case "BES_ReadWearData":
+                    {
+                        data = operateBES.BES_ReadWearData(data);
+                        break;
+                    }
                 case "SwitchToA2dp":
                     {
                         data = Audio.SwitchToA2dp(data);
@@ -687,6 +880,12 @@ namespace TestBLL
                 case "EarPair":
                     {
                         data = Audio.EarPair(data);
+                        break;
+                    }
+                case "CSR_EarPair":
+                    {
+                        Audio.btAddress = BTAddress;
+                        data = Audio.CSR_EarPair(data);
                         break;
                     }
                 case "SpeakerLevel_Left":
@@ -774,7 +973,56 @@ namespace TestBLL
                         data = operateLED.ClosedLEDPort(data);
                         break;
                     }
+                case "OpenRelay":
+                    {
+                        data = operateRelay.OpenRelay(data);
+                        break;
+                    }
+                case "OpenChannel":
+                    {
+                        data = operateRelay.OpenChannel(data);
+                        break;
+                    }
+                case "ClosedChannel":
+                    {
+                        data = operateRelay.ClosedChannel(data);
+                        break;
+                    }
+                case "OpenAllChannel":
+                    {
+                        data = operateRelay.OpenAllChannel(data);
+                        break;
+                    }
+                case "ClosedAllChannel":
+                    {
+                        data = operateRelay.ClosedAllChannel(data);
+                        break;
+                    }
+                case "ClosedRelay":
+                    {
+                        data = operateRelay.ClosedRelay(data);
+                        break;
+                    }
+                case "TouchTest":
+                    {
+                        List<double> list = GetConsoleData();
+                        data.Value = string.Join(";", list);
+                        for (int i = 0; i < list.Count; i++)
+                        {
+                            if(list[i] >= double.Parse(data.LowLimit) 
+                                && list[i] <= double.Parse(data.UppLimit))
+                            {
+                                data.Result = "Pass";
+                            }
+                            else
+                            {
+                                data.Result = "Fail";
+                                break;
+                            }
+                        }
 
+                        break;
+                    }
 
             }
             return data;
@@ -818,6 +1066,11 @@ namespace TestBLL
             {
                 Audio.ExitA2();
             }
+            if(csr != null)
+            {
+                csr.CsrClosedPort(new TestData());
+                csr.QCCClosedDev();
+            }
         }
 
         public void UpdataTestCount(bool status)
@@ -849,6 +1102,35 @@ namespace TestBLL
         public void SetPlugNumber(int number)
         {
             dataBase.UpdataPlugNumber(number);
+        }
+
+        public List<double> GetConsoleData()
+        {
+            List<double> list = new List<double>();
+            Process p = new Process();
+            p.StartInfo.FileName = "cmd.exe";
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.RedirectStandardInput = true;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardError = true;
+            p.StartInfo.WorkingDirectory = Path.Combine(Environment.CurrentDirectory, "Touch");
+            p.Start();
+            p.StandardInput.WriteLine("TouchTest.exe");
+            p.StandardInput.WriteLine("exit");
+            p.StandardInput.AutoFlush = true;
+            p.WaitForExit();//等待程序执行完退出进程
+            string[] data = p.StandardOutput.ReadToEnd().Split(new char[] { '\r','\n'}
+            ,StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < data.Length; i++)
+            {
+                if(data[i].Contains(",") && char.IsNumber(data[i][1]))
+                {
+                    list = Array.ConvertAll(data[i].Split(','), double.Parse).ToList();
+                }
+            }
+            p.Close();
+            return list;
         }
     }
 }

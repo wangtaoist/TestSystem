@@ -32,6 +32,8 @@
             this.tb_Title = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cb_Relay = new System.Windows.Forms.ComboBox();
+            this.label29 = new System.Windows.Forms.Label();
             this.cb_4010 = new System.Windows.Forms.ComboBox();
             this.label27 = new System.Windows.Forms.Label();
             this.cb_LEDPort = new System.Windows.Forms.ComboBox();
@@ -79,6 +81,7 @@
             this.tb_Voltage1 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cb_RelayEnable = new System.Windows.Forms.CheckBox();
             this.cb_LEDEnable = new System.Windows.Forms.CheckBox();
             this.Multimeter_Select = new System.Windows.Forms.CheckBox();
             this.Power_Select = new System.Windows.Forms.CheckBox();
@@ -98,11 +101,11 @@
             this.label20 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.cb_SNAuto = new System.Windows.Forms.CheckBox();
             this.tb_Line = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.tb_SNHear = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.cb_SNAuto = new System.Windows.Forms.CheckBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.cb_FixPort = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
@@ -114,6 +117,31 @@
             this.cb_PlugEnable = new System.Windows.Forms.CheckBox();
             this.tb_MaxSet = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.tb_NowStation = new System.Windows.Forms.TextBox();
+            this.tb_Station = new System.Windows.Forms.TextBox();
+            this.cb_MesEnable = new System.Windows.Forms.CheckBox();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.cb_AutoHALL = new System.Windows.Forms.CheckBox();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.bt_SaveSN = new System.Windows.Forms.Button();
+            this.tb_ProductSN = new System.Windows.Forms.TextBox();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.cb_AutoSN = new System.Windows.Forms.CheckBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox17 = new System.Windows.Forms.GroupBox();
+            this.cb_oneToTwoEnable = new System.Windows.Forms.CheckBox();
+            this.cb_Table = new System.Windows.Forms.CheckBox();
+            this.cb_Parallel = new System.Windows.Forms.CheckBox();
+            this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.cb_ParallPortOne = new System.Windows.Forms.ComboBox();
+            this.cb_ParallPortTwo = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -126,6 +154,15 @@
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox12.SuspendLayout();
+            this.groupBox13.SuspendLayout();
+            this.groupBox14.SuspendLayout();
+            this.groupBox15.SuspendLayout();
+            this.groupBox16.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox17.SuspendLayout();
+            this.groupBox18.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -134,7 +171,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(8, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(507, 47);
+            this.groupBox1.Size = new System.Drawing.Size(526, 47);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "标题设置";
@@ -143,7 +180,7 @@
             // 
             this.tb_Title.Location = new System.Drawing.Point(43, 17);
             this.tb_Title.Name = "tb_Title";
-            this.tb_Title.Size = new System.Drawing.Size(460, 21);
+            this.tb_Title.Size = new System.Drawing.Size(477, 21);
             this.tb_Title.TabIndex = 1;
             this.tb_Title.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -158,6 +195,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cb_Relay);
+            this.groupBox2.Controls.Add(this.label29);
             this.groupBox2.Controls.Add(this.cb_4010);
             this.groupBox2.Controls.Add(this.label27);
             this.groupBox2.Controls.Add(this.cb_LEDPort);
@@ -170,12 +209,29 @@
             this.groupBox2.Controls.Add(this.label16);
             this.groupBox2.Controls.Add(this.label19);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(8, 52);
+            this.groupBox2.Location = new System.Drawing.Point(6, 6);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(507, 78);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "测试仪器端口设置";
+            // 
+            // cb_Relay
+            // 
+            this.cb_Relay.FormattingEnabled = true;
+            this.cb_Relay.Location = new System.Drawing.Point(327, 52);
+            this.cb_Relay.Name = "cb_Relay";
+            this.cb_Relay.Size = new System.Drawing.Size(99, 20);
+            this.cb_Relay.TabIndex = 1;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(282, 55);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(41, 12);
+            this.label29.TabIndex = 0;
+            this.label29.Text = "继电器";
             // 
             // cb_4010
             // 
@@ -287,7 +343,7 @@
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Location = new System.Drawing.Point(9, 450);
+            this.groupBox3.Location = new System.Drawing.Point(5, 258);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(507, 50);
             this.groupBox3.TabIndex = 2;
@@ -318,7 +374,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(340, 21);
+            this.label12.Location = new System.Drawing.Point(342, 21);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(113, 12);
             this.label12.TabIndex = 0;
@@ -356,7 +412,7 @@
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Controls.Add(this.label6);
-            this.groupBox4.Location = new System.Drawing.Point(174, 502);
+            this.groupBox4.Location = new System.Drawing.Point(166, 309);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(347, 105);
             this.groupBox4.TabIndex = 2;
@@ -461,9 +517,9 @@
             // 
             // bt_Save
             // 
-            this.bt_Save.Location = new System.Drawing.Point(221, 617);
+            this.bt_Save.Location = new System.Drawing.Point(211, 499);
             this.bt_Save.Name = "bt_Save";
-            this.bt_Save.Size = new System.Drawing.Size(117, 43);
+            this.bt_Save.Size = new System.Drawing.Size(117, 29);
             this.bt_Save.TabIndex = 3;
             this.bt_Save.Text = "保存并退出";
             this.bt_Save.UseVisualStyleBackColor = true;
@@ -476,9 +532,9 @@
             this.groupBox5.Controls.Add(this.cb_ss);
             this.groupBox5.Controls.Add(this.cb_ic);
             this.groupBox5.Controls.Add(this.cb_op);
-            this.groupBox5.Location = new System.Drawing.Point(9, 376);
+            this.groupBox5.Location = new System.Drawing.Point(7, 187);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(507, 70);
+            this.groupBox5.Size = new System.Drawing.Size(505, 70);
             this.groupBox5.TabIndex = 4;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "MT8852B测试项目";
@@ -488,39 +544,39 @@
             this.cb_cd.AutoSize = true;
             this.cb_cd.Location = new System.Drawing.Point(7, 43);
             this.cb_cd.Name = "cb_cd";
-            this.cb_cd.Size = new System.Drawing.Size(132, 16);
+            this.cb_cd.Size = new System.Drawing.Size(102, 16);
             this.cb_cd.TabIndex = 0;
-            this.cb_cd.Text = "Carrier drift test";
+            this.cb_cd.Text = "Carrier drift";
             this.cb_cd.UseVisualStyleBackColor = true;
             // 
             // cb_mi
             // 
             this.cb_mi.AutoSize = true;
-            this.cb_mi.Location = new System.Drawing.Point(170, 43);
+            this.cb_mi.Location = new System.Drawing.Point(109, 43);
             this.cb_mi.Name = "cb_mi";
-            this.cb_mi.Size = new System.Drawing.Size(150, 16);
+            this.cb_mi.Size = new System.Drawing.Size(120, 16);
             this.cb_mi.TabIndex = 0;
-            this.cb_mi.Text = "Modulation Index test";
+            this.cb_mi.Text = "Modulation Index";
             this.cb_mi.UseVisualStyleBackColor = true;
             // 
             // cb_ss
             // 
             this.cb_ss.AutoSize = true;
-            this.cb_ss.Location = new System.Drawing.Point(170, 20);
+            this.cb_ss.Location = new System.Drawing.Point(109, 20);
             this.cb_ss.Name = "cb_ss";
-            this.cb_ss.Size = new System.Drawing.Size(162, 16);
+            this.cb_ss.Size = new System.Drawing.Size(132, 16);
             this.cb_ss.TabIndex = 0;
-            this.cb_ss.Text = "Single sensitivity test";
+            this.cb_ss.Text = "Single sensitivity";
             this.cb_ss.UseVisualStyleBackColor = true;
             // 
             // cb_ic
             // 
             this.cb_ic.AutoSize = true;
-            this.cb_ic.Location = new System.Drawing.Point(351, 21);
+            this.cb_ic.Location = new System.Drawing.Point(242, 21);
             this.cb_ic.Name = "cb_ic";
-            this.cb_ic.Size = new System.Drawing.Size(144, 16);
+            this.cb_ic.Size = new System.Drawing.Size(114, 16);
             this.cb_ic.TabIndex = 0;
-            this.cb_ic.Text = "Initial carrier test";
+            this.cb_ic.Text = "Initial carrier";
             this.cb_ic.UseVisualStyleBackColor = true;
             // 
             // cb_op
@@ -528,9 +584,9 @@
             this.cb_op.AutoSize = true;
             this.cb_op.Location = new System.Drawing.Point(7, 21);
             this.cb_op.Name = "cb_op";
-            this.cb_op.Size = new System.Drawing.Size(108, 16);
+            this.cb_op.Size = new System.Drawing.Size(78, 16);
             this.cb_op.TabIndex = 0;
-            this.cb_op.Text = "Out Power test";
+            this.cb_op.Text = "Out Power";
             this.cb_op.UseVisualStyleBackColor = true;
             // 
             // groupBox6
@@ -541,7 +597,7 @@
             this.groupBox6.Controls.Add(this.label14);
             this.groupBox6.Controls.Add(this.tb_Voltage1);
             this.groupBox6.Controls.Add(this.label13);
-            this.groupBox6.Location = new System.Drawing.Point(9, 502);
+            this.groupBox6.Location = new System.Drawing.Point(3, 309);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(154, 105);
             this.groupBox6.TabIndex = 5;
@@ -566,7 +622,7 @@
             // 
             // tb_Voltage2
             // 
-            this.tb_Voltage2.Location = new System.Drawing.Point(60, 46);
+            this.tb_Voltage2.Location = new System.Drawing.Point(60, 45);
             this.tb_Voltage2.Name = "tb_Voltage2";
             this.tb_Voltage2.Size = new System.Drawing.Size(88, 21);
             this.tb_Voltage2.TabIndex = 1;
@@ -598,18 +654,29 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.cb_RelayEnable);
             this.groupBox7.Controls.Add(this.cb_LEDEnable);
             this.groupBox7.Controls.Add(this.Multimeter_Select);
             this.groupBox7.Controls.Add(this.Power_Select);
             this.groupBox7.Controls.Add(this.select_4010);
             this.groupBox7.Controls.Add(this.Serial_Select);
             this.groupBox7.Controls.Add(this.GPIB_Select);
-            this.groupBox7.Location = new System.Drawing.Point(8, 182);
+            this.groupBox7.Location = new System.Drawing.Point(6, 130);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(297, 55);
+            this.groupBox7.Size = new System.Drawing.Size(507, 55);
             this.groupBox7.TabIndex = 6;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "仪器使用选择";
+            // 
+            // cb_RelayEnable
+            // 
+            this.cb_RelayEnable.AutoSize = true;
+            this.cb_RelayEnable.Location = new System.Drawing.Point(297, 25);
+            this.cb_RelayEnable.Name = "cb_RelayEnable";
+            this.cb_RelayEnable.Size = new System.Drawing.Size(60, 16);
+            this.cb_RelayEnable.TabIndex = 0;
+            this.cb_RelayEnable.Text = "继电器";
+            this.cb_RelayEnable.UseVisualStyleBackColor = true;
             // 
             // cb_LEDEnable
             // 
@@ -677,7 +744,7 @@
             this.groupBox8.Controls.Add(this.tb_CompareString);
             this.groupBox8.Controls.Add(this.label18);
             this.groupBox8.Controls.Add(this.label17);
-            this.groupBox8.Location = new System.Drawing.Point(311, 182);
+            this.groupBox8.Location = new System.Drawing.Point(312, 75);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(204, 55);
             this.groupBox8.TabIndex = 7;
@@ -723,7 +790,7 @@
             this.groupBox9.Controls.Add(this.cb_AudioEnable);
             this.groupBox9.Controls.Add(this.tb_Path);
             this.groupBox9.Controls.Add(this.label20);
-            this.groupBox9.Location = new System.Drawing.Point(8, 136);
+            this.groupBox9.Location = new System.Drawing.Point(6, 87);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(507, 40);
             this.groupBox9.TabIndex = 8;
@@ -733,7 +800,7 @@
             // cb_SerialSelect
             // 
             this.cb_SerialSelect.AutoSize = true;
-            this.cb_SerialSelect.Location = new System.Drawing.Point(94, 18);
+            this.cb_SerialSelect.Location = new System.Drawing.Point(89, 18);
             this.cb_SerialSelect.Name = "cb_SerialSelect";
             this.cb_SerialSelect.Size = new System.Drawing.Size(60, 16);
             this.cb_SerialSelect.TabIndex = 4;
@@ -754,7 +821,7 @@
             // cb_AudioEnable
             // 
             this.cb_AudioEnable.AutoSize = true;
-            this.cb_AudioEnable.Location = new System.Drawing.Point(13, 18);
+            this.cb_AudioEnable.Location = new System.Drawing.Point(6, 18);
             this.cb_AudioEnable.Name = "cb_AudioEnable";
             this.cb_AudioEnable.Size = new System.Drawing.Size(78, 16);
             this.cb_AudioEnable.TabIndex = 0;
@@ -783,29 +850,35 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.tb_Line);
-            this.groupBox10.Controls.Add(this.label22);
-            this.groupBox10.Controls.Add(this.tb_SNHear);
-            this.groupBox10.Controls.Add(this.label21);
             this.groupBox10.Controls.Add(this.cb_SNAuto);
-            this.groupBox10.Location = new System.Drawing.Point(9, 244);
+            this.groupBox10.Location = new System.Drawing.Point(6, 6);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(298, 63);
+            this.groupBox10.Size = new System.Drawing.Size(70, 63);
             this.groupBox10.TabIndex = 9;
             this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "SN自动测试设置";
+            this.groupBox10.Text = "自动测试";
+            // 
+            // cb_SNAuto
+            // 
+            this.cb_SNAuto.AutoSize = true;
+            this.cb_SNAuto.Location = new System.Drawing.Point(6, 30);
+            this.cb_SNAuto.Name = "cb_SNAuto";
+            this.cb_SNAuto.Size = new System.Drawing.Size(48, 16);
+            this.cb_SNAuto.TabIndex = 0;
+            this.cb_SNAuto.Text = "自动";
+            this.cb_SNAuto.UseVisualStyleBackColor = true;
             // 
             // tb_Line
             // 
-            this.tb_Line.Location = new System.Drawing.Point(225, 29);
+            this.tb_Line.Location = new System.Drawing.Point(183, 28);
             this.tb_Line.Name = "tb_Line";
-            this.tb_Line.Size = new System.Drawing.Size(62, 21);
+            this.tb_Line.Size = new System.Drawing.Size(37, 21);
             this.tb_Line.TabIndex = 2;
             // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(191, 33);
+            this.label22.Location = new System.Drawing.Point(154, 31);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(29, 12);
             this.label22.TabIndex = 1;
@@ -813,36 +886,26 @@
             // 
             // tb_SNHear
             // 
-            this.tb_SNHear.Location = new System.Drawing.Point(110, 28);
+            this.tb_SNHear.Location = new System.Drawing.Point(103, 27);
             this.tb_SNHear.Name = "tb_SNHear";
-            this.tb_SNHear.Size = new System.Drawing.Size(74, 21);
+            this.tb_SNHear.Size = new System.Drawing.Size(49, 21);
             this.tb_SNHear.TabIndex = 2;
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(54, 32);
+            this.label21.Location = new System.Drawing.Point(50, 31);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(53, 12);
             this.label21.TabIndex = 1;
             this.label21.Text = "SN首字符";
-            // 
-            // cb_SNAuto
-            // 
-            this.cb_SNAuto.AutoSize = true;
-            this.cb_SNAuto.Location = new System.Drawing.Point(7, 30);
-            this.cb_SNAuto.Name = "cb_SNAuto";
-            this.cb_SNAuto.Size = new System.Drawing.Size(48, 16);
-            this.cb_SNAuto.TabIndex = 0;
-            this.cb_SNAuto.Text = "自动";
-            this.cb_SNAuto.UseVisualStyleBackColor = true;
             // 
             // groupBox11
             // 
             this.groupBox11.Controls.Add(this.cb_FixPort);
             this.groupBox11.Controls.Add(this.label23);
             this.groupBox11.Controls.Add(this.cb_FixAuto);
-            this.groupBox11.Location = new System.Drawing.Point(313, 244);
+            this.groupBox11.Location = new System.Drawing.Point(313, 6);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(202, 63);
             this.groupBox11.TabIndex = 9;
@@ -884,7 +947,7 @@
             this.groupBox12.Controls.Add(this.cb_PlugEnable);
             this.groupBox12.Controls.Add(this.tb_MaxSet);
             this.groupBox12.Controls.Add(this.label25);
-            this.groupBox12.Location = new System.Drawing.Point(8, 314);
+            this.groupBox12.Location = new System.Drawing.Point(5, 130);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(507, 56);
             this.groupBox12.TabIndex = 10;
@@ -893,7 +956,7 @@
             // 
             // bt_Clear
             // 
-            this.bt_Clear.Location = new System.Drawing.Point(421, 24);
+            this.bt_Clear.Location = new System.Drawing.Point(412, 23);
             this.bt_Clear.Name = "bt_Clear";
             this.bt_Clear.Size = new System.Drawing.Size(75, 23);
             this.bt_Clear.TabIndex = 3;
@@ -903,7 +966,7 @@
             // 
             // tb_PlugNumber
             // 
-            this.tb_PlugNumber.Location = new System.Drawing.Point(322, 23);
+            this.tb_PlugNumber.Location = new System.Drawing.Point(322, 22);
             this.tb_PlugNumber.Name = "tb_PlugNumber";
             this.tb_PlugNumber.Size = new System.Drawing.Size(62, 21);
             this.tb_PlugNumber.TabIndex = 2;
@@ -920,7 +983,7 @@
             // cb_PlugEnable
             // 
             this.cb_PlugEnable.AutoSize = true;
-            this.cb_PlugEnable.Location = new System.Drawing.Point(8, 24);
+            this.cb_PlugEnable.Location = new System.Drawing.Point(6, 25);
             this.cb_PlugEnable.Name = "cb_PlugEnable";
             this.cb_PlugEnable.Size = new System.Drawing.Size(72, 16);
             this.cb_PlugEnable.TabIndex = 0;
@@ -929,7 +992,7 @@
             // 
             // tb_MaxSet
             // 
-            this.tb_MaxSet.Location = new System.Drawing.Point(169, 22);
+            this.tb_MaxSet.Location = new System.Drawing.Point(169, 23);
             this.tb_MaxSet.Name = "tb_MaxSet";
             this.tb_MaxSet.Size = new System.Drawing.Size(74, 21);
             this.tb_MaxSet.TabIndex = 2;
@@ -943,24 +1006,288 @@
             this.label25.TabIndex = 1;
             this.label25.Text = "最大次数设置";
             // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.label30);
+            this.groupBox13.Controls.Add(this.label28);
+            this.groupBox13.Controls.Add(this.tb_NowStation);
+            this.groupBox13.Controls.Add(this.tb_Station);
+            this.groupBox13.Controls.Add(this.cb_MesEnable);
+            this.groupBox13.Enabled = false;
+            this.groupBox13.Location = new System.Drawing.Point(5, 75);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(306, 54);
+            this.groupBox13.TabIndex = 11;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "MES自动拦截";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(178, 29);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(41, 12);
+            this.label30.TabIndex = 2;
+            this.label30.Text = "现工站";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(49, 28);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(53, 12);
+            this.label28.TabIndex = 2;
+            this.label28.Text = "上一工站";
+            // 
+            // tb_NowStation
+            // 
+            this.tb_NowStation.Location = new System.Drawing.Point(219, 23);
+            this.tb_NowStation.Name = "tb_NowStation";
+            this.tb_NowStation.Size = new System.Drawing.Size(84, 21);
+            this.tb_NowStation.TabIndex = 1;
+            // 
+            // tb_Station
+            // 
+            this.tb_Station.Location = new System.Drawing.Point(103, 23);
+            this.tb_Station.Name = "tb_Station";
+            this.tb_Station.Size = new System.Drawing.Size(73, 21);
+            this.tb_Station.TabIndex = 1;
+            // 
+            // cb_MesEnable
+            // 
+            this.cb_MesEnable.AutoSize = true;
+            this.cb_MesEnable.Location = new System.Drawing.Point(6, 27);
+            this.cb_MesEnable.Name = "cb_MesEnable";
+            this.cb_MesEnable.Size = new System.Drawing.Size(48, 16);
+            this.cb_MesEnable.TabIndex = 0;
+            this.cb_MesEnable.Text = "启用";
+            this.cb_MesEnable.UseVisualStyleBackColor = true;
+            // 
+            // groupBox14
+            // 
+            this.groupBox14.Controls.Add(this.cb_AutoHALL);
+            this.groupBox14.Location = new System.Drawing.Point(3, 192);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(139, 63);
+            this.groupBox14.TabIndex = 12;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "自动Hall测试";
+            // 
+            // cb_AutoHALL
+            // 
+            this.cb_AutoHALL.AutoSize = true;
+            this.cb_AutoHALL.Location = new System.Drawing.Point(6, 29);
+            this.cb_AutoHALL.Name = "cb_AutoHALL";
+            this.cb_AutoHALL.Size = new System.Drawing.Size(96, 16);
+            this.cb_AutoHALL.TabIndex = 0;
+            this.cb_AutoHALL.Text = "自动Hall测试";
+            this.cb_AutoHALL.UseVisualStyleBackColor = true;
+            // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.bt_SaveSN);
+            this.groupBox15.Controls.Add(this.tb_ProductSN);
+            this.groupBox15.Location = new System.Drawing.Point(148, 192);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(138, 63);
+            this.groupBox15.TabIndex = 13;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "产品SN";
+            // 
+            // bt_SaveSN
+            // 
+            this.bt_SaveSN.Location = new System.Drawing.Point(69, 26);
+            this.bt_SaveSN.Name = "bt_SaveSN";
+            this.bt_SaveSN.Size = new System.Drawing.Size(59, 23);
+            this.bt_SaveSN.TabIndex = 1;
+            this.bt_SaveSN.Text = "保存";
+            this.bt_SaveSN.UseVisualStyleBackColor = true;
+            this.bt_SaveSN.Click += new System.EventHandler(this.bt_SaveSN_Click);
+            // 
+            // tb_ProductSN
+            // 
+            this.tb_ProductSN.Location = new System.Drawing.Point(7, 27);
+            this.tb_ProductSN.Name = "tb_ProductSN";
+            this.tb_ProductSN.Size = new System.Drawing.Size(56, 21);
+            this.tb_ProductSN.TabIndex = 0;
+            // 
+            // groupBox16
+            // 
+            this.groupBox16.Controls.Add(this.tb_Line);
+            this.groupBox16.Controls.Add(this.cb_AutoSN);
+            this.groupBox16.Controls.Add(this.label22);
+            this.groupBox16.Controls.Add(this.label21);
+            this.groupBox16.Controls.Add(this.tb_SNHear);
+            this.groupBox16.Location = new System.Drawing.Point(80, 6);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(231, 63);
+            this.groupBox16.TabIndex = 9;
+            this.groupBox16.TabStop = false;
+            this.groupBox16.Text = "自动SN分配";
+            // 
+            // cb_AutoSN
+            // 
+            this.cb_AutoSN.AutoSize = true;
+            this.cb_AutoSN.Location = new System.Drawing.Point(4, 30);
+            this.cb_AutoSN.Name = "cb_AutoSN";
+            this.cb_AutoSN.Size = new System.Drawing.Size(48, 16);
+            this.cb_AutoSN.TabIndex = 0;
+            this.cb_AutoSN.Text = "自动";
+            this.cb_AutoSN.UseVisualStyleBackColor = true;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(8, 53);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(530, 443);
+            this.tabControl1.TabIndex = 14;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.groupBox9);
+            this.tabPage1.Controls.Add(this.groupBox7);
+            this.tabPage1.Controls.Add(this.groupBox5);
+            this.tabPage1.Controls.Add(this.groupBox3);
+            this.tabPage1.Controls.Add(this.groupBox6);
+            this.tabPage1.Controls.Add(this.groupBox4);
+            this.tabPage1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(522, 417);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "测试仪器设置";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.groupBox17);
+            this.tabPage2.Controls.Add(this.groupBox10);
+            this.tabPage2.Controls.Add(this.groupBox15);
+            this.tabPage2.Controls.Add(this.groupBox16);
+            this.tabPage2.Controls.Add(this.groupBox14);
+            this.tabPage2.Controls.Add(this.groupBox11);
+            this.tabPage2.Controls.Add(this.groupBox13);
+            this.tabPage2.Controls.Add(this.groupBox12);
+            this.tabPage2.Controls.Add(this.groupBox8);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(522, 417);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "其他测试设置";
+            // 
+            // groupBox17
+            // 
+            this.groupBox17.Controls.Add(this.groupBox18);
+            this.groupBox17.Controls.Add(this.cb_Parallel);
+            this.groupBox17.Controls.Add(this.cb_Table);
+            this.groupBox17.Controls.Add(this.cb_oneToTwoEnable);
+            this.groupBox17.Enabled = false;
+            this.groupBox17.Location = new System.Drawing.Point(3, 257);
+            this.groupBox17.Name = "groupBox17";
+            this.groupBox17.Size = new System.Drawing.Size(283, 88);
+            this.groupBox17.TabIndex = 14;
+            this.groupBox17.TabStop = false;
+            this.groupBox17.Text = "一拖二测试设置";
+            // 
+            // cb_oneToTwoEnable
+            // 
+            this.cb_oneToTwoEnable.AutoSize = true;
+            this.cb_oneToTwoEnable.Location = new System.Drawing.Point(9, 20);
+            this.cb_oneToTwoEnable.Name = "cb_oneToTwoEnable";
+            this.cb_oneToTwoEnable.Size = new System.Drawing.Size(84, 16);
+            this.cb_oneToTwoEnable.TabIndex = 0;
+            this.cb_oneToTwoEnable.Text = "是否一拖二";
+            this.cb_oneToTwoEnable.UseVisualStyleBackColor = true;
+            this.cb_oneToTwoEnable.CheckedChanged += new System.EventHandler(this.cb_oneToTwoEnable_CheckedChanged);
+            // 
+            // cb_Table
+            // 
+            this.cb_Table.AutoSize = true;
+            this.cb_Table.Enabled = false;
+            this.cb_Table.Location = new System.Drawing.Point(9, 42);
+            this.cb_Table.Name = "cb_Table";
+            this.cb_Table.Size = new System.Drawing.Size(96, 16);
+            this.cb_Table.TabIndex = 0;
+            this.cb_Table.Text = "乒乓测试(RF)";
+            this.cb_Table.UseVisualStyleBackColor = true;
+            this.cb_Table.CheckedChanged += new System.EventHandler(this.cb_Table_CheckedChanged);
+            // 
+            // cb_Parallel
+            // 
+            this.cb_Parallel.AutoSize = true;
+            this.cb_Parallel.Enabled = false;
+            this.cb_Parallel.Location = new System.Drawing.Point(9, 64);
+            this.cb_Parallel.Name = "cb_Parallel";
+            this.cb_Parallel.Size = new System.Drawing.Size(108, 16);
+            this.cb_Parallel.TabIndex = 0;
+            this.cb_Parallel.Text = "并行测试(串口)";
+            this.cb_Parallel.UseVisualStyleBackColor = true;
+            this.cb_Parallel.CheckedChanged += new System.EventHandler(this.cb_Parallel_CheckedChanged);
+            // 
+            // groupBox18
+            // 
+            this.groupBox18.Controls.Add(this.cb_ParallPortTwo);
+            this.groupBox18.Controls.Add(this.cb_ParallPortOne);
+            this.groupBox18.Controls.Add(this.label32);
+            this.groupBox18.Controls.Add(this.label31);
+            this.groupBox18.Location = new System.Drawing.Point(115, 11);
+            this.groupBox18.Name = "groupBox18";
+            this.groupBox18.Size = new System.Drawing.Size(160, 71);
+            this.groupBox18.TabIndex = 1;
+            this.groupBox18.TabStop = false;
+            this.groupBox18.Text = "并行测试";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(6, 20);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(35, 12);
+            this.label31.TabIndex = 2;
+            this.label31.Text = "串口1";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(6, 46);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(35, 12);
+            this.label32.TabIndex = 2;
+            this.label32.Text = "串口2";
+            // 
+            // cb_ParallPortOne
+            // 
+            this.cb_ParallPortOne.Enabled = false;
+            this.cb_ParallPortOne.FormattingEnabled = true;
+            this.cb_ParallPortOne.Location = new System.Drawing.Point(46, 17);
+            this.cb_ParallPortOne.Name = "cb_ParallPortOne";
+            this.cb_ParallPortOne.Size = new System.Drawing.Size(108, 20);
+            this.cb_ParallPortOne.TabIndex = 1;
+            // 
+            // cb_ParallPortTwo
+            // 
+            this.cb_ParallPortTwo.Enabled = false;
+            this.cb_ParallPortTwo.FormattingEnabled = true;
+            this.cb_ParallPortTwo.Location = new System.Drawing.Point(46, 42);
+            this.cb_ParallPortTwo.Name = "cb_ParallPortTwo";
+            this.cb_ParallPortTwo.Size = new System.Drawing.Size(108, 20);
+            this.cb_ParallPortTwo.TabIndex = 1;
+            // 
             // ConfigSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(523, 672);
-            this.Controls.Add(this.groupBox12);
-            this.Controls.Add(this.groupBox11);
-            this.Controls.Add(this.groupBox10);
-            this.Controls.Add(this.groupBox9);
-            this.Controls.Add(this.groupBox8);
-            this.Controls.Add(this.groupBox7);
-            this.Controls.Add(this.groupBox6);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox5);
+            this.ClientSize = new System.Drawing.Size(543, 533);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.bt_Save);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
             this.Name = "ConfigSetting";
@@ -992,6 +1319,21 @@
             this.groupBox11.PerformLayout();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox14.PerformLayout();
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
+            this.groupBox16.ResumeLayout(false);
+            this.groupBox16.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.groupBox17.ResumeLayout(false);
+            this.groupBox17.PerformLayout();
+            this.groupBox18.ResumeLayout(false);
+            this.groupBox18.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1084,5 +1426,33 @@
         private System.Windows.Forms.ComboBox cb_4010;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.CheckBox select_4010;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox tb_Station;
+        private System.Windows.Forms.CheckBox cb_MesEnable;
+        private System.Windows.Forms.GroupBox groupBox14;
+        private System.Windows.Forms.CheckBox cb_AutoHALL;
+        private System.Windows.Forms.ComboBox cb_Relay;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.CheckBox cb_RelayEnable;
+        private System.Windows.Forms.GroupBox groupBox15;
+        private System.Windows.Forms.Button bt_SaveSN;
+        private System.Windows.Forms.TextBox tb_ProductSN;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.TextBox tb_NowStation;
+        private System.Windows.Forms.GroupBox groupBox16;
+        private System.Windows.Forms.CheckBox cb_AutoSN;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.GroupBox groupBox17;
+        private System.Windows.Forms.CheckBox cb_oneToTwoEnable;
+        private System.Windows.Forms.CheckBox cb_Parallel;
+        private System.Windows.Forms.CheckBox cb_Table;
+        private System.Windows.Forms.GroupBox groupBox18;
+        private System.Windows.Forms.ComboBox cb_ParallPortTwo;
+        private System.Windows.Forms.ComboBox cb_ParallPortOne;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label31;
     }
 }

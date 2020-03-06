@@ -43,6 +43,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.tb_limitMin = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.tb_FillValue = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.tb_limitMax = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tb_unit = new System.Windows.Forms.TextBox();
@@ -67,8 +69,6 @@
             this.lst_installFunction = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tb_Remark = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.tb_FillValue = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.gb_FunctionItem.SuspendLayout();
@@ -94,14 +94,14 @@
             this.tb_Other.Multiline = true;
             this.tb_Other.Name = "tb_Other";
             this.tb_Other.Size = new System.Drawing.Size(200, 59);
-            this.tb_Other.TabIndex = 0;
+            this.tb_Other.TabIndex = 12;
             // 
             // bt_Exit
             // 
             this.bt_Exit.Location = new System.Drawing.Point(460, 523);
             this.bt_Exit.Name = "bt_Exit";
             this.bt_Exit.Size = new System.Drawing.Size(103, 28);
-            this.bt_Exit.TabIndex = 12;
+            this.bt_Exit.TabIndex = 15;
             this.bt_Exit.Text = "保存并退出";
             this.bt_Exit.UseVisualStyleBackColor = true;
             this.bt_Exit.Click += new System.EventHandler(this.bt_Exit_Click);
@@ -139,7 +139,7 @@
             this.cb_Show.Location = new System.Drawing.Point(309, 81);
             this.cb_Show.Name = "cb_Show";
             this.cb_Show.Size = new System.Drawing.Size(228, 16);
-            this.cb_Show.TabIndex = 2;
+            this.cb_Show.TabIndex = 11;
             this.cb_Show.Text = "显示项目(是否在界面显示该测试项目)";
             this.cb_Show.UseVisualStyleBackColor = true;
             // 
@@ -149,7 +149,7 @@
             this.cb_Check.Location = new System.Drawing.Point(476, 53);
             this.cb_Check.Name = "cb_Check";
             this.cb_Check.Size = new System.Drawing.Size(72, 16);
-            this.cb_Check.TabIndex = 2;
+            this.cb_Check.TabIndex = 8;
             this.cb_Check.Text = "检查Fail";
             this.cb_Check.UseVisualStyleBackColor = true;
             // 
@@ -158,7 +158,7 @@
             this.tb_ItemFriendname.Location = new System.Drawing.Point(275, 20);
             this.tb_ItemFriendname.Name = "tb_ItemFriendname";
             this.tb_ItemFriendname.Size = new System.Drawing.Size(183, 21);
-            this.tb_ItemFriendname.TabIndex = 1;
+            this.tb_ItemFriendname.TabIndex = 3;
             // 
             // label3
             // 
@@ -174,7 +174,7 @@
             this.tb_afterDelayTime.Location = new System.Drawing.Point(251, 77);
             this.tb_afterDelayTime.Name = "tb_afterDelayTime";
             this.tb_afterDelayTime.Size = new System.Drawing.Size(50, 21);
-            this.tb_afterDelayTime.TabIndex = 1;
+            this.tb_afterDelayTime.TabIndex = 10;
             // 
             // label8
             // 
@@ -190,7 +190,7 @@
             this.tb_Delaytimes.Location = new System.Drawing.Point(102, 77);
             this.tb_Delaytimes.Name = "tb_Delaytimes";
             this.tb_Delaytimes.Size = new System.Drawing.Size(50, 21);
-            this.tb_Delaytimes.TabIndex = 1;
+            this.tb_Delaytimes.TabIndex = 9;
             // 
             // label7
             // 
@@ -206,7 +206,7 @@
             this.tb_limitMin.Location = new System.Drawing.Point(38, 48);
             this.tb_limitMin.Name = "tb_limitMin";
             this.tb_limitMin.Size = new System.Drawing.Size(168, 21);
-            this.tb_limitMin.TabIndex = 1;
+            this.tb_limitMin.TabIndex = 5;
             // 
             // label6
             // 
@@ -217,12 +217,28 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "下限";
             // 
+            // tb_FillValue
+            // 
+            this.tb_FillValue.Location = new System.Drawing.Point(403, 49);
+            this.tb_FillValue.Name = "tb_FillValue";
+            this.tb_FillValue.Size = new System.Drawing.Size(55, 21);
+            this.tb_FillValue.TabIndex = 7;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(367, 53);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(29, 12);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "补偿";
+            // 
             // tb_limitMax
             // 
             this.tb_limitMax.Location = new System.Drawing.Point(275, 48);
             this.tb_limitMax.Name = "tb_limitMax";
             this.tb_limitMax.Size = new System.Drawing.Size(85, 21);
-            this.tb_limitMax.TabIndex = 1;
+            this.tb_limitMax.TabIndex = 6;
             // 
             // label5
             // 
@@ -238,7 +254,7 @@
             this.tb_unit.Location = new System.Drawing.Point(497, 20);
             this.tb_unit.Name = "tb_unit";
             this.tb_unit.Size = new System.Drawing.Size(51, 21);
-            this.tb_unit.TabIndex = 1;
+            this.tb_unit.TabIndex = 4;
             // 
             // label4
             // 
@@ -255,7 +271,7 @@
             this.tb_ItemName.Location = new System.Drawing.Point(38, 20);
             this.tb_ItemName.Name = "tb_ItemName";
             this.tb_ItemName.Size = new System.Drawing.Size(168, 21);
-            this.tb_ItemName.TabIndex = 1;
+            this.tb_ItemName.TabIndex = 2;
             // 
             // label2
             // 
@@ -271,7 +287,7 @@
             this.bt_Save.Location = new System.Drawing.Point(460, 479);
             this.bt_Save.Name = "bt_Save";
             this.bt_Save.Size = new System.Drawing.Size(103, 28);
-            this.bt_Save.TabIndex = 9;
+            this.bt_Save.TabIndex = 14;
             this.bt_Save.Text = "更新";
             this.bt_Save.UseVisualStyleBackColor = true;
             this.bt_Save.Click += new System.EventHandler(this.bt_Save_Click);
@@ -326,7 +342,7 @@
             this.lst_Test_selectFunction.MultiSelect = false;
             this.lst_Test_selectFunction.Name = "lst_Test_selectFunction";
             this.lst_Test_selectFunction.Size = new System.Drawing.Size(213, 267);
-            this.lst_Test_selectFunction.TabIndex = 4;
+            this.lst_Test_selectFunction.TabIndex = 1;
             this.lst_Test_selectFunction.UseCompatibleStateImageBehavior = false;
             this.lst_Test_selectFunction.View = System.Windows.Forms.View.Details;
             this.lst_Test_selectFunction.SelectedIndexChanged += new System.EventHandler(this.lst_Test_selectFunction_SelectedIndexChanged);
@@ -354,7 +370,7 @@
             this.lv_FailItems.ForeColor = System.Drawing.Color.Blue;
             this.lv_FailItems.FullRowSelect = true;
             this.lv_FailItems.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lv_FailItems.Location = new System.Drawing.Point(7, 5);
+            this.lv_FailItems.Location = new System.Drawing.Point(6, 5);
             this.lv_FailItems.MultiSelect = false;
             this.lv_FailItems.Name = "lv_FailItems";
             this.lv_FailItems.Size = new System.Drawing.Size(213, 267);
@@ -461,23 +477,7 @@
             this.tb_Remark.Name = "tb_Remark";
             this.tb_Remark.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tb_Remark.Size = new System.Drawing.Size(210, 59);
-            this.tb_Remark.TabIndex = 0;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(367, 53);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(29, 12);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "补偿";
-            // 
-            // tb_FillValue
-            // 
-            this.tb_FillValue.Location = new System.Drawing.Point(403, 49);
-            this.tb_FillValue.Name = "tb_FillValue";
-            this.tb_FillValue.Size = new System.Drawing.Size(55, 21);
-            this.tb_FillValue.TabIndex = 1;
+            this.tb_Remark.TabIndex = 13;
             // 
             // ItemConfig
             // 

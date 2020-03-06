@@ -6,6 +6,7 @@ using TestModel;
 using System.Windows.Forms;
 using System.Threading;
 using TestTool;
+using System.IO.Ports;
 
 namespace TestDAL
 {
@@ -14,15 +15,21 @@ namespace TestDAL
         private SerialOperate Serial;
         private string port;
         public string btAddress = string.Empty;
-        private Queue<string> queue;
+        private Queue<string> queue, statusQueue;
         public DataBase dataBase;
         public ConfigData config;
-
-        public OperateBES(string port,Queue<string> queue,bool serialStatus)
+        private WebReference.WebService1 MesWeb;
+        public SerialPort FixPort;
+        public string PackSN;
+        public string BurnINFail;
+        
+        public OperateBES(string port,Queue<string> queue,bool serialStatus
+            ,Queue<string> statusQueue)
         {
             this.port = port;
             Serial = new SerialOperate(port, serialStatus,queue);
             this.queue = queue;
+            this.statusQueue = statusQueue;
         }
 
         public TestData OpenSerialPort(TestData data)
@@ -67,8 +74,9 @@ namespace TestDAL
                 byte[] bytes = { 0x04, 0xff, 0x02, 0x01, 0x00 };
                 Thread.Sleep(500);
                 byte[] values = Serial.VisaQuery(bytes);
-                var version = Encoding.ASCII.GetString(values).Replace("\0", "")
-                    .Remove(0, 3);
+                byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+
+                var version = Encoding.ASCII.GetString(needData).Trim();
                 if (data.LowLimit.Equals(version))
                 {
                     data.Result = "Pass";
@@ -148,8 +156,8 @@ namespace TestDAL
                 byte[] bytes = { 0x04, 0xff, 0x03, 0x01, 0x00 };
                 byte[] values = Serial.VisaQuery(bytes);
                 // int length = Convert.ToInt16(values[2]);
-                var version = Encoding.ASCII.GetString(values).Replace("\0", "")
-                 .Remove(0, 3);
+                byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                var version = Encoding.ASCII.GetString(needData);
 
                 //StringBuilder version = new StringBuilder();
                 //for (int i = 3; i < 11; i++)
@@ -264,10 +272,35 @@ namespace TestDAL
                 //\u0004\u001020225719ag000001
                 if (values[0] == 0x04)
                 {
-                    string sn = Encoding.ASCII.GetString(values).Replace("\0", "")
-                        .Remove(0, 2).ToUpper();
-                    data.Result = "Pass";
-                    data.Value = sn;
+                    byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                    string sn = Encoding.ASCII.GetString(needData);
+
+                    string reslut = string.Empty;
+                    if (config.MesEnable && PackSN.Length == 20)
+                    {
+                        MesWeb = new WebReference.WebService1();
+                        reslut = MesWeb.SnCx_BZSN(sn);
+                        if (reslut == "P")
+                        {
+                            queue.Enqueue("产品SN未重复");
+                        }
+                        MesWeb.Abort();
+                    }
+                    else
+                    {
+                        reslut = "P";
+                    }
+                    if (reslut.Contains("P"))
+                    {
+                        data.Result = "Pass";
+                        data.Value = sn;
+                    }
+                    else
+                    {
+                        queue.Enqueue("产品SN重复，请检查");
+                        data.Result = "Fail";
+                        data.Value = sn;
+                    }
                 }
                 else
                 {
@@ -301,41 +334,67 @@ namespace TestDAL
                 //\u0004\u001020225719ag000001
                 if (values[0] == 0x04)
                 {
-                    string sn = Encoding.ASCII.GetString(values).Replace("\0", "")
-                        .Remove(0, 2).ToUpper();
-                    if (btAddress != "")
+                    byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                    string sn = Encoding.ASCII.GetString(needData);
+                    string reslut = string.Empty;
+                    if (config.MesEnable && PackSN.Length == 20)
                     {
-                        if (btAddress == sn && btAddress.StartsWith(data.LowLimit))
+                        //sn = "GJ1225202K100773";
+                        MesWeb = new WebReference.WebService1();
+                        reslut = MesWeb.SnCx_BZSN(sn);
+                        if(reslut == "P")
                         {
-                            data.Result = "Pass";
-                            data.Value = sn;
+                            queue.Enqueue("产品SN未重复");
+                        }
+                        MesWeb.Abort();
+                    }
+                    else
+                    {
+                        reslut = "P";
+                    }
+                    if (reslut.Contains("P"))
+                    {
+                       
+                        if (btAddress != "")
+                        {
+                            if (btAddress == sn && btAddress.StartsWith(data.LowLimit))
+                            {
+                                data.Result = "Pass";
+                                data.Value = sn;
+                            }
+                            else
+                            {
+                                data.Result = "Fail";
+                                data.Value = sn;
+                                if (data.Check)
+                                {
+                                    Serial.ClosedPort();
+                                }
+                            }
                         }
                         else
                         {
-                            data.Result = "Fail";
-                            data.Value = sn;
-                            if (data.Check)
+                            if (sn.StartsWith(data.LowLimit))
                             {
-                                Serial.ClosedPort();
+                                data.Result = "Pass";
+                                data.Value = sn;
+                            }
+                            else
+                            {
+                                data.Result = "Fail";
+                                data.Value = sn;
+                                if (data.Check)
+                                {
+                                    Serial.ClosedPort();
+                                }
                             }
                         }
                     }
                     else
                     {
-                        if(sn.StartsWith(data.LowLimit))
-                        {
-                            data.Result = "Pass";
-                            data.Value = sn;
-                        }
-                        else
-                        {
-                            data.Result = "Fail";
-                            data.Value = sn;
-                            if (data.Check)
-                            {
-                                Serial.ClosedPort();
-                            }
-                        }
+                        queue.Enqueue("产品SN重复，请检查");
+                        data.Result = "Fail";
+                        data.Value = sn;
                     }
                 }
                 else
@@ -406,9 +465,88 @@ namespace TestDAL
                 if (values[2] == 0x06)
                 {
                     string btaddress = string.Format("{0:x2}{1:x2}{2:x2}{3:x2}{4:x2}{5:x2}"
-                        , values[8], values[7], values[6], values[5], values[4], values[3]);
-                    data.Result = "Pass";
-                    data.Value = btaddress.ToUpper();
+                        , values[8], values[7], values[6], values[5], values[4], values[3]).ToUpper();
+                    if (config.MesEnable)
+                    {
+                        queue.Enqueue("检查蓝牙地址是否过站/重复/测试三次:" + btaddress);
+                        //ServiceReference1.WebService1SoapClient MesWeb = null;
+                        //MesWeb = new ServiceReference1.WebService1SoapClient("WebService1Soap");
+                        MesWeb = new WebReference.WebService1();
+                        //MesWeb.Url = "http://218.65.34.28:82/WebService1.asmx";
+                        //btaddress = "E09DFA52CD40";
+                        string failResult = string.Empty;
+                        string reslut = string.Empty;
+                        //string packResult = string.Empty;
+                        string btResult = string.Empty;
+                        if (PackSN == null)
+                            PackSN = string.Empty;
+                        
+                        if (PackSN.Length != 20)
+                        {
+                            //btaddress = "E09DFA513DF6";
+                            reslut = MesWeb.SnCx(btaddress, config.MesStation);
+                            failResult = MesWeb.SnCx_SC(btaddress, config.NowStation);
+                        }
+                        else
+                        {
+                            //reslut = MesWeb.SnCx(btaddress, config.MesStation);
+                            reslut = "P";
+                            failResult = MesWeb.SnCx_SC(btaddress, config.NowStation);
+                            btResult = MesWeb.SnCx_BZLY(btaddress);
+                        }
+
+                        //MesWeb.Close();
+                        MesWeb.Abort();
+                       
+                        if (reslut.Contains( "F"))
+                        {
+                            data.Value = btaddress;
+                            data.Result = "Fail";
+                            queue.Enqueue(string.Format("上一个工位:{0}:连续测试NG品,请检查 "
+                        , config.MesStation));
+                        }
+                        else
+                        {
+                            queue.Enqueue("检查蓝牙地址: " + btaddress + ",过站Pass");
+                            data.Result = "Pass";
+                            data.Value = btaddress;
+                            if (PackSN.Length != 20)
+                            {
+                                if (failResult.Contains("P"))
+                                {
+                                    queue.Enqueue("该蓝牙地址: " + btaddress + ",无重复测试");
+                                    data.Result = "Pass";
+                                    data.Value = btaddress;
+                                }
+                                else
+                                {
+                                    data.Value = btaddress;
+                                    data.Result = "Fail";
+                                    queue.Enqueue("该蓝牙地址: " + btaddress + ",重复测试三次");
+                                }
+                            }
+                        }
+                        if (btResult != string.Empty)
+                        {
+                            if (btResult.Contains("P"))
+                            {
+                                queue.Enqueue("该蓝牙地址: " + btaddress + ",无重复");
+                                data.Result = "Pass";
+                                data.Value = btaddress;
+                            }
+                            else
+                            {
+                                data.Value = btaddress;
+                                data.Result = "Fail";
+                                queue.Enqueue("该蓝牙地址: " + btaddress + ",重复,请检查");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        data.Result = "Pass";
+                        data.Value = btaddress;
+                    }
                 }
                 else
                 {
@@ -435,9 +573,8 @@ namespace TestDAL
             {
                 byte[] bytes = { 0x04, 0xff, 0x06, 0x01, 0x00 };
                 byte[] values = Serial.VisaQuery(bytes);
-
-                string batt = Encoding.ASCII.GetString(values).Replace("\0", "")
-                    .Remove(0, 3);
+                byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                string batt = Encoding.ASCII.GetString(needData);
                 data.Result = "Pass";
                 data.Value = batt;
             }
@@ -460,9 +597,8 @@ namespace TestDAL
             {
                 byte[] bytes = { 0x04, 0xff, 0x06, 0x01, 0x00 };
                 byte[] values = Serial.VisaQuery(bytes);
-
-                string batt = Encoding.ASCII.GetString(values).Replace("\0", "")
-                    .Remove(0, 3);
+                byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                string batt = Encoding.ASCII.GetString(needData);
                 if (btAddress != "")
                 {
                     if (btAddress == batt && btAddress.StartsWith(data.LowLimit))
@@ -874,6 +1010,396 @@ namespace TestDAL
             return data;
         }
 
+        public TestData BES_BurnIN(TestData data)
+        {
+            try
+            {
+                //5a 01 07 ff ff ff ff ff ff ff a3
+                byte[] bytes = { 0x5a, 0x01, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xa3 };
+                //Thread.Sleep(5000);
+                byte[] values = Serial.VisaQuery(bytes);
+
+
+                data.Result = "Pass";
+                data.Value = "Pass";
+            }
+            catch(Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_ReadBurnIN(TestData data)
+        {
+            try
+            {
+                //5a 02 07 ff ff ff ff ff ff ff a0
+                byte[] bytes = { 0x5a, 0x02, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xa0 };
+                //Thread.Sleep(5000);
+                //5A 03 07 01 FF FF FF FF FF FF 5F
+                byte[] values = Serial.VisaQuery(bytes);
+                //BurnINByte = values;
+                //values = new byte[] { 0x03, 0x07, 0x01, 0xff, 0xff, 0xff, 0xfe, 0xff, 0xff, 0x5f };
+                if (values[0] == 0x03)
+                {
+                    //data.Result = "Pass";
+                    //data.Value = "Pass";
+                    #region
+                    for (int i = 3; i <= 8; i++)
+                    {
+                        if (values[i] != 0xff)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                switch (values[i])
+                                {
+                                    case 0xfe:
+                                        {
+                                            data.Value = "休眠唤醒后,充电异常";
+                                            break;
+                                        }
+                                    case 0xfd:
+                                        {
+                                            data.Value = "写入和读取4KB异常";
+                                            break;
+                                        }
+                                    case 0xfb:
+                                        {
+                                            data.Value = "低电压关机";
+                                            break;
+                                        }
+                                }
+                            }
+                            else
+                            {
+                                switch (values[i])
+                                {
+                                    case 0xfe:
+                                        {
+                                            data.Value = "正常状态下,HALL异常";
+                                            break;
+                                        }
+                                    case 0xfd:
+                                        {
+                                            data.Value = "正常状态下,电量计异常";
+                                            break;
+                                        }
+                                    case 0xfb:
+                                        {
+                                            data.Value = "正常状态下,充电芯片异常";
+                                            break;
+                                        }
+                                    case 0xf7:
+                                        {
+                                            data.Value = "最大功率条件下,HALL异常";
+                                            break;
+                                        }
+                                    case 0xef:
+                                        {
+                                            data.Value = "最大功率条件下,电量计异常";
+                                            break;
+                                        }
+                                    case 0xdf:
+                                        {
+                                            data.Value = "最大功率条件下,充电芯片异常";
+                                            break;
+                                        }
+                                    case 0xbf:
+                                        {
+                                            data.Value = "休眠唤醒后,HALL异常";
+                                            break;
+                                        }
+                                    case 0x7f:
+                                        {
+                                            data.Value = "休眠唤醒后,电量计异常";
+                                            break;
+                                        }
+                                }
+                            }
+                            data.Result = "Fail";
+                            break;
+                        }
+
+                    }
+                    if (string.IsNullOrWhiteSpace(data.Result))
+                    {
+                        data.Result = "Pass";
+                        data.Value = "Pass";
+                    }
+                    #endregion
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            BurnINFail = data.Value;
+            data.Result = "Pass";
+            data.Value = "Pass";
+            return data;
+        }
+
+        public TestData BES_Read_NormalBurnIN_HALL(TestData data)
+        {
+            try
+            {
+               if(BurnINFail == "正常状态下,HALL异常")
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+               else
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Read_NormalBurnIN_Power(TestData data)
+        {
+            try
+            {
+                if (BurnINFail == "正常状态下,电量计异常")
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+                else
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Read_NormalBurnIN_Charge(TestData data)
+        {
+            try
+            {
+                if (BurnINFail == "正常状态下,充电芯片异常")
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+                else
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Read_MaxPowerBurnIN_HALL(TestData data)
+        {
+            try
+            {
+                if (BurnINFail == "最大功率条件下,HALL异常")
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+                else
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Read_MaxPowerBurnIN_Power(TestData data)
+        {
+            try
+            {
+                if (BurnINFail == "最大功率条件下,电量计异常")
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+                else
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Read_MaxPowerBurnIN_Charge(TestData data)
+        {
+            try
+            {
+                if (BurnINFail == "最大功率条件下,充电芯片异常")
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+                else
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Read_SleepBurnIN_HALL(TestData data)
+        {
+            try
+            {
+                if (BurnINFail == "休眠唤醒后,HALL异常")
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+                else
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Read_SleepBurnIN_Power(TestData data)
+        {
+            try
+            {
+                if (BurnINFail == "休眠唤醒后,电量计异常")
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+                else
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Read_SleepBurnIN_Charge(TestData data)
+        {
+            try
+            {
+                if (BurnINFail == "休眠唤醒后,充电异常")
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+                else
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Read_BurnIN_LowBattery(TestData data)
+        {
+            try
+            {
+                if (BurnINFail == "低电压关机")
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+                else
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Read_BurnIN_Memory(TestData data)
+        {
+            try
+            {
+                if (BurnINFail == "写入和读取4KB异常")
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+                else
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
         public TestData BES_ReadBattaryVoltage(TestData data)
         {
             try
@@ -943,6 +1469,7 @@ namespace TestDAL
                 byte[] values = Serial.VisaQuery(bytes);
                 if (values[3] == 0x04)
                 {
+                   byte[] needData = values.Skip(3).Take(values[2]).ToArray();
                     double voltage = double.Parse(string.Format("{0}{1}{2}{3}"
                        , values[4], values[5], values[6], values[7]));
                     if (voltage >= double.Parse(data.LowLimit)
@@ -1170,14 +1697,19 @@ namespace TestDAL
                 //}                        
                 if (values[3] == 0x02)
                 {
-                    HALLTest hALL = new HALLTest();
+                    //HALLTest hALL = new HALLTest();
                     //hALL.ShowDialog();
+                    if (config.AutoHALL)
+                    {
+                        FixPort.WriteLine("HALL" + "\r");
+                    }
                     if (values[5] == 0x01)
                     {
-                        Thread thread = new Thread(() =>
-                    {
+                    //    Thread thread = new Thread(() =>
+                    //{
                         try
                         {
+                            statusQueue.Enqueue("移开霍尔");
                             for (int i = 0; i < 10; i++)
                             {
                                 values = Serial.VisaQuery(bytes);
@@ -1185,7 +1717,8 @@ namespace TestDAL
                                 {
                                     data.Value = "Pass";
                                     data.Result = "Pass";
-                                    hALL.Close();
+                                    //hALL.Close();
+                                    statusQueue.Enqueue("End");
                                     break;
                                 }
                                 if (values[5] != 0x00 && i == 9)
@@ -1196,7 +1729,8 @@ namespace TestDAL
                                     {
                                         Serial.ClosedPort();
                                     }
-                                    hALL.Close();
+                                    //hALL.Close();
+                                    statusQueue.Enqueue("Fail");
                                 }
                                 Thread.Sleep(500);
                             }
@@ -1209,11 +1743,115 @@ namespace TestDAL
                             {
                                 Serial.ClosedPort();
                             }
-                            hALL.Close();
+                            //hALL.Close();
+                            statusQueue.Enqueue("Fail");
                         }
-                    });
-                        thread.Start();
-                        hALL.ShowDialog();
+                    //});
+                    //    thread.Start();
+                    //    hALL.ShowDialog();
+                       
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                        if (data.Check)
+                        {
+                            Serial.ClosedPort();
+                        }
+                    }
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                    if (data.Check)
+                    {
+                        Serial.ClosedPort();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_HALLClosedTest(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x10, 0x01, 0x00, 0x03 };
+                byte[] values = new byte[0];
+                List<byte> status = new List<byte>();
+                //for (int i = 0; i < 3; i++)
+                //{
+                values = Serial.VisaQuery(bytes);
+                //Thread.Sleep(100);
+                //status.Add(values[5]);
+                //}                        
+                if (values[3] == 0x02)
+                {
+                    //HALLTest hALL = new HALLTest();
+                    //hALL.ShowDialog();
+                    //if (config.AutoHALL)
+                    //{
+                    //    FixPort.WriteLine("HALL" + "\r");
+                    //}
+                    if (values[5] == 0x01)
+                    {
+                        //    Thread thread = new Thread(() =>
+                        //{
+                        //try
+                        //{
+                        //statusQueue.Enqueue("移开霍尔");
+                        //for (int i = 0; i < 10; i++)
+                        //{
+                        //    values = Serial.VisaQuery(bytes);
+                        //    if (values[5] == 0x00)
+                        //    {
+                        data.Value = "Pass";
+                        data.Result = "Pass";
+                        //        //hALL.Close();
+                        //        statusQueue.Enqueue("End");
+                        //        break;
+                        //    }
+                        //    if (values[5] != 0x00 && i == 9)
+                        //    {
+                        //        data.Value = "Fail";
+                        //        data.Result = "Fail";
+                        //        if (data.Check)
+                        //        {
+                        //            Serial.ClosedPort();
+                        //        }
+                        //        //hALL.Close();
+                        //        statusQueue.Enqueue("Fail");
+                        //    }
+                        //    Thread.Sleep(500);
+                        //    }
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    data.Value = "Fail";
+                        //    data.Result = "Fail";
+                        //    if (data.Check)
+                        //    {
+                        //        Serial.ClosedPort();
+                        //    }
+                        //    //hALL.Close();
+                        //    statusQueue.Enqueue("Fail");
+                        //}
+                        //});
+                        //    thread.Start();
+                        //    hALL.ShowDialog();
+
                     }
                     else
                     {
@@ -1348,36 +1986,55 @@ namespace TestDAL
                 byte[] bytes = { 0x04, 0xff, 0x00, 0x00, 0x00 };
                 //byte[] values = Serial.VisaQuery(bytes);
                 byte[] address = new byte[0];
-                if (config.AutoSNTest)
+                if (config.AutoSN)
                 {
                     btAddress = GetProductSN(config.SNHear, config.SNLine);
                     address = Encoding.ASCII.GetBytes(btAddress);
-                  
                 }
                 else
                 {
                     address = Encoding.ASCII.GetBytes(btAddress);
                 }
-                byte length = byte.Parse(address.Length.ToString());
-                byte[] value = new byte[bytes.Length + address.Length];
-                bytes.CopyTo(value, 0);
-                value[4] = length;
-                address.CopyTo(value, 5);
-
-                byte[] ret = Serial.VisaQuery(value);
-                if (ret[2] == length)
+                string result = string.Empty;
+                if (config.MesEnable)
                 {
-                    data.Result = "Pass";
-                    data.Value = "Pass";
+                    MesWeb = new WebReference.WebService1();
+                    result = MesWeb.SnCx_sn(btAddress);
+                    MesWeb.Abort();
                 }
                 else
                 {
-                    data.Result = "Fail";
-                    data.Value = "Fail";
-                    if (data.Check)
+                    result = "P";
+                }
+                if (result.Contains("P"))
+                {
+                    byte length = byte.Parse(address.Length.ToString());
+                    byte[] value = new byte[bytes.Length + address.Length];
+                    bytes.CopyTo(value, 0);
+                    value[4] = length;
+                    address.CopyTo(value, 5);
+
+                    byte[] ret = Serial.VisaQuery(value);
+                    if (ret[2] == length)
                     {
-                        Serial.ClosedPort();
+                        data.Result = "Pass";
+                        data.Value = "Pass";
                     }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                        if (data.Check)
+                        {
+                            Serial.ClosedPort();
+                        }
+                    }
+                }
+                else
+                {
+                    queue.Enqueue("产品SN重复，请检查");
+                    data.Result = "Fail";
+                    data.Value = btAddress;
                 }
             }
             catch (Exception ex)
@@ -1788,7 +2445,7 @@ namespace TestDAL
         {
             try
             {
-                byte[] bytes = { 0x04, 0xff, 0x22, 0x00, 0x01, 0x01 };
+                byte[] bytes = { 0x04, 0xff, 0x22, 0x00, 0x01, 0x00 };
                 byte[] values = Serial.VisaQuery(bytes);
                if(values[0] == 0x04)
                 {
@@ -1818,7 +2475,7 @@ namespace TestDAL
         {
             try
             {
-                byte[] bytes = { 0x04, 0xff, 0x22, 0x00, 0x01, 0x00 };
+                byte[] bytes = { 0x04, 0xff, 0x22, 0x00, 0x01, 0x01 };
                 byte[] values = Serial.VisaQuery(bytes);
                 if (values[0] == 0x04)
                 {
@@ -1850,7 +2507,7 @@ namespace TestDAL
             {
                 byte[] bytes = { 0x04, 0xff, 0x22, 0x00, 0x01, 0x02 };
                 byte[] values = Serial.VisaQuery(bytes);
-                if (values[1] == 0x04)
+                if (values[0] == 0x04)
                 {
                     data.Result = "Pass";
                     data.Value = "Pass";
@@ -1884,6 +2541,179 @@ namespace TestDAL
                 {
                     data.Result = "Pass";
                     data.Value = "Pass";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_ExitCDC(TestData data)
+        {
+            try
+            {
+                //04 FF 23 00 04 75 73 65 72 
+                byte[] bytes = { 0x04, 0xff, 0x23, 0x00, 0x04, 0x75, 0x73, 0x65, 0x72 };
+                byte[] values = Serial.VisaQuery(bytes);
+                if (values[0] == 0x04)
+                {
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_ReadTouchData(TestData data)
+        {
+            try
+            {
+                //FF 04 26 70 02 E7 02 FE 03 09 02 E4 02 FE 03 1C 03 15 03 0D 02 FA 03 
+                //19 03 13 03 23 03 08 02 EC 03 01 03 1C 03 0E 03 15 03 25 03 01 03 38 03
+                //3A 03 28 04 0C 04 80 03 70 03 27 03 09 03 03 04 46 04 90 03 49 03 1F 03 
+                //19 02 FD 03 50 03 23 02 F9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+                    //00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+
+                byte[] bytes = { 0x04, 0xff, 0x26, 0x01, 0x00 };
+                var msg = MessageBox.Show("请滑动触摸板", "Message", MessageBoxButtons.OK
+                    , MessageBoxIcon.Asterisk);
+                if (msg == DialogResult.OK)
+                {
+                    byte[] values = Serial.VisaQuery(bytes);
+                    byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                    if (values[0] == 0x04)
+                    {
+                        data.Result = "Pass";
+                        List<int> list = new List<int>();
+                        for (int i = 0; i < needData.Length; i++)
+                        {
+                            list.Add(needData[i]);
+                        }
+                        data.Value = string.Join(";", list);
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_ReadWearData(TestData data)
+        {
+            try
+            {
+                //FF 04 26 70 02 E7 02 FE 03 09 02 E4 02 FE 03 1C 03 15 03 0D 02 FA 03 
+                //19 03 13 03 23 03 08 02 EC 03 01 03 1C 03 0E 03 15 03 25 03 01 03 38 03
+                //3A 03 28 04 0C 04 80 03 70 03 27 03 09 03 03 04 46 04 90 03 49 03 1F 03 
+                //19 02 FD 03 50 03 23 02 F9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+                //00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+
+                byte[] bytes = { 0x04, 0xff, 0x27, 0x01, 0x00 };
+                var msg = MessageBox.Show("请移动佩戴板", "Message", MessageBoxButtons.OK
+                    , MessageBoxIcon.Asterisk);
+                if (msg == DialogResult.OK)
+                {
+                    byte[] values = Serial.VisaQuery(bytes);
+                    byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                    Array.Reverse(needData);
+                    int val = Convert.ToInt32(string.Format("{0:X}{1:X}"
+                        , needData[0], needData[1]), 16);
+                  
+                    if (values[0] == 0x04)
+                    {
+                        if (val <= int.Parse(data.UppLimit) && val >= int.Parse(data.LowLimit))
+                        {
+                            data.Result = "Pass";
+                            data.Value = val.ToString();
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = val.ToString();
+                        }
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_Enter_UsbAudio(TestData data)
+        {
+            try
+            {
+                //04 FF 23 00 04 75 73 65 72 
+                byte[] bytes = { 0x04, 0xff, 0x25, 0x00, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+                if (values[0] == 0x04)
+                {
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
                 }
             }
             catch (Exception ex)

@@ -64,7 +64,12 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -100,6 +105,17 @@
     <Compile Include="ItemConfig.Designer.cs">
       <DependentUpon>ItemConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="MesWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MesWindow.Designer.cs">
+      <DependentUpon>MesWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Winform.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +135,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ItemConfig.resx">
       <DependentUpon>ItemConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MesWindow.resx">
+      <DependentUpon>MesWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -143,6 +162,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Web References\WebReference\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebReference\WebService1.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestBLL\TestBLL.csproj">
@@ -177,6 +201,23 @@
   <ItemGroup>
     <Content Include="ichse.ico" />
     <Content Include="Lchse.ico" />
+    <None Include="Web References\WebReference\WebService1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://192.167.4.252:82/">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebReference\</RelPath>
+      <UpdateFromURL>http://192.167.4.252:82/</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Test_Program_WebReference_WebService1</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

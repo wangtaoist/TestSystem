@@ -32,21 +32,24 @@ namespace TestDAL
                 {
                     using (StreamWriter sw = new StreamWriter(fs, Encoding.Default))
                     {
+                      //var data =  datas.Where(s => s.Show == true).Select(s => s.TestItemName).ToList();
                         string col = string.Format("SN,TestTime,MAC,TotalStatus,{0}"
-                            , string.Join(",", datas.Select(s => s.TestItemName).ToList()));
+                            , string.Join(",", datas.Where(s => s.Show == true)
+                            .Select(s => s.TestItemName).ToList()));
                         sw.WriteLine(col);
 
                         string lowLimit = string.Format(",,,,{0}", string.Join(","
-                            , datas.Select(s => s.LowLimit).ToList()));
+                            , datas.Where(s => s.Show == true).Select(s => s.LowLimit).ToList()));
                         sw.WriteLine(lowLimit);
 
                         string HiLimit = string.Format(",,,,{0}", string.Join(","
-                           , datas.Select(s => s.UppLimit).ToList()));
+                           , datas.Where(s => s.Show == true).Select(s => s.UppLimit).ToList()));
                         sw.WriteLine(HiLimit);
 
                         string row = string.Format("{0},{1},{2},{3},{4}"
                             , colume.SN, colume.TestTime, colume.MAC, colume.TotalStatus
-                            , string.Join(",", datas.Select(s => s.Value).ToList()));
+                            , string.Join(",",
+                             datas.Where(s => s.Show == true).Select(s => s.Value).ToList()));
                         sw.WriteLine(row);
                     }
                 }
@@ -59,7 +62,8 @@ namespace TestDAL
                     {
                         string row = string.Format("{0},{1},{2},{3},{4}"
                             , colume.SN, colume.TestTime, colume.MAC, colume.TotalStatus
-                            , string.Join(",", datas.Select(s => s.Value).ToList()));
+                            , string.Join(","
+                            , datas.Where(s => s.Show == true).Select(s => s.Value).ToList()));
                         sw.WriteLine(row);
                     }
                 }
@@ -85,15 +89,17 @@ namespace TestDAL
             obj.Add("TotalStatus", colume.TotalStatus);
             foreach (var item in datas)
             {
-                //
-                LogContent log = new LogContent();
-                log.data = item.Value;
-                log.isPass = item.Result;
-                log.lowerLimit = item.LowLimit;
-                log.upperLimit = item.UppLimit;
-                log.unit = item.Unit;
-                string json = JsonConvert.SerializeObject(log,Formatting.Indented);
-                obj.Add(item.TestItemName, json);
+                if (item.Show)
+                {
+                    LogContent log = new LogContent();
+                    log.data = item.Value;
+                    log.isPass = item.Result;
+                    log.lowerLimit = item.LowLimit;
+                    log.upperLimit = item.UppLimit;
+                    log.unit = item.Unit;
+                    string json = JsonConvert.SerializeObject(log, Formatting.Indented);
+                    obj.Add(item.TestItemName, json);
+                }
             }
             string cont = JsonConvert.SerializeObject(obj,Formatting.Indented);
             string mesFileName = Path.Combine(mesPath, "result.txt");

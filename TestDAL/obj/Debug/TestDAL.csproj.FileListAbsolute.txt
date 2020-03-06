@@ -162,6 +162,7 @@ D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestDAL\obj\Debug\TestDAL.cs
 D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestDAL\obj\Debug\TestDAL.csproj.CopyComplete
 D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestDAL\obj\Debug\TestDAL.dll
 D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestDAL\obj\Debug\TestDAL.pdb
+D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\TestDAL.dll.config
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\TestDAL.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\TestDAL.pdb
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\ATCAPI.dll

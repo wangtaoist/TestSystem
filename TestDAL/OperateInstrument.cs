@@ -16,6 +16,8 @@ namespace TestDAL
         private ConfigData data;
         private Queue<string> queue;
         private CsrOperate csr;
+        public string BtAddress;
+        private WebReference.WebService1 web;
 
         public OperateInstrument(ConfigData data, Queue<string> queue)
         {
@@ -143,7 +145,7 @@ namespace TestDAL
             //SCPTCFG 3,OP,ON;MI;IC;CD;SS
             //PC;MS;MP
             //ALLTSTS
-            //instrument.VisaWrite("SCPTCFG 3,ALLTSTS,OFF");
+            instrument.VisaWrite("SCPTCFG 3,ALLTSTS,OFF");
             //if (data.OP)
             //    instrument.VisaWrite("SCPTCFG 3,OP,ON");
             //if (data.MI)
@@ -293,6 +295,10 @@ namespace TestDAL
             {
                 freq = double.Parse(val.Split(',')[2]);
             }
+            else
+            {
+                freq = double.Parse(val);
+            }
             return freq / 1000;
         }
 
@@ -360,13 +366,18 @@ namespace TestDAL
             return item;
         }  
 
-        public TestData Open_CSR_Port(TestData item)
+        public TestData Open_QCC_Port(TestData item)
         {
             csr = new CsrOperate();
             return csr.OpenPort(item);
         }
 
-        public TestData CSR_CalFreq(TestData item)
+        public TestData QCC_ReadBtAdress(TestData item)
+        {
+            return csr.ReadBTaddress(item);
+        }
+
+        public TestData QCC_CalFreq(TestData item)
         {
             short TrimValue = 0;
             short offset = 0;
@@ -374,7 +385,7 @@ namespace TestDAL
             for (int i = 0; i < 3; i++)
             {
                 csr.ColdReset();
-                csr.ReadOffset(out TrimValue);
+                //csr.ReadOffset(out TrimValue);
                 csr.EnterTxStart((ushort)2441);
 
                 double freqError = Read_8852B_FreqOffect();
@@ -400,21 +411,107 @@ namespace TestDAL
             return item;
         }
 
-        public TestData CSR_Read_Trim(TestData item)
+        public TestData QCC_Write_BtAddress(TestData item)
+        {
+            if(csr.WriteBtAddress(BtAddress) == 1)
+            {
+                item.Result = "Pass";
+                item.Value = BtAddress;
+            }
+            else
+            {
+                item.Result = "Fail";
+                item.Value = BtAddress;
+            }
+            return item;
+        }
+
+        public TestData QCC_Read_Trim(TestData item)
         {
             return csr.ReadOffset(item);
         }
 
-        public TestData CSR_EnableTestMode(TestData item)
+        public TestData QCC_EnableTestMode(TestData item)
         {
             return csr.EnableTestMode(item);
         }
 
-        public TestData CSR_Closed_Port(TestData item)
+        public TestData OpenCsrDev(TestData item)
+        {
+            csr = new CsrOperate();
+            return csr.OpenCsrDev(item);
+        }
+
+        public TestData ReadCsrBDAddress(TestData item)
+        {
+            return csr.ReadCsrBDAddress(item);
+        }
+
+        public TestData CsrEnableTestMode(TestData item)
+        {
+            //csr.WriteCsrBtAddress("784405268d56");
+            return csr.CsrEnableTestMode(item);
+        }
+
+        public TestData CSR_CalFreq(TestData item)
+        {
+            short TrimValue = 0;
+            short offset = 0;
+            Set_8852B_CWMode();
+            for (int i = 0; i < 3; i++)
+            {
+                csr.ColdReset();
+                //csr.ReadOffset(out TrimValue);
+                csr.EnterTxStart((ushort)2441);
+
+                double freqError = Read_8852B_FreqOffect();
+                csr.ColdReset();
+                csr.CalFreq(2441, freqError, out offset);
+                csr.WriteCalFreq((short)(TrimValue + offset));
+                csr.ColdReset();
+                csr.EnterTxStart(2441);
+                freqError = Read_8852B_FreqOffect();
+                if (freqError >= double.Parse(item.LowLimit)
+                    && freqError <= double.Parse(item.UppLimit))
+                {
+                    item.Value = freqError.ToString();
+                    item.Result = "Pass";
+                    break;
+                }
+                else
+                {
+                    item.Value = freqError.ToString();
+                    item.Result = "Fail";
+                }
+            }
+            return item;
+        }
+
+        public TestData CSR_Write_BtAddress(TestData item)
+        {
+            if (csr.WriteCsrBtAddress(BtAddress) == 1)
+            {
+                item.Result = "Pass";
+                item.Value = BtAddress;
+            }
+            else
+            {
+                item.Result = "Fail";
+                item.Value = BtAddress;
+            }
+            return item;
+        }
+
+        public TestData CsrClosedPort(TestData item)
+        {
+            return csr.CsrClosedPort(item);
+        }
+
+        public TestData QCC_Closed_Port(TestData item)
         {
             try
             {
-                csr.ClosedPort();
+                csr.QCCClosedDev();
                 item.Result = "Pass";
                 item.Value = "Pass";
             }
@@ -440,7 +537,7 @@ namespace TestDAL
             bool page = false;
             queue.Enqueue("呼叫开始");
             instrument.Cls();
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 100; i++)
             {
                 string ret = instrument.VisaQuery("INQRSP?");
                 //instrument.Cls();
@@ -453,15 +550,22 @@ namespace TestDAL
                     page = true;
                     break;
                 }
-                else if (ret.StartsWith("0") && (i == 15 || i == 30))
+                else if (ret.StartsWith("0") && (i == 30 || i == 60))
                 {
                     queue.Enqueue("再次呼叫中......");
                     //INQCANCEL
-                    instrument.VisaWrite("INQCANCEL");
+                    //instrument.VisaWrite("INQCANCEL");
+                    InitInstr();
                     Thread.Sleep(1000);
+                    instrument.VisaWrite("DISCONNECT");
+                    instrument.VisaWrite("SYSCFG EUTSRCE,INQUIR");
+                    //instrument.VisaWrite("SYSCFG INQSET,RNUM,12");
+                    instrument.VisaWrite(string.Format("SYSCFG INQSET,TIMEOUT,{0}", data.Inquiry_TimeOut));
+                    //INQUIRY   INQRSP?
                     instrument.VisaWrite("INQUIRY");
+                    //instrument.VisaWrite("INQUIRY");
                 }
-                if (i == 49 && !(ret.StartsWith("1")))
+                if (i == 99 && !(ret.StartsWith("1")))
                 {
                     item.Result = "Fail";
                     item.Value = "Fail";
@@ -481,7 +585,7 @@ namespace TestDAL
                 queue.Enqueue("连接中");
                 instrument.Cls();
                 bool connStatus = false;
-                for (int j = 0; j < 50; j++)
+                for (int j = 0; j < 100; j++)
                 {
                     string conn = instrument.VisaQuery("STATUS").Substring(6, 1);
                     if (conn == "1")
@@ -496,7 +600,7 @@ namespace TestDAL
                         instrument.VisaWrite("CONNECT");
                     }
 
-                    if (j == 49 && connStatus != true)
+                    if (j == 99 && connStatus != true)
                     {
                         item.Result = "Fail";
                         item.Value = "Fail";
@@ -611,7 +715,7 @@ namespace TestDAL
             return item;
         }
 
-        public void Run_MT8852_CalcFreqScript(TestData item)
+        public TestData Run_MT8852_CalcFreqScript(TestData item)
         {
             Set8852();
             instrument.VisaWrite("DISCONNECT");
@@ -794,7 +898,107 @@ namespace TestDAL
 
                 }
             }
-            //return item;
+            return item;
+        }
+
+        public TestData Run_MT8852_CalcFreq(TestData item)
+        {
+            Set_8852B_CWMode();
+
+            int success = 0;
+            uint TrimValue = 0;
+            short offset = 0;
+            csr.EnterTxStart(2441);
+            csr.AdjustFreq(0, 11);
+            uint TrimLoadCap = csr.ReadOffset(out TrimValue) + 1;
+            //csr.AdjustFreq(11, TrimValue);
+            //csr.AdjustFreq(TrimValue, TrimLoadCap);
+            uint i = TrimLoadCap;
+            for (; i < 31; i++)
+            {
+                double freqError = Read_8852B_FreqOffect();
+                if (freqError >= double.Parse(item.LowLimit)
+                    && freqError <= double.Parse(item.UppLimit))
+                {
+                    item.Value = freqError.ToString();
+                    item.Result = "Pass";
+                    break;
+                }
+                else
+                {
+                    csr.AdjustFreq(TrimValue, i);
+                }
+            }
+            //Thread.Sleep(500);
+            if (i != TrimLoadCap)
+            {
+                success = csr.ChipReset();
+            }
+            Thread.Sleep(1000);
+            instrument.VisaWrite("OPMD SCRIPT");
+            instrument.VisaWrite("SCPTSEL 3");
+            instrument.VisaWrite("SCRIPTMODE 3,STANDARD");
+            if (string.IsNullOrWhiteSpace(item.Result))
+            {
+                item.Value = i.ToString();
+                item.Result = "Fail";
+            }
+            return item;
+        }
+
+        public TestData Run_MT8852_CsrCalcFreq(TestData item)
+        {
+            Set_8852B_CWMode();
+
+            int success = 0;
+            short TrimValue = 0;
+            short offset = 0;
+            short writeOffset = 0;
+          
+            //csr.AdjustFreq(0, 11);
+            //uint TrimLoadCap = csr.ReadOffset(out TrimValue) + 1;
+            //csr.AdjustFreq(11, TrimValue);
+            //csr.AdjustFreq(TrimValue, TrimLoadCap);
+            uint i = 0;
+            for (; i < 3; i++)
+            {
+                csr.ColdReset();
+                csr.ResetConnCsr();
+                csr.CsrReadOffset(out TrimValue);
+                csr.CsrEnterTxStart(2441);
+               
+                double freqError = Read_8852B_FreqOffect() / 1000;
+                csr.CalFreq(2441, 2441 + freqError, out offset);
+                writeOffset = (short)(TrimValue + offset);
+                csr.WriteCalFreq(writeOffset);
+                csr.ColdReset();
+                //csr.ResetConnCsr();
+                csr.CsrEnterTxStart(2441);
+                freqError = Read_8852B_FreqOffect();
+                if (freqError >= double.Parse(item.LowLimit)
+                    && freqError <= double.Parse(item.UppLimit))
+                {
+                    item.Value = freqError.ToString();
+                    item.Result = "Pass";
+                    break;
+                }
+                else
+                {
+                    //csr.AdjustFreq(TrimValue, i);
+                }
+            }
+            //Thread.Sleep(500);
+            
+            Thread.Sleep(500);
+            instrument.VisaWrite("OPMD SCRIPT");
+            instrument.VisaWrite("SCPTSEL 3");
+            instrument.VisaWrite("SCRIPTMODE 3,STANDARD");
+            if (string.IsNullOrWhiteSpace(item.Result))
+            {
+                item.Value = i.ToString();
+                item.Result = "Fail";
+            }
+            return item;
         }
 
         public TestData GetTXPower(TestData item)
@@ -992,8 +1196,64 @@ namespace TestDAL
         {
             instrument.Cls();
             string address = instrument.VisaQuery("SYSCFG? EUTADDR");
-            item.Value = address;
-            item.Result = "Pass";
+            //address = "E09DFA4D9B0D";
+            if (data.MesEnable)
+            {
+                queue.Enqueue("检查蓝牙地址是否过站及测试三次:" + address);
+                web = new WebReference.WebService1();
+                //ServiceReference1.WebService1SoapClient web = null;
+                //web = new ServiceReference1.WebService1SoapClient("WebService1Soap");
+                string reslut = web.SnCx(address, data.MesStation);
+                //string btResult = web.SnCx_LY(address);
+                string failResult = web.SnCx_SC(address, data.NowStation);
+                //web.Close();
+                //reslut = "F";
+                web.Abort();
+                if (reslut.Contains("F"))
+                {
+                    item.Value = address;
+                    item.Result = "Fail";
+                    queue.Enqueue(string.Format("上一个工位:{0}:连续测试NG品,请检查 "
+                        , data.MesStation));
+                }
+                else
+                {
+                    queue.Enqueue("检查蓝牙地址: " + address + ",过站Pass");
+                    item.Result = "Pass";
+                    item.Value = address;
+                    //if (btResult.Contains("P"))
+                    //{
+                    //    queue.Enqueue("该蓝牙地址: " + address + ",无重复");
+                    //    item.Result = "Pass";
+                    //    item.Value = address;
+                    if (failResult.Contains("P"))
+                    {
+                        queue.Enqueue("该蓝牙地址: " + address + ",无重复测试");
+                        item.Result = "Pass";
+                        item.Value = address;
+                    }
+                    else
+                    {
+                        item.Value = address;
+                        item.Result = "Fail";
+                        queue.Enqueue("该蓝牙地址: " + address + ",重复测试三次");
+                    }
+                    //}
+                    //else
+                    //{
+                    //    item.Value = address;
+                    //    item.Result = "Fail";
+                    //    queue.Enqueue("该蓝牙地址: " + address + ",重复,请检查");
+                    //}
+                }
+               
+              
+            }
+            else
+            {
+                item.Value = address;
+                item.Result = "Pass";
+            }
             return item;
         }
 
@@ -1932,7 +2192,6 @@ namespace TestDAL
                     multiple = 1000;
                     PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe {0}"
                        , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
-
                 }
                 else
                 {
@@ -1987,7 +2246,7 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}", 0));
+                //PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}", 0));
                 PowerInst.VisaWrite(":OUTPut1:STAT OFF");
                 item.Result = "Pass";
                 item.Value = "Pass";
@@ -2012,7 +2271,7 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}", 0));
+                //PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}", 0));
                 PowerInst.VisaWrite(":OUTPut2:STAT OFF");
                 item.Result = "Pass";
                 item.Value = "Pass";
@@ -2125,7 +2384,7 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-               // PowerInst.VisaWrite(string.Format("INST: COUP: OUTP: STAT NONE"));
+                // PowerInst.VisaWrite(string.Format("INST: COUP: OUTP: STAT NONE"));
                 PowerInst.VisaWrite(string.Format(":SOUR:VOLT2:LEVel {0}"
              , data.Voltage2));
                 PowerInst.VisaWrite(string.Format(":SOUR:CURR2  {0}"
@@ -2179,6 +2438,7 @@ namespace TestDAL
                     voltage *= 1000;
                     voltage += double.Parse(item.FillValue);
                 }
+                voltage += double.Parse(item.FillValue);
                 if (voltage <= double.Parse(item.UppLimit)
                     && voltage >= double.Parse(item.LowLimit))
                 {
@@ -2305,6 +2565,7 @@ namespace TestDAL
                 {
                     voltage *= 1000;
                 }
+                voltage += double.Parse(item.FillValue);
                 if (voltage <= double.Parse(item.UppLimit)
                     && voltage >= double.Parse(item.LowLimit))
                 {
@@ -2367,6 +2628,7 @@ namespace TestDAL
                 {
                     current *= 1000;
                 }
+                current += double.Parse(item.FillValue);
                 if (current <= double.Parse(item.UppLimit)
                    && current >= double.Parse(item.LowLimit))
                 {
@@ -2504,9 +2766,9 @@ namespace TestDAL
                 if(item.Unit.ToUpper() == "MV")
                 {
                     voltage *= 1000;
-                    voltage += double.Parse(item.FillValue);
+                    
                 }
-
+                voltage += double.Parse(item.FillValue);
                 if (voltage <= double.Parse(item.UppLimit)
                     && voltage >= double.Parse(item.LowLimit))
                 {
@@ -2576,7 +2838,7 @@ namespace TestDAL
             {
                 //:FUNC "CURR:DC";:CURR:DC:RANG:AUTO ON;
                 //:FUNC "CURR:DC";:CURR:DC:RANG:AUTO ON;
-                Thread.Sleep(200);
+                //Thread.Sleep(200);
                 MultimeterInst.VisaWrite(":FUNC  \"CURR:DC\";:CURR:DC:RANG:AUTO ON;");
                 Thread.Sleep(200);
                 string[] values = MultimeterInst.VisaQuery(":SAMP:COUN 5;:TRIG:SOUR IMM;:READ?").Split(',');
@@ -2598,8 +2860,17 @@ namespace TestDAL
                 else if(item.Unit.ToUpper() == "UA")
                 {
                     current *= 1000000;
+                    if (current <= 19 && current > 18.2)
+                        current -= 2.4;
+                    else if (current < 18.2 && current > 17.6)
+                        current -= 1.8;
+                    else if (current < 17.6 && current > 17)
+                        current -= 1.2;
+                    else if (current < 17 && current > 16.4)
+                        current -= 0.6;
                 }
                 current += double.Parse(item.FillValue);
+               
                 if (current <= double.Parse(item.UppLimit)
                     && current >= double.Parse(item.LowLimit))
                 {

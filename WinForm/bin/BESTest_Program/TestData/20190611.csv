@@ -1,0 +1,15 @@
+SN,TestTime,MAC,TotalStatus,BES_OpenSerialPort,BES_ReadTestStation,BES_SoftVersion,BES_HWVersion,BES_ReadBTAddress,BES_ClosedSerialPort
+,,,,NA,01,AM66-BD 1.0.0.003,B816_V10,NA,NA
+,,,,NA,01,AM66-BD 1.0.0.003,B816_V10,NA,NA
+,20190611111109,,Fail,Fail,,,,,
+,20190611111122,,Fail,Pass,Fail,,,,
+,20190611111145,,Fail,Pass,01,CM70-L-BD 1.0.0.102,,,
+,20190611111158,E09DFA34A61C,Pass,Pass,01,CM70-L-BD 1.0.0.102,B816_V10,E09DFA34A61C,Pass
+,20190611111141,,Fail,Pass,Fail,,,,
+,20190611111138,,Fail,Pass,Fail,,,,
+,20190611111123,,Fail,Pass,Fail,,,,
+,20190611111107,,Fail,Pass,Fail,,,,
+,20190611111126,,Fail,Pass,Fail,,,,
+,20190611111124,,Fail,Pass,Fail,,,,
+,20190611111145,,Fail,Pass,Fail,,,,
+,20190611111120,,Fail,Pass,Fail,,,,

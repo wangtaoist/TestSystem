@@ -5,6 +5,7 @@ using System.Text;
 using ATCAPI;
 using TestModel;
 using System.Threading;
+using System.IO;
 
 namespace TestDAL
 {
@@ -14,39 +15,50 @@ namespace TestDAL
         private ConfigData config;
         private double[] SpkLevels, SpkTHD, SpkSNR, SpkCrossralk, LowNoise;
         private OperateBES Operate;
-        private string btAddress;
+        public string btAddress;
         private bool btStatus;
 
         public AudioOperate(ConfigData config, OperateBES operate)
         {
-            this.config = config;
-            btAddress = string.Empty;
-            ATc = new ATC();
-            ATc.Visible = false;
-            //Thread thread = new Thread(() => 
-            //{
-            string name = ATc.ProjectFileName;
-            if ((!config.AudioPath.Contains(name)) || name == "")
+            try
             {
-                ATc.OpenProject(config.AudioPath);
+                this.config = config;
+                btAddress = string.Empty;
+                ATc = new ATC();
+                ATc.Visible = false;
+                //Thread thread = new Thread(() => 
+                //{
+                if (File.Exists(config.AudioPath))
+                {
+                    string name = ATc.ProjectFileName;
+                    if ((!config.AudioPath.Contains(name)) || name == "")
+                    {
+                        ATc.OpenProject(config.AudioPath);
+                    }
+                }
+                //ATc.BtsimSettings.Reset();
+                //});
+                // thread.Start();
+                this.Operate = operate;
+                btStatus = true;
             }
-
-            //ATc.BtsimSettings.Reset();
-            //});
-            // thread.Start();
-            this.Operate = operate;
-            btStatus = true;
+            catch (Exception)
+            {
+            }
+            
         }
 
         public TestData OpenA2(TestData data)
         {
             try
             {
-
-                //ATc.BtsimSettings.Reset();
-                ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Btsim;
-                ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.AnalogBalanced;
+                ATc.BtsimSettings.CallCancel();
                 ATc.BtsimSettings.Reset();
+                ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Btsim;
+                ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.AnalogUnbalanced;
+                //ATc.BtsimSettings.Reset();
+                //string name = ATc.BtsimSettings.BtsimName;
+
                 //ATc.BluetoothSettings.ClearDeviceList();
                 //ATc.BluetoothSettings.ProfileSet = BluetoothProfileSet.A2dpSourceHfpGatewayAvrcp;
                 //ATc.BluetoothSettings.InquiryTimeout = 5;
@@ -56,9 +68,12 @@ namespace TestDAL
             catch (Exception ex)
             {
                 btStatus = false;
-                ATc.BluetoothSettings.ClearDeviceList();
+               
+                ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Bluetooth;
                 ATc.BluetoothSettings.ProfileSet = BluetoothProfileSet.A2dpSourceHfpGatewayAvrcp;
+               
                 ATc.BluetoothSettings.InquiryTimeout = 5;
+                ATc.BluetoothSettings.ClearDeviceList();
                 data.Result = "Pass";
                 data.Value = "Pass";
             }
@@ -69,16 +84,19 @@ namespace TestDAL
         {
             try
             {
-                if(btStatus)
+                if (btStatus)
                 {
+                    //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Btsim;
+                    //ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.AnalogBalanced;
                     ATc.BtsimSettings.SwitchToA2dp();
+
                     data.Value = "Pass";
                     data.Result = "Pass";
                 }
                 else
                 {
                     ATc.BluetoothSettings.ConnectA2dp(btAddress);
-                    if(ATc.BluetoothSettings.AcceptA2dpConnections)
+                    if (ATc.BluetoothSettings.AcceptA2dpConnections)
                     {
                         data.Value = "Pass";
                         data.Result = "Pass";
@@ -91,9 +109,9 @@ namespace TestDAL
                 }
                 //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Bluetooth;
                 //ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.AnalogBalanced;
-              
+
                 //ATc.BluetoothSettings.ConnectA2dp(btAddress);
-              
+
             }
             catch (Exception ex)
             {
@@ -109,6 +127,9 @@ namespace TestDAL
             {
                 if (btStatus)
                 {
+                    //ATc.BtsimSettings.SwitchToHfp();
+                    //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.AnalogUnbalanced;
+                    //ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.Btsim;
                     ATc.BtsimSettings.SwitchToHfp();
                 }
                 else
@@ -133,49 +154,138 @@ namespace TestDAL
 
         public TestData EarPair(TestData data)
         {
-            try
+            btAddress = Operate.BES_ReadBTAddress();
+            for (int i = 0; i < 3; i++)
             {
                 //ATc.BtsimSettings.Reset();
-                btAddress = Operate.BES_ReadBTAddress();
-                if(btStatus)
-                {
-                    ATc.BtsimSettings.ConnectToDevice(btAddress, "1", 10);
-                    if (ATc.BtsimSettings.AppState == BtsimAppState.Connected)
-                    //if(conn)
-                    {
-                        data.Result = "Pass";
-                        data.Value = "Pass";
-                    }
-                    else
-                    {
-                        data.Result = "Fail";
-                        data.Value = "Fail";
-                    }
-                }
-               else
-                {
-                   
-                    bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
-                    if (conn)
-                    {
-                        data.Result = "Pass";
-                        data.Value = "Pass";
-                    }
-                    else
-                    {
-                        data.Result = "Fail";
-                        data.Value = "Fail";
-                    }
 
+                if (btStatus)
+                {
+                    try
+                    {
+                        ATc.BtsimSettings.Reset();
+                        ATc.BtsimSettings.ConnectToDevice(btAddress, "1", 10);
+                        if (ATc.BtsimSettings.AppState == BtsimAppState.Connected)
+                        //if(conn)
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
                 }
-                //bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
-                
+                else
+                {
+                    try
+                    {
+                        bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
+                        if (conn)
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                        }
+
+                    }
+                    //bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
+                    catch (Exception ex)
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
             }
-            catch (Exception)
+            return data;
+        }
+          
+        public TestData CSR_EarPair(TestData data)
+        {
+
+            for (int i = 0; i < 3; i++)
             {
-                data.Result = "Fail";
-                data.Value = "Fail";
+                //ATc.BtsimSettings.Reset();
+                //btAddress = Operate.BES_ReadBTAddress();
+                if (btStatus)
+                {
+                    //IBtsimDeviceCollection lists = ATc.BtsimSettings.ScanForDevices(5);
+
+                    //Dictionary<string, double> dic = new Dictionary<string, double>();
+                    //for (int i = 0; i < lists.Count; i++)
+                    //{
+                    //    dic.Add(lists[i].Address, double.Parse(lists[i].Rssi));
+                    //}
+                    //dic
+                    try
+                    {
+                        ATc.BtsimSettings.Reset();
+                        ATc.BtsimSettings.ConnectToDevice(btAddress, "1", 10);
+                        if (ATc.BtsimSettings.AppState == BtsimAppState.Connected)
+                        //if(conn)
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+                else
+                {
+                    //IBluetoothDeviceCollection lists = ATc.BluetoothSettings.ScanForDevices(5);
+                    //Dictionary<string, double> dic = new Dictionary<string, double>();
+                    //for (int i = 0; i < lists.Count; i++)
+                    //{
+                    //    dic.Add(lists[i].Address, double.Parse(lists[i].Rssi));
+                    //}
+                    try
+                    {
+                        bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
+                        if (conn)
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                    //bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
+                }
             }
+
             return data;
         }
 
@@ -186,7 +296,7 @@ namespace TestDAL
                 //Operate.BES_SetVolume(data);
                 for (int i = 0; i < 3; i++)
                 {
-                    Operate.SetVolume();
+                    //Operate.SetVolume();
                     ATc.Sequence["Speaker"]["Level and Gain"].Run();
                     if (ATc.Sequence["Speaker"]["Level and Gain"].HasSequenceResults)
                     {
@@ -397,9 +507,9 @@ namespace TestDAL
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]["THD+N"]
                             .SequenceResults;
                         LowNoise = results[7].GetMeterValues();
-                        if (SpkSNR[0] + double.Parse(data.FillValue)
+                        if (LowNoise[0] + double.Parse(data.FillValue)
                             <= double.Parse(data.UppLimit)
-                             && SpkSNR[0] + double.Parse(data.FillValue)
+                             && LowNoise[0] + double.Parse(data.FillValue)
                              >= double.Parse(data.LowLimit))
                         {
                             data.Result = "Pass";

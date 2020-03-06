@@ -26,7 +26,8 @@ namespace TestTool
             {
                 //Provider=Microsoft.ACE.OLEDB.12.0;Data Source=
                 //Provider=Microsoft.Jet.OLEDB.4.0;Data Source=
-                oleDbConnection.ConnectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", dbPath);
+                oleDbConnection.ConnectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0" +
+                    ";Data Source={0}", dbPath);
                 if (oleDbConnection.State == System.Data.ConnectionState.Closed)
                 {
                     oleDbConnection.Open();
@@ -204,10 +205,22 @@ namespace TestTool
 
                 list._4010Port = dt.Rows[44].ItemArray[1].ToString();
                 list._4010Enable = bool.Parse(dt.Rows[45].ItemArray[1].ToString());
+
+                list.MesEnable = bool.Parse(dt.Rows[46].ItemArray[1].ToString());
+                list.MesStation = dt.Rows[47].ItemArray[1].ToString();
+
+                list.AutoHALL = bool.Parse(dt.Rows[48].ItemArray[1].ToString());
+
+                list.RelayPort = dt.Rows[49].ItemArray[1].ToString();
+                list.RelayEnable = bool.Parse(dt.Rows[50].ItemArray[1].ToString());
+
+                list.NowStation = dt.Rows[51].ItemArray[1].ToString();
+
+                list.AutoSN = bool.Parse(dt.Rows[52].ItemArray[1].ToString());
+                
             }
             catch (Exception)
             {
-
                 throw;
             }
             ClosedConnect();

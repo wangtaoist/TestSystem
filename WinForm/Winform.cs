@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using TestTool;
-using TestDAL;
 using TestModel;
 using TestBLL;
 using System.Threading;
 using System.Diagnostics;
-using TestEngineAPI;
 using System.IO.Ports;
 
 namespace WinForm
@@ -21,8 +17,8 @@ namespace WinForm
     {
         private double widthX, heightY, columnHeiht;
         private TestLogic testLogic;
-        private string initPath, BtAddress;
-        private Queue<string> TestQueue, TimeQueue;
+        private string initPath, BtAddress, PackSN;
+        private Queue<string> TestQueue, TimeQueue, statusQueue;
         private frmSettingLogin login;
         private List<TestData> TestItmes, FailItems;
         private bool queueFlag, testFlag,focusFlag;
@@ -34,7 +30,8 @@ namespace WinForm
         private const int DBT_DEVICE_REMOVE_COMPLETE = 0x8004;
         private System.Windows.Forms.Timer time;
         private System.Threading.Timer ShowTime;
-
+        private WebReference.WebService1 web;
+       
         public Winform()
         {
             InitializeComponent();
@@ -43,6 +40,16 @@ namespace WinForm
             columnHeiht = dgv_Data.ColumnHeadersHeight;
             Others.setTag(this);
             Control.CheckForIllegalCrossThreadCalls = false;
+
+            //web = new WebReference.WebService1();
+            //string res = web.SnCx("E09DFA531545", "老化测试后");
+            //string res = web.SnCx_sn("E09DFA208EB3");
+            //string res = web.SnCx_SC("E09DFA4D8B65", "距离测试");
+            //string res = web.SnCx_BZLY("E09DFA458272");
+            //string res1 = web.SnCx_BZSN("GJ122519CK100026");
+            //string pa = Path.Combine(Application.StartupPath, "CMD");
+            //Others.CmdExcute(pa + "\\CmdReadWrite.exe QUERY_SW_VER ");
+
         }
 
         private void Winform_Load(object sender, EventArgs e)
@@ -53,7 +60,9 @@ namespace WinForm
             initPath = Application.StartupPath;
             TestQueue = new Queue<string>();
             TimeQueue = new Queue<string>();
-            testLogic = new TestLogic(TestQueue, initPath);
+            statusQueue = new Queue<string>();
+            testLogic = new TestLogic(TestQueue, initPath, statusQueue);
+           
             FillTestItem();
             FillTestRadio();
             config = testLogic.GetConfigData();
@@ -65,9 +74,11 @@ namespace WinForm
             dgv_Data.ClearSelection();
             lb_Message.Items.Clear();
 
+            this.WindowState = FormWindowState.Maximized;
+            Winform_Resize(null, null);
             ThreadPool.QueueUserWorkItem(new WaitCallback(testLogic.InitTestPort));
             ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
-
+            ThreadPool.QueueUserWorkItem(new WaitCallback(ShowStatus));
             if (config.AutoFixture)
             {
                 FixturePort = new SerialPort();
@@ -79,11 +90,16 @@ namespace WinForm
                     FixturePort.Close();
                 }
                 FixturePort.Open();
+                if (config.AutoHALL)
+                {
+                    testLogic.FixPort = FixturePort;
+                }
             }
         }
     
         private void Winform_Resize(object sender, EventArgs e)
         {
+           
             double xRate = this.Width / widthX;
             double yRate = this.Height / heightY;
             Others.setResolution(xRate, yRate, this);
@@ -153,6 +169,7 @@ namespace WinForm
             stopwatch.Restart();
             testFlag = true;
             focusFlag = false;
+            queueFlag = true;
             BtAddress = tb_SN.Text.Trim();
             testLogic.BTAddress = BtAddress;
 
@@ -160,7 +177,6 @@ namespace WinForm
             Thread.Sleep(500);
             ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestTime));
             ThreadPool.QueueUserWorkItem(new WaitCallback(TestProcess));
-
         }
 
         public void ClsTestValue()
@@ -200,7 +216,6 @@ namespace WinForm
                         }
                     }
                     Thread.Sleep(item.AfterTime);
-                  
                 }
             }
             catch (Exception ex)
@@ -233,9 +248,11 @@ namespace WinForm
         {
             foreach (var item in FailItems)
             {
+                //TestQueue.Enqueue("Fail后：" + item.TestItemName + "开始测试");
                 Thread.Sleep(item.beferTime);
                 testLogic.TestProcess(item);
                 Thread.Sleep(item.AfterTime);
+                //TestQueue.Enqueue("Fail后：" + item.TestItemName + "测试完成");
             }
         }
 
@@ -423,6 +440,25 @@ namespace WinForm
             dgv_Data.FirstDisplayedScrollingRowIndex = index;
         }
 
+        public void ShowStatus(object obj)
+        {
+            while(queueFlag)
+            {
+                if (statusQueue.Count != 0 && statusQueue != null)
+                {
+                    try
+                    {
+                        ShowTestStatus(statusQueue.Dequeue());
+                    }
+                    catch (Exception ex)
+                    {
+                        lb_Message.Items.Add(ex.Message);
+                    }
+                }
+                Thread.Sleep(50);
+            }
+        }
+
         public void ShowTestStatus(string status)
         {
             this.BeginInvoke(new Action(delegate ()
@@ -432,10 +468,20 @@ namespace WinForm
                     {
                         label_TestResult.BackColor = Color.SpringGreen;
                     }
-                    else
+                    else if (status == "Fail")
                     {
                         label_TestResult.BackColor = Color.Red;
                     }
+                    else if (status == "移开霍尔") 
+                    {
+                        label_TestResult.BackColor = Color.Yellow;
+                    }
+                    else if(status == "End")
+                    {
+                        label_TestResult.BackColor = Color.LightSteelBlue;
+                        label_TestResult.Text = "Test";
+                    }
+
                 }));
         }
 
@@ -514,8 +560,32 @@ namespace WinForm
                         && tb_SN.Text.Trim().Length == config.SNLength)
                     {
                         tb_SN.Enabled = false;
+                        if(tb_SN.Text.Length == 20)
+                        {
+                            web = new WebReference.WebService1();
+                            PackSN = tb_SN.Text.Trim();
+                            string reslut = web.SnCx(PackSN, config.MesStation);
+                            testLogic.PackSN = PackSN;
+                            if (reslut == "P")
+                            {
+                                btTest_Click(null, null);
+                            }
+                            else
+                            {
+                                MessageBox.Show(string.Format("上一个工位:{0}:连续测试NG品,请检查 ", config.MesStation)
+                                    , "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                tb_SN.Enabled = true;
+                                tb_SN.Clear();
+                                tb_SN.Select();
+                            }
+                           
+                        }
+                        else
+                        {
+                            btTest_Click(null, null);
+                        }
                         //btTest.PerformClick();
-                        btTest_Click(null, null);
+                      
                     }
                     else
                     {
@@ -541,6 +611,7 @@ namespace WinForm
         {
             focusFlag = false;
             frmSettingLogin login = new frmSettingLogin();
+            login.Function = "Radio";
             if(login.ShowDialog(this) == DialogResult.OK)
             {
                 testLogic.ClsRadio();
@@ -553,7 +624,7 @@ namespace WinForm
         {
             login = new frmSettingLogin();
             focusFlag = false;
-            queueFlag = false;
+            //queueFlag = false;
             if(config.AutoFixture == true)
             {
                 FixturePort.Close();
@@ -565,7 +636,7 @@ namespace WinForm
                 if (setting.ShowDialog(this) == System.Windows.Forms.DialogResult.Yes)
                 {
                     dgv_Data.Rows.Clear();
-                    queueFlag = false;
+                    //queueFlag = false;
                     label_TestResult.Text = "Ready";
                     label_TestResult.BackColor = Color.LightSteelBlue;
                     Winform_Load(null, null);
@@ -588,7 +659,7 @@ namespace WinForm
                 if (comfig.ShowDialog() == System.Windows.Forms.DialogResult.Yes)
                 {
                     dgv_Data.Rows.Clear();
-                    queueFlag = false;
+                    //queueFlag = false;
                     label_TestResult.Text = "Ready";
                     label_TestResult.BackColor = Color.LightSteelBlue;
                     Winform_Load(null, null);
@@ -603,6 +674,8 @@ namespace WinForm
             testLogic.ClosedInstrument();
         }
 
+       
+
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             focusFlag = false;
@@ -615,8 +688,32 @@ namespace WinForm
         {
             About about = new About();
             about.ShowDialog();
-        }   
+        }
 
+        private void mESToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            login = new frmSettingLogin();
+            login.Function = "MES";
+            focusFlag = false;
+            //queueFlag = false;
+            if (config.AutoFixture == true)
+            {
+                FixturePort.Close();
+            }
+            var dialong = login.ShowDialog(this);
+            if (dialong == System.Windows.Forms.DialogResult.OK)
+            {
+                MesWindow setting = new MesWindow(config, initPath);
+                if (setting.ShowDialog(this) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    dgv_Data.Rows.Clear();
+                    //queueFlag = false;
+                    label_TestResult.Text = "Ready";
+                    label_TestResult.BackColor = Color.LightSteelBlue;
+                    Winform_Load(null, null);
+                }
+            }
+        }
         public void FocusTextBox(object obj)
         {
             while (focusFlag)

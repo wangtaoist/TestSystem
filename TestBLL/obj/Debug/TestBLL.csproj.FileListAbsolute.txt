@@ -114,6 +114,7 @@ D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\NationalInstruments.VisaNS
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\Newtonsoft.Json.dll
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\RJCP.SerialPortStream.dll
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestDAL.pdb
+D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestDAL.dll.config
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestModel.pdb
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestTool.pdb
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\NationalInstruments.VisaNS.xml
@@ -124,3 +125,5 @@ D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.csproj.CoreCompile
 D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.csproj.CopyComplete
 D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.dll
 D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.pdb
+D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\AutoClosingMessageBox.dll
+D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\AutoClosingMessageBox.pdb

@@ -46,11 +46,11 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(13, 145);
+            this.label1.Location = new System.Drawing.Point(13, 137);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(292, 74);
+            this.label1.Size = new System.Drawing.Size(292, 97);
             this.label1.TabIndex = 1;
-            this.label1.Text = "江西联创宏声电子股份有限公司\r\n软件开发:深圳分公司TDE\r\nE-mail:wangtao@lchse.com";
+            this.label1.Text = "江西联创宏声电子股份有限公司\r\n\r\n软件开发:深圳分公司TDE\r\n\r\nE-mail:wangtao@lchse.com\r\n\r\n软件版本:V20.02.21.01";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // About
@@ -58,7 +58,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(309, 231);
+            this.ClientSize = new System.Drawing.Size(309, 243);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

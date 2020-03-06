@@ -7,6 +7,8 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Data;
+using System.Diagnostics;
+using System.Threading;
 
 namespace TestTool
 {
@@ -28,6 +30,11 @@ namespace TestTool
         [DllImport("transferdll.dll",EntryPoint = "dldstart", CharSet = System.Runtime.InteropServices.CharSet.Auto, ExactSpelling = true)]
         public static extern bool dldstart(IntPtr hWnd); //设置此窗体为活动窗体
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool Wow64DisableWow64FsRedirection(ref IntPtr ptr);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool Wow64RevertWow64FsRedirection(IntPtr ptr);
 
         public static void setResolution(double newx, double newy, Control cons)
         {
@@ -74,6 +81,65 @@ namespace TestTool
             }
         }
 
-       
+        public static string CmdExcute(string cmdStr)
+        {
+            Process process = new Process();
+            StreamReader errorRead = null;
+            string error = string.Empty;
+            string output = "";
+
+            IntPtr ptr = new IntPtr();
+            bool bOS_X64 = System.Environment.Is64BitOperatingSystem;
+            if (bOS_X64)
+            {
+                Wow64DisableWow64FsRedirection(ref ptr);        // 关闭system32文件重定向
+            }
+
+            try
+            {
+                process.StartInfo.FileName = @"cmd.exe";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardInput = true;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+
+                if (process.Start())//开始进程
+                {
+                    process.StandardInput.AutoFlush = true;
+                    process.StandardInput.WriteLine(cmdStr);
+                    process.StandardInput.WriteLine("exit");
+                    Thread.Sleep(100);
+                    StreamReader reader = process.StandardOutput;
+                    errorRead = process.StandardError;
+                    error = errorRead.ReadToEnd();
+                    string[] data = reader.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    output = data[3];
+                }
+            }
+            catch (Exception e)
+            {
+            }
+            finally
+            {
+                if (process != null)
+                {
+                    process.WaitForExit();
+                    process.Close();
+                }
+            }
+            if (bOS_X64)
+            {
+                Wow64RevertWow64FsRedirection(ptr);               //恢复文件重定向
+            }
+            if (error == "")
+            {
+                return output;
+            }
+            else
+            {
+                return "Fail";
+            }
+        }
     }
 }

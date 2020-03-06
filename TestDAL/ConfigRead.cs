@@ -20,29 +20,76 @@ namespace TestDAL
             //list.Add("1455_Open_Connection");
             //list.Add("Enter_DUT_Mode");
 
+         
             list.Add(new InitTestItem()
             {
-                TestItem = "CSR_Open_Connection",
-                Remark = "打开CSR端口，使用SPI方式"
+                TestItem = "MessageBox",
+                Remark = "弹出信息框,在其他配置中写入要提示的内容,格式:提示框内容;" +
+               "提示框超时时间,设置为0时就是取消超时.例:请拔出USB线;2000"
+            });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CmdCommand",
+                Remark = "通过CMD指令运行其他程序并获取返回值"
+            });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "QCC_Open_Connection",
+                Remark = "打开QCC端口，使用方式：USBDBG;SPI,TRB，" +
+                "在Other中设置端口及端口号，例：USBDBG:100;1,SPI:23675;1,TRB:23456;1"
             });
             list.Add(new InitTestItem()
             {
-                TestItem = "CSR_Cal_Freq",
-                Remark = "CSR校正频率，校正时需要一直处于开机状态"
+                TestItem = "QCC_ReadBtAdress",
+                Remark = "读取QCC蓝牙地址"
             });
             list.Add(new InitTestItem()
             {
-                TestItem = "CSR_Offset_Gain",
-                Remark = "读取CSR校正Trim值"
+                TestItem = "QCC_Write_BtAddress",
+                Remark = "写QCC蓝牙地址"
             });
             list.Add(new InitTestItem()
             {
-                TestItem = "CSR_Enter_TestMode",
-                Remark = "CSR进入测试模式"
+                TestItem = "QCC_Cal_Freq",
+                Remark = "QCC校正频率，校正时需要一直处于开机状态"
             });
             list.Add(new InitTestItem()
             {
-                TestItem = "CSR_Cloesd_Port",
+                TestItem = "QCC_Offset_Gain",
+                Remark = "读取QCC校正Trim值"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "QCC_Enter_TestMode",
+                Remark = "QCC进入测试模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "QCC_Cloesd_Port",
+                Remark = "关闭QCC端口"
+            });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "OpenCsrDev",
+                Remark = "打开CSR端口,使用方式：USB;SPI;UART;USB-SPI," +
+                "在Other中设置端口及端口号，例：USB-SPI:0"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "ReadCsrBDAddress",
+                Remark = "读取CSR芯片蓝牙地址"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CsrEnableTestMode",
+                Remark = "读取CSR芯片进入DUT"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CsrClosedPort",
                 Remark = "关闭CSR端口"
             });
 
@@ -64,7 +111,17 @@ namespace TestDAL
             list.Add(new InitTestItem()
             {
                 TestItem = "Run_MT8852_CalcFreqScript",
-                Remark = "运行MT8852校准频率脚本，进行测试"
+                Remark = "运行MT8852校准频率脚本，进行测试，适用于BES芯片"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Run_MT8852_CalcFreq",
+                Remark = "运行MT8852校准频率脚本，进行测试，适用于QCC芯片"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Run_MT8852_CsrCalcFreq",
+                Remark = "运行MT8852校准频率脚本，进行测试，适用于CSR芯片"
             });
             list.Add(new InitTestItem()
             {
@@ -110,7 +167,8 @@ namespace TestDAL
             list.Add(new InitTestItem()
             {
                 TestItem = "Agilent4010_CalcFreq",
-                Remark = "使用Agilent4010对耳机进行频率校准，通过测试指令写入trim值"
+                Remark = "使用Agilent4010对耳机进行频率校准，" +
+                "通过测试指令写入trim值，适用于BES芯片"
             });
             list.Add(new InitTestItem()
             {
@@ -376,11 +434,11 @@ namespace TestDAL
                 TestItem = "BES_SoftVersion",
                 Remark = "读取BES系列耳机软体版本"
             });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_HWVersion",
-                Remark = "读取BES系列耳机固体版本"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_HWVersion",
+            //    Remark = "读取BES系列耳机固体版本"
+            //});
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_ReadTrim",
@@ -395,6 +453,11 @@ namespace TestDAL
             {
                 TestItem = "BES_HALLTest",
                 Remark = "BES系列耳机HALL测试，要特别注意测试时未吸合状态"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_HALLClosedTest",
+                Remark = "BES系列耳机HALL测试，只测试霍尔在吸合状态"
             });
             //list.Add(new InitTestItem()
             //{
@@ -464,6 +527,73 @@ namespace TestDAL
                 TestItem = "BES_ClearPair",
                 Remark = "BES系列耳机清除配对"
             });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_BurnIN",
+                Remark = "BES老化测试"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_ReadBurnIN",
+                Remark = "BES读取老化测试数据"
+            });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Read_NormalBurnIN_HALL",
+                Remark = "BES读取老化正常情况下HALL测试数据"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Read_NormalBurnIN_Power",
+                Remark = "BES读取老化正常情况下电量计测试数据"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Read_NormalBurnIN_Charge",
+                Remark = "BES读取老化正常情况下充电测试数据"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Read_MaxPowerBurnIN_HALL",
+                Remark = "BES读取老化最大功率情况下HALL测试数据"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Read_MaxPowerBurnIN_Power",
+                Remark = "BES读取老化最大功率情况下电量计测试数据"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Read_MaxPowerBurnIN_Charge",
+                Remark = "BES读取老化最大功率情况下充电测试数据"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Read_SleepBurnIN_HALL",
+                Remark = "BES读取老化休眠情况下HALL测试数据"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Read_SleepBurnIN_Power",
+                Remark = "BES读取老化休眠情况下电量计测试数据"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Read_SleepBurnIN_Charge",
+                Remark = "BES读取老化休眠情况下充电测试数据"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Read_BurnIN_Memory",
+                Remark = "BES读取老化读取写入内存数据"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Read_BurnIN_LowBattery",
+                Remark = "BES读取老化低电压关机数据"
+            });
+
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_ReadBattaryVoltage",
@@ -584,6 +714,7 @@ namespace TestDAL
                 TestItem = "BES_ControlMic1",
                 Remark = "控制NTG主板主Mic打开"
             });
+          
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_ControlMic2",
@@ -598,6 +729,26 @@ namespace TestDAL
             {
                 TestItem = "BES_ControlMicAllOpen",
                 Remark = "控制NTG主板Mic全部打开"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_ExitCDC",
+                Remark = "永久退出CDC模式，适用于包装前一工站"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Enter_UsbAudio",
+                Remark = "仅退出一次 CDC，可重复进入"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_ReadTouchData",
+                Remark = "读取触摸板实时触摸时的值"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_ReadWearData",
+                Remark = "读取佩戴触发值，要在远近距离测试各一次"
             });
             list.Add(new InitTestItem()
             {
@@ -640,7 +791,12 @@ namespace TestDAL
             list.Add(new InitTestItem()
             {
                 TestItem = "EarPair",
-                Remark = "A2和耳机配对"
+                Remark = "A2和BES芯片耳机配对"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CSR_EarPair",
+                Remark = "A2和高通耳机通过搜索进行配对,需要扫蓝牙地址才可以测试"
             });
             list.Add(new InitTestItem()
             {
@@ -729,6 +885,41 @@ namespace TestDAL
                 Remark = "关闭LED测试仪串口"
             });
 
+            list.Add(new InitTestItem()
+            {
+                TestItem = "OpenRelay",
+                Remark = "打开继电器串口"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "OpenChannel",
+                Remark = "断开某一通道，通道在下限设置"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "ClosedChannel",
+                Remark = "吸合某一通道，通道在下限设置"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "OpenAllChannel",
+                Remark = "打开所有通道"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "ClosedAllChannel",
+                Remark = "吸合所有通道"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "ClosedRelay",
+                Remark = "关闭继电器串口"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "TouchTest",
+                Remark = "测试NTG触摸板的补偿值"
+            });
             return list;
         }
     }

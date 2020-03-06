@@ -1,0 +1,4 @@
+SN,TestTime,MAC,TotalStatus,BES_OpenSerialPort,BES_ReadBTAddress,BES_CompareSN,BES_CompareBattarySN,BES_ReadProductColor,BES_ReadBattaryVoltage,BES_ReadWarningTone,BES_ReadNTC,BES_ClosedSerialPort
+,,,,NA,NA,GJ1225,SYN0,华为黑色,3.8,华为中文,727,NA
+,,,,NA,NA,NA,NA,NA,4.05,NA,1112,NA
+2155030946GJ02002539,20200303110303,E09DFA52CD40,Fail,Pass,E09DFA52CD40,GJ1225202K100773,SYN0C1903005404,华为黑色,4.144,华为中文,899,Pass

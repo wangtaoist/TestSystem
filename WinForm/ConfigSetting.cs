@@ -18,6 +18,7 @@ namespace WinForm
         private ConfigData configData;
         private string initPath;
         private DataBase dataBase;
+        private string compDay;
 
         public ConfigSetting(string path)
         {
@@ -29,6 +30,7 @@ namespace WinForm
         private void ConfigSetting_Load(object sender, EventArgs e)
         {
             GetInstPort();
+            GetProductSN();
             configData = dataBase.GetConfigData();
             tb_Title.Text = configData.Title;
             cb_GPIB.SelectedText = configData.VisaPort;
@@ -93,6 +95,18 @@ namespace WinForm
 
             cb_4010.SelectedText = configData._4010Port;
             select_4010.Checked = configData._4010Enable;
+
+            //cb_MesEnable.Checked = configData.MesEnable;
+            //tb_Station.Text = configData.MesStation;
+
+            cb_AutoHALL.Checked = configData.AutoHALL;
+
+            cb_Relay.SelectedText = configData.RelayPort;
+            cb_RelayEnable.Checked = configData.RelayEnable;
+
+            //tb_NowStation.Text = configData.NowStation;
+
+            cb_AutoSN.Checked = configData.AutoSN;
         }
 
         public void GetInstPort()
@@ -114,8 +128,17 @@ namespace WinForm
                 cb_LEDPort.Items.Add(ports[i]);
                 cb_Serial.Items.Add(ports[i]);
                 cb_FixPort.Items.Add(ports[i]);
+                cb_Relay.Items.Add(ports[i]);
             }
             //cb_Power.DataSource = list;
+        }
+
+        public void GetProductSN()
+        {
+            var table = dataBase.Getsn();
+            string num = table.Rows[0][1].ToString();
+            compDay = table.Rows[0][0].ToString();
+            tb_ProductSN.Text = num;
         }
 
         private void bt_Save_Click(object sender, EventArgs e)
@@ -167,6 +190,13 @@ namespace WinForm
             dic.Add("PlugNumber", tb_PlugNumber.Text.Trim());
             dic.Add("_4010Port", cb_4010.Text);
             dic.Add("_4010Enable", select_4010.Checked);
+            //dic.Add("MesEnable", cb_MesEnable.Checked);
+            //dic.Add("MesStation", tb_Station.Text.Trim());
+            dic.Add("AutoHALL", cb_AutoHALL.Checked);
+            dic.Add("RelayPort", cb_Relay.Text);
+            dic.Add("RelayEnable", cb_RelayEnable.Checked);
+            //dic.Add("NowStation", tb_NowStation.Text.Trim());
+            dic.Add("AutoSN", cb_AutoSN.Checked);
             dataBase.UpdateConfigData(dic);
             this.DialogResult = System.Windows.Forms.DialogResult.Yes;
         }
@@ -195,6 +225,52 @@ namespace WinForm
         {
             dataBase.ClsPlug();
             tb_PlugNumber.Text = dataBase.GetPlugNumber().ToString();
+        }
+
+        private void bt_SaveSN_Click(object sender, EventArgs e)
+        {
+            dataBase.UpdateSN(compDay, int.Parse(tb_ProductSN.Text.Trim()));
+        }
+
+        private void cb_oneToTwoEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            if(cb_oneToTwoEnable.Checked)
+            {
+                cb_Table.Enabled = true;
+                cb_Parallel.Enabled = true;
+                cb_ParallPortOne.Enabled = true;
+                cb_ParallPortTwo.Enabled = true;
+            }
+            else
+            {
+                cb_Table.Enabled = false;
+                cb_Parallel.Enabled = false;
+                cb_ParallPortOne.Enabled = false;
+                cb_ParallPortTwo.Enabled = false;
+            }
+        }
+
+        private void cb_Table_CheckedChanged(object sender, EventArgs e)
+        {
+            if(cb_Parallel.Checked)
+            {
+                cb_Parallel.Checked = false;
+            }
+            //else
+            //{
+            //    cb_Parallel.Checked = true;
+            //}
+        }
+        private void cb_Parallel_CheckedChanged(object sender, EventArgs e)
+        {
+            if(cb_Table.Checked)
+            {
+                cb_Table.Checked = false;
+            }
+            //else
+            //{
+            //    cb_Table.Checked = true;
+            //}
         }
     }
 }

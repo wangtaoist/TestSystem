@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="LCHSE" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="LCHSE" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="LCHSE">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="jf">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="jfResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="jfResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCxResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SnCxResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_sn">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_snResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SnCx_snResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_LY">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_LYResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SnCx_LYResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_SC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_SCResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SnCx_SCResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_BZLY">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_BZLYResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SnCx_BZLYResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_BZSN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_BZSNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SnCx_BZSNResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="jfSoapIn">
+    <wsdl:part name="parameters" element="tns:jf" />
+  </wsdl:message>
+  <wsdl:message name="jfSoapOut">
+    <wsdl:part name="parameters" element="tns:jfResponse" />
+  </wsdl:message>
+  <wsdl:message name="SnCxSoapIn">
+    <wsdl:part name="parameters" element="tns:SnCx" />
+  </wsdl:message>
+  <wsdl:message name="SnCxSoapOut">
+    <wsdl:part name="parameters" element="tns:SnCxResponse" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_snSoapIn">
+    <wsdl:part name="parameters" element="tns:SnCx_sn" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_snSoapOut">
+    <wsdl:part name="parameters" element="tns:SnCx_snResponse" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_LYSoapIn">
+    <wsdl:part name="parameters" element="tns:SnCx_LY" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_LYSoapOut">
+    <wsdl:part name="parameters" element="tns:SnCx_LYResponse" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_SCSoapIn">
+    <wsdl:part name="parameters" element="tns:SnCx_SC" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_SCSoapOut">
+    <wsdl:part name="parameters" element="tns:SnCx_SCResponse" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_BZLYSoapIn">
+    <wsdl:part name="parameters" element="tns:SnCx_BZLY" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_BZLYSoapOut">
+    <wsdl:part name="parameters" element="tns:SnCx_BZLYResponse" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_BZSNSoapIn">
+    <wsdl:part name="parameters" element="tns:SnCx_BZSN" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_BZSNSoapOut">
+    <wsdl:part name="parameters" element="tns:SnCx_BZSNResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebService1Soap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">测试</wsdl:documentation>
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="jf">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">求和方法</wsdl:documentation>
+      <wsdl:input message="tns:jfSoapIn" />
+      <wsdl:output message="tns:jfSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnCx">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询SN,检查最近工序是否是良品</wsdl:documentation>
+      <wsdl:input message="tns:SnCxSoapIn" />
+      <wsdl:output message="tns:SnCxSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_sn">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询SN,检查SN是否重复</wsdl:documentation>
+      <wsdl:input message="tns:SnCx_snSoapIn" />
+      <wsdl:output message="tns:SnCx_snSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_LY">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询SN,检查蓝牙地址是否重复</wsdl:documentation>
+      <wsdl:input message="tns:SnCx_LYSoapIn" />
+      <wsdl:output message="tns:SnCx_LYSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_SC">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询SN，是否测试超过三次</wsdl:documentation>
+      <wsdl:input message="tns:SnCx_SCSoapIn" />
+      <wsdl:output message="tns:SnCx_SCSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_BZLY">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">包装段，查询SN,检查蓝牙地址是否重复</wsdl:documentation>
+      <wsdl:input message="tns:SnCx_BZLYSoapIn" />
+      <wsdl:output message="tns:SnCx_BZLYSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_BZSN">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">包装段，查询SN,检查SN是否重复</wsdl:documentation>
+      <wsdl:input message="tns:SnCx_BZSNSoapIn" />
+      <wsdl:output message="tns:SnCx_BZSNSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebService1Soap" type="tns:WebService1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="LCHSE/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="jf">
+      <soap:operation soapAction="LCHSE/jf" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx">
+      <soap:operation soapAction="LCHSE/SnCx" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_sn">
+      <soap:operation soapAction="LCHSE/SnCx_sn" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_LY">
+      <soap:operation soapAction="LCHSE/SnCx_LY" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_SC">
+      <soap:operation soapAction="LCHSE/SnCx_SC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_BZLY">
+      <soap:operation soapAction="LCHSE/SnCx_BZLY" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_BZSN">
+      <soap:operation soapAction="LCHSE/SnCx_BZSN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebService1Soap12" type="tns:WebService1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="LCHSE/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="jf">
+      <soap12:operation soapAction="LCHSE/jf" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx">
+      <soap12:operation soapAction="LCHSE/SnCx" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_sn">
+      <soap12:operation soapAction="LCHSE/SnCx_sn" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_LY">
+      <soap12:operation soapAction="LCHSE/SnCx_LY" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_SC">
+      <soap12:operation soapAction="LCHSE/SnCx_SC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_BZLY">
+      <soap12:operation soapAction="LCHSE/SnCx_BZLY" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_BZSN">
+      <soap12:operation soapAction="LCHSE/SnCx_BZSN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebService1">
+    <wsdl:port name="WebService1Soap" binding="tns:WebService1Soap">
+      <soap:address location="http://192.167.4.252:82/WebService1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebService1Soap12" binding="tns:WebService1Soap12">
+      <soap12:address location="http://192.167.4.252:82/WebService1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -72,6 +72,13 @@ namespace TestModel
         public string PlugNumber;
         public string _4010Port;
         public bool _4010Enable;
+        public bool MesEnable;
+        public string MesStation;
+        public bool AutoHALL;
+        public string RelayPort;
+        public bool RelayEnable;
+        public string NowStation;
+        public bool AutoSN;
     }
 
     public class TestRatio

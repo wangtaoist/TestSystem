@@ -11,6 +11,8 @@ namespace WinForm
 {
     public partial class frmSettingLogin : Form
     {
+        public string Function;
+
         public frmSettingLogin()
         {
             InitializeComponent();
@@ -19,15 +21,44 @@ namespace WinForm
         private void txt_password_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode != Keys.Enter) return;
-            if (txt_password.Text == "123.abc")
+            if (Function == "Radio")
             {
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                if (txt_password.Text == "123")
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    this.lbl_status.Text = "密码错误";
+                    this.txt_password.Text = "";
+                }
+            }
+            else if(Function == "MES")
+            {
+                if (txt_password.Text == "Engineer123")
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    this.lbl_status.Text = "密码错误";
+                    this.txt_password.Text = "";
+                }
             }
             else
             {
-                this.lbl_status.Text = "密码错误";
-                this.txt_password.Text = "";
+                if (txt_password.Text == "123.abc")
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    this.lbl_status.Text = "密码错误";
+                    this.txt_password.Text = "";
+                }
             }
         }
     }
