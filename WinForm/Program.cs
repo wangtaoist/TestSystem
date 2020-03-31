@@ -14,9 +14,7 @@ namespace WinForm
         [STAThread]
         static void Main()
         {
-            //try
-            //{
-                bool createNew;
+            bool createNew;
             using (Mutex mutex = new Mutex(true, Application.ProductName, out createNew))
             {
                 if (createNew)
@@ -31,13 +29,7 @@ namespace WinForm
                         , "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message, "错误信息"
-            //        , MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-
+            
         }
     }
 }

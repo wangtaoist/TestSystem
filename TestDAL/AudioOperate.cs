@@ -52,10 +52,10 @@ namespace TestDAL
         {
             try
             {
-                ATc.BtsimSettings.CallCancel();
+                //ATc.BtsimSettings.CallCancel();
                 ATc.BtsimSettings.Reset();
-                ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Btsim;
-                ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.AnalogUnbalanced;
+                //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Btsim;
+                //ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.AnalogUnbalanced;
                 //ATc.BtsimSettings.Reset();
                 //string name = ATc.BtsimSettings.BtsimName;
 
@@ -68,10 +68,10 @@ namespace TestDAL
             catch (Exception ex)
             {
                 btStatus = false;
-               
-                ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Bluetooth;
-                ATc.BluetoothSettings.ProfileSet = BluetoothProfileSet.A2dpSourceHfpGatewayAvrcp;
-               
+
+                //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Bluetooth;
+                //ATc.BluetoothSettings.ProfileSet = BluetoothProfileSet.A2dpSourceHfpGatewayAvrcp;
+
                 ATc.BluetoothSettings.InquiryTimeout = 5;
                 ATc.BluetoothSettings.ClearDeviceList();
                 data.Result = "Pass";
@@ -134,6 +134,8 @@ namespace TestDAL
                 }
                 else
                 {
+                    //ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.Bluetooth;
+                    //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.AnalogBalanced;
                     ATc.BluetoothSettings.ConnectHfp(btAddress);
                     ATc.BluetoothSettings.HfpAudioGatewayCommand(BluetoothHfpAgCommand.OpenSco);
                 }

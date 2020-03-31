@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lb_Verison = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,10 +50,28 @@
             // 
             this.label1.Location = new System.Drawing.Point(13, 137);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(292, 97);
+            this.label1.Size = new System.Drawing.Size(292, 72);
             this.label1.TabIndex = 1;
-            this.label1.Text = "江西联创宏声电子股份有限公司\r\n\r\n软件开发:深圳分公司TDE\r\n\r\nE-mail:wangtao@lchse.com\r\n\r\n软件版本:V20.02.21.01";
+            this.label1.Text = "江西联创宏声电子股份有限公司\r\n\r\n软件开发:深圳分公司TDE\r\n\r\nE-mail:wangtao@lchse.com";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(94, 216);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 12);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "版本：";
+            // 
+            // lb_Verison
+            // 
+            this.lb_Verison.Location = new System.Drawing.Point(134, 212);
+            this.lb_Verison.Name = "lb_Verison";
+            this.lb_Verison.Size = new System.Drawing.Size(121, 21);
+            this.lb_Verison.TabIndex = 3;
+            this.lb_Verison.Text = "V20.03.07.01";
+            this.lb_Verison.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // About
             // 
@@ -59,6 +79,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(309, 243);
+            this.Controls.Add(this.lb_Verison);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -68,6 +90,7 @@
             this.Text = "关于";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -75,5 +98,7 @@
 
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        public System.Windows.Forms.Label lb_Verison;
     }
 }

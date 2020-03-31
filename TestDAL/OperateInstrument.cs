@@ -1229,8 +1229,19 @@ namespace TestDAL
                     if (failResult.Contains("P"))
                     {
                         queue.Enqueue("该蓝牙地址: " + address + ",无重复测试");
-                        item.Result = "Pass";
-                        item.Value = address;
+                       
+                        //if(btResult.Contains("P"))
+                        //{
+                        //    item.Result = "Pass";
+                        //    item.Value = address;
+                        //    queue.Enqueue("该蓝牙地址: " + address + ",无重复");
+                        //}
+                        //else
+                        //{
+                        //    item.Result = "Fail";
+                        //    item.Value = address;
+                        //    queue.Enqueue("该蓝牙地址: " + address + ",重复，请检查");
+                        //}
                     }
                     else
                     {

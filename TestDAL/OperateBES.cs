@@ -275,32 +275,46 @@ namespace TestDAL
                     byte[] needData = values.Skip(3).Take(values[2]).ToArray();
                     string sn = Encoding.ASCII.GetString(needData);
 
-                    string reslut = string.Empty;
-                    if (config.MesEnable && PackSN.Length == 20)
-                    {
-                        MesWeb = new WebReference.WebService1();
-                        reslut = MesWeb.SnCx_BZSN(sn);
-                        if (reslut == "P")
-                        {
-                            queue.Enqueue("产品SN未重复");
-                        }
-                        MesWeb.Abort();
-                    }
-                    else
-                    {
-                        reslut = "P";
-                    }
-                    if (reslut.Contains("P"))
-                    {
+                    //string reslut = string.Empty;
+                   
+                    //if (config.MesEnable)
+                    //{
+                    //    MesWeb = new WebReference.WebService1();
+                    //    if (PackSN.Length == 20)
+                    //    {
+                    //        reslut = MesWeb.SnCx_BZSN(sn);
+                    //        if (reslut == "P")
+                    //        {
+                    //            queue.Enqueue("产品SN未重复");
+                    //        }
+                    //    }
+                    //    //else
+                    //    //{
+                    //    //    reslut = MesWeb.SnCx_sn(sn);
+                    //    //    if (reslut == "P")
+                    //    //    {
+                    //    //        queue.Enqueue("产品SN未重复");
+                    //    //    }
+                    //    //}
+                    //    MesWeb.Abort();
+                    //}
+                    //else
+                    //{
+                    //    //检查组段SN是否重复
+                    //    reslut = "P";
+                    //    //MesWeb.Abort();
+                    //}
+                    //if (reslut.Contains("P"))
+                    //{
                         data.Result = "Pass";
                         data.Value = sn;
-                    }
-                    else
-                    {
-                        queue.Enqueue("产品SN重复，请检查");
-                        data.Result = "Fail";
-                        data.Value = sn;
-                    }
+                    //}
+                    //else
+                    //{
+                    //    queue.Enqueue("产品SN重复，请检查");
+                    //    data.Result = "Fail";
+                    //    data.Value = sn;
+                    //}
                 }
                 else
                 {
@@ -337,25 +351,42 @@ namespace TestDAL
                     byte[] needData = values.Skip(3).Take(values[2]).ToArray();
                     string sn = Encoding.ASCII.GetString(needData);
                     string reslut = string.Empty;
-                    if (config.MesEnable && PackSN.Length == 20)
-                    {
-                        //sn = "GJ1225202K100773";
-                        MesWeb = new WebReference.WebService1();
-                        reslut = MesWeb.SnCx_BZSN(sn);
-                        if(reslut == "P")
-                        {
-                            queue.Enqueue("产品SN未重复");
-                        }
-                        MesWeb.Abort();
-                    }
-                    else
-                    {
-                        reslut = "P";
-                    }
-                    if (reslut.Contains("P"))
-                    {
-                       
-                        if (btAddress != "")
+
+                    #region 取消
+                    //if (config.MesEnable )
+                    //{
+                    //    MesWeb = new WebReference.WebService1();
+                    //    if (PackSN.Length == 20)
+                    //    {
+                    //        //sn = "GJ1225202K100773";
+                    //        //检查包装段SN是否重复
+                    //        reslut = MesWeb.SnCx_BZSN(sn);
+                    //        if (reslut == "P")
+                    //        {
+                    //            queue.Enqueue("产品SN未重复");
+                    //        }
+                    //    }
+                    //    //else
+                    //    //{
+                    //    //    //检查组段SN是否重复
+                    //    //    reslut = MesWeb.SnCx_sn(sn);
+                    //    //    if (reslut == "P")
+                    //    //    {
+                    //    //        queue.Enqueue("产品SN未重复");
+                    //    //    }
+                    //    //}
+                    //    MesWeb.Abort();
+                    //}
+                    //else
+                    //{
+                    //    reslut = "P";
+                    //    //MesWeb.Abort();
+                    //}
+                    //if (reslut.Contains("P"))
+                    //{
+                    #endregion
+
+                    if (btAddress != "")
                         {
                             if (btAddress == sn && btAddress.StartsWith(data.LowLimit))
                             {
@@ -364,6 +395,8 @@ namespace TestDAL
                             }
                             else
                             {
+                                queue.Enqueue("产品SN重复和电池SN比对失败，" +
+                                    "请勿在写入电池SN的时候比对产品SN");
                                 data.Result = "Fail";
                                 data.Value = sn;
                                 if (data.Check)
@@ -390,13 +423,13 @@ namespace TestDAL
                             }
                         }
                     }
-                    else
-                    {
-                        queue.Enqueue("产品SN重复，请检查");
-                        data.Result = "Fail";
-                        data.Value = sn;
-                    }
-                }
+                //    else
+                //    {
+                //        queue.Enqueue("产品SN重复，请检查");
+                //        data.Result = "Fail";
+                //        data.Value = sn;
+                //    }
+                //}
                 else
                 {
                     data.Result = "Fail";
@@ -468,6 +501,7 @@ namespace TestDAL
                         , values[8], values[7], values[6], values[5], values[4], values[3]).ToUpper();
                     if (config.MesEnable)
                     {
+                        //btaddress = "E09DFA4745A6";
                         queue.Enqueue("检查蓝牙地址是否过站/重复/测试三次:" + btaddress);
                         //ServiceReference1.WebService1SoapClient MesWeb = null;
                         //MesWeb = new ServiceReference1.WebService1SoapClient("WebService1Soap");
@@ -484,21 +518,28 @@ namespace TestDAL
                         if (PackSN.Length != 20)
                         {
                             //btaddress = "E09DFA513DF6";
+                            //半成品工站拦截蓝牙地址重复
+                            //btResult = MesWeb.SnCx_LY(btaddress);
+                            //检查上一工站是否Pass
                             reslut = MesWeb.SnCx(btaddress, config.MesStation);
+                            //检查是否测试三次
                             failResult = MesWeb.SnCx_SC(btaddress, config.NowStation);
                         }
                         else
                         {
                             //reslut = MesWeb.SnCx(btaddress, config.MesStation);
+                            //已在输入20位SN时检测
                             reslut = "P";
+                            //检查是否测试三次
                             failResult = MesWeb.SnCx_SC(btaddress, config.NowStation);
-                            btResult = MesWeb.SnCx_BZLY(btaddress);
+                            //检查包装段蓝牙地址是否重复
+                            //btResult = MesWeb.SnCx_BZLY(btaddress);
                         }
 
                         //MesWeb.Close();
                         MesWeb.Abort();
-                       
-                        if (reslut.Contains( "F"))
+
+                        if (reslut.Contains("F"))
                         {
                             data.Value = btaddress;
                             data.Result = "Fail";
@@ -526,21 +567,21 @@ namespace TestDAL
                                 }
                             }
                         }
-                        if (btResult != string.Empty)
-                        {
-                            if (btResult.Contains("P"))
-                            {
-                                queue.Enqueue("该蓝牙地址: " + btaddress + ",无重复");
-                                data.Result = "Pass";
-                                data.Value = btaddress;
-                            }
-                            else
-                            {
-                                data.Value = btaddress;
-                                data.Result = "Fail";
-                                queue.Enqueue("该蓝牙地址: " + btaddress + ",重复,请检查");
-                            }
-                        }
+                        //if (btResult != string.Empty)
+                        //{
+                        //    if (btResult.Contains("P"))
+                        //    {
+                        //        queue.Enqueue("该蓝牙地址: " + btaddress + ",无重复");
+                        //        data.Result = "Pass";
+                        //        data.Value = btaddress;
+                        //    }
+                        //    else
+                        //    {
+                        //        data.Value = btaddress;
+                        //        data.Result = "Fail";
+                        //        queue.Enqueue("该蓝牙地址: " + btaddress + ",重复,请检查");
+                        //    }
+                        //}
                     }
                     else
                     {
@@ -575,8 +616,28 @@ namespace TestDAL
                 byte[] values = Serial.VisaQuery(bytes);
                 byte[] needData = values.Skip(3).Take(values[2]).ToArray();
                 string batt = Encoding.ASCII.GetString(needData);
-                data.Result = "Pass";
-                data.Value = batt;
+                //if (config.MesEnable)
+                //{
+                //    string res = MesWeb.SnCx_DC(batt);
+                //    if (res != "P")
+                //    {
+                //        data.Result = "Fail";
+                //        data.Value = batt;
+                //        queue.Enqueue("电池SN:" + btAddress + "重复，请检查");
+                //    }
+                //    else
+                //    {
+                //        data.Result = "Pass";
+                //        data.Value = batt;
+                //        queue.Enqueue("电池SN无重复");
+                //    }
+
+                //}
+                //else
+                //{
+                    data.Result = "Pass";
+                    data.Value = batt;
+                //}
             }
             catch (Exception ex)
             {
@@ -599,40 +660,95 @@ namespace TestDAL
                 byte[] values = Serial.VisaQuery(bytes);
                 byte[] needData = values.Skip(3).Take(values[2]).ToArray();
                 string batt = Encoding.ASCII.GetString(needData);
+
+                #region 取消
+                //if (config.MesEnable)
+                //{
+                //    //batt = "SYN0C1909049061";
+                //    string res = MesWeb.SnCx_DC(batt);
+                //    if (res != "P")
+                //    {
+                //        data.Result = "Fail";
+                //        data.Value = batt;
+                //        queue.Enqueue("电池SN:" + btAddress + "重复，请检查");
+                //    }
+                //    else
+                //    {
+                //        if (btAddress != "")
+                //        {
+                //            if (btAddress == batt && btAddress.StartsWith(data.LowLimit))
+                //            {
+                //                data.Result = "Pass";
+                //                data.Value = batt;
+                //            }
+                //            else
+                //            {
+                //                data.Result = "Fail";
+                //                data.Value = batt;
+                //                if (data.Check)
+                //                {
+                //                    Serial.ClosedPort();
+                //                }
+                //            }
+                //        }
+                //        else
+                //        {
+                //            if (batt.StartsWith(data.LowLimit))
+                //            {
+                //                data.Result = "Pass";
+                //                data.Value = batt;
+                //            }
+                //            else
+                //            {
+                //                data.Result = "Fail";
+                //                data.Value = batt;
+                //                if (data.Check)
+                //                {
+                //                    Serial.ClosedPort();
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                #endregion
+
                 if (btAddress != "")
-                {
-                    if (btAddress == batt && btAddress.StartsWith(data.LowLimit))
                     {
-                        data.Result = "Pass";
-                        data.Value = batt;
+                        if (btAddress == batt && btAddress.StartsWith(data.LowLimit))
+                        {
+                            data.Result = "Pass";
+                            data.Value = batt;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = batt;
+                            if (data.Check)
+                            {
+                                Serial.ClosedPort();
+                            }
+                        }
                     }
                     else
                     {
-                        data.Result = "Fail";
-                        data.Value = batt;
-                        if (data.Check)
+                        if (batt.StartsWith(data.LowLimit))
                         {
-                            Serial.ClosedPort();
+                            data.Result = "Pass";
+                            data.Value = batt;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = batt;
+                            if (data.Check)
+                            {
+                                Serial.ClosedPort();
+                            }
                         }
                     }
-                }
-                else
-                {
-                    if(batt.StartsWith(data.LowLimit))
-                    {
-                        data.Result = "Pass";
-                        data.Value = batt;
-                    }
-                    else
-                    {
-                        data.Result = "Fail";
-                        data.Value = batt;
-                        if (data.Check)
-                        {
-                            Serial.ClosedPort();
-                        }
-                    }
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -770,6 +886,460 @@ namespace TestDAL
                 {
                     Serial.ClosedPort();
                 }
+            }
+            return data;
+        }
+
+        public TestData BES_Semi_Product_CheckMacAddress(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x05, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+
+                if (values[2] == 0x06)
+                {
+                    string btaddress = string.Format("{0:x2}{1:x2}{2:x2}{3:x2}{4:x2}{5:x2}"
+                        , values[8], values[7], values[6], values[5], values[4], values[3]).ToUpper();
+                    if (config.MesEnable)
+                    {
+                        //btaddress = "E09DFA47038D";
+                        MesWeb = new WebReference.WebService1();
+                        string result = MesWeb.SnCx_LY(btaddress);
+                        if (result.Equals("P"))
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            queue.Enqueue("该蓝牙地址：" + btaddress + "无重复");
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                            queue.Enqueue("该蓝牙地址：" + btaddress + "重复，请检查");
+                        }
+                        MesWeb.Abort();
+                        MesWeb.Dispose();
+
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Semi_Product_CheckProductSN(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x00, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+                //\u0004\u001020225719ag000001
+                if (values[0] == 0x04)
+                {
+                    byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                    string sn = Encoding.ASCII.GetString(needData);
+                    if (config.MesEnable)
+                    {
+                        //sn = "GJ1225203W100575";
+                        MesWeb = new WebReference.WebService1();
+                        string reslut = MesWeb.SnCx_sn(sn);
+                        if (reslut.Equals("P"))
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            queue.Enqueue("该产品SN：" + sn + "无重复");
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                            queue.Enqueue("该产品SN：" + sn + "重复，请检查");
+                        }
+                        MesWeb.Abort();
+                        MesWeb.Dispose();
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Semi_Product_CheckBatterySN(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x06, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+                byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                string batt = Encoding.ASCII.GetString(needData);
+                if (config.MesEnable)
+                {
+                    //batt = "SYN0C1909040980";
+                    MesWeb = new WebReference.WebService1();
+                    string res = MesWeb.SnCx_DC(batt);
+                    if (res != "P")
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                        queue.Enqueue("电池SN：" + btAddress + "重复，请检查");
+                    }
+                    else
+                    {
+                        data.Result = "Pass";
+                        data.Value = "Pass";
+                        queue.Enqueue("电池SN：" + btAddress + "无重复");
+                    }
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_Assy_CRCCheckProductSN(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x00, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+                //\u0004\u001020225719ag000001
+                if (values[0] == 0x04)
+                {
+                    byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                    string sn = Encoding.ASCII.GetString(needData);
+                    if (config.MesEnable)
+                    {
+                        //sn = "GJ1225203W100575";
+                        MesWeb = new WebReference.WebService1();
+                        string reslut = MesWeb.SnCx_BDSN(sn);
+                        if (reslut.Equals("P"))
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            queue.Enqueue("该产品SN：" + sn + "无重复");
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                            queue.Enqueue("该产品SN：" + sn + "重复，请检查");
+                        }
+                        MesWeb.Abort();
+                        MesWeb.Dispose();
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Assy_CRCBatterySN(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x06, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+                byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                string batt = Encoding.ASCII.GetString(needData);
+                if (config.MesEnable)
+                {
+                    //batt = "SYN0C1909040980";
+                    MesWeb = new WebReference.WebService1();
+                    string res = MesWeb.SnCx_DC2(batt);
+                    if (res != "P")
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                        queue.Enqueue("电池SN：" + btAddress + "重复，请检查");
+                    }
+                    else
+                    {
+                        data.Result = "Pass";
+                        data.Value = "Pass";
+                        queue.Enqueue("电池SN：" + btAddress + "无重复");
+                    }
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_Assy_CRCCheckMacAddress(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x05, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+
+                if (values[2] == 0x06)
+                {
+                    string btaddress = string.Format("{0:x2}{1:x2}{2:x2}{3:x2}{4:x2}{5:x2}"
+                        , values[8], values[7], values[6], values[5], values[4], values[3]).ToUpper();
+                    if (config.MesEnable)
+                    {
+                        //btaddress = "E09DFA47038D";
+                        MesWeb = new WebReference.WebService1();
+                        string result = MesWeb.SnCx_LY2(btaddress);
+                        if (result.Equals("P"))
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            queue.Enqueue("该蓝牙地址：" + btaddress + "无重复");
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                            queue.Enqueue("该蓝牙地址：" + btaddress + "重复，请检查");
+                        }
+                        MesWeb.Abort();
+                        MesWeb.Dispose();
+
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Pack_CRCBatterySN(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x06, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+                byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                string batt = Encoding.ASCII.GetString(needData);
+                if (config.MesEnable)
+                {
+                    //batt = "SYN0C1909040980";
+                    MesWeb = new WebReference.WebService1();
+                    string res = MesWeb.SnCx_DC3(batt);
+                    if (res != "P")
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                        queue.Enqueue("电池SN：" + batt + "重复，请检查");
+                    }
+                    else
+                    {
+                        data.Result = "Pass";
+                        data.Value = "Pass";
+                        queue.Enqueue("电池SN：" + batt + "无重复");
+                    }
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_Pack_CheckMacAddress(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x05, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+
+                if (values[2] == 0x06)
+                {
+                    string btaddress = string.Format("{0:x2}{1:x2}{2:x2}{3:x2}{4:x2}{5:x2}"
+                        , values[8], values[7], values[6], values[5], values[4], values[3]).ToUpper();
+                    if (config.MesEnable)
+                    {
+                        //btaddress = "E09DFA47038D";
+                        MesWeb = new WebReference.WebService1();
+                        string result = MesWeb.SnCx_BZLY(btaddress);
+                        if (result.Equals("P"))
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            queue.Enqueue("该蓝牙地址：" + btaddress + "无重复");
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                            queue.Enqueue("该蓝牙地址：" + btaddress + "重复，请检查");
+                        }
+                        MesWeb.Abort();
+                        MesWeb.Dispose();
+
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Pack_CheckProductSN(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x00, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+                //\u0004\u001020225719ag000001
+                if (values[0] == 0x04)
+                {
+                    byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                    string sn = Encoding.ASCII.GetString(needData);
+                    if (config.MesEnable)
+                    {
+                        //sn = "GJ1225203W100575";
+                        MesWeb = new WebReference.WebService1();
+                        string reslut = MesWeb.SnCx_BZSN(sn);
+                        if (reslut.Equals("P"))
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            queue.Enqueue("该产品SN：" + sn + "无重复");
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                            queue.Enqueue("该产品SN：" + sn + "重复，请检查");
+                        }
+                        MesWeb.Abort();
+                        MesWeb.Dispose();
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Pack_CheckPackSN(TestData data)
+        {
+            try
+            {
+                if (config.MesEnable)
+                {
+                    //sn = "GJ1225203W100575";
+                    MesWeb = new WebReference.WebService1();
+                    string reslut = MesWeb.SnCx_BZSN2(PackSN);
+                    if (reslut.Equals("P"))
+                    {
+                        data.Result = "Pass";
+                        data.Value = "Pass";
+                        queue.Enqueue("该包装SN：" + PackSN + "无重复");
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                        queue.Enqueue("该包装SN：" + PackSN + "重复，请检查");
+                    }
+                    MesWeb.Abort();
+                    MesWeb.Dispose();
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
             }
             return data;
         }
@@ -2063,19 +2633,54 @@ namespace TestDAL
                 value[4] = length;
                 address.CopyTo(value, 5);
 
-                byte[] ret = Serial.VisaQuery(value);
-                if (ret[2] == length)
+                if (config.MesEnable)
                 {
-                    data.Result = "Pass";
-                    data.Value = "Pass";
+                    MesWeb = new WebReference.WebService1();
+                    string res = MesWeb.SnCx_DC(btAddress);
+                    if (res != "P")
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                        queue.Enqueue("电池SN:" + btAddress + "重复，请检查");
+                    }
+                    else
+                    {
+                        queue.Enqueue("电池SN" + "无重复");
+                        byte[] ret = Serial.VisaQuery(value);
+                        if (ret[2] == length)
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                            if (data.Check)
+                            {
+                                Serial.ClosedPort();
+                            }
+                        }
+                        MesWeb.Abort();
+                        MesWeb.Dispose();
+                    }
                 }
                 else
                 {
-                    data.Result = "Fail";
-                    data.Value = "Fail";
-                    if (data.Check)
+                    byte[] ret = Serial.VisaQuery(value);
+                    if (ret[2] == length)
                     {
-                        Serial.ClosedPort();
+                        data.Result = "Pass";
+                        data.Value = "Pass";
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                        if (data.Check)
+                        {
+                            Serial.ClosedPort();
+                        }
                     }
                 }
             }

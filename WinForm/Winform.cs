@@ -15,6 +15,7 @@ namespace WinForm
 {
     public partial class Winform : Form
     {
+        private const string SoftVersion = "V20.03.14.01";
         private double widthX, heightY, columnHeiht;
         private TestLogic testLogic;
         private string initPath, BtAddress, PackSN;
@@ -31,7 +32,8 @@ namespace WinForm
         private System.Windows.Forms.Timer time;
         private System.Threading.Timer ShowTime;
         private WebReference.WebService1 web;
-       
+
+
         public Winform()
         {
             InitializeComponent();
@@ -41,15 +43,21 @@ namespace WinForm
             Others.setTag(this);
             Control.CheckForIllegalCrossThreadCalls = false;
 
-            //web = new WebReference.WebService1();
-            //string res = web.SnCx("E09DFA531545", "老化测试后");
-            //string res = web.SnCx_sn("E09DFA208EB3");
-            //string res = web.SnCx_SC("E09DFA4D8B65", "距离测试");
-            //string res = web.SnCx_BZLY("E09DFA458272");
-            //string res1 = web.SnCx_BZSN("GJ122519CK100026");
+            string res = string.Empty;
+            web = new WebReference.WebService1();
+
+            res = web.SnCx("E09DFA542BCF", "包装投入");
+            //res = web.SnCx("2155030949GJ03013157", "包装投入");
+            //res = web.SnCx_sn("GJ1225201E200445");
+            //res = web.SnCx_SC("E09DFA542BCF", "CRC2(包装)");
+            //res = web.SnCx_BZLY("E09DFA4745A6");
+            //res = web.SnCx_BZSN("GJ1225201E200445");
+            //res = web.SnCx_LY("E09DFA46E367");
+            //res = web.SnCx_DC("SYN0C1911000300");
+            //res = web.SnCx_BDSN("GJ1225203L100664");
             //string pa = Path.Combine(Application.StartupPath, "CMD");
             //Others.CmdExcute(pa + "\\CmdReadWrite.exe QUERY_SW_VER ");
-
+            web.Abort();
         }
 
         private void Winform_Load(object sender, EventArgs e)
@@ -674,8 +682,6 @@ namespace WinForm
             testLogic.ClosedInstrument();
         }
 
-       
-
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             focusFlag = false;
@@ -687,6 +693,7 @@ namespace WinForm
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             About about = new About();
+            about.lb_Verison.Text = SoftVersion;
             about.ShowDialog();
         }
 
@@ -714,6 +721,7 @@ namespace WinForm
                 }
             }
         }
+
         public void FocusTextBox(object obj)
         {
             while (focusFlag)

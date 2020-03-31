@@ -709,6 +709,58 @@ namespace TestDAL
                 TestItem = "BES_WriteHWVersion_ASCII",
                 Remark = "写入BES系列耳机蓝牙硬件版本_ASCII"
             });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Semi_Product_CheckMacAddress",
+                Remark = "半成品工站检查蓝牙地址是否重复"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Semi_Product_CheckProductSN",
+                Remark = "半成品工站检查产品SN是否重复"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Pack_CheckMacAddress",
+                Remark = "包装段检查蓝牙地址是否重复"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Pack_CheckProductSN",
+                Remark = "包装段检查产品SN是否重复"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Pack_CheckPackSN",
+                Remark = "包装段检查包装20位SN是否重复"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Semi_Product_CheckBatterySN",
+                Remark = "电池信息写入工站检查电池SN是否重复"
+            });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Assy_CRCBatterySN",
+                Remark = "组装段CRC工站检查电池SN是否重复"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Pack_CRCBatterySN",
+                Remark = "包装段CRC工站检查电池SN是否重复"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Assy_CRCCheckMacAddress",
+                Remark = "组装段CRC检查蓝牙地址是否重复"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Assy_CRCCheckProductSN",
+                Remark = "组装段CRC检查蓝牙地址是否重复"
+            });
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_ControlMic1",

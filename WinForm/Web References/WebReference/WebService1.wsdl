@@ -113,6 +113,76 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="SnCx_DC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_DCResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SnCx_DCResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_DC2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_DC2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SnCx_DC2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_DC3">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_DC3Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SnCx_DC3Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_LY2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_LY2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SnCx_LY2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_BDSN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="a" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SnCx_BDSNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SnCx_BDSNResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="HelloWorldSoapIn">
@@ -163,6 +233,36 @@
   <wsdl:message name="SnCx_BZSNSoapOut">
     <wsdl:part name="parameters" element="tns:SnCx_BZSNResponse" />
   </wsdl:message>
+  <wsdl:message name="SnCx_DCSoapIn">
+    <wsdl:part name="parameters" element="tns:SnCx_DC" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_DCSoapOut">
+    <wsdl:part name="parameters" element="tns:SnCx_DCResponse" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_DC2SoapIn">
+    <wsdl:part name="parameters" element="tns:SnCx_DC2" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_DC2SoapOut">
+    <wsdl:part name="parameters" element="tns:SnCx_DC2Response" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_DC3SoapIn">
+    <wsdl:part name="parameters" element="tns:SnCx_DC3" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_DC3SoapOut">
+    <wsdl:part name="parameters" element="tns:SnCx_DC3Response" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_LY2SoapIn">
+    <wsdl:part name="parameters" element="tns:SnCx_LY2" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_LY2SoapOut">
+    <wsdl:part name="parameters" element="tns:SnCx_LY2Response" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_BDSNSoapIn">
+    <wsdl:part name="parameters" element="tns:SnCx_BDSN" />
+  </wsdl:message>
+  <wsdl:message name="SnCx_BDSNSoapOut">
+    <wsdl:part name="parameters" element="tns:SnCx_BDSNResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebService1Soap">
     <wsdl:operation name="HelloWorld">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">测试</wsdl:documentation>
@@ -175,34 +275,59 @@
       <wsdl:output message="tns:jfSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SnCx">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询SN,检查最近工序是否是良品</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询SN,检查最近工序是否是良品，入参a蓝牙地址,b工序名称</wsdl:documentation>
       <wsdl:input message="tns:SnCxSoapIn" />
       <wsdl:output message="tns:SnCxSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SnCx_sn">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询SN,检查SN是否重复</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">在半成品工序，查询比对产品SN是否重复，入参是比对产品SN</wsdl:documentation>
       <wsdl:input message="tns:SnCx_snSoapIn" />
       <wsdl:output message="tns:SnCx_snSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SnCx_LY">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询SN,检查蓝牙地址是否重复</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">半成品测试工站，入参是蓝牙地址，检查蓝牙地址是否重复</wsdl:documentation>
       <wsdl:input message="tns:SnCx_LYSoapIn" />
       <wsdl:output message="tns:SnCx_LYSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SnCx_SC">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询SN，是否测试超过三次</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询SN，是否测试超过三次，入参a产品SN(蓝牙地址),b当前工序名称</wsdl:documentation>
       <wsdl:input message="tns:SnCx_SCSoapIn" />
       <wsdl:output message="tns:SnCx_SCSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SnCx_BZLY">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">包装段，查询SN,检查蓝牙地址是否重复</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">包装段，查询SN,检查蓝牙地址是否重复，入参是蓝牙地址</wsdl:documentation>
       <wsdl:input message="tns:SnCx_BZLYSoapIn" />
       <wsdl:output message="tns:SnCx_BZLYSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SnCx_BZSN">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">包装段，查询SN,检查SN是否重复</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">包装段，检查SN是否重复，入参是比对产品SN</wsdl:documentation>
       <wsdl:input message="tns:SnCx_BZSNSoapIn" />
       <wsdl:output message="tns:SnCx_BZSNSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_DC">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">电池写入工序，查询电池SN,是否重复，入参是比对电池SN</wsdl:documentation>
+      <wsdl:input message="tns:SnCx_DCSoapIn" />
+      <wsdl:output message="tns:SnCx_DCSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_DC2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">CRC测试组装工序，查询电池SN,是否重复，入参是比对电池SN</wsdl:documentation>
+      <wsdl:input message="tns:SnCx_DC2SoapIn" />
+      <wsdl:output message="tns:SnCx_DC2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_DC3">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">CRC测试包装工序，查询电池SN,是否重复，入参是比对电池SN</wsdl:documentation>
+      <wsdl:input message="tns:SnCx_DC3SoapIn" />
+      <wsdl:output message="tns:SnCx_DC3SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_LY2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">CRC测试组装工序，查询蓝牙地址,是否重复，入参是蓝牙地址</wsdl:documentation>
+      <wsdl:input message="tns:SnCx_LY2SoapIn" />
+      <wsdl:output message="tns:SnCx_LY2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_BDSN">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">CRC测试组装工序，查询比对产品SN,是否重复，入参是比对产品SN</wsdl:documentation>
+      <wsdl:input message="tns:SnCx_BDSNSoapIn" />
+      <wsdl:output message="tns:SnCx_BDSNSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebService1Soap" type="tns:WebService1Soap">
@@ -279,6 +404,51 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SnCx_DC">
+      <soap:operation soapAction="LCHSE/SnCx_DC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_DC2">
+      <soap:operation soapAction="LCHSE/SnCx_DC2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_DC3">
+      <soap:operation soapAction="LCHSE/SnCx_DC3" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_LY2">
+      <soap:operation soapAction="LCHSE/SnCx_LY2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_BDSN">
+      <soap:operation soapAction="LCHSE/SnCx_BDSN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebService1Soap12" type="tns:WebService1Soap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -347,6 +517,51 @@
     </wsdl:operation>
     <wsdl:operation name="SnCx_BZSN">
       <soap12:operation soapAction="LCHSE/SnCx_BZSN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_DC">
+      <soap12:operation soapAction="LCHSE/SnCx_DC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_DC2">
+      <soap12:operation soapAction="LCHSE/SnCx_DC2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_DC3">
+      <soap12:operation soapAction="LCHSE/SnCx_DC3" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_LY2">
+      <soap12:operation soapAction="LCHSE/SnCx_LY2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnCx_BDSN">
+      <soap12:operation soapAction="LCHSE/SnCx_BDSN" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

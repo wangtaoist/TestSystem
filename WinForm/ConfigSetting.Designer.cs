@@ -134,14 +134,14 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
-            this.cb_oneToTwoEnable = new System.Windows.Forms.CheckBox();
-            this.cb_Table = new System.Windows.Forms.CheckBox();
-            this.cb_Parallel = new System.Windows.Forms.CheckBox();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.cb_ParallPortOne = new System.Windows.Forms.ComboBox();
             this.cb_ParallPortTwo = new System.Windows.Forms.ComboBox();
+            this.cb_ParallPortOne = new System.Windows.Forms.ComboBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.cb_Parallel = new System.Windows.Forms.CheckBox();
+            this.cb_Table = new System.Windows.Forms.CheckBox();
+            this.cb_oneToTwoEnable = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -517,7 +517,7 @@
             // 
             // bt_Save
             // 
-            this.bt_Save.Location = new System.Drawing.Point(211, 499);
+            this.bt_Save.Location = new System.Drawing.Point(226, 498);
             this.bt_Save.Name = "bt_Save";
             this.bt_Save.Size = new System.Drawing.Size(117, 29);
             this.bt_Save.TabIndex = 3;
@@ -1196,41 +1196,6 @@
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "一拖二测试设置";
             // 
-            // cb_oneToTwoEnable
-            // 
-            this.cb_oneToTwoEnable.AutoSize = true;
-            this.cb_oneToTwoEnable.Location = new System.Drawing.Point(9, 20);
-            this.cb_oneToTwoEnable.Name = "cb_oneToTwoEnable";
-            this.cb_oneToTwoEnable.Size = new System.Drawing.Size(84, 16);
-            this.cb_oneToTwoEnable.TabIndex = 0;
-            this.cb_oneToTwoEnable.Text = "是否一拖二";
-            this.cb_oneToTwoEnable.UseVisualStyleBackColor = true;
-            this.cb_oneToTwoEnable.CheckedChanged += new System.EventHandler(this.cb_oneToTwoEnable_CheckedChanged);
-            // 
-            // cb_Table
-            // 
-            this.cb_Table.AutoSize = true;
-            this.cb_Table.Enabled = false;
-            this.cb_Table.Location = new System.Drawing.Point(9, 42);
-            this.cb_Table.Name = "cb_Table";
-            this.cb_Table.Size = new System.Drawing.Size(96, 16);
-            this.cb_Table.TabIndex = 0;
-            this.cb_Table.Text = "乒乓测试(RF)";
-            this.cb_Table.UseVisualStyleBackColor = true;
-            this.cb_Table.CheckedChanged += new System.EventHandler(this.cb_Table_CheckedChanged);
-            // 
-            // cb_Parallel
-            // 
-            this.cb_Parallel.AutoSize = true;
-            this.cb_Parallel.Enabled = false;
-            this.cb_Parallel.Location = new System.Drawing.Point(9, 64);
-            this.cb_Parallel.Name = "cb_Parallel";
-            this.cb_Parallel.Size = new System.Drawing.Size(108, 16);
-            this.cb_Parallel.TabIndex = 0;
-            this.cb_Parallel.Text = "并行测试(串口)";
-            this.cb_Parallel.UseVisualStyleBackColor = true;
-            this.cb_Parallel.CheckedChanged += new System.EventHandler(this.cb_Parallel_CheckedChanged);
-            // 
             // groupBox18
             // 
             this.groupBox18.Controls.Add(this.cb_ParallPortTwo);
@@ -1244,23 +1209,14 @@
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "并行测试";
             // 
-            // label31
+            // cb_ParallPortTwo
             // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(6, 20);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(35, 12);
-            this.label31.TabIndex = 2;
-            this.label31.Text = "串口1";
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(6, 46);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(35, 12);
-            this.label32.TabIndex = 2;
-            this.label32.Text = "串口2";
+            this.cb_ParallPortTwo.Enabled = false;
+            this.cb_ParallPortTwo.FormattingEnabled = true;
+            this.cb_ParallPortTwo.Location = new System.Drawing.Point(46, 42);
+            this.cb_ParallPortTwo.Name = "cb_ParallPortTwo";
+            this.cb_ParallPortTwo.Size = new System.Drawing.Size(108, 20);
+            this.cb_ParallPortTwo.TabIndex = 1;
             // 
             // cb_ParallPortOne
             // 
@@ -1271,14 +1227,58 @@
             this.cb_ParallPortOne.Size = new System.Drawing.Size(108, 20);
             this.cb_ParallPortOne.TabIndex = 1;
             // 
-            // cb_ParallPortTwo
+            // label32
             // 
-            this.cb_ParallPortTwo.Enabled = false;
-            this.cb_ParallPortTwo.FormattingEnabled = true;
-            this.cb_ParallPortTwo.Location = new System.Drawing.Point(46, 42);
-            this.cb_ParallPortTwo.Name = "cb_ParallPortTwo";
-            this.cb_ParallPortTwo.Size = new System.Drawing.Size(108, 20);
-            this.cb_ParallPortTwo.TabIndex = 1;
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(6, 46);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(35, 12);
+            this.label32.TabIndex = 2;
+            this.label32.Text = "串口2";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(6, 20);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(35, 12);
+            this.label31.TabIndex = 2;
+            this.label31.Text = "串口1";
+            // 
+            // cb_Parallel
+            // 
+            this.cb_Parallel.AutoSize = true;
+            this.cb_Parallel.Enabled = false;
+            this.cb_Parallel.Location = new System.Drawing.Point(9, 64);
+            this.cb_Parallel.Name = "cb_Parallel";
+            this.cb_Parallel.Size = new System.Drawing.Size(108, 16);
+            this.cb_Parallel.TabIndex = 0;
+            this.cb_Parallel.Text = "并行测试(串口)";
+            this.cb_Parallel.UseVisualStyleBackColor = true;
+            this.cb_Parallel.CheckedChanged += new System.EventHandler(this.cb_Parallel_CheckedChanged);
+            // 
+            // cb_Table
+            // 
+            this.cb_Table.AutoSize = true;
+            this.cb_Table.Enabled = false;
+            this.cb_Table.Location = new System.Drawing.Point(9, 42);
+            this.cb_Table.Name = "cb_Table";
+            this.cb_Table.Size = new System.Drawing.Size(96, 16);
+            this.cb_Table.TabIndex = 0;
+            this.cb_Table.Text = "乒乓测试(RF)";
+            this.cb_Table.UseVisualStyleBackColor = true;
+            this.cb_Table.CheckedChanged += new System.EventHandler(this.cb_Table_CheckedChanged);
+            // 
+            // cb_oneToTwoEnable
+            // 
+            this.cb_oneToTwoEnable.AutoSize = true;
+            this.cb_oneToTwoEnable.Location = new System.Drawing.Point(9, 20);
+            this.cb_oneToTwoEnable.Name = "cb_oneToTwoEnable";
+            this.cb_oneToTwoEnable.Size = new System.Drawing.Size(84, 16);
+            this.cb_oneToTwoEnable.TabIndex = 0;
+            this.cb_oneToTwoEnable.Text = "是否一拖二";
+            this.cb_oneToTwoEnable.UseVisualStyleBackColor = true;
+            this.cb_oneToTwoEnable.CheckedChanged += new System.EventHandler(this.cb_oneToTwoEnable_CheckedChanged);
             // 
             // ConfigSetting
             // 

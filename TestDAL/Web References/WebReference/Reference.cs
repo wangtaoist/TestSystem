@@ -45,6 +45,18 @@ namespace TestDAL.WebReference {
         
         private System.Threading.SendOrPostCallback SnCx_BZSNOperationCompleted;
         
+        private System.Threading.SendOrPostCallback SnCx_BZSN2OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SnCx_DCOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SnCx_DC2OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SnCx_DC3OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SnCx_LY2OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SnCx_BDSNOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -106,6 +118,24 @@ namespace TestDAL.WebReference {
         
         /// <remarks/>
         public event SnCx_BZSNCompletedEventHandler SnCx_BZSNCompleted;
+        
+        /// <remarks/>
+        public event SnCx_BZSN2CompletedEventHandler SnCx_BZSN2Completed;
+        
+        /// <remarks/>
+        public event SnCx_DCCompletedEventHandler SnCx_DCCompleted;
+        
+        /// <remarks/>
+        public event SnCx_DC2CompletedEventHandler SnCx_DC2Completed;
+        
+        /// <remarks/>
+        public event SnCx_DC3CompletedEventHandler SnCx_DC3Completed;
+        
+        /// <remarks/>
+        public event SnCx_LY2CompletedEventHandler SnCx_LY2Completed;
+        
+        /// <remarks/>
+        public event SnCx_BDSNCompletedEventHandler SnCx_BDSNCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("LCHSE/HelloWorld", RequestNamespace="LCHSE", ResponseNamespace="LCHSE", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -344,6 +374,180 @@ namespace TestDAL.WebReference {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("LCHSE/SnCx_BZSN2", RequestNamespace="LCHSE", ResponseNamespace="LCHSE", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SnCx_BZSN2(string a) {
+            object[] results = this.Invoke("SnCx_BZSN2", new object[] {
+                        a});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SnCx_BZSN2Async(string a) {
+            this.SnCx_BZSN2Async(a, null);
+        }
+        
+        /// <remarks/>
+        public void SnCx_BZSN2Async(string a, object userState) {
+            if ((this.SnCx_BZSN2OperationCompleted == null)) {
+                this.SnCx_BZSN2OperationCompleted = new System.Threading.SendOrPostCallback(this.OnSnCx_BZSN2OperationCompleted);
+            }
+            this.InvokeAsync("SnCx_BZSN2", new object[] {
+                        a}, this.SnCx_BZSN2OperationCompleted, userState);
+        }
+        
+        private void OnSnCx_BZSN2OperationCompleted(object arg) {
+            if ((this.SnCx_BZSN2Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SnCx_BZSN2Completed(this, new SnCx_BZSN2CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("LCHSE/SnCx_DC", RequestNamespace="LCHSE", ResponseNamespace="LCHSE", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SnCx_DC(string a) {
+            object[] results = this.Invoke("SnCx_DC", new object[] {
+                        a});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SnCx_DCAsync(string a) {
+            this.SnCx_DCAsync(a, null);
+        }
+        
+        /// <remarks/>
+        public void SnCx_DCAsync(string a, object userState) {
+            if ((this.SnCx_DCOperationCompleted == null)) {
+                this.SnCx_DCOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSnCx_DCOperationCompleted);
+            }
+            this.InvokeAsync("SnCx_DC", new object[] {
+                        a}, this.SnCx_DCOperationCompleted, userState);
+        }
+        
+        private void OnSnCx_DCOperationCompleted(object arg) {
+            if ((this.SnCx_DCCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SnCx_DCCompleted(this, new SnCx_DCCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("LCHSE/SnCx_DC2", RequestNamespace="LCHSE", ResponseNamespace="LCHSE", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SnCx_DC2(string a) {
+            object[] results = this.Invoke("SnCx_DC2", new object[] {
+                        a});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SnCx_DC2Async(string a) {
+            this.SnCx_DC2Async(a, null);
+        }
+        
+        /// <remarks/>
+        public void SnCx_DC2Async(string a, object userState) {
+            if ((this.SnCx_DC2OperationCompleted == null)) {
+                this.SnCx_DC2OperationCompleted = new System.Threading.SendOrPostCallback(this.OnSnCx_DC2OperationCompleted);
+            }
+            this.InvokeAsync("SnCx_DC2", new object[] {
+                        a}, this.SnCx_DC2OperationCompleted, userState);
+        }
+        
+        private void OnSnCx_DC2OperationCompleted(object arg) {
+            if ((this.SnCx_DC2Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SnCx_DC2Completed(this, new SnCx_DC2CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("LCHSE/SnCx_DC3", RequestNamespace="LCHSE", ResponseNamespace="LCHSE", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SnCx_DC3(string a) {
+            object[] results = this.Invoke("SnCx_DC3", new object[] {
+                        a});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SnCx_DC3Async(string a) {
+            this.SnCx_DC3Async(a, null);
+        }
+        
+        /// <remarks/>
+        public void SnCx_DC3Async(string a, object userState) {
+            if ((this.SnCx_DC3OperationCompleted == null)) {
+                this.SnCx_DC3OperationCompleted = new System.Threading.SendOrPostCallback(this.OnSnCx_DC3OperationCompleted);
+            }
+            this.InvokeAsync("SnCx_DC3", new object[] {
+                        a}, this.SnCx_DC3OperationCompleted, userState);
+        }
+        
+        private void OnSnCx_DC3OperationCompleted(object arg) {
+            if ((this.SnCx_DC3Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SnCx_DC3Completed(this, new SnCx_DC3CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("LCHSE/SnCx_LY2", RequestNamespace="LCHSE", ResponseNamespace="LCHSE", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SnCx_LY2(string a) {
+            object[] results = this.Invoke("SnCx_LY2", new object[] {
+                        a});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SnCx_LY2Async(string a) {
+            this.SnCx_LY2Async(a, null);
+        }
+        
+        /// <remarks/>
+        public void SnCx_LY2Async(string a, object userState) {
+            if ((this.SnCx_LY2OperationCompleted == null)) {
+                this.SnCx_LY2OperationCompleted = new System.Threading.SendOrPostCallback(this.OnSnCx_LY2OperationCompleted);
+            }
+            this.InvokeAsync("SnCx_LY2", new object[] {
+                        a}, this.SnCx_LY2OperationCompleted, userState);
+        }
+        
+        private void OnSnCx_LY2OperationCompleted(object arg) {
+            if ((this.SnCx_LY2Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SnCx_LY2Completed(this, new SnCx_LY2CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("LCHSE/SnCx_BDSN", RequestNamespace="LCHSE", ResponseNamespace="LCHSE", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SnCx_BDSN(string a) {
+            object[] results = this.Invoke("SnCx_BDSN", new object[] {
+                        a});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SnCx_BDSNAsync(string a) {
+            this.SnCx_BDSNAsync(a, null);
+        }
+        
+        /// <remarks/>
+        public void SnCx_BDSNAsync(string a, object userState) {
+            if ((this.SnCx_BDSNOperationCompleted == null)) {
+                this.SnCx_BDSNOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSnCx_BDSNOperationCompleted);
+            }
+            this.InvokeAsync("SnCx_BDSN", new object[] {
+                        a}, this.SnCx_BDSNOperationCompleted, userState);
+        }
+        
+        private void OnSnCx_BDSNOperationCompleted(object arg) {
+            if ((this.SnCx_BDSNCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SnCx_BDSNCompleted(this, new SnCx_BDSNCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -557,6 +761,162 @@ namespace TestDAL.WebReference {
         private object[] results;
         
         internal SnCx_BZSNCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    public delegate void SnCx_BZSN2CompletedEventHandler(object sender, SnCx_BZSN2CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SnCx_BZSN2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SnCx_BZSN2CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    public delegate void SnCx_DCCompletedEventHandler(object sender, SnCx_DCCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SnCx_DCCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SnCx_DCCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    public delegate void SnCx_DC2CompletedEventHandler(object sender, SnCx_DC2CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SnCx_DC2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SnCx_DC2CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    public delegate void SnCx_DC3CompletedEventHandler(object sender, SnCx_DC3CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SnCx_DC3CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SnCx_DC3CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    public delegate void SnCx_LY2CompletedEventHandler(object sender, SnCx_LY2CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SnCx_LY2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SnCx_LY2CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    public delegate void SnCx_BDSNCompletedEventHandler(object sender, SnCx_BDSNCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SnCx_BDSNCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SnCx_BDSNCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

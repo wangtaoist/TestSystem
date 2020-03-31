@@ -39,6 +39,8 @@
             this.TestItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mES功能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mESToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
@@ -70,8 +72,6 @@
             this.btTest = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.mES功能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mESToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -163,6 +163,22 @@
             this.ExitToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.ExitToolStripMenuItem.Text = "退出";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            // 
+            // mES功能ToolStripMenuItem
+            // 
+            this.mES功能ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mESToolStripMenuItem});
+            this.mES功能ToolStripMenuItem.Name = "mES功能ToolStripMenuItem";
+            this.mES功能ToolStripMenuItem.Size = new System.Drawing.Size(70, 21);
+            this.mES功能ToolStripMenuItem.Text = "MES功能";
+            // 
+            // mESToolStripMenuItem
+            // 
+            this.mESToolStripMenuItem.Name = "mESToolStripMenuItem";
+            this.mESToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.mESToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.mESToolStripMenuItem.Text = "MES功能设置";
+            this.mESToolStripMenuItem.Click += new System.EventHandler(this.mESToolStripMenuItem_Click);
             // 
             // 关于ToolStripMenuItem
             // 
@@ -486,21 +502,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // mES功能ToolStripMenuItem
-            // 
-            this.mES功能ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mESToolStripMenuItem});
-            this.mES功能ToolStripMenuItem.Name = "mES功能ToolStripMenuItem";
-            this.mES功能ToolStripMenuItem.Size = new System.Drawing.Size(70, 21);
-            this.mES功能ToolStripMenuItem.Text = "MES功能";
-            // 
-            // mESToolStripMenuItem
-            // 
-            this.mESToolStripMenuItem.Name = "mESToolStripMenuItem";
-            this.mESToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.mESToolStripMenuItem.Text = "MES功能设置";
-            this.mESToolStripMenuItem.Click += new System.EventHandler(this.mESToolStripMenuItem_Click);
             // 
             // Winform
             // 

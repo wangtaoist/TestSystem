@@ -36,7 +36,7 @@ namespace WinForm
             }
             else if(Function == "MES")
             {
-                if (txt_password.Text == "Engineer123")
+                if (txt_password.Text == "engineer456")
                 {
                     this.DialogResult = DialogResult.OK;
                     this.Close();
@@ -49,7 +49,7 @@ namespace WinForm
             }
             else
             {
-                if (txt_password.Text == "123.abc")
+                if (txt_password.Text == "engineer123")
                 {
                     this.DialogResult = DialogResult.OK;
                     this.Close();

@@ -812,6 +812,57 @@ namespace TestBLL
                         data = operateBES.BES_WriteHWVersion_ASCII(data);
                         break;
                     }
+                case "BES_Semi_Product_CheckMacAddress":
+                    {
+                        data = operateBES.BES_Semi_Product_CheckMacAddress(data);
+                        break;
+                    }
+                case "BES_Semi_Product_CheckProductSN":
+                    {
+                        data = operateBES.BES_Semi_Product_CheckProductSN(data);
+                        break;
+                    }
+                case "BES_Pack_CheckMacAddress":
+                    {
+                        data = operateBES.BES_Pack_CheckMacAddress(data);
+                        break;
+                    }
+                case "BES_Pack_CheckProductSN":
+                    {
+                        data = operateBES.BES_Pack_CheckProductSN(data);
+                        break;
+                    }
+                case "BES_Semi_Product_CheckBatterySN":
+                    {
+                        data = operateBES.BES_Semi_Product_CheckBatterySN(data);
+                        break;
+                    }
+                case "BES_Assy_CRCBatterySN":
+                    {
+                        data = operateBES.BES_Assy_CRCBatterySN(data);
+                        break;
+                    }
+                case "BES_Pack_CRCBatterySN":
+                    {
+                        data = operateBES.BES_Pack_CRCBatterySN(data);
+                        break;
+                    }
+                case "BES_Assy_CRCCheckMacAddress":
+                    {
+                        data = operateBES.BES_Assy_CRCCheckMacAddress(data);
+                        break;
+                    }
+                case "BES_Assy_CRCCheckProductSN":
+                    {
+                        data = operateBES.BES_Assy_CRCCheckProductSN(data);
+                        break;
+                    }
+                case "BES_Pack_CheckPackSN":
+                    {
+                        operateBES.PackSN = PackSN;
+                        data = operateBES.BES_Pack_CheckPackSN(data);
+                        break;
+                    }
                 case "BES_ControlMic1":
                     {
                         data = operateBES.BES_ControlMic1(data);

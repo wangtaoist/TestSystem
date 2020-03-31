@@ -265,3 +265,4 @@ D:\Lchse\Program\Program\TestSystem_New\WinForm\obj\Debug\TestUI.csproj.CopyComp
 D:\Lchse\Program\Program\TestSystem_New\WinForm\obj\Debug\Test_Program.exe
 D:\Lchse\Program\Program\TestSystem_New\WinForm\obj\Debug\Test_Program.pdb
 D:\Lchse\Program\Program\TestSystem_New\WinForm\obj\Debug\WinForm.MesWindow.resources
+D:\Lchse\Program\Program\TestSystem\WinForm\obj\Debug\WinForm.MesWindow.resources
