@@ -107,7 +107,6 @@
             this.tb_SNHear = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.cb_FixPort = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
             this.cb_FixAuto = new System.Windows.Forms.CheckBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
@@ -142,6 +141,7 @@
             this.cb_Parallel = new System.Windows.Forms.CheckBox();
             this.cb_Table = new System.Windows.Forms.CheckBox();
             this.cb_oneToTwoEnable = new System.Windows.Forms.CheckBox();
+            this.cb_FixPort = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -902,23 +902,15 @@
             // 
             // groupBox11
             // 
-            this.groupBox11.Controls.Add(this.cb_FixPort);
             this.groupBox11.Controls.Add(this.label23);
             this.groupBox11.Controls.Add(this.cb_FixAuto);
+            this.groupBox11.Controls.Add(this.cb_FixPort);
             this.groupBox11.Location = new System.Drawing.Point(313, 6);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(202, 63);
             this.groupBox11.TabIndex = 9;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "屏蔽箱自动测试设置";
-            // 
-            // cb_FixPort
-            // 
-            this.cb_FixPort.FormattingEnabled = true;
-            this.cb_FixPort.Location = new System.Drawing.Point(131, 28);
-            this.cb_FixPort.Name = "cb_FixPort";
-            this.cb_FixPort.Size = new System.Drawing.Size(60, 20);
-            this.cb_FixPort.TabIndex = 1;
             // 
             // label23
             // 
@@ -1280,6 +1272,14 @@
             this.cb_oneToTwoEnable.UseVisualStyleBackColor = true;
             this.cb_oneToTwoEnable.CheckedChanged += new System.EventHandler(this.cb_oneToTwoEnable_CheckedChanged);
             // 
+            // cb_FixPort
+            // 
+            this.cb_FixPort.FormattingEnabled = true;
+            this.cb_FixPort.Location = new System.Drawing.Point(127, 27);
+            this.cb_FixPort.Name = "cb_FixPort";
+            this.cb_FixPort.Size = new System.Drawing.Size(71, 20);
+            this.cb_FixPort.TabIndex = 1;
+            // 
             // ConfigSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1410,7 +1410,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.CheckBox cb_SNAuto;
         private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.ComboBox cb_FixPort;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.CheckBox cb_FixAuto;
         private System.Windows.Forms.ComboBox cb_LEDPort;
@@ -1454,5 +1453,6 @@
         private System.Windows.Forms.ComboBox cb_ParallPortOne;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.ComboBox cb_FixPort;
     }
 }

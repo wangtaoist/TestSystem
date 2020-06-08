@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Winform));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -110,6 +110,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.配置ToolStripMenuItem,
             this.mES功能ToolStripMenuItem,
@@ -208,7 +209,7 @@
             // 
             // label_Test_Version
             // 
-            this.label_Test_Version.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Bold);
+            this.label_Test_Version.Font = new System.Drawing.Font("Arial", 35F, System.Drawing.FontStyle.Bold);
             this.label_Test_Version.Location = new System.Drawing.Point(6, 14);
             this.label_Test_Version.Name = "label_Test_Version";
             this.label_Test_Version.Size = new System.Drawing.Size(551, 92);
@@ -219,16 +220,16 @@
             // cht_PassRadio
             // 
             this.cht_PassRadio.BackColor = System.Drawing.SystemColors.Control;
-            chartArea1.BackColor = System.Drawing.SystemColors.Control;
-            chartArea1.Name = "ChartArea1";
-            this.cht_PassRadio.ChartAreas.Add(chartArea1);
+            chartArea2.BackColor = System.Drawing.SystemColors.Control;
+            chartArea2.Name = "ChartArea1";
+            this.cht_PassRadio.ChartAreas.Add(chartArea2);
             this.cht_PassRadio.Location = new System.Drawing.Point(162, 20);
             this.cht_PassRadio.Name = "cht_PassRadio";
             this.cht_PassRadio.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series1.Name = "Series1";
-            this.cht_PassRadio.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series2.Name = "Series1";
+            this.cht_PassRadio.Series.Add(series2);
             this.cht_PassRadio.Size = new System.Drawing.Size(120, 109);
             this.cht_PassRadio.TabIndex = 6;
             this.cht_PassRadio.Text = "chart1";
@@ -507,6 +508,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(764, 591);
             this.Controls.Add(this.tb_SN);
             this.Controls.Add(this.btTest);

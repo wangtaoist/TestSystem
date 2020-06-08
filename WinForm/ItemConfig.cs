@@ -138,7 +138,7 @@ namespace WinForm
                     FailItems[i].Remark = tb_Remark.Text.Trim();
                     FailItems[i].Other = tb_Other.Text.Trim();
                     FailItems[i].Check = cb_Check.Checked;
-                    TestItems[i].Show = cb_Show.Checked;
+                    FailItems[i].Show = cb_Show.Checked;
 
                     lv_FailItems.Items[i].Text = tb_ItemFriendname.Text.Trim();
                 }

@@ -262,6 +262,11 @@ namespace TestBLL
                         data = operate.GetBTAddress(data);
                         break;
                     }
+                case "MT8852_Compare_BD_Address":
+                    {
+                        data = operate.CompareBTAddress(data);
+                        break;
+                    }
                 case "DUT_Power":
                     {
                        data = operate.GetTXPower(data);
@@ -270,6 +275,11 @@ namespace TestBLL
                 case "DUT_Sensitivity":
                     {
                         data = operate.GetSingleSensitivity(data);
+                        break;
+                    }
+                case "DUT_Sensitivity_FER":
+                    {
+                        data = operate.GetSingleSensitivity_FER(data);
                         break;
                     }
                 case "DUT_InitCarrier":
@@ -911,6 +921,36 @@ namespace TestBLL
                 case "BES_ReadWearData":
                     {
                         data = operateBES.BES_ReadWearData(data);
+                        break;
+                    }
+                case "BES_TWS_TXMode":
+                    {
+                        data = operateBES.BES_TWS_TXMode(data);
+                        break;
+                    }
+                case "BES_TWS_DUTMode":
+                    {
+                        data = operateBES.BES_TWS_DUTMode(data);
+                        break;
+                    }
+                case "BES_TWS_ReadVersion":
+                    {
+                        data = operateBES.BES_TWS_ReadVersion(data);
+                        break;
+                    }
+                case "BES_TWS_ReadMACAddress":
+                    {
+                        data = operateBES.BES_TWS_ReadMACAddress(data);
+                        break;
+                    }
+                case "BES_TWS_MainMic":
+                    {
+                        data = operateBES.BES_TWS_MainMic(data);
+                        break;
+                    }
+                case "BES_TWS_FFMic":
+                    {
+                        data = operateBES.BES_TWS_FFMic(data);
                         break;
                     }
                 case "SwitchToA2dp":

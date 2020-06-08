@@ -44,6 +44,7 @@ namespace TestDAL
             }
             catch (Exception)
             {
+
             }
             
         }
@@ -53,7 +54,28 @@ namespace TestDAL
             try
             {
                 //ATc.BtsimSettings.CallCancel();
-                ATc.BtsimSettings.Reset();
+                OutputConnectorType type = ATc.SignalPathSetup.OutputConnector.Type;
+                
+                InputConnectorType ty = ATc.SignalPathSetup.InputConnector.Type;
+                if (type == OutputConnectorType.Btsim || ty == InputConnectorType.Btsim)
+                {
+                    ATc.BtsimSettings.Reset();
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                    btStatus = true;
+                }
+                else
+                {
+                    btStatus = false;
+
+                    //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Bluetooth;
+                    //ATc.BluetoothSettings.ProfileSet = BluetoothProfileSet.A2dpSourceHfpGatewayAvrcp;
+
+                    ATc.BluetoothSettings.InquiryTimeout = 5;
+                    ATc.BluetoothSettings.ClearDeviceList();
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
                 //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Btsim;
                 //ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.AnalogUnbalanced;
                 //ATc.BtsimSettings.Reset();
@@ -62,20 +84,12 @@ namespace TestDAL
                 //ATc.BluetoothSettings.ClearDeviceList();
                 //ATc.BluetoothSettings.ProfileSet = BluetoothProfileSet.A2dpSourceHfpGatewayAvrcp;
                 //ATc.BluetoothSettings.InquiryTimeout = 5;
-                data.Result = "Pass";
-                data.Value = "Pass";
+               
             }
             catch (Exception ex)
             {
-                btStatus = false;
-
-                //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.Bluetooth;
-                //ATc.BluetoothSettings.ProfileSet = BluetoothProfileSet.A2dpSourceHfpGatewayAvrcp;
-
-                ATc.BluetoothSettings.InquiryTimeout = 5;
-                ATc.BluetoothSettings.ClearDeviceList();
-                data.Result = "Pass";
-                data.Value = "Pass";
+                data.Result = "Fail";
+                data.Value = "Fail";
             }
             return data;
         }
@@ -300,6 +314,7 @@ namespace TestDAL
                 {
                     //Operate.SetVolume();
                     ATc.Sequence["Speaker"]["Level and Gain"].Run();
+                   
                     if (ATc.Sequence["Speaker"]["Level and Gain"].HasSequenceResults)
                     {
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]["Level and Gain"]

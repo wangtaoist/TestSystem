@@ -105,6 +105,12 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "MT8852_Compare_BD_Address",
+                Remark = "通过MT8852获取并比对耳机蓝牙地址是否在区间之内，在下限中设置蓝牙地址的下限最后6位，" +
+                "在上限中设置蓝牙地址的上限最后6位"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "Run_MT8852_Script",
                 Remark = "运行MT8852脚本，进行测试"
             });
@@ -132,6 +138,11 @@ namespace TestDAL
             {
                 TestItem = "DUT_Sensitivity",
                 Remark = "获取耳机相应频道BER，设置其他参数栏位:Freq:\"相应的频率\""
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "DUT_Sensitivity_FER",
+                Remark = "获取耳机相应频道FER，设置其他参数栏位:Freq:\"相应的频率\""
             });
             list.Add(new InitTestItem()
             {
@@ -801,6 +812,36 @@ namespace TestDAL
             {
                 TestItem = "BES_ReadWearData",
                 Remark = "读取佩戴触发值，要在远近距离测试各一次"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_TWS_TXMode",
+                Remark = "BES TWS耳机进入TX模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_TWS_DUTMode",
+                Remark = "BES TWS耳机进入DUT模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_TWS_ReadVersion",
+                Remark = "BES TWS耳机读取软件版本并比对版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_TWS_ReadMACAddress",
+                Remark = "BES TWS耳机读取耳机蓝牙地址"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_TWS_MainMic",
+                Remark = "BES TWS耳机切换为主Mic"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_TWS_FFMic",
+                Remark = "BES TWS耳机FF Mic"
             });
             list.Add(new InitTestItem()
             {

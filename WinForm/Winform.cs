@@ -15,7 +15,8 @@ namespace WinForm
 {
     public partial class Winform : Form
     {
-        private const string SoftVersion = "V20.03.14.01";
+        private const string SoftVersion = "V20.05.07.01";
+        private const string SoftNumber = "HW_Headset";
         private double widthX, heightY, columnHeiht;
         private TestLogic testLogic;
         private string initPath, BtAddress, PackSN;
@@ -32,6 +33,7 @@ namespace WinForm
         private System.Windows.Forms.Timer time;
         private System.Threading.Timer ShowTime;
         private WebReference.WebService1 web;
+        private WebReference1.Service1 verWeb;
 
 
         public Winform()
@@ -42,22 +44,25 @@ namespace WinForm
             columnHeiht = dgv_Data.ColumnHeadersHeight;
             Others.setTag(this);
             Control.CheckForIllegalCrossThreadCalls = false;
-
-            string res = string.Empty;
-            web = new WebReference.WebService1();
-
-            res = web.SnCx("E09DFA542BCF", "包装投入");
+           
+          
+            //string res = string.Empty;
+            //web = new WebReference.WebService1();
+            //verWeb = new WebReference1.Service1();
+            // res = verWeb.ver_cx("CM70", "V20.03.14.02");
+            //verWeb.Abort();
+            //res = web.SnCx("E09DFA6A1BB3", "半成品测试");
             //res = web.SnCx("2155030949GJ03013157", "包装投入");
-            //res = web.SnCx_sn("GJ1225201E200445");
-            //res = web.SnCx_SC("E09DFA542BCF", "CRC2(包装)");
+            //res = web.SnCx_sn("GJ1253204N400027");
+            //res = web.SnCx_SC("E09DFA6A1BB3", "半成品测试");
             //res = web.SnCx_BZLY("E09DFA4745A6");
             //res = web.SnCx_BZSN("GJ1225201E200445");
-            //res = web.SnCx_LY("E09DFA46E367");
+            //res = web.SnCx_LY("E09DFA6A1C43");
             //res = web.SnCx_DC("SYN0C1911000300");
             //res = web.SnCx_BDSN("GJ1225203L100664");
             //string pa = Path.Combine(Application.StartupPath, "CMD");
             //Others.CmdExcute(pa + "\\CmdReadWrite.exe QUERY_SW_VER ");
-            web.Abort();
+            //web.Abort();
         }
 
         private void Winform_Load(object sender, EventArgs e)
@@ -70,10 +75,10 @@ namespace WinForm
             TimeQueue = new Queue<string>();
             statusQueue = new Queue<string>();
             testLogic = new TestLogic(TestQueue, initPath, statusQueue);
-           
+            config = testLogic.GetConfigData();
             FillTestItem();
             FillTestRadio();
-            config = testLogic.GetConfigData();
+            
             this.Text = config.Title;
             label_Test_Version.Text = this.Text;
             stopwatch = new Stopwatch();
@@ -83,7 +88,7 @@ namespace WinForm
             lb_Message.Items.Clear();
 
             this.WindowState = FormWindowState.Maximized;
-            Winform_Resize(null, null);
+            //Winform_Resize(null, null);
             ThreadPool.QueueUserWorkItem(new WaitCallback(testLogic.InitTestPort));
             ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
             ThreadPool.QueueUserWorkItem(new WaitCallback(ShowStatus));
@@ -92,34 +97,57 @@ namespace WinForm
                 FixturePort = new SerialPort();
                 FixturePort.BaudRate = 9600;
                 FixturePort.PortName = config.FixturePort;
+                FixturePort.DataBits = 8;
+                FixturePort.Parity = Parity.None;
+                FixturePort.StopBits = StopBits.One;
                 FixturePort.DataReceived += FixturePort_DataReceived;
-                if(FixturePort.IsOpen)
+
+                if (FixturePort.IsOpen)
                 {
                     FixturePort.Close();
                 }
                 FixturePort.Open();
+                //FixturePort.Write("OPEN\r");
                 if (config.AutoHALL)
                 {
                     testLogic.FixPort = FixturePort;
+                }
+            }
+            if (config.MesEnable)
+            {
+                verWeb = new WebReference1.Service1();
+                string result = verWeb.ver_cx(SoftNumber, SoftVersion);
+                verWeb.Abort();
+                verWeb.Dispose();
+                if (result.Equals("F"))
+                {
+                    var box = MessageBox.Show("软件版本不是最新版本，" +
+                        "请联系工程人员更新为最新版本", "版本提示"
+                           , MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (box == DialogResult.OK)
+                    {
+                        this.WindowState = FormWindowState.Normal;
+                        this.Winform_FormClosed(null, null);
+                        this.Close();
+                    }
                 }
             }
         }
     
         private void Winform_Resize(object sender, EventArgs e)
         {
-           
-            double xRate = this.Width / widthX;
-            double yRate = this.Height / heightY;
+            double xRate = ((double)base.Width) / this.widthX;
+            double yRate = ((double)base.Height) / this.heightY;
             Others.setResolution(xRate, yRate, this);
-            if (xRate > 1)
+            if (xRate > 1.0)
             {
-                dgv_Data.ColumnHeadersHeight = Convert.ToInt16(columnHeiht * xRate) - 8;
+                this.dgv_Data.ColumnHeadersHeight = Convert.ToInt16((double)(this.columnHeiht * xRate)) - 8;
             }
             else
             {
-                dgv_Data.ColumnHeadersHeight =(int) columnHeiht;
+                this.dgv_Data.ColumnHeadersHeight = (int)this.columnHeiht;
             }
-           
+
         }
 
         public void FillTestItem()
@@ -169,6 +197,7 @@ namespace WinForm
                 btTest.Enabled = false;
                 tb_SN.Enabled = false;
                 lb_Message.Items.Clear();
+                CloseFixture();
             }
             catch (Exception ex)
             {
@@ -185,6 +214,7 @@ namespace WinForm
             Thread.Sleep(500);
             ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestTime));
             ThreadPool.QueueUserWorkItem(new WaitCallback(TestProcess));
+            
         }
 
         public void ClsTestValue()
@@ -403,7 +433,10 @@ namespace WinForm
                 ShowFailResult(index);
             }
 
-            dgv_Data.FirstDisplayedScrollingRowIndex = index;
+            if (dgv_Data.Rows.Count > 0)
+            {
+                dgv_Data.FirstDisplayedScrollingRowIndex = index;
+            }
         }
 
         public void ShowFailResult(int index)
@@ -568,7 +601,8 @@ namespace WinForm
                         && tb_SN.Text.Trim().Length == config.SNLength)
                     {
                         tb_SN.Enabled = false;
-                        if(tb_SN.Text.Length == 20)
+                        CloseFixture();
+                        if (tb_SN.Text.Length == 20)
                         {
                             web = new WebReference.WebService1();
                             PackSN = tb_SN.Text.Trim();
@@ -632,7 +666,7 @@ namespace WinForm
         {
             login = new frmSettingLogin();
             focusFlag = false;
-            //queueFlag = false;
+            queueFlag = false;
             if(config.AutoFixture == true)
             {
                 FixturePort.Close();
@@ -650,12 +684,18 @@ namespace WinForm
                     Winform_Load(null, null);
                 }
             }
+            else
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
+                ThreadPool.QueueUserWorkItem(new WaitCallback(ShowStatus));
+            }
         }
 
         private void TestItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             login = new frmSettingLogin();
             focusFlag = false;
+            queueFlag = false;
             if (config.AutoFixture == true)
             {
                 FixturePort.Close();
@@ -672,6 +712,11 @@ namespace WinForm
                     label_TestResult.BackColor = Color.LightSteelBlue;
                     Winform_Load(null, null);
                 }
+            }
+            else
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
+                ThreadPool.QueueUserWorkItem(new WaitCallback(ShowStatus));
             }
         }
 
@@ -804,11 +849,10 @@ namespace WinForm
         {
             if(FixturePort.ReadByte() > 0)
             {
-                Thread.Sleep(1000);
-                string cmd = FixturePort.ReadExisting();
+                Thread.Sleep(500);
+                string cmd = FixturePort.ReadExisting().Trim();
                 TestQueue.Enqueue("屏蔽箱返回值：" + cmd);
-                if ((cmd.Contains("READY") || cmd.Contains("EADY")) 
-                    || (cmd.Contains("ADY") || cmd.Contains("AD")))
+                if ("READY".Contains(cmd)) 
                 {
                     focusFlag = false;
                     btTest_Click(null, null);
@@ -827,6 +871,14 @@ namespace WinForm
             if(config.AutoFixture)
             {
                 FixturePort.WriteLine("OPEN" + "\r");
+            }
+        }
+
+        private void CloseFixture()
+        {
+            if (config.AutoFixture)
+            {
+                FixturePort.WriteLine("CLOSE\r");
             }
         }
 

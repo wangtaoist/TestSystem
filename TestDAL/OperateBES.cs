@@ -501,13 +501,13 @@ namespace TestDAL
                         , values[8], values[7], values[6], values[5], values[4], values[3]).ToUpper();
                     if (config.MesEnable)
                     {
-                        //btaddress = "E09DFA4745A6";
+                        //btaddress = "E09DFA6A1BA1";
                         queue.Enqueue("检查蓝牙地址是否过站/重复/测试三次:" + btaddress);
                         //ServiceReference1.WebService1SoapClient MesWeb = null;
                         //MesWeb = new ServiceReference1.WebService1SoapClient("WebService1Soap");
                         MesWeb = new WebReference.WebService1();
                         //MesWeb.Url = "http://218.65.34.28:82/WebService1.asmx";
-                        //btaddress = "E09DFA52CD40";
+                        //btaddress = "E09DFA6A1BB3";
                         string failResult = string.Empty;
                         string reslut = string.Empty;
                         //string packResult = string.Empty;
@@ -3334,6 +3334,174 @@ namespace TestDAL
             return data;
         }
 
+        public TestData BES_TWS_TXMode(TestData data)
+        {
+            try
+            {
+                byte cmd = 0x15;
+                byte[] comm = GetTwsCommand(cmd);
+                byte[] values = Serial.VisaQuery(comm);
+                if(values[1] == 0x95)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_TWS_DUTMode(TestData data)
+        {
+            try
+            {
+                byte cmd = 0x07;
+                byte[] comm = GetTwsCommand(cmd);
+                byte[] values = Serial.VisaQuery(comm);
+                if (values[1] == 0x87)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_TWS_ReadVersion(TestData data)
+        {
+            try
+            {
+                byte cmd = 0x11;
+                byte[] comm = GetTwsCommand(cmd);
+                byte[] values = Serial.VisaQuery(comm);
+                if (values[1] == 0x91)
+                {
+                    string ver = values[2].ToString("X2") + values[3].ToString("X2");
+                    if (data.LowLimit.Equals(ver))
+                    {
+                        data.Value = ver;
+                        data.Result = "Pass";
+                    }
+                    else
+                    {
+                        data.Value = ver;
+                        data.Result = "Fail";
+                    }
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_TWS_ReadMACAddress(TestData data)
+        {
+            try
+            {
+                byte cmd = 0x17;
+                byte[] comm = GetTwsCommand(cmd);
+                byte[] values = Serial.VisaQuery(comm);
+                if (values[1] == 0x97)
+                {
+                    string address = values[7].ToString("X2") + values[6].ToString("X2") + values[5].ToString("X2")
+                        + values[4].ToString("X2") + values[3].ToString("X2") + values[2].ToString("X2");
+
+                    data.Value = address;
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_TWS_MainMic(TestData data)
+        {
+            try
+            {
+                byte cmd = 0x31;
+                byte[] comm = GetTwsCommand(cmd);
+                byte[] values = Serial.VisaQuery(comm);
+                if (values[1] == 0xb1)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_TWS_FFMic(TestData data)
+        {
+            try
+            {
+                byte cmd = 0x32;
+                byte[] comm = GetTwsCommand(cmd);
+                byte[] values = Serial.VisaQuery(comm);
+                if (values[1] == 0xb2)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
         public string BES_ReadBTAddress()
         {
             string address = string.Empty;
@@ -3431,6 +3599,26 @@ namespace TestDAL
             sn = string.Format("{0}{1}{2}{3}{4}{5}", Head, year, month, day, line, num);
             dataBase.UpdateSN(day, int.Parse(num) + 1);
             return sn;
+        }
+
+        private byte[] GetTwsCommand(byte cmd)
+        {
+            int num;
+            byte[] buffer = new byte[8];
+            buffer[0] = 0xbc;
+            buffer[1] = 8;
+            buffer[2] = cmd;
+            for (num = 3; num < 7; num++)
+            {
+                buffer[num] = 0;
+            }
+            byte num2 = 0;
+            for (num = 0; num < 7; num++)
+            {
+                num2 = (byte)(num2 + buffer[num]);
+            }
+            buffer[7] = num2;
+            return buffer;
         }
     }
 }

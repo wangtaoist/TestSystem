@@ -104,8 +104,11 @@ D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestBLL\obj\Debug\TestBLL.cs
 D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestBLL\obj\Debug\TestBLL.csproj.CopyComplete
 D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestBLL\obj\Debug\TestBLL.dll
 D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestBLL\obj\Debug\TestBLL.pdb
+D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.csprojAssemblyReference.cache
+D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.csproj.CoreCompileInputs.cache
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestBLL.dll
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestBLL.pdb
+D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\AutoClosingMessageBox.dll
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestDAL.dll
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestModel.dll
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestTool.dll
@@ -120,10 +123,6 @@ D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestTool.pdb
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\NationalInstruments.VisaNS.xml
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\RJCP.SerialPortStream.pdb
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\RJCP.SerialPortStream.xml
-D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.csprojAssemblyReference.cache
-D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.csproj.CoreCompileInputs.cache
 D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.csproj.CopyComplete
 D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.dll
 D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.pdb
-D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\AutoClosingMessageBox.dll
-D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\AutoClosingMessageBox.pdb

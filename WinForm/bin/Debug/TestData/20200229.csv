@@ -1,4 +1,0 @@
-SN,TestTime,MAC,TotalStatus,待机电流,充电电流,开机电流,OpenA2,EarPair,SwitchToA2dp,SpeakerLevel_Left,SpeakerTHD_Left,SpeakerSNR_Left,SpeakerCrosstalk_Left,SwitchToHfp,MainMicphoneLevel,MainMicphoneTHD,MainMicphoneSNR,DisConnect
-,,,,0,1,1,NA,NA,NA,0.2,0,60,80,NA,-10,0,50,NA
-,,,,100,100,10,NA,NA,NA,0.8,20,100,120,NA,10,30,120,NA
-,20200229162934,,Fail,,,,,,,,,,,,,,,

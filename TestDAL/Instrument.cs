@@ -110,6 +110,7 @@ namespace TestDAL
             try
             {
                 Thread.Sleep(50);
+                //Cls();
                 Session.Write(string.Format("*OPC;{0}\n", cmd));
             }
             catch { }

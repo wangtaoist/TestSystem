@@ -32,5 +32,15 @@ namespace WinForm.Properties {
                 return ((string)(this["Test_Program_WebReference_WebService1"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.167.4.252:8083/WebService1.asmx")]
+        public string Test_Program_WebReference1_Service1 {
+            get {
+                return ((string)(this["Test_Program_WebReference1_Service1"]));
+            }
+        }
     }
 }

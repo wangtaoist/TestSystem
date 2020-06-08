@@ -84,7 +84,8 @@ namespace WinForm
             tb_Line.Text = configData.SNLine;
 
             cb_FixAuto.Checked = configData.AutoFixture;
-            cb_FixPort.SelectedText = configData.FixturePort;
+            cb_FixPort.SelectedItem = configData.FixturePort;
+
 
             cb_LEDPort.SelectedText = configData.LEDPort;
             cb_LEDEnable.Checked = configData.LEDEnable;

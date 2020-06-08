@@ -53,6 +53,7 @@ namespace TestDAL
         public void InitInstr()
         {
             instrument.Rst();
+            instrument.Cls();
             instrument.VisaWrite("OPMD SCRIPT");
             instrument.VisaWrite("SCPTSEL 3");
             instrument.VisaWrite("SCRIPTMODE 3,STANDARD");
@@ -351,7 +352,7 @@ namespace TestDAL
                 InitInstr();
                 //instrument.Rst();
                 //Set8852();
-                //instrument.Cls();
+                instrument.Cls();
                 instrument.Closed();
                 //InitInstr();
                 item.Result = "Pass";
@@ -1076,6 +1077,44 @@ namespace TestDAL
             return item;
         }
 
+        public TestData GetSingleSensitivity_FER(TestData item)
+        {
+            //XSS,HOPOFFL,FALSE,0.016,3.361,FAIL,246,4,3,7405,252,249,7408
+
+            string retureVal = string.Empty;
+            double avgPower = 0;
+            instrument.Cls();
+            if (item.Other.Split(':')[1] == data.Low_Freq)
+            {
+                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFL");
+            }
+            else if (item.Other.Split(':')[1] == data.Mod_Freq)
+            {
+                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFM");
+            }
+            else if (item.Other.Split(':')[1] == data.Hi_Freq)
+            {
+                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFH");
+            }
+            if (retureVal.Contains("XSS"))
+            {
+                avgPower = double.Parse(retureVal.Split(',')[4])
+                    + double.Parse(item.FillValue);
+            }
+            if (avgPower >= double.Parse(item.LowLimit)
+                && avgPower <= double.Parse(item.UppLimit))
+            {
+                item.Value = avgPower.ToString();
+                item.Result = "Pass";
+            }
+            else
+            {
+                item.Value = avgPower.ToString();
+                item.Result = "Fail";
+            }
+            return item;
+        }
+
         public TestData GetModulationindex(TestData item)
         {
 
@@ -1264,6 +1303,27 @@ namespace TestDAL
             {
                 item.Value = address;
                 item.Result = "Pass";
+            }
+            return item;
+        }
+
+        public TestData CompareBTAddress(TestData item)
+        {
+            instrument.Cls();
+            string address = instrument.VisaQuery("SYSCFG? EUTADDR");
+            //address = "E09DFA4D9B0D";
+            int add = int.Parse(address.Substring(6, 6), System.Globalization.NumberStyles.HexNumber);
+            int lowAdd = int.Parse(item.LowLimit);
+            int upAdd = int.Parse(item.UppLimit);
+            if (add >= lowAdd && add <= upAdd)
+            {
+                item.Value = address;
+                item.Result = "Pass";
+            }
+            else
+            {
+                item.Value = address;
+                item.Result = "Fail";
             }
             return item;
         }
@@ -2067,10 +2127,14 @@ namespace TestDAL
                 if(item.Unit.ToUpper() == "UA")
                 {
                     multiple = 1000000;
+                    //PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe {0}"
+                    //    , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
                 }
                 else if (item.Unit.ToUpper() == "MA")
                 {
                     multiple = 1000;
+                    //PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe {0}"
+                    //   , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
                 }
                 else
                 {
@@ -2194,15 +2258,15 @@ namespace TestDAL
                 if (item.Unit.ToUpper() == "UA")
                 {
                     multiple = 1000000;
-                    PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe {0}"
-                        , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
+                    //PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe {0}"
+                    //    , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
 
                 }
                 else if (item.Unit.ToUpper() == "MA")
                 {
                     multiple = 1000;
-                    PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe {0}"
-                       , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
+                    //PowerInst.VisaWrite(string.Format(":SENSe2:CURRent:DC:RANGe {0}"
+                    //   , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
                 }
                 else
                 {

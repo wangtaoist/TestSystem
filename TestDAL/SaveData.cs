@@ -46,6 +46,10 @@ namespace TestDAL
                            , datas.Where(s => s.Show == true).Select(s => s.UppLimit).ToList()));
                         sw.WriteLine(HiLimit);
 
+                        string unit = string.Format(",,,,{0}", string.Join(","
+                         , datas.Where(s => s.Show == true).Select(s => s.Unit).ToList()));
+                        sw.WriteLine(unit);
+
                         string row = string.Format("{0},{1},{2},{3},{4}"
                             , colume.SN, colume.TestTime, colume.MAC, colume.TotalStatus
                             , string.Join(",",

@@ -32,7 +32,7 @@ namespace TestDAL
                 data.Value = "Pass";
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 data.Result = "Fail";
                 data.Value = "Fail";
@@ -137,7 +137,7 @@ namespace TestDAL
                     data.Value = "Fail";
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 data.Result = "Fail";
                 data.Value = "Fail";
