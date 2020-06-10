@@ -17,24 +17,33 @@ namespace TestDAL
         private OperateBES Operate;
         public string btAddress;
         private bool btStatus;
+        private Queue<string> queue;
 
-        public AudioOperate(ConfigData config, OperateBES operate)
+        public AudioOperate(ConfigData config, OperateBES operate,Queue<string> queue)
         {
             try
             {
                 this.config = config;
+                this.queue = queue;
                 btAddress = string.Empty;
-                ATc = new ATC();
-                ATc.Visible = false;
+                
                 //Thread thread = new Thread(() => 
                 //{
                 if (File.Exists(config.AudioPath))
                 {
+                    queue.Enqueue("加载A2项目文件");
+                    ATc = new ATC();
+                    ATc.Visible = false;
                     string name = ATc.ProjectFileName;
                     if ((!config.AudioPath.Contains(name)) || name == "")
                     {
                         ATc.OpenProject(config.AudioPath);
                     }
+                    queue.Enqueue("加载A2项目文件完成");
+                }
+                else
+                {
+                    queue.Enqueue("A2项目文件路径设置错误，请检查");
                 }
                 //ATc.BtsimSettings.Reset();
                 //});
@@ -42,9 +51,9 @@ namespace TestDAL
                 this.Operate = operate;
                 btStatus = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                queue.Enqueue(ex.Message);
             }
             
         }
@@ -795,7 +804,10 @@ namespace TestDAL
 
         public void ExitA2()
         {
-            ATc.Exit();
+            if (ATc != null)
+            {
+                ATc.Exit();
+            }
         }
     }
 }

@@ -55,7 +55,7 @@ namespace TestBLL
             if(config.AudioEnable)
             {
                 queue.Enqueue("加载Audio项目文件");
-                Audio = new AudioOperate(config, operateBES);
+                Audio = new AudioOperate(config, operateBES, queue);
                 queue.Enqueue("加载Audio项目文件完成");
             }
             if(config.LEDEnable)

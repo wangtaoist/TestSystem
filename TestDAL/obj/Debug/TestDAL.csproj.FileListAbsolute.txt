@@ -165,11 +165,7 @@ D:\Lchse\Program\Program\TestProgram0422\TestSystem\TestDAL\obj\Debug\TestDAL.pd
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\TestDAL.dll.config
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\TestDAL.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\TestDAL.pdb
-D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\ATCAPI.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\ICSharpCode.SharpZipLib.dll
-D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NationalInstruments.Common.dll
-D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NationalInstruments.VisaNS.dll
-D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\Newtonsoft.Json.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NPOI.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NPOI.OOXML.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NPOI.OpenXml4Net.dll
@@ -183,7 +179,6 @@ D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NationalInstruments.MStudi
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\TestModel.pdb
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\TestTool.pdb
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NationalInstruments.Common.xml
-D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\NationalInstruments.VisaNS.xml
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\RJCP.SerialPortStream.pdb
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\RJCP.SerialPortStream.xml
 D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.csprojAssemblyReference.cache
@@ -193,3 +188,4 @@ D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.csproj.CoreCompile
 D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.csproj.CopyComplete
 D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.pdb
+D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\ATCAPI.dll

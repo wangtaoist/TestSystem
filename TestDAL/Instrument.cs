@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NationalInstruments.VisaNS;
 using System.Threading;
+using TestTool;
 
 namespace TestDAL
 {
@@ -77,6 +78,7 @@ namespace TestDAL
             {
                 Thread.Sleep(100);
                 Session.Write("*RST\n");
+                Others.WriteTestLog("*RST");
             }
             catch { }
         }
@@ -88,8 +90,7 @@ namespace TestDAL
             {
                 Thread.Sleep(500);
                 ret = int.Parse(Session.Query("*OPC?\n"));
-
-
+                Others.WriteTestLog("*OPC?");
             }
             catch { }
             return ret;
@@ -101,6 +102,7 @@ namespace TestDAL
             {
                 Thread.Sleep(100);
                 Session.Write("*CLS\n");
+                Others.WriteTestLog("*CLS");
             }
             catch { }
         }
@@ -112,6 +114,7 @@ namespace TestDAL
                 Thread.Sleep(50);
                 //Cls();
                 Session.Write(string.Format("*OPC;{0}\n", cmd));
+                Others.WriteTestLog(string.Format("*OPC;{0}\n", cmd));
             }
             catch { }
         }
@@ -119,7 +122,11 @@ namespace TestDAL
         public string VisaQuery(string cmd)
         {
             Thread.Sleep(50);
-            return Session.Query(string.Format("*OPC;{0}\n", cmd)).Trim();
+            string send = string.Format("*OPC;{0}\n", cmd);
+            Others.WriteTestLog(send);
+            string data = Session.Query(send).Trim();
+            Others.WriteTestLog(data);
+            return data;
         }
 
         public void Closed()

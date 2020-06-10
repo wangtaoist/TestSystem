@@ -36,6 +36,8 @@ namespace TestTool
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool Wow64RevertWow64FsRedirection(IntPtr ptr);
 
+        private static object obj = new object();
+
         public static void setResolution(double newx, double newy, Control cons)
         {
             foreach (Control con in cons.Controls)
@@ -139,6 +141,30 @@ namespace TestTool
             else
             {
                 return "Fail";
+            }
+        }
+
+        public static void WriteTestLog(string log)
+        {
+            string logPath = Path.Combine(Application.StartupPath, "CommLog");
+            string logName = Path.Combine(logPath,
+                DateTime.Now.ToString("yyyyMMdd") + ".txt");
+            if (!Directory.Exists(logPath))
+            {
+                Directory.CreateDirectory(logPath);
+            }
+           
+            lock (obj)
+            {
+                using (FileStream fs = new FileStream(logName, FileMode.Append, FileAccess.Write))
+                {
+                    using (StreamWriter sw = new StreamWriter(fs))
+                    {
+                        string data = string.Format("{0}--->{1}",
+                            DateTime.Now.ToString("HH:mm:ss:fff"), log.Trim());
+                        sw.WriteLine(data);
+                    }
+                }
             }
         }
     }

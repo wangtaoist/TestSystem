@@ -44,8 +44,8 @@ namespace WinForm
             columnHeiht = dgv_Data.ColumnHeadersHeight;
             Others.setTag(this);
             Control.CheckForIllegalCrossThreadCalls = false;
-           
-          
+
+            //bool STAT = "S".StartsWith("SYN0");
             //string res = string.Empty;
             //web = new WebReference.WebService1();
             //verWeb = new WebReference1.Service1();
@@ -538,7 +538,9 @@ namespace WinForm
                             {
                                 try
                                 {
-                                    lb_Message.Items.Add(TestQueue.Dequeue());
+                                    string msg = TestQueue.Dequeue();
+                                    Others.WriteTestLog(msg);
+                                    lb_Message.Items.Add(msg);
                                     Others.SendMessage(lb_Message.Handle, 0x0115, 1, 0);
                                 }
                                 catch (Exception ex)

@@ -120,7 +120,6 @@ D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestDAL.pdb
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestDAL.dll.config
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestModel.pdb
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\TestTool.pdb
-D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\NationalInstruments.VisaNS.xml
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\RJCP.SerialPortStream.pdb
 D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\RJCP.SerialPortStream.xml
 D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.csproj.CopyComplete
