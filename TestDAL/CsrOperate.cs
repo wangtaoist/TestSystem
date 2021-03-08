@@ -17,6 +17,7 @@ namespace TestDAL
         //hydracore_config.sdb:QCC512X_CONFIG
         private string CFG_DB_PARAM = "hydracore_config.sdb:QCC512X_CONFIG";
         private UInt32 KEY_READ_BUFFER_LEN = 128;
+        private ushort sid, sinkid, tid, operatorId;
 
         public TestData OpenPort(TestData item)
         {
@@ -252,6 +253,97 @@ namespace TestDAL
                 item.Result = "Pass";
             }
             catch (Exception)
+            {
+                item.Value = "Fail";
+                item.Result = "Fail";
+            }
+            return item;
+        }
+
+        public TestData StartAudioLoop(TestData item)
+        {
+            try
+            {
+                sid = 0;
+                sinkid = 0;
+                operatorId = 0;
+                tid = 0;
+                if (TestEngine.teAudioGetSource(csrHandle, 3, 0, 0, out sid) == 1)
+                {
+                    if (TestEngine.teAudioGetSink(csrHandle, 3, 0, 0, out sinkid) == 1)
+                    {
+                        if (TestEngine.teAudioMicBiasConfigure(csrHandle
+                            , 0, 0, 1) == 1)
+                        {
+                            if (TestEngine.teAudioConnect(csrHandle, sid, sinkid, out tid) == 1)
+                            {
+                                item.Value = "Pass";
+                                item.Result = "Pass";
+                            }
+                            else
+                            {
+                                item.Value = "Fail";
+                                item.Result = "Fail";
+                            }
+                        }
+                        else
+                        {
+                            item.Value = "Fail";
+                            item.Result = "Fail";
+                        }
+                    }
+                    else
+                    {
+                        item.Value = "Fail";
+                        item.Result = "Fail";
+                    }
+                }
+                else
+                {
+                    item.Value = "Fail";
+                    item.Result = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                item.Value = "Fail";
+                item.Result = "Fail";
+            }
+            return item;
+        }
+
+        public TestData StopAudioLoop(TestData item)
+        {
+            try
+            {
+                sid = 0;
+                sinkid = 0;
+                operatorId = 0;
+                tid = 0;
+                if (TestEngine.teAudioDisconnect(csrHandle, tid) == 1)
+                {
+                    if (TestEngine.teAudioCloseSource(csrHandle, sid) == 1)
+                    {
+                        if (TestEngine.teAudioCloseSink(csrHandle, sinkid) == 1)
+                        {
+                            item.Value = "Pass";
+                            item.Result = "Pass";
+                        }
+                        else
+                        {
+                            item.Value = "Fail";
+                            item.Result = "Fail";
+                        }
+                    }
+                }
+                else
+                {
+                    item.Value = "Fail";
+                    item.Result = "Fail";
+                }
+
+            }
+            catch (Exception ex)
             {
                 item.Value = "Fail";
                 item.Result = "Fail";

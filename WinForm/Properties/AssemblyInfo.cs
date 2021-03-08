@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("Lchse_TDE_Program")]
-[assembly: AssemblyDescription("产线测试软件")]
+[assembly: AssemblyDescription("工厂产线测试系统")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("江西联创宏声电子股份有限公司")]
 [assembly: AssemblyProduct("Test_Program")]

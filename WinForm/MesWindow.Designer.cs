@@ -112,6 +112,7 @@
             this.ClientSize = new System.Drawing.Size(361, 98);
             this.Controls.Add(this.bt_Save);
             this.Controls.Add(this.groupBox13);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MesWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

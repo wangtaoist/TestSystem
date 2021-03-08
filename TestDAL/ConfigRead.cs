@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
+﻿using System.Collections.Generic;
 using TestModel;
 
 namespace TestDAL
@@ -67,6 +63,16 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "QCC_StartAudioLoop",
+                Remark = "QCC进入AudioLoopBack模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "QCC_StopAudioLoop",
+                Remark = "QCC退出AudioLoopBack模式"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "QCC_Cloesd_Port",
                 Remark = "关闭QCC端口"
             });
@@ -111,6 +117,12 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "MT8852_Read_BD_Name",
+                Remark = "通过MT8852获取耳机蓝牙地址并进行比对"
+            });
+
+            list.Add(new InitTestItem()
+            {
                 TestItem = "Run_MT8852_Script",
                 Remark = "运行MT8852脚本，进行测试"
             });
@@ -118,6 +130,11 @@ namespace TestDAL
             {
                 TestItem = "Run_MT8852_CalcFreqScript",
                 Remark = "运行MT8852校准频率脚本，进行测试，适用于BES芯片"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Run_MT8852_Lchse_CalcFreqScript",
+                Remark = "运行MT8852校准频率脚本，进行测试，适用于联创自研BES芯片"
             });
             list.Add(new InitTestItem()
             {
@@ -296,6 +313,42 @@ namespace TestDAL
             {
                 TestItem = "K2300Series_Closed",
                 Remark = "关闭释放K2300系列电源资源"
+            });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "K2303Series_Open",
+                Remark = "打开K2303电源资源"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "K2303Series_ChannelOne_OutPut",
+                Remark = "K2303电源通道输出"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "K2303Series_ChannelOne_OverVoltage",
+                Remark = "K2303电源过压输出"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "K2303Series_ChannelOne_ReadVoltage",
+                Remark = "K2303电源读取电压"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "K2303Series_ChannelOne_ReadCurrent",
+                Remark = "K2303电源读取电流"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "K2303Series_ChannelOne_StopOut",
+                Remark = "K2303关闭输出"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "K2303Series_Closed",
+                Remark = "关闭释放K2303系列电源资源"
             });
             //list.Add("K2300Series_Open");
             //list.Add("K2300Series_ChannelOne_OutPut");
@@ -670,8 +723,16 @@ namespace TestDAL
                 TestItem = "BES_CompareBattarySN",
                 Remark = "比对BES系列耳机电池SN，该项目会和输入的电池SN进行比对，该项目不能和耳机SN比对一起测试"
             });
-            //list.Add("BES_CompareSN");
-            //list.Add("BES_CompareBattarySN");
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_ReadPackSN",
+                Remark = "读取并比对扫描枪输入的20位包装整机SN"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_WritePackSN",
+                Remark = "写入扫描枪输入的20位包装整机SN"
+            });
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_WriteSN",
@@ -845,6 +906,107 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "BES_TWS_ClearAll",
+                Remark = "BES TWS耳机清除所有配对记录"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_TWS_AudioLoop",
+                Remark = "BES TWS耳机进入AudioLoop模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_TWS_ComparePairName",
+                Remark = "BES TWS耳机比对配对名称"
+            });
+           
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_EnterDUT",
+                Remark = "BES  Lchse TWS耳机进入DUT模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_ReadSoftVersion",
+                Remark = "BES  Lchse TWS耳机读取软件版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_ReadHWVersion",
+                Remark = "BES Lchse TWS耳机读取硬件版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_ReadVoltage",
+                Remark = "BES Lchse TWS耳机读取电池电压"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_ReadElectricity",
+                Remark = "BES Lchse TWS耳机读取电池电量"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_ReadBTAddress",
+                Remark = "BES Lchse TWS耳机读取蓝牙地址"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_WriteBTAddress",
+                Remark = "BES Lchse TWS耳机写蓝牙地址"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_ReadBTName",
+                Remark = "BES Lchse TWS耳机读取蓝牙名称"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_WriteBTName",
+                Remark = "BES Lchse TWS耳机写入蓝牙名称，在设置下限参数时设置蓝牙名称"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_ShutDown",
+                Remark = "BES Lchse TWS耳机关机"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_Reset",
+                Remark = "BES Lchse TWS耳机复位"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_CloseLog",
+                Remark = "BES Lchse TWS关闭Log功能"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_04cCharge",
+                Remark = "BES Lchse TWS 0.4c充电"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_1cCharge",
+                Remark = "BES Lchse TWS 1c充电"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_TalkMic",
+                Remark = "BES Lchse TWS 打开通话Mic，测试LoopBack"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_FFMIC",
+                Remark = "BES Lchse TWS 打开通话FFMic，测试LoopBack"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_Lchse_TWS_FBMIC",
+                Remark = "BES Lchse TWS 打开通话FBMic，测试LoopBack"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "BES_ClosedSerialPort",
                 Remark = "关闭和释放BES系列耳机串口"
             });
@@ -865,6 +1027,47 @@ namespace TestDAL
             //list.Add("CSR_Open_Connection");
             //list.Add("CSR_Open_Connection");
             //list.Add("CSR_Open_Connection");
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "OpenMicroChipPort",
+                Remark = "打开MicroChip串口"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "MicroChipReadBTAddress",
+                Remark = "MicroChip读取蓝牙地址"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "MicroChipReadNTC",
+                Remark = "MicroChip读取NTC值"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "MicroChipReadVoltage",
+                Remark = "MicroChip读取电池电压"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "MicroChipReadTone",
+                Remark = "MicroChip读取提示音，在下限中输入，如:中文;英文"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "MicroChipReadSoftVersion",
+                Remark = "MicroChip读取软件版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "MicroChipEntenDUT",
+                Remark = "MicroChip进入DUT模式，测试RF"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "ClosedMicroChipPort",
+                Remark = "关闭MicroChip串口"
+            });
 
             list.Add(new InitTestItem()
             {
@@ -1008,11 +1211,62 @@ namespace TestDAL
                 TestItem = "ClosedRelay",
                 Remark = "关闭继电器串口"
             });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "TouchTest",
+            //    Remark = "测试NTG触摸板的补偿值"
+            //});
             list.Add(new InitTestItem()
             {
-                TestItem = "TouchTest",
-                Remark = "测试NTG触摸板的补偿值"
+                TestItem = "OpenAirohaPort",
+                Remark = "打开络达串口"
             });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "AirohaClosedLog",
+                Remark = "关闭络达Log"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "AirohaReadBtAddress",
+                Remark = "读取络达蓝牙地址"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "AirohaReadBtName",
+                Remark = "读取络达蓝牙名称"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "AirohaReadSoftVersion",
+                Remark = "读取络达软件版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "AirohaEnterDUT",
+                Remark = "络达进入DUT和配对模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "AirohaPowerOff",
+                Remark = "络达关机"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "AirohaMainMic",
+                Remark = "络达打开主MIC"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "AirohaFFMic",
+                Remark = "络达打开FF MIC"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "AirohaClosePort",
+                Remark = "关闭络达串口"
+            });
+
             return list;
         }
     }

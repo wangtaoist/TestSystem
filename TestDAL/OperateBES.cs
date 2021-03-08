@@ -30,6 +30,7 @@ namespace TestDAL
             Serial = new SerialOperate(port, serialStatus,queue);
             this.queue = queue;
             this.statusQueue = statusQueue;
+            //queue.Enqueue(string.Format("串口{0}打开成功", port));
         }
 
         public TestData OpenSerialPort(TestData data)
@@ -38,6 +39,7 @@ namespace TestDAL
 
             {
                 Serial.OpenSerialPort();
+                
                 data.Result = "Pass";
                 data.Value = "Pass";
             }
@@ -494,98 +496,107 @@ namespace TestDAL
             {
                 byte[] bytes = { 0x04, 0xff, 0x05, 0x01, 0x00 };
                 byte[] values = Serial.VisaQuery(bytes);
-
+                
                 if (values[2] == 0x06)
                 {
                     string btaddress = string.Format("{0:x2}{1:x2}{2:x2}{3:x2}{4:x2}{5:x2}"
                         , values[8], values[7], values[6], values[5], values[4], values[3]).ToUpper();
-                    if (config.MesEnable)
+                    //string btaddress = "FFFFFFFFFFFF";
+                    if (btaddress.StartsWith(data.LowLimit))
                     {
-                        //btaddress = "E09DFA6A1BA1";
-                        queue.Enqueue("检查蓝牙地址是否过站/重复/测试三次:" + btaddress);
-                        //ServiceReference1.WebService1SoapClient MesWeb = null;
-                        //MesWeb = new ServiceReference1.WebService1SoapClient("WebService1Soap");
-                        MesWeb = new WebReference.WebService1();
-                        //MesWeb.Url = "http://218.65.34.28:82/WebService1.asmx";
-                        //btaddress = "E09DFA6A1BB3";
-                        string failResult = string.Empty;
-                        string reslut = string.Empty;
-                        //string packResult = string.Empty;
-                        string btResult = string.Empty;
-                        if (PackSN == null)
-                            PackSN = string.Empty;
-                        
-                        if (PackSN.Length != 20)
+                        if (config.MesEnable)
                         {
-                            //btaddress = "E09DFA513DF6";
-                            //半成品工站拦截蓝牙地址重复
-                            //btResult = MesWeb.SnCx_LY(btaddress);
-                            //检查上一工站是否Pass
-                            reslut = MesWeb.SnCx(btaddress, config.MesStation);
-                            //检查是否测试三次
-                            failResult = MesWeb.SnCx_SC(btaddress, config.NowStation);
-                        }
-                        else
-                        {
-                            //reslut = MesWeb.SnCx(btaddress, config.MesStation);
-                            //已在输入20位SN时检测
-                            reslut = "P";
-                            //检查是否测试三次
-                            failResult = MesWeb.SnCx_SC(btaddress, config.NowStation);
-                            //检查包装段蓝牙地址是否重复
-                            //btResult = MesWeb.SnCx_BZLY(btaddress);
-                        }
+                            //btaddress = "E09DFA6A1BA1";
+                            queue.Enqueue("检查蓝牙地址是否过站/重复/测试三次:" + btaddress);
+                            //ServiceReference1.WebService1SoapClient MesWeb = null;
+                            //MesWeb = new ServiceReference1.WebService1SoapClient("WebService1Soap");
+                            MesWeb = new WebReference.WebService1();
+                            //MesWeb.Url = "http://218.65.34.28:82/WebService1.asmx";
+                            //btaddress = "E09DFA6A1BB3";
+                            string failResult = string.Empty;
+                            string reslut = string.Empty;
+                            //string packResult = string.Empty;
+                            string btResult = string.Empty;
+                            if (PackSN == null)
+                                PackSN = string.Empty;
 
-                        //MesWeb.Close();
-                        MesWeb.Abort();
-
-                        if (reslut.Contains("F"))
-                        {
-                            data.Value = btaddress;
-                            data.Result = "Fail";
-                            queue.Enqueue(string.Format("上一个工位:{0}:连续测试NG品,请检查 "
-                        , config.MesStation));
-                        }
-                        else
-                        {
-                            queue.Enqueue("检查蓝牙地址: " + btaddress + ",过站Pass");
-                            data.Result = "Pass";
-                            data.Value = btaddress;
                             if (PackSN.Length != 20)
                             {
-                                if (failResult.Contains("P"))
+                                //btaddress = "E09DFA513DF6";
+                                //半成品工站拦截蓝牙地址重复
+                                //btResult = MesWeb.SnCx_LY(btaddress);
+                                //检查上一工站是否Pass
+                                reslut = MesWeb.SnCx(btaddress, config.MesStation);
+                                //检查是否测试三次
+                                failResult = MesWeb.SnCx_SC(btaddress, config.NowStation);
+                            }
+                            else
+                            {
+                                //reslut = MesWeb.SnCx(btaddress, config.MesStation);
+                                //已在输入20位SN时检测
+                                reslut = "P";
+                                //检查是否测试三次
+                                failResult = MesWeb.SnCx_SC(btaddress, config.NowStation);
+                                //检查包装段蓝牙地址是否重复
+                                //btResult = MesWeb.SnCx_BZLY(btaddress);
+                            }
+
+                            //MesWeb.Close();
+                            MesWeb.Abort();
+
+                            if (reslut.Contains("F"))
+                            {
+                                data.Value = btaddress;
+                                data.Result = "Fail";
+                                queue.Enqueue(string.Format("上一个工位:{0}:连续测试NG品,请检查 "
+                            , config.MesStation));
+                            }
+                            else
+                            {
+                                queue.Enqueue("检查蓝牙地址: " + btaddress + ",过站Pass");
+                                data.Result = "Pass";
+                                data.Value = btaddress;
+                                if (PackSN.Length != 20)
                                 {
-                                    queue.Enqueue("该蓝牙地址: " + btaddress + ",无重复测试");
-                                    data.Result = "Pass";
-                                    data.Value = btaddress;
-                                }
-                                else
-                                {
-                                    data.Value = btaddress;
-                                    data.Result = "Fail";
-                                    queue.Enqueue("该蓝牙地址: " + btaddress + ",重复测试三次");
+                                    if (failResult.Contains("P"))
+                                    {
+                                        queue.Enqueue("该蓝牙地址: " + btaddress + ",无重复测试");
+                                        data.Result = "Pass";
+                                        data.Value = btaddress;
+                                    }
+                                    else
+                                    {
+                                        data.Value = btaddress;
+                                        data.Result = "Fail";
+                                        queue.Enqueue("该蓝牙地址: " + btaddress + ",重复测试三次");
+                                    }
                                 }
                             }
+                            //if (btResult != string.Empty)
+                            //{
+                            //    if (btResult.Contains("P"))
+                            //    {
+                            //        queue.Enqueue("该蓝牙地址: " + btaddress + ",无重复");
+                            //        data.Result = "Pass";
+                            //        data.Value = btaddress;
+                            //    }
+                            //    else
+                            //    {
+                            //        data.Value = btaddress;
+                            //        data.Result = "Fail";
+                            //        queue.Enqueue("该蓝牙地址: " + btaddress + ",重复,请检查");
+                            //    }
+                            //}
                         }
-                        //if (btResult != string.Empty)
-                        //{
-                        //    if (btResult.Contains("P"))
-                        //    {
-                        //        queue.Enqueue("该蓝牙地址: " + btaddress + ",无重复");
-                        //        data.Result = "Pass";
-                        //        data.Value = btaddress;
-                        //    }
-                        //    else
-                        //    {
-                        //        data.Value = btaddress;
-                        //        data.Result = "Fail";
-                        //        queue.Enqueue("该蓝牙地址: " + btaddress + ",重复,请检查");
-                        //    }
-                        //}
+                        else
+                        {
+                            data.Result = "Pass";
+                            data.Value = btaddress;
+                        }
                     }
                     else
                     {
-                        data.Result = "Pass";
+                        data.Result = "Fail";
                         data.Value = btaddress;
                     }
                 }
@@ -2549,6 +2560,98 @@ namespace TestDAL
             return data;
         }
 
+        public TestData BES_ReadPackSN(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x1B, 0x01, 0x00 };
+                byte[] values = Serial.VisaQuery(bytes);
+                if (values[0] == 0x04)
+                {
+                    byte[] needData = values.Skip(3).Take(values[2]).ToArray();
+                    string sn = Encoding.ASCII.GetString(needData, 0, needData.Length);
+                    if (sn.Equals(PackSN))
+                    {
+                        data.Result = "Pass";
+                        data.Value = sn;
+                    }
+                    else
+                    {
+                        data.Result = "Fail";
+                        data.Value = sn;
+                        if (data.Check)
+                        {
+                            Serial.ClosedPort();
+                        }
+                    }
+                }
+
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                    if (data.Check)
+                    {
+                        Serial.ClosedPort();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
+        public TestData BES_WritePackSN(TestData data)
+        {
+            try
+            {
+                byte[] bytes = { 0x04, 0xff, 0x1b, 0x00, 0x00 };
+                //byte[] values = Serial.VisaQuery(bytes);
+                byte[] address = Encoding.ASCII.GetBytes(PackSN);
+                byte length = byte.Parse(PackSN.Length.ToString());
+                byte[] value = new byte[bytes.Length + PackSN.Length];
+                bytes.CopyTo(value, 0);
+                value[4] = length;
+                address.CopyTo(value, 5);
+
+                byte[] ret = Serial.VisaQuery(value);
+                if (ret[2] == length)
+                {
+                    data.Result = "Pass";
+                    data.Value = "Pass";
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = "Fail";
+                    if (data.Check)
+                    {
+                        Serial.ClosedPort();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+                queue.Enqueue(ex.Message);
+                if (data.Check)
+                {
+                    Serial.ClosedPort();
+                }
+            }
+            return data;
+        }
+
         public TestData BES_WriteSN(TestData data)
         {
             try
@@ -2701,10 +2804,25 @@ namespace TestDAL
         {
             try
             {
-                byte[] bytes = { 0x04, 0xff, 0x0f, 0x00, 0x00 };
-                byte[] values = Serial.VisaQuery(bytes);
+                byte[] bytes = { 0x04, 0xff, 0x05, 0x00, 0x00 };
+                //byte[] values = Serial.VisaQuery(bytes);
+               
+                byte[] address = new byte[6];
+                address[0] = Convert.ToByte(btAddress.Substring(10, 2),16);
+                address[1] = Convert.ToByte(btAddress.Substring(8, 2), 16);
+                address[2] = Convert.ToByte(btAddress.Substring(6, 2), 16);
+                address[3] = Convert.ToByte(btAddress.Substring(4, 2), 16);
+                address[4] = Convert.ToByte(btAddress.Substring(2, 2), 16);
+                address[5] = Convert.ToByte(btAddress.Substring(0, 2), 16);
+                byte length = byte.Parse(address.Length.ToString());
+                byte[] value = new byte[bytes.Length + address.Length];
+                bytes.CopyTo(value, 0);
+                value[4] = length;
+                address.CopyTo(value, 5);
 
-                if (values[2] == 0x00 && values[3] == 0x00)
+                byte[] ret = Serial.VisaQuery(value);
+
+                if (ret.Length > 0)
                 {
                     data.Result = "Pass";
                     data.Value = "Pass";
@@ -3502,6 +3620,621 @@ namespace TestDAL
             return data;
         }
 
+        public TestData BES_TWS_ClearAll(TestData data)
+        {
+            try
+            {
+                byte cmd = 0x0D;
+                byte[] comm = GetTwsCommand(cmd);
+                byte[] values = Serial.VisaQuery(comm);
+                if (values[1] == 0x8d)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_TWS_AodioLoop(TestData data)
+        {
+            try
+            {
+                byte cmd = 0x08;
+                byte[] comm = GetTwsCommand(cmd);
+                byte[] values = Serial.VisaQuery(comm);
+                if (values[1] == 0x88)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_TWS_ComparePairName(TestData data)
+        {
+            try
+            {
+                byte cmd = 0x10;
+                byte[] comm = GetTwsCommand(cmd);
+                byte[] values = Serial.VisaQuery(comm);
+                if (values[1] == 0x90)
+                {
+                    byte[] needData = values.Skip(2).Take(values[1]).ToArray();
+                    string batt = Encoding.ASCII.GetString(needData).Split('?')[0];
+                    if (data.LowLimit.Equals(batt))
+                    {
+                        data.Value = "Pass";
+                        data.Result = "Pass";
+                    }
+                    else
+                    {
+                        data.Value = "Fail";
+                        data.Result = "Fail";
+                    }
+                   
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_EnterDUT(TestData data)
+        {
+            try
+            {
+                //4C 43 10 01 AA
+                byte[] cmd = {0x4c,0x43,0x10,0x01,0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_ReadSoftVersion(TestData data)
+        {
+            try
+            {
+                //4C 43 10 01 AA
+                byte[] cmd = { 0x4c, 0x43, 0x01, 0x01, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    string version = Encoding.ASCII.GetString(values.Skip(4)
+                        .Take(values[3]).ToArray());
+                    if(data.LowLimit.Equals(version))
+                    {
+                        data.Value = version;
+                        data.Result = "Pass";
+                    }
+                    else
+                    {
+                        data.Value = version;
+                        data.Result = "Fail";
+                    }
+                    
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_ReadHWVersion(TestData data)
+        {
+            try
+            {
+                //4C 43 10 01 AA
+                byte[] cmd = { 0x4c, 0x43, 0x02, 0x01, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    string version = Encoding.ASCII.GetString(values.Skip(4)
+                        .Take(values[3]).ToArray());
+                    if (data.LowLimit.Equals(version))
+                    {
+                        data.Value = version;
+                        data.Result = "Pass";
+                    }
+                    else
+                    {
+                        data.Value = version;
+                        data.Result = "Fail";
+                    }
+
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_ReadVoltage(TestData data)
+        {
+            try
+            {
+                //4C 43 10 01 AA
+                byte[] cmd = { 0x4c, 0x43, 0x07, 0x01, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    string voltage = Encoding.ASCII.GetString(values.Skip(4)
+                        .Take(values[3] - 1).ToArray());
+                    if (double.Parse(voltage) >= double.Parse(data.LowLimit) 
+                        && double.Parse(voltage) <= double.Parse(data.UppLimit))
+                    {
+                        data.Value = voltage;
+                        data.Result = "Pass";
+                    }
+                    else
+                    {
+                        data.Value = voltage;
+                        data.Result = "Fail";
+                    }
+
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_ReadElectricity(TestData data)
+        {
+            try
+            {
+                //4C 43 10 01 AA
+                byte[] cmd = { 0x4c, 0x43, 0x03, 0x01, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    string voltage = values[4].ToString();
+                    if (double.Parse(voltage) >= double.Parse(data.LowLimit)
+                        && double.Parse(voltage) <= double.Parse(data.UppLimit))
+                    {
+                        data.Value = voltage;
+                        data.Result = "Pass";
+                    }
+                    else
+                    {
+                        data.Value = voltage;
+                        data.Result = "Fail";
+                    }
+
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_ReadBTAddress(TestData data)
+        {
+            try
+            {
+                //4C 43 10 01 AA
+                byte[] cmd = { 0x4c, 0x43, 0x21, 0x01, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    string btaddress = string.Format("{0:x2}{1:x2}{2:x2}{3:x2}{4:x2}{5:x2}"
+                        , values[9], values[8], values[7], values[6], values[5], values[4]).ToUpper();
+
+                    data.Value = btaddress;
+                    data.Result = "Pass";
+
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_WriteBTAddress(TestData data)
+        {
+            try
+            {
+                //4C 43 10 01 AA
+                //48 53 21 01 06 E0 9D FA 12 34 56 AA
+                
+                byte[] cmd = { 0x4c, 0x43, 0x21, 0x00,0x06 };
+                byte[] address = new byte[7];
+                address[0] = (byte)Convert.ToInt32(btAddress.Substring(10, 2),16);
+                address[1] = (byte)Convert.ToInt32(btAddress.Substring(8, 2), 16);
+                address[2] = (byte)Convert.ToInt32(btAddress.Substring(6, 2), 16);
+                address[3] = (byte)Convert.ToInt32(btAddress.Substring(4, 2), 16);
+                address[4] = (byte)Convert.ToInt32(btAddress.Substring(2, 2), 16);
+                address[5] = (byte)Convert.ToInt32(btAddress.Substring(0, 2), 16);
+                address[6] = 0xaa;
+                byte[] total = new byte[12];
+                cmd.CopyTo(total, 0);
+                address.CopyTo(total, 5);
+                byte[] values = Serial.VisaQuery(total);
+                if (values[0] == 0x53)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_WriteBTName(TestData data)
+        {
+            try
+            {
+                //4C 43 10 01 AA
+                //48 53 21 01 06 E0 9D FA 12 34 56 AA
+                string btName = data.LowLimit;
+                byte[] cmd = { 0x4c, 0x43, 0x20, 0x00, (byte)btName.Length };
+                byte[] name = Encoding.ASCII.GetBytes(btName);
+                byte[] total = new byte[cmd.Length + name.Length + 1];
+
+                cmd.CopyTo(total, 0);
+                name.CopyTo(total, 5);
+                total[total.Length - 1] = 0xaa;
+                byte[] values = Serial.VisaQuery(total);
+                if (values[0] == 0x53)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_ReadBTName(TestData data)
+        {
+            try
+            {
+                //4C 43 10 01 AA
+                byte[] cmd = { 0x4c, 0x43, 0x20, 0x01, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    string btaddress = Encoding.ASCII.GetString(values.Skip(4)
+                        .Take(values[3]).ToArray());
+                    if (btaddress.Equals(data.LowLimit))
+                    {
+                        data.Value = btaddress;
+                        data.Result = "Pass";
+                    }
+                    else
+                    {
+                        data.Value = btaddress;
+                        data.Result = "Fail";
+                    }
+
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_Reset(TestData data)
+        {
+            try
+            {
+                //4C 43 15  01 AA
+                byte[] cmd = { 0x4c, 0x43, 0x14, 0x01, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_ShutDown(TestData data)
+        {
+            try
+            {
+                //4C 43 15  01 AA
+                byte[] cmd = { 0x4c, 0x43, 0x15, 0x01, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_CloseLog(TestData data)
+        {
+            try
+            {
+                //4C 43 15  01 AA
+                byte[] cmd = { 0x4c, 0x43, 0x19, 0x01, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                //if (values[0] == 0x53)
+                //{
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                //}
+                //else
+                //{
+                //    data.Value = "Fail";
+                //    data.Result = "Fail";
+                //}
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_04cCharge(TestData data)
+        {
+            try
+            {
+                //4C 43 50 00 AA
+                byte[] cmd = { 0x4c, 0x43, 0x50, 0x00, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                //if (values[0] == 0x53)
+                //{
+                data.Value = "Pass";
+                data.Result = "Pass";
+                //}
+                //else
+                //{
+                //    data.Value = "Fail";
+                //    data.Result = "Fail";
+                //}
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_1cCharge(TestData data)
+        {
+            try
+            {
+                //4C 43 50 01 AA
+                byte[] cmd = { 0x4c, 0x43, 0x50, 0x01, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                //if (values[0] == 0x53)
+                //{
+                data.Value = "Pass";
+                data.Result = "Pass";
+                //}
+                //else
+                //{
+                //    data.Value = "Fail";
+                //    data.Result = "Fail";
+                //}
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_TalkMic(TestData data)
+        {
+            try
+            {
+                //4C 43 50 01 AA
+                //4C 43 11 01 AA
+                byte[] cmd = { 0x4c, 0x43, 0x11, 0x01, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    data.Value = "Pass";
+                data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_FFMIC(TestData data)
+        {
+            try
+            {
+                //4C 43 11 03 AA
+                byte[] cmd = { 0x4c, 0x43, 0x11, 0x02, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData BES_Lchse_TWS_FBMIC(TestData data)
+        {
+            try
+            {
+                //4C 43 11 03 AA
+                byte[] cmd = { 0x4c, 0x43, 0x11, 0x03, 0xaa };
+                byte[] values = Serial.VisaQuery(cmd);
+                if (values[0] == 0x53)
+                {
+                    data.Value = "Pass";
+                    data.Result = "Pass";
+                }
+                else
+                {
+                    data.Value = "Fail";
+                    data.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
         public string BES_ReadBTAddress()
         {
             string address = string.Empty;
@@ -3543,6 +4276,49 @@ namespace TestDAL
                 Serial.ClosedPort();
             }
             return status;
+        }
+
+        public bool BES_Lchse_WriteTrim(byte trim)
+        {
+            bool status = false; ;
+            try
+            {
+                byte[] bytes = { 0x4c, 0x43, 0x22, 0x00, 0x01, trim ,0xaa};
+                byte[] values = Serial.VisaQuery(bytes);
+
+                if (values[0] == 0x53)
+                {
+                    status = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Serial.ClosedPort();
+            }
+            return status;
+        }
+
+        public int BES_Lchse_ReadTrim()
+        {
+            int trim = 0; 
+            try
+            {
+                //4C 43 22 01 AA
+                byte[] bytes = { 0x4c, 0x43, 0x22, 0x01,0xaa };
+                byte[] values = Serial.VisaQuery(bytes);
+
+                if (values[0] == 0x53)
+                {
+                    trim = values[4];
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Serial.ClosedPort();
+            }
+            return trim;
         }
 
         public void SetVolume()

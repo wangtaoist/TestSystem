@@ -338,6 +338,7 @@
             this.lst_Test_selectFunction.ForeColor = System.Drawing.Color.Blue;
             this.lst_Test_selectFunction.FullRowSelect = true;
             this.lst_Test_selectFunction.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lst_Test_selectFunction.HideSelection = false;
             this.lst_Test_selectFunction.Location = new System.Drawing.Point(5, 4);
             this.lst_Test_selectFunction.MultiSelect = false;
             this.lst_Test_selectFunction.Name = "lst_Test_selectFunction";
@@ -370,6 +371,7 @@
             this.lv_FailItems.ForeColor = System.Drawing.Color.Blue;
             this.lv_FailItems.FullRowSelect = true;
             this.lv_FailItems.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lv_FailItems.HideSelection = false;
             this.lv_FailItems.Location = new System.Drawing.Point(6, 5);
             this.lv_FailItems.MultiSelect = false;
             this.lv_FailItems.Name = "lv_FailItems";
@@ -491,6 +493,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.bt_Save);
             this.Controls.Add(this.gb_FunctionItem);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "ItemConfig";

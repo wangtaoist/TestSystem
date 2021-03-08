@@ -175,10 +175,6 @@ namespace TestDAL
 
             //if (data.IC)
             //{
-            instrument.VisaWrite(string.Format("ICCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
-            instrument.VisaWrite(string.Format("ICCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
-            instrument.VisaWrite(string.Format("ICCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
-            instrument.VisaWrite("ICCFG 3,HOPMODE, ANY");
             instrument.VisaWrite("ICCFG 3,NUMPKTS,10");
             instrument.VisaWrite("ICCFG 3,HOPPING,HOPOFF");
             //}
@@ -437,6 +433,16 @@ namespace TestDAL
             return csr.EnableTestMode(item);
         }
 
+        public TestData QCC_StartAudioLoop(TestData item)
+        {
+            return csr.StartAudioLoop(item);
+        }
+
+        public TestData QCC_StopAudioLoop(TestData item)
+        {
+            return csr.StopAudioLoop(item);
+        }
+
         public TestData OpenCsrDev(TestData item)
         {
             csr = new CsrOperate();
@@ -532,13 +538,13 @@ namespace TestDAL
             instrument.VisaWrite(string.Format("SYSCFG INQSET,TIMEOUT,{0}", data.Inquiry_TimeOut));
             //INQUIRY   INQRSP?
             instrument.VisaWrite("INQUIRY");
-            
+
             //instrument.VisaWrite("CONNECT");
             string btAddress = string.Empty;
             bool page = false;
             queue.Enqueue("呼叫开始");
             instrument.Cls();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 30; i++)
             {
                 string ret = instrument.VisaQuery("INQRSP?");
                 //instrument.Cls();
@@ -551,29 +557,29 @@ namespace TestDAL
                     page = true;
                     break;
                 }
-                else if (ret.StartsWith("0") && (i == 30 || i == 60))
-                {
-                    queue.Enqueue("再次呼叫中......");
-                    //INQCANCEL
-                    //instrument.VisaWrite("INQCANCEL");
-                    InitInstr();
-                    Thread.Sleep(1000);
-                    instrument.VisaWrite("DISCONNECT");
-                    instrument.VisaWrite("SYSCFG EUTSRCE,INQUIR");
-                    //instrument.VisaWrite("SYSCFG INQSET,RNUM,12");
-                    instrument.VisaWrite(string.Format("SYSCFG INQSET,TIMEOUT,{0}", data.Inquiry_TimeOut));
-                    //INQUIRY   INQRSP?
-                    instrument.VisaWrite("INQUIRY");
-                    //instrument.VisaWrite("INQUIRY");
-                }
-                if (i == 99 && !(ret.StartsWith("1")))
+                //else if (ret.StartsWith("0") && (i == 20 || i == 40))
+                //{
+                //    queue.Enqueue("再次呼叫中......");
+                //    //INQCANCEL
+                //    //instrument.VisaWrite("INQCANCEL");
+                //    InitInstr();
+                //    Thread.Sleep(1000);
+                //    instrument.VisaWrite("DISCONNECT");
+                //    instrument.VisaWrite("SYSCFG EUTSRCE,INQUIR");
+                //    //instrument.VisaWrite("SYSCFG INQSET,RNUM,12");
+                //    instrument.VisaWrite(string.Format("SYSCFG INQSET,TIMEOUT,{0}", data.Inquiry_TimeOut));
+                //    //INQUIRY   INQRSP?
+                //    instrument.VisaWrite("INQUIRY");
+                //    //instrument.VisaWrite("INQUIRY");
+                //}
+                if (i == 29 && !(ret.StartsWith("1")))
                 {
                     item.Result = "Fail";
                     item.Value = "Fail";
                     queue.Enqueue("呼叫超时，请检查耳机");
                     instrument.VisaWrite("INQCANCEL");
                 }
-                Thread.Sleep(200);
+                Thread.Sleep(250);
             }
             //SYSCFG EUTSRCE, MANUAL
             //SYSCFG EUTADDR, E09DFA349168,
@@ -586,7 +592,7 @@ namespace TestDAL
                 queue.Enqueue("连接中");
                 instrument.Cls();
                 bool connStatus = false;
-                for (int j = 0; j < 100; j++)
+                for (int j = 0; j < 30; j++)
                 {
                     string conn = instrument.VisaQuery("STATUS").Substring(6, 1);
                     if (conn == "1")
@@ -595,20 +601,20 @@ namespace TestDAL
                         queue.Enqueue("连接成功");
                         break;
                     }
-                    else if (conn == "0" && (j  == 25))
-                    {
-                        queue.Enqueue("再次连接中......");
-                        instrument.VisaWrite("CONNECT");
-                    }
+                    //else if (conn == "0" && (j == 25))
+                    //{
+                    //    queue.Enqueue("再次连接中......");
+                    //    instrument.VisaWrite("CONNECT");
+                    //}
 
-                    if (j == 99 && connStatus != true)
+                    if (j == 29 && connStatus != true)
                     {
                         item.Result = "Fail";
                         item.Value = "Fail";
                         queue.Enqueue("连接超时，请检查耳机");
                         connStatus = false;
                     }
-                    Thread.Sleep(200);
+                    Thread.Sleep(250);
                 }
                 if (connStatus)
                 {
@@ -674,14 +680,14 @@ namespace TestDAL
                         val = instrument.VisaQuery("*INS?");
                         //instrument.Cls();
                         //queue.Enqueue(val);
-                        if (val == "45")
+                        if (val == "45" || val == "13")
                         {
                             item.Result = "Pass";
                             item.Value = "Pass";
                             queue.Enqueue("Script 运行完成");
                             break;
                         }
-                        else if (val == "41")
+                        else if (val == "41" || val == "9")
                         {
                             queue.Enqueue("连接耳机成功，测试中");
                         }
@@ -719,7 +725,7 @@ namespace TestDAL
         public TestData Run_MT8852_CalcFreqScript(TestData item)
         {
             Set8852();
-            instrument.VisaWrite("DISCONNECT");
+            //instrument.VisaWrite("DISCONNECT");
             instrument.VisaWrite("SYSCFG EUTSRCE,INQUIR");
             //instrument.VisaWrite("SYSCFG INQSET,RNUM,12");
             instrument.VisaWrite(string.Format("SYSCFG INQSET,TIMEOUT,{0}", data.Inquiry_TimeOut));
@@ -807,64 +813,16 @@ namespace TestDAL
                     string val = "";
                     for (int i = 0; i < 100; i++)
                     {
-                        #region
-                        //0003OP1A0200002
-                        //string error = instrument.VisaQuery("STATUS");
-                        //instrument.Cls();
-                        //queue.Enqueue(error);
-                        //bool connect = error.Substring(6, 1) != "0";
-                        //string model = error.Substring(4, 2);
-                        //queue.Enqueue(error);
-                        //switch (model)
-                        //{
-                        //    case "OP":
-                        //        {
-                        //            queue.Enqueue("输出功率测试中");
-                        //            break;
-                        //        }
-                        //    case "SS":
-                        //        {
-                        //            queue.Enqueue("BER测试中");
-                        //            break;
-                        //        }
-                        //    case "MI":
-                        //        {
-                        //            queue.Enqueue("调制指数测试中");
-                        //            break;
-                        //        }
-                        //    case "IC":
-                        //        {
-                        //            queue.Enqueue("初始载波测试中");
-                        //            break;
-                        //        }
-                        //    case "CD":
-                        //        {
-                        //            queue.Enqueue("载波偏移测试中");
-                        //            break;
-                        //        }
-                        //}
-
-                        //if(connect)
-                        //{
-                        //    queue.Enqueue( "连接耳机成功，测试中" );
-                        //}
-                        //else
-                        //{
-                        //    item.Result = "Fail";
-                        //    item.Value = "Fail";
-                        //    queue.Enqueue("测试中耳机退出TestMode，请重新进入");
-                        //    queue.Enqueue("连接耳机失败");
-                        //    //break;
-                        //}
-                        #endregion
                         val = instrument.VisaQuery("*INS?");
                         //instrument.Cls();
                         //queue.Enqueue(val);
-                        if (val == "45")
+                        if (val == "45" || val == "13")
                         {
                             item.Result = "Pass";
                             item.Value = "Pass";
                             queue.Enqueue("Script 运行完成");
+                            instrument.VisaWrite("DISCONNECT");
+                            //instrument.Rst();
                             break;
                         }
                         else if (val == "41")
@@ -1303,6 +1261,23 @@ namespace TestDAL
             {
                 item.Value = address;
                 item.Result = "Pass";
+            }
+            return item;
+        }
+
+        public TestData GetBTName(TestData item)
+        {
+            instrument.Cls();
+            string address = instrument.VisaQuery("SYSCFG? EUTNAME");
+            if(item.LowLimit.Equals(address))
+            {
+                item.Value = address;
+                item.Result = "Pass";
+            }
+            else
+            {
+                item.Value = address;
+                item.Result = "Fail";
             }
             return item;
         }
@@ -2366,6 +2341,224 @@ namespace TestDAL
         }
 
         public TestData K2300Series_Closed(TestData item)
+        {
+            try
+            {
+                PowerInst.Closed();
+                //InitPower();
+                item.Result = "Pass";
+                item.Value = "Pass";
+                queue.Enqueue("关闭电源供应器成功");
+            }
+            catch (Exception ex)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+            }
+            return item;
+        }
+
+        public TestData K2303Series_Open(TestData item)
+        {
+            try
+            {
+                PowerInst.OpenVisa(data.PowerPort);
+                InitPower();
+                item.Result = "Pass";
+                item.Value = "Pass";
+                queue.Enqueue("打开电源供应器成功");
+            }
+            catch (Exception ex)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+            }
+            return item;
+        }
+
+        public TestData K2303Series_ChannelOne_OutPut(TestData item)
+        {
+            try
+            {
+                //PowerInst.OpenVisa(data.PowerPort);
+                //InitPower();
+                PowerInst.VisaWrite(string.Format(":SENSe:CURRent:DC:RANGe:AUTO ON"));
+                PowerInst.VisaWrite(string.Format(":SOUR:VOLT:LEVel {0}"
+               , data.Voltage1));
+                PowerInst.VisaWrite(string.Format(":SOUR:CURRent:LIMit:VALue  {0}"
+             , data.Current));
+                PowerInst.VisaWrite(":OUTPut:STAT ON");
+                item.Result = "Pass";
+                item.Value = "Pass";
+                queue.Enqueue("通道1输出电压");
+            }
+            catch (Exception ex)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+                PowerInst.Rst();
+            }
+            return item;
+        }
+
+        public TestData K2303Series_ChannelOne_OverVoltage(TestData item)
+        {
+            try
+            {
+                //PowerInst.OpenVisa(data.PowerPort);
+                //InitPower();
+                PowerInst.VisaWrite(string.Format(":SENSe:CURRent:DC:RANGe:AUTO ON"));
+                PowerInst.VisaWrite(string.Format(":SOUR:VOLT:LEVel {0}"
+               , item.LowLimit));
+                PowerInst.VisaWrite(string.Format(":SOUR:CURRent:LIMit:VALue  {0}"
+             , data.Current));
+                PowerInst.VisaWrite(":OUTPut:STAT ON");
+                item.Result = "Pass";
+                item.Value = "Pass";
+                queue.Enqueue("通道1输出电压");
+            }
+            catch (Exception ex)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+                PowerInst.Rst();
+            }
+            return item;
+        }
+
+        public TestData K2303Series_ChannelOne_ReadVoltage(TestData item)
+        {
+            try
+            {
+                //PowerInst.OpenVisa(data.PowerPort);
+                //InitPower();
+                double voltage = double.Parse(PowerInst.VisaQuery(":MEASure:VOLTage:DC?"));
+                if (item.Unit.ToUpper() == "MV")
+                {
+                    voltage *= 1000;
+                    voltage += double.Parse(item.FillValue);
+                }
+                if (voltage <= double.Parse(item.UppLimit)
+                    && voltage >= double.Parse(item.LowLimit))
+                {
+                    item.Result = "Pass";
+                    item.Value = voltage.ToString();
+                }
+                else
+                {
+                    item.Result = "Fail";
+                    item.Value = voltage.ToString();
+                    //if (item.Check)
+                    //{
+                    //    PowerInst.Rst();
+                    //    PowerInst.Closed();
+                    //}
+                }
+            }
+            catch (Exception ex)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+                if (item.Check)
+                {
+                    PowerInst.Rst();
+                    PowerInst.Closed();
+                }
+            }
+            return item;
+        }
+
+        public TestData K2303Series_ChannelOne_ReadCurrent(TestData item)
+        {
+            try
+            {
+                //PowerInst.OpenVisa(data.PowerPort);
+                //InitPower();
+                List<double> lists = new List<double>();
+                double multiple = 1;
+                if (item.Unit.ToUpper() == "UA")
+                {
+                    multiple = 1000000;
+                    //PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe {0}"
+                    //    , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
+                }
+                else if (item.Unit.ToUpper() == "MA")
+                {
+                    multiple = 1000;
+                    //PowerInst.VisaWrite(string.Format(":SENSe1:CURRent:DC:RANGe {0}"
+                    //   , double.Parse(item.UppLimit) * 2 / multiple, item.Unit));
+                }
+                else
+                {
+                    multiple = 1;
+                }
+
+                for (int i = 0; i < 5; i++)
+                {
+                    Thread.Sleep(200);
+                    lists.Add(double.Parse(PowerInst.VisaQuery(":MEASure:CURRent:DC?")));
+                }
+                lists.Remove(lists.Max());
+                lists.Remove(lists.Min());
+                double current = (lists.Average() * multiple)
+                    + double.Parse(item.FillValue);
+
+                if (current <= double.Parse(item.UppLimit)
+                   && current >= double.Parse(item.LowLimit))
+                {
+                    item.Result = "Pass";
+                    item.Value = Math.Round(current, 3).ToString();
+                }
+                else
+                {
+                    item.Result = "Fail";
+                    item.Value = Math.Round(current, 3).ToString();
+                    //if (item.Check)
+                    //{
+                    //    PowerInst.Rst();
+                    //    PowerInst.Closed();
+                    //}
+                }
+            }
+            catch (Exception ex)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+                if (item.Check)
+                {
+                    PowerInst.Rst();
+                    PowerInst.Closed();
+                }
+            }
+            return item;
+        }
+
+        public TestData K2303Series_ChannelOne_StopOut(TestData item)
+        {
+            try
+            {
+                //PowerInst.OpenVisa(data.PowerPort);
+                //InitPower();
+                //PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}", 0));
+                PowerInst.VisaWrite(":OUTPut:STAT OFF");
+                item.Result = "Pass";
+                item.Value = "Pass";
+                queue.Enqueue("通道1关闭输出");
+            }
+            catch (Exception ex)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+                //if (item.Check)
+                //{
+                //    PowerInst.Rst();
+                //    PowerInst.Closed();
+                //}
+            }
+            return item;
+        }
+
+        public TestData K2303Series_Closed(TestData item)
         {
             try
             {

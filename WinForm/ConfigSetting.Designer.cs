@@ -109,6 +109,7 @@
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.label23 = new System.Windows.Forms.Label();
             this.cb_FixAuto = new System.Windows.Forms.CheckBox();
+            this.cb_FixPort = new System.Windows.Forms.ComboBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.bt_Clear = new System.Windows.Forms.Button();
             this.tb_PlugNumber = new System.Windows.Forms.TextBox();
@@ -141,7 +142,7 @@
             this.cb_Parallel = new System.Windows.Forms.CheckBox();
             this.cb_Table = new System.Windows.Forms.CheckBox();
             this.cb_oneToTwoEnable = new System.Windows.Forms.CheckBox();
-            this.cb_FixPort = new System.Windows.Forms.ComboBox();
+            this.bt_refresh = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -195,6 +196,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.bt_refresh);
             this.groupBox2.Controls.Add(this.cb_Relay);
             this.groupBox2.Controls.Add(this.label29);
             this.groupBox2.Controls.Add(this.cb_4010);
@@ -219,7 +221,7 @@
             // cb_Relay
             // 
             this.cb_Relay.FormattingEnabled = true;
-            this.cb_Relay.Location = new System.Drawing.Point(327, 52);
+            this.cb_Relay.Location = new System.Drawing.Point(322, 52);
             this.cb_Relay.Name = "cb_Relay";
             this.cb_Relay.Size = new System.Drawing.Size(99, 20);
             this.cb_Relay.TabIndex = 1;
@@ -227,7 +229,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(282, 55);
+            this.label29.Location = new System.Drawing.Point(279, 55);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(41, 12);
             this.label29.TabIndex = 0;
@@ -236,7 +238,7 @@
             // cb_4010
             // 
             this.cb_4010.FormattingEnabled = true;
-            this.cb_4010.Location = new System.Drawing.Point(176, 52);
+            this.cb_4010.Location = new System.Drawing.Point(173, 52);
             this.cb_4010.Name = "cb_4010";
             this.cb_4010.Size = new System.Drawing.Size(99, 20);
             this.cb_4010.TabIndex = 1;
@@ -244,7 +246,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(145, 55);
+            this.label27.Location = new System.Drawing.Point(142, 55);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(29, 12);
             this.label27.TabIndex = 0;
@@ -261,7 +263,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(5, 55);
+            this.label24.Location = new System.Drawing.Point(7, 55);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(23, 12);
             this.label24.TabIndex = 0;
@@ -931,6 +933,14 @@
             this.cb_FixAuto.Text = "自动";
             this.cb_FixAuto.UseVisualStyleBackColor = true;
             // 
+            // cb_FixPort
+            // 
+            this.cb_FixPort.FormattingEnabled = true;
+            this.cb_FixPort.Location = new System.Drawing.Point(127, 27);
+            this.cb_FixPort.Name = "cb_FixPort";
+            this.cb_FixPort.Size = new System.Drawing.Size(71, 20);
+            this.cb_FixPort.TabIndex = 1;
+            // 
             // groupBox12
             // 
             this.groupBox12.Controls.Add(this.bt_Clear);
@@ -1272,23 +1282,25 @@
             this.cb_oneToTwoEnable.UseVisualStyleBackColor = true;
             this.cb_oneToTwoEnable.CheckedChanged += new System.EventHandler(this.cb_oneToTwoEnable_CheckedChanged);
             // 
-            // cb_FixPort
+            // bt_refresh
             // 
-            this.cb_FixPort.FormattingEnabled = true;
-            this.cb_FixPort.Location = new System.Drawing.Point(127, 27);
-            this.cb_FixPort.Name = "cb_FixPort";
-            this.cb_FixPort.Size = new System.Drawing.Size(71, 20);
-            this.cb_FixPort.TabIndex = 1;
+            this.bt_refresh.Location = new System.Drawing.Point(427, 49);
+            this.bt_refresh.Name = "bt_refresh";
+            this.bt_refresh.Size = new System.Drawing.Size(72, 23);
+            this.bt_refresh.TabIndex = 2;
+            this.bt_refresh.Text = "刷新端口";
+            this.bt_refresh.UseVisualStyleBackColor = true;
+            this.bt_refresh.Click += new System.EventHandler(this.bt_refresh_Click);
             // 
             // ConfigSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(543, 533);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.bt_Save);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "ConfigSetting";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1454,5 +1466,6 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.ComboBox cb_FixPort;
+        private System.Windows.Forms.Button bt_refresh;
     }
 }

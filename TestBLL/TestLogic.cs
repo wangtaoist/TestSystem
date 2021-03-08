@@ -26,6 +26,7 @@ namespace TestBLL
         private CsrOperate csr;
         private OperateBES operateBES;
         private OperateRelay operateRelay;
+        private OperateMicroChip operateMicroChip;
         public string BTAddress;
         public string PorductSN;
         public string BattarySN;
@@ -33,6 +34,7 @@ namespace TestBLL
         private OperateLED operateLED;
         public SerialPort FixPort;
         public string PackSN;
+        public OperatrAiroha operatrAiroha;
 
         public TestLogic(Queue<string> queue, string path,Queue<string> statusQueue)
         {
@@ -50,7 +52,9 @@ namespace TestBLL
             operateBES.dataBase = dataBase;
             //operateBES.BES_WriteSN(new TestData());
             //}
-             
+
+            operateMicroChip = new OperateMicroChip(config);
+            operatrAiroha = new OperatrAiroha(config);
             operate = new OperateInstrument(config, testQueue);
             if(config.AudioEnable)
             {
@@ -163,6 +167,16 @@ namespace TestBLL
                         data = operate.QCC_EnableTestMode(data);
                         break;
                     }
+                case "QCC_StartAudioLoop":
+                    {
+                        data = operate.QCC_StartAudioLoop(data);
+                        break;
+                    }
+                case "QCC_StopAudioLoop":
+                    {
+                        data = operate.QCC_StopAudioLoop(data);
+                        break;
+                    }
                 case "QCC_Cloesd_Port":
                     {
                         data = operate.QCC_Closed_Port(data);
@@ -256,10 +270,62 @@ namespace TestBLL
                         //data = operate.Run_MT8852_CalcFreqScript(data);
                         break;
                     }
-                
+
+                case "Run_MT8852_Lchse_CalcFreqScript":
+                    {
+                        byte sampTrim = 0x3f;
+                        TestData calData = null;
+                        operateBES.BES_Lchse_WriteTrim(sampTrim);
+                        for (int i = 0; i < 10; i++)
+                        {
+                            if (operate.Run_MT8852_CalcFreqScript(data).Result == "Pass")
+                            {
+                                calData = operate.GetInitialcarrier(data);
+                                testQueue.Enqueue("频率偏移:" + calData.Value);
+                                if (calData.Result == "Pass")
+                                {
+                                    data.Result = "Pass";
+                                    data.Value = calData.Value;
+                                    operate.InitInstr();
+                                    break;
+                                }
+                                else
+                                {
+                                    int freqOff = (int)double.Parse(calData.Value) * 2;
+                                   // int tr = operateBES.BES_Lchse_ReadTrim();
+                                    byte trim = (byte)(sampTrim -
+                                        Convert.ToByte(Math.Abs(freqOff)));
+                                    testQueue.Enqueue("写入Trim:" + trim);
+                                    //Thread.Sleep(500);
+                                    operateBES.BES_Lchse_WriteTrim(trim);
+                                    sampTrim = trim;
+                                }
+                                Thread.Sleep(1000);
+                                if (i == 4)
+                                {
+                                    data.Result = "Fail";
+                                    data.Value = calData.Value;
+                                }
+                            }
+                            else
+                            {
+                                data.Result = "Fail";
+                                data.Value = "Fail";
+                                break;
+                            }
+                        }
+                        //data = operate.Run_MT8852_CalcFreqScript(data);
+                        break;
+                    }
+
                 case "MT8852_Read_BD_Address":
                     {
                         data = operate.GetBTAddress(data);
+                        break;
+                    }
+                case "MT8852_Read_BD_Name":
+                    {
+                        data = operate.GetBTName(data);
                         break;
                     }
                 case "MT8852_Compare_BD_Address":
@@ -450,6 +516,43 @@ namespace TestBLL
                         data = operate.K2300Series_Closed(data);
                         break;
                     }
+
+                case "K2303Series_Open":
+                    {
+                        data = operate.K2303Series_Open(data);
+                        break;
+                    }
+                case "K2303Series_ChannelOne_OutPut":
+                    {
+                        data = operate.K2303Series_ChannelOne_OutPut(data);
+                        break;
+                    }
+                case "K2303Series_ChannelOne_OverVoltage":
+                    {
+                        data = operate.K2303Series_ChannelOne_OverVoltage(data);
+                        break;
+                    }
+                case "K2303Series_ChannelOne_ReadVoltage":
+                    {
+                        data = operate.K2303Series_ChannelOne_ReadVoltage(data);
+                        break;
+                    }
+                case "K2303Series_ChannelOne_ReadCurrent":
+                    {
+                        data = operate.K2303Series_ChannelOne_ReadCurrent(data);
+                        break;
+                    }
+                case "K2303Series_ChannelOne_StopOut":
+                    {
+                        data = operate.K2303Series_ChannelOne_StopOut(data);
+                        break;
+                    }
+                case "K2303Series_Closed":
+                    {
+                        data = operate.K2303Series_Closed(data);
+                        break;
+                    }
+
                 case "HP66319D_Open":
                     {
                         data = operate.HP66319D_Open(data);
@@ -709,6 +812,18 @@ namespace TestBLL
                         data = operateBES.BES_ReadTestStation(data);
                         break;
                     }
+                case "BES_ReadPackSN":
+                    {
+                        operateBES.PackSN = PackSN;
+                        data = operateBES.BES_ReadPackSN(data);
+                        break;
+                    }
+                case "BES_WritePackSN":
+                    {
+                        operateBES.PackSN = PackSN;
+                        data = operateBES.BES_WritePackSN(data);
+                        break;
+                    }
                 case "BES_WriteSN":
                     {
                         operateBES.btAddress = BTAddress;
@@ -723,6 +838,7 @@ namespace TestBLL
                     }
                 case "BES_WriteBTAddress":
                     {
+                        operateBES.btAddress = BTAddress;
                         data = operateBES.BES_WriteBTAddress(data);
                         break;
                     }
@@ -953,6 +1069,150 @@ namespace TestBLL
                         data = operateBES.BES_TWS_FFMic(data);
                         break;
                     }
+                case "BES_TWS_ClearAll":
+                    {
+                        data = operateBES.BES_TWS_ClearAll(data);
+                        break;
+                    }
+                case "BES_TWS_AodioLoop":
+                    {
+                        data = operateBES.BES_TWS_AodioLoop(data);
+                        break;
+                    }
+                case "BES_TWS_ComparePairName":
+                    {
+                        data = operateBES.BES_TWS_ComparePairName(data);
+                        break;
+                    }
+
+                case "BES_Lchse_TWS_EnterDUT":
+                    {
+                        data = operateBES.BES_Lchse_TWS_EnterDUT(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_ReadSoftVersion":
+                    {
+                        data = operateBES.BES_Lchse_TWS_ReadSoftVersion(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_ReadHWVersion":
+                    {
+                        data = operateBES.BES_Lchse_TWS_ReadHWVersion(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_ReadVoltage":
+                    {
+                        data = operateBES.BES_Lchse_TWS_ReadVoltage(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_ReadElectricity":
+                    {
+                        data = operateBES.BES_Lchse_TWS_ReadElectricity(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_ReadBTAddress":
+                    {
+                        data = operateBES.BES_Lchse_TWS_ReadBTAddress(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_WriteBTAddress":
+                    {
+                        operateBES.btAddress = BTAddress;
+                        data = operateBES.BES_Lchse_TWS_WriteBTAddress(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_WriteBTName":
+                    {
+                        //operateBES.btAddress = BTAddress;
+                        data = operateBES.BES_Lchse_TWS_WriteBTName(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_ReadBTName":
+                    {
+                        data = operateBES.BES_Lchse_TWS_ReadBTName(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_ShutDown":
+                    {
+                        data = operateBES.BES_Lchse_TWS_ShutDown(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_Reset":
+                    {
+                        data = operateBES.BES_Lchse_TWS_Reset(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_CloseLog":
+                    {
+                        data = operateBES.BES_Lchse_TWS_CloseLog(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_04cCharge":
+                    {
+                        data = operateBES.BES_Lchse_TWS_04cCharge(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_1cCharge":
+                    {
+                        data = operateBES.BES_Lchse_TWS_1cCharge(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_TalkMic":
+                    {
+                        data = operateBES.BES_Lchse_TWS_TalkMic(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_FFMIC":
+                    {
+                        data = operateBES.BES_Lchse_TWS_FFMIC(data);
+                        break;
+                    }
+                case "BES_Lchse_TWS_FBMIC":
+                    {
+                        data = operateBES.BES_Lchse_TWS_FBMIC(data);
+                        break;
+                    }
+                case "OpenMicroChipPort":
+                    {
+                        data = operateMicroChip.OpenMicroChipPort(data);
+                        break;
+                    }
+                case "ClosedMicroChipPort":
+                    {
+                        data = operateMicroChip.ClosedMicroChipPort(data);
+                        break;
+                    }
+                case "MicroChipReadBTAddress":
+                    {
+                        data = operateMicroChip.MicroChipReadBTAddress(data);
+                        break;
+                    }
+                case "MicroChipReadNTC":
+                    {
+                        data = operateMicroChip.MicroChipReadNTC(data);
+                        break;
+                    }
+                case "MicroChipReadVoltage":
+                    {
+                        data = operateMicroChip.MicroChipReadVoltage(data);
+                        break;
+                    }
+                case "MicroChipReadTone":
+                    {
+                        data = operateMicroChip.MicroChipReadTone(data);
+                        break;
+                    }
+                case "MicroChipReadSoftVersion":
+                    {
+                        data = operateMicroChip.MicroChipReadSoftVersion(data);
+                        break;
+                    }
+                case "MicroChipEntenDUT":
+                    {
+                        data = operateMicroChip.MicroChipEntenDUT(data);
+                        break;
+                    }
+
                 case "SwitchToA2dp":
                     {
                         data = Audio.SwitchToA2dp(data);
@@ -1092,6 +1352,57 @@ namespace TestBLL
                 case "ClosedRelay":
                     {
                         data = operateRelay.ClosedRelay(data);
+                        break;
+                    }
+
+                case "OpenAirohaPort":
+                    {
+                        data = operatrAiroha.OpenAirohaPort(data);
+                        break;
+                    }
+                case "AirohaClosedLog":
+                    {
+                        data = operatrAiroha.AirohaClosedLog(data);
+                        break;
+                    }
+                case "AirohaReadBtAddress":
+                    {
+                        data = operatrAiroha.AirohaReadBtAddress(data);
+                        break;
+                    }
+                case "AirohaReadBtName":
+                    {
+                        data = operatrAiroha.AirohaReadBtName(data);
+                        break;
+                    }
+                case "AirohaReadSoftVersion":
+                    {
+                        data = operatrAiroha.AirohaReadSoftVersion(data);
+                        break;
+                    }
+                case "AirohaEnterDUT":
+                    {
+                        data = operatrAiroha.AirohaEnterDUT(data);
+                        break;
+                    }
+                case "AirohaMainMic":
+                    {
+                        data = operatrAiroha.AirohaMainMic(data);
+                        break;
+                    }
+                case "AirohaPowerOff":
+                    {
+                        data = operatrAiroha.AirohaPowerOff(data);
+                        break;
+                    }
+                case "AirohaFFMic":
+                    {
+                        data = operatrAiroha.AirohaFFMic(data);
+                        break;
+                    }
+                case "AirohaClosePort":
+                    {
+                        data = operatrAiroha.AirohaClosePort(data);
                         break;
                     }
                 case "TouchTest":

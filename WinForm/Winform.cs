@@ -87,8 +87,9 @@ namespace WinForm
             dgv_Data.ClearSelection();
             lb_Message.Items.Clear();
 
+            this.Resize += Winform_Resize;
             this.WindowState = FormWindowState.Maximized;
-            //Winform_Resize(null, null);
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(testLogic.InitTestPort));
             ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
             ThreadPool.QueueUserWorkItem(new WaitCallback(ShowStatus));
@@ -190,6 +191,7 @@ namespace WinForm
         {
             try
             {
+                testLogic.PackSN = tb_SN.Text;
                 ClsTestValue();
                 Thread.Sleep(500);
                 label_TestResult.Text = "Test";
@@ -267,6 +269,9 @@ namespace WinForm
                 testFlag = false;
                 stopwatch.Stop();
                 tb_SN.Text = "";
+
+                ThreadPool.QueueUserWorkItem(new WaitCallback(TestFailProcess));
+
                 tb_SN.Invoke(new Action(() =>
                 {
                     tb_SN.Select();
@@ -435,7 +440,10 @@ namespace WinForm
 
             if (dgv_Data.Rows.Count > 0)
             {
-                dgv_Data.FirstDisplayedScrollingRowIndex = index;
+                if (index != 0 && index <= 10)
+                {
+                    dgv_Data.FirstDisplayedScrollingRowIndex = index;
+                }
             }
         }
 
@@ -477,8 +485,14 @@ namespace WinForm
                     focusFlag = true;
                     ThreadPool.QueueUserWorkItem(new WaitCallback(FocusTextBox));
                 }
-            
-            dgv_Data.FirstDisplayedScrollingRowIndex = index;
+
+            if (dgv_Data.Rows.Count > 0)
+            {
+                if (index != 0 && index <= 10)
+                {
+                    dgv_Data.FirstDisplayedScrollingRowIndex = index;
+                }
+            }
         }
 
         public void ShowStatus(object obj)
@@ -685,9 +699,18 @@ namespace WinForm
                     label_TestResult.BackColor = Color.LightSteelBlue;
                     Winform_Load(null, null);
                 }
+                else
+                {
+                    focusFlag = true;
+                    queueFlag = true;
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(ShowStatus));
+                }
             }
             else
             {
+                focusFlag = true;
+                queueFlag = true;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ShowStatus));
             }
@@ -714,9 +737,18 @@ namespace WinForm
                     label_TestResult.BackColor = Color.LightSteelBlue;
                     Winform_Load(null, null);
                 }
+                else
+                {
+                    focusFlag = true;
+                    queueFlag = true;
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(ShowStatus));
+                }
             }
             else
             {
+                focusFlag = true;
+                queueFlag = true;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ShowTestMessage));
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ShowStatus));
             }

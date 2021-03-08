@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Winform));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -220,16 +220,16 @@
             // cht_PassRadio
             // 
             this.cht_PassRadio.BackColor = System.Drawing.SystemColors.Control;
-            chartArea2.BackColor = System.Drawing.SystemColors.Control;
-            chartArea2.Name = "ChartArea1";
-            this.cht_PassRadio.ChartAreas.Add(chartArea2);
+            chartArea1.BackColor = System.Drawing.SystemColors.Control;
+            chartArea1.Name = "ChartArea1";
+            this.cht_PassRadio.ChartAreas.Add(chartArea1);
             this.cht_PassRadio.Location = new System.Drawing.Point(162, 20);
             this.cht_PassRadio.Name = "cht_PassRadio";
             this.cht_PassRadio.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series2.Name = "Series1";
-            this.cht_PassRadio.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series1.Name = "Series1";
+            this.cht_PassRadio.Series.Add(series1);
             this.cht_PassRadio.Size = new System.Drawing.Size(120, 109);
             this.cht_PassRadio.TabIndex = 6;
             this.cht_PassRadio.Text = "chart1";
@@ -527,7 +527,6 @@
             this.Text = "WinForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Winform_FormClosed);
             this.Load += new System.EventHandler(this.Winform_Load);
-            this.Resize += new System.EventHandler(this.Winform_Resize);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
@@ -576,13 +575,6 @@
         private System.Windows.Forms.ToolStripMenuItem TestItemToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label_Time;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.ToolStripMenuItem ReLoadToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label label_PassNumber;
@@ -591,6 +583,13 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem mES功能ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mESToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
     }
 }
 

@@ -103,6 +103,11 @@ namespace TestDAL
             return data;
         }
 
+        public TestData OpenLookBackA2(TestData data)
+        {
+            return data;
+        }
+
         public TestData SwitchToA2dp(TestData data)
         {
             try
@@ -319,16 +324,18 @@ namespace TestDAL
             try
             {
                 //Operate.BES_SetVolume(data);
+              
                 for (int i = 0; i < 3; i++)
                 {
                     //Operate.SetVolume();
                     ATc.Sequence["Speaker"]["Level and Gain"].Run();
-                   
+                    //ATc.LevelAndGain.Level.Axis.Unit = data.Unit;
                     if (ATc.Sequence["Speaker"]["Level and Gain"].HasSequenceResults)
                     {
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]["Level and Gain"]
                             .SequenceResults;
 
+                      
                         SpkLevels = results[0].GetMeterValues();
 
                         if (SpkLevels[0] + double.Parse(data.FillValue)
@@ -389,9 +396,12 @@ namespace TestDAL
         {
             try
             {
+                
                 for (int i = 0; i < 3; i++)
                 {
                     ATc.Sequence["Speaker"]["THD+N"].Run();
+                    //ATc.ThdN.ThdRatio.Axis.Unit = data.Unit;
+                    
                     if (ATc.Sequence["Speaker"]["THD+N"].HasSequenceResults)
                     {
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]["THD+N"]
@@ -456,10 +466,11 @@ namespace TestDAL
         {
             try
             {
+                //ATc.SignalToNoiseRatio.SignalToNoiseRatio.Axis.Unit = data.Unit;
                 for (int i = 0; i < 3; i++)
                 {
                     ATc.Sequence["Speaker"]["Signal to Noise Ratio"].Run();
-
+                    //ATc.SignalToNoiseRatio.SignalToNoiseRatio.Axis.Unit = data.Unit;
                     if (ATc.Sequence["Speaker"]["Signal to Noise Ratio"].HasSequenceResults)
                     {
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]["Signal to Noise Ratio"]
@@ -524,10 +535,10 @@ namespace TestDAL
         {
             try
             {
+               
                 for (int i = 0; i < 3; i++)
                 {
                     ATc.Sequence["Speaker"]["THD+N"].Run();
-
                     if (ATc.Sequence["Speaker"]["THD+N"].HasSequenceResults)
                     {
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]["THD+N"]
@@ -592,10 +603,11 @@ namespace TestDAL
         {
             try
             {
+               
                 for (int i = 0; i < 3; i++)
                 {
                     ATc.Sequence["Speaker"]["Crosstalk, One Channel Undriven"].Run();
-
+                    //ATc.CrosstalkOneChannelUndriven.Crosstalk.Axis.Unit = data.Unit;
                     if (ATc.Sequence["Speaker"]["Crosstalk, One Channel Undriven"].HasSequenceResults)
                     {
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]
@@ -664,6 +676,7 @@ namespace TestDAL
                 for (int i = 0; i < 3; i++)
                 {
                     ATc.Sequence["Micphone"]["Level and Gain"].Run();
+                    //ATc.LevelAndGain.Level.Axis.Unit = data.Unit;
                     if (ATc.Sequence["Micphone"]["Level and Gain"].HasSequenceResults)
                     {
                         ISequenceResultCollection results = ATc.Sequence["Micphone"]
@@ -705,7 +718,7 @@ namespace TestDAL
                 for (int i = 0; i < 3; i++)
                 {
                     ATc.Sequence["Micphone"]["THD+N"].Run();
-
+                    //ATc.ThdN.ThdRatio.Axis.Unit = data.Unit;
                     if (ATc.Sequence["Micphone"]["THD+N"].HasSequenceResults)
                     {
                         ISequenceResultCollection results = ATc.Sequence["Micphone"]["THD+N"]
@@ -742,10 +755,11 @@ namespace TestDAL
         {
             try
             {
+                //ATc.SignalToNoiseRatio.SignalToNoiseRatio.Axis.Unit = data.Unit;
                 for (int i = 0; i < 3; i++)
                 {
                     ATc.Sequence["Micphone"]["Signal to Noise Ratio"].Run();
-
+                    //ATc.SignalToNoiseRatio.SignalToNoiseRatio.Axis.Unit = data.Unit;
                     if (ATc.Sequence["Micphone"]["Signal to Noise Ratio"].HasSequenceResults)
                     {
                         ISequenceResultCollection results = ATc.Sequence["Micphone"]["Signal to Noise Ratio"]

@@ -2,3 +2,12 @@ I:\ICHSE\Program\TestProgram\TestSystem\TestTool\bin\Release\TestTool.dll
 I:\ICHSE\Program\TestProgram\TestSystem\TestTool\bin\Release\TestTool.pdb
 I:\ICHSE\Program\TestProgram\TestSystem\TestTool\obj\Release\TestTool.dll
 I:\ICHSE\Program\TestProgram\TestSystem\TestTool\obj\Release\TestTool.pdb
+D:\Lchse\Program\Program\TestSystem\TestTool\bin\Release\TestTool.dll
+D:\Lchse\Program\Program\TestSystem\TestTool\bin\Release\TestTool.pdb
+D:\Lchse\Program\Program\TestSystem\TestTool\bin\Release\TestModel.dll
+D:\Lchse\Program\Program\TestSystem\TestTool\bin\Release\TestModel.pdb
+D:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.csprojAssemblyReference.cache
+D:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.csproj.CoreCompileInputs.cache
+D:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.csproj.CopyComplete
+D:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.dll
+D:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.pdb

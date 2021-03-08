@@ -1,17 +1,9 @@
 {
   "SN": "",
-  "TestTime": "20200610171000",
-  "MAC": "E09DFA46EB36",
+  "TestTime": "20201218161806",
+  "MAC": "FFFFFFFFFFFF",
   "TotalStatus": "Fail",
-  "Open_MT8852": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
-  "连接MT8852": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
-  "MT8852_Read_BD_Address": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"E09DFA46EB36\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"E09DFA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
-  "DUT_2402_相应频道功率": "{\r\n  \"isPass\": \"Fail\",\r\n  \"data\": \"-0.19\",\r\n  \"unit\": \"dBm\",\r\n  \"lowerLimit\": \"1\",\r\n  \"upperLimit\": \"11\"\r\n}",
-  "DUT_2441_相应频道功率": "{\r\n  \"isPass\": \"Fail\",\r\n  \"data\": \"-1.46\",\r\n  \"unit\": \"dBm\",\r\n  \"lowerLimit\": \"1\",\r\n  \"upperLimit\": \"11\"\r\n}",
-  "DUT_2480_相应频道功率": "{\r\n  \"isPass\": \"Fail\",\r\n  \"data\": \"0.33\",\r\n  \"unit\": \"dBm\",\r\n  \"lowerLimit\": \"1\",\r\n  \"upperLimit\": \"11\"\r\n}",
-  "DUT_2402_相应频道BER": "{\r\n  \"isPass\": \"Fail\",\r\n  \"data\": \"1.291\",\r\n  \"unit\": \"%\",\r\n  \"lowerLimit\": \"0\",\r\n  \"upperLimit\": \"0.1\"\r\n}",
-  "DUT_2441_相应频道BER": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"0\",\r\n  \"unit\": \"%\",\r\n  \"lowerLimit\": \"0\",\r\n  \"upperLimit\": \"0.1\"\r\n}",
-  "DUT_2480_相应频道BER": "{\r\n  \"isPass\": \"Fail\",\r\n  \"data\": \"0.495\",\r\n  \"unit\": \"%\",\r\n  \"lowerLimit\": \"0\",\r\n  \"upperLimit\": \"0.1\"\r\n}",
-  "DUT_InitCarrier": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"-9.1\",\r\n  \"unit\": \"kHz\",\r\n  \"lowerLimit\": \"-25\",\r\n  \"upperLimit\": \"25\"\r\n}",
-  "Closed_MT8852": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}"
+  "BES_OpenSerialPort": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "BES_ReadBTAddress": "{\r\n  \"isPass\": \"Fail\",\r\n  \"data\": \"FFFFFFFFFFFF\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"E09DFB\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "BES_ClosedSerialPort": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}"
 }

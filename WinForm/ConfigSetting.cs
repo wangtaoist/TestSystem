@@ -116,7 +116,7 @@ namespace WinForm
 
             //cb_GPIB.DataSource = list;
             string[] ports = SerialPort.GetPortNames();
-            
+
             for (int i = 0; i < list.Count; i++)
             {
                 cb_GPIB.Items.Add(list[i]);
@@ -214,12 +214,14 @@ namespace WinForm
         {
             openFileDialog1.Filter = "A2项目文件|*.abprojx|All files(*.*)|*.*";
             openFileDialog1.InitialDirectory = Application.StartupPath;
-            openFileDialog1.ShowDialog();
-            if(openFileDialog1.FileName != "")
+            
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                tb_Path.Text = openFileDialog1.FileName.Trim();
+                if (openFileDialog1.FileName != "")
+                {
+                    tb_Path.Text = openFileDialog1.FileName.Trim();
+                }
             }
-
         }
 
         private void bt_Clear_Click(object sender, EventArgs e)
@@ -262,6 +264,7 @@ namespace WinForm
             //    cb_Parallel.Checked = true;
             //}
         }
+
         private void cb_Parallel_CheckedChanged(object sender, EventArgs e)
         {
             if(cb_Table.Checked)
@@ -272,6 +275,21 @@ namespace WinForm
             //{
             //    cb_Table.Checked = true;
             //}
+        }
+
+        private void bt_refresh_Click(object sender, EventArgs e)
+        {
+            cb_GPIB.Items.Clear();
+            cb_Power.Items.Clear();
+            cb_Multimeter.Items.Clear();
+            cb_4010.Items.Clear();
+
+            cb_LEDPort.Items.Clear();
+            cb_Serial.Items.Clear();
+            cb_FixPort.Items.Clear();
+            cb_Relay.Items.Clear();
+
+            GetInstPort();
         }
     }
 }
