@@ -13,7 +13,7 @@ namespace TestDAL
     {
         private ATC ATc;
         private ConfigData config;
-        private double[] SpkLevels, SpkTHD, SpkSNR, SpkCrossralk, LowNoise;
+        private double[] SpkLevels, SpkTHD, SpkSNR, SpkCrossralk, LowNoise, DynamicRange;
         private OperateBES Operate;
         public string btAddress;
         private bool btStatus;
@@ -657,6 +657,76 @@ namespace TestDAL
                 {
                     data.Result = "Fail";
                     data.Value = Math.Round(SpkCrossralk[1]
+                         + double.Parse(data.FillValue), 3).ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData SpeakerDynamicRange_Left(TestData data)
+        {
+            //Dynamic Range - AES17
+            try
+            {
+
+                for (int i = 0; i < 3; i++)
+                {
+                    ATc.Sequence["Speaker"]["Dynamic Range - AES17"].Run();
+                    //ATc.CrosstalkOneChannelUndriven.Crosstalk.Axis.Unit = data.Unit;
+                    if (ATc.Sequence["Speaker"]["Dynamic Range - AES17"].HasSequenceResults)
+                    {
+                        ISequenceResultCollection results = ATc.Sequence["Speaker"]
+                            ["Dynamic Range - AES17"].SequenceResults;
+                        DynamicRange = results[0].GetMeterValues();
+                        if (DynamicRange[0] + double.Parse(data.FillValue)
+                            <= double.Parse(data.UppLimit)
+                             && DynamicRange[0] + double.Parse(data.FillValue)
+                             >= double.Parse(data.LowLimit))
+                        {
+                            data.Result = "Pass";
+                            data.Value = Math.Round(DynamicRange[0]
+                                + double.Parse(data.FillValue), 3).ToString();
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = Math.Round(DynamicRange[0]
+                                 + double.Parse(data.FillValue), 3).ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                data.Value = "Fail";
+                data.Result = "Fail";
+            }
+            return data;
+        }
+
+        public TestData SpeakerDynamicRange_Right(TestData data)
+        {
+            try
+            {
+                if (DynamicRange[1] + double.Parse(data.FillValue)
+                    <= double.Parse(data.UppLimit)
+                        && DynamicRange[1] + double.Parse(data.FillValue)
+                        >= double.Parse(data.LowLimit))
+                {
+                    data.Result = "Pass";
+                    data.Value = Math.Round(DynamicRange[1]
+                         + double.Parse(data.FillValue), 3).ToString();
+                }
+                else
+                {
+                    data.Result = "Fail";
+                    data.Value = Math.Round(DynamicRange[1]
                          + double.Parse(data.FillValue), 3).ToString();
                 }
             }

@@ -36,6 +36,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\ATCAPI.dll</HintPath>
     </Reference>
+    <Reference Include="GetProductInfoDLL, Version=2.2.8.104, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\WinForm\bin\Debug\GetProductInfoDLL.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -87,6 +91,7 @@
     </Compile>
     <Compile Include="Instrument.cs" />
     <Compile Include="OperateBES.cs" />
+    <Compile Include="OperateBluetrumXlink.cs" />
     <Compile Include="OperateInstrument.cs" />
     <Compile Include="OperateLED.cs" />
     <Compile Include="OperateMicroChip.cs" />
@@ -102,6 +107,7 @@
     <Compile Include="SaveData.cs" />
     <Compile Include="SerialOperate.cs" />
     <Compile Include="TestEngineAPI.cs" />
+    <Compile Include="UsbHeadset.cs" />
     <Compile Include="Web References\WebReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

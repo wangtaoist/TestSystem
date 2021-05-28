@@ -264,3 +264,4 @@ D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\NationalInstruments.Common
 D:\Lchse\Program\Program\TestSystem\WinForm\obj\Debug\TestUI.csproj.CopyComplete
 D:\Lchse\Program\Program\TestSystem\WinForm\obj\Debug\Test_Program.exe
 D:\Lchse\Program\Program\TestSystem\WinForm\obj\Debug\Test_Program.pdb
+D:\Lchse\Program\Program\TestSystem\WinForm\bin\Debug\GetProductInfoDLL.dll

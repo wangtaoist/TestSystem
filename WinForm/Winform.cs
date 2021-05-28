@@ -260,6 +260,7 @@ namespace WinForm
             }
             catch (Exception ex)
             {
+               TestQueue.Enqueue("测试项目报错，打开屏蔽箱");
                 OpenFixture();
                 TestQueue.Enqueue(ex.Message);
                 label_TestResult.Text = "Fail";
@@ -322,6 +323,7 @@ namespace WinForm
                 {
                     if (data.Check)
                     {
+                        TestQueue.Enqueue("测试Fail，打开屏蔽箱");
                         OpenFixture();
                         PlugManagement();
                         tb_SN.Enabled = true;
@@ -386,6 +388,7 @@ namespace WinForm
             }
             if (TestItmes.Where(s => s.Result == "Pass").Count() == TestItmes.Count)
             {
+                TestQueue.Enqueue("测试Pass，打开屏蔽箱");
                 OpenFixture();
                 PlugManagement();
                 tb_SN.Enabled = true;
@@ -449,42 +452,43 @@ namespace WinForm
 
         public void ShowFailResult(int index)
         {
-                OpenFixture();
-                PlugManagement();
-                btTest.Enabled = true;
-                tb_SN.Enabled = true;
-                tb_SN.Text = "";
-                testFlag = false;
-                stopwatch.Stop();
-                label_TestResult.Text = "Fail";
-                label_TestResult.BackColor = Color.Red;
-                testLogic.UpdataTestCount(false);
-                tb_SN.Text = "";
-                tb_SN.Invoke(new Action(() =>
+            TestQueue.Enqueue("测试Fail2，打开屏蔽箱");
+            OpenFixture();
+            PlugManagement();
+            btTest.Enabled = true;
+            tb_SN.Enabled = true;
+            tb_SN.Text = "";
+            testFlag = false;
+            stopwatch.Stop();
+            label_TestResult.Text = "Fail";
+            label_TestResult.BackColor = Color.Red;
+            testLogic.UpdataTestCount(false);
+            tb_SN.Text = "";
+            tb_SN.Invoke(new Action(() =>
+            {
+                tb_SN.Select();
+                tb_SN.Focus();
+                this.ActiveControl = tb_SN;
+            }));
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(TestFailProcess));
+
+            ShowTestRadio();
+            var bt = TestItmes.Where(s => s.TestItem.Contains("Address")).ToList();
+            testLogic.SaveTestLog(TestItmes
+                , new LogColume()
                 {
-                    tb_SN.Select();
-                    tb_SN.Focus();
-                    this.ActiveControl = tb_SN;
-                }));
-
-                ThreadPool.QueueUserWorkItem(new WaitCallback(TestFailProcess));
-
-                ShowTestRadio();
-                var bt = TestItmes.Where(s => s.TestItem.Contains("Address")).ToList();
-                testLogic.SaveTestLog(TestItmes
-                    , new LogColume()
-                    {
-                        SN = BtAddress,
-                        TestTime = DateTime.Now.ToString("yyyyMMddHHddss"),
-                        MAC = bt.Count > 0 ? bt[0].Value : "",
+                    SN = BtAddress,
+                    TestTime = DateTime.Now.ToString("yyyyMMddHHddss"),
+                    MAC = bt.Count > 0 ? bt[0].Value : "",
                         //MAC = BtAddress,
                         TotalStatus = "Fail"
-                    });
-                if (Others.isWin10())
-                {
-                    focusFlag = true;
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(FocusTextBox));
-                }
+                });
+            if (Others.isWin10())
+            {
+                focusFlag = true;
+                ThreadPool.QueueUserWorkItem(new WaitCallback(FocusTextBox));
+            }
 
             if (dgv_Data.Rows.Count > 0)
             {

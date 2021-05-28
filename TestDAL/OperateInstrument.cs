@@ -557,21 +557,7 @@ namespace TestDAL
                     page = true;
                     break;
                 }
-                //else if (ret.StartsWith("0") && (i == 20 || i == 40))
-                //{
-                //    queue.Enqueue("再次呼叫中......");
-                //    //INQCANCEL
-                //    //instrument.VisaWrite("INQCANCEL");
-                //    InitInstr();
-                //    Thread.Sleep(1000);
-                //    instrument.VisaWrite("DISCONNECT");
-                //    instrument.VisaWrite("SYSCFG EUTSRCE,INQUIR");
-                //    //instrument.VisaWrite("SYSCFG INQSET,RNUM,12");
-                //    instrument.VisaWrite(string.Format("SYSCFG INQSET,TIMEOUT,{0}", data.Inquiry_TimeOut));
-                //    //INQUIRY   INQRSP?
-                //    instrument.VisaWrite("INQUIRY");
-                //    //instrument.VisaWrite("INQUIRY");
-                //}
+               
                 if (i == 29 && !(ret.StartsWith("1")))
                 {
                     item.Result = "Fail";
@@ -601,11 +587,12 @@ namespace TestDAL
                         queue.Enqueue("连接成功");
                         break;
                     }
-                    //else if (conn == "0" && (j == 25))
-                    //{
-                    //    queue.Enqueue("再次连接中......");
-                    //    instrument.VisaWrite("CONNECT");
-                    //}
+                    else if (conn == "0" && (j == 15))
+                    {
+                        instrument.VisaWrite("DISCONNECT");
+                        queue.Enqueue("再次连接中......");
+                        instrument.VisaWrite("CONNECT");
+                    }
 
                     if (j == 29 && connStatus != true)
                     {
@@ -618,6 +605,7 @@ namespace TestDAL
                 }
                 if (connStatus)
                 {
+                    string error = string.Empty;
                     instrument.Cls();
                     Thread.Sleep(100);
                     instrument.VisaWrite("RUN");
@@ -627,84 +615,40 @@ namespace TestDAL
                     string val = "";
                     for (int i = 0; i < 100; i++)
                     {
-                        #region
-                        //0003OP1A0200002
-                        //string error = instrument.VisaQuery("STATUS");
-                        //instrument.Cls();
-                        //queue.Enqueue(error);
-                        //bool connect = error.Substring(6, 1) != "0";
-                        //string model = error.Substring(4, 2);
-                        //queue.Enqueue(error);
-                        //switch (model)
-                        //{
-                        //    case "OP":
-                        //        {
-                        //            queue.Enqueue("输出功率测试中");
-                        //            break;
-                        //        }
-                        //    case "SS":
-                        //        {
-                        //            queue.Enqueue("BER测试中");
-                        //            break;
-                        //        }
-                        //    case "MI":
-                        //        {
-                        //            queue.Enqueue("调制指数测试中");
-                        //            break;
-                        //        }
-                        //    case "IC":
-                        //        {
-                        //            queue.Enqueue("初始载波测试中");
-                        //            break;
-                        //        }
-                        //    case "CD":
-                        //        {
-                        //            queue.Enqueue("载波偏移测试中");
-                        //            break;
-                        //        }
-                        //}
+                        error = instrument.VisaQuery("ERRLST");
+                        if (error.Split('!')[1].Contains("NO") && error.Split('!')[2].Contains("NO"))
+                        {
 
-                        //if(connect)
-                        //{
-                        //    queue.Enqueue( "连接耳机成功，测试中" );
-                        //}
-                        //else
-                        //{
-                        //    item.Result = "Fail";
-                        //    item.Value = "Fail";
-                        //    queue.Enqueue("测试中耳机退出TestMode，请重新进入");
-                        //    queue.Enqueue("连接耳机失败");
-                        //    //break;
-                        //}
-                        #endregion
-                        val = instrument.VisaQuery("*INS?");
-                        //instrument.Cls();
-                        //queue.Enqueue(val);
-                        if (val == "45" || val == "13")
-                        {
-                            item.Result = "Pass";
-                            item.Value = "Pass";
-                            queue.Enqueue("Script 运行完成");
-                            break;
+                            val = instrument.VisaQuery("*INS?");
+
+                            //instrument.Cls();
+                            //queue.Enqueue(val);
+                            if (val == "45" || val == "13")
+                            {
+                                item.Result = "Pass";
+                                item.Value = "Pass";
+                                queue.Enqueue("Script 运行完成");
+                                break;
+                            }
+                            else if (val == "41" || val == "9")
+                            {
+                                queue.Enqueue("连接耳机成功，测试中");
+                            }
+                            else if (val == "46")
+                            {
+                                item.Result = "Fail";
+                                item.Value = "Fail";
+                                queue.Enqueue("通讯超时，请检查耳机");
+                                break;
+                            }
                         }
-                        else if (val == "41" || val == "9")
-                        {
-                            queue.Enqueue("连接耳机成功，测试中");
-                        }
-                        else if (val == "46")
+                        else
                         {
                             item.Result = "Fail";
                             item.Value = "Fail";
-                            queue.Enqueue("连接超时，请检查耳机");
+                            queue.Enqueue("仪器或者耳机报错，请检查");
                             break;
                         }
-                        //else
-                        //{
-                        //    item.Result = "Fail";
-                        //    item.Value = "Fail";
-                        //    queue.Enqueue("测试异常，请检查MT8852");
-                        //    break;
-                        //}
                         if (index == 99 && val != "45")
                         {
                             item.Result = "Fail";
@@ -978,21 +922,31 @@ namespace TestDAL
             {
                 retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFH");
             }
-            if (retureVal.Contains("XOP"))
+            if (bool.Parse(retureVal.Split(',')[2]))
             {
-                avgPower = double.Parse(retureVal.Split(',')[6])
-                    + double.Parse(item.FillValue);
-            }
-            if (avgPower >= double.Parse(item.LowLimit)
-                && avgPower <= double.Parse(item.UppLimit))
-            {
-                item.Value = avgPower.ToString();
-                item.Result = "Pass";
+                if (retureVal.Contains("XOP"))
+                {
+                    avgPower = double.Parse(retureVal.Split(',')[6])
+                        + double.Parse(item.FillValue);
+
+                }
+                if (avgPower >= double.Parse(item.LowLimit)
+                    && avgPower <= double.Parse(item.UppLimit))
+                {
+                    item.Value = avgPower.ToString();
+                    item.Result = "Pass";
+                }
+                else
+                {
+                    item.Value = avgPower.ToString();
+                    item.Result = "Fail";
+                }
             }
             else
             {
-                item.Value = avgPower.ToString();
+                item.Value = "Fail";
                 item.Result = "Fail";
+                queue.Enqueue("测试过程中通讯超时，测试Fail");
             }
             return item;
         }

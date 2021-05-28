@@ -32,6 +32,7 @@
             this.tb_Title = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.bt_refresh = new System.Windows.Forms.Button();
             this.cb_Relay = new System.Windows.Forms.ComboBox();
             this.label29 = new System.Windows.Forms.Label();
             this.cb_4010 = new System.Windows.Forms.ComboBox();
@@ -142,7 +143,11 @@
             this.cb_Parallel = new System.Windows.Forms.CheckBox();
             this.cb_Table = new System.Windows.Forms.CheckBox();
             this.cb_oneToTwoEnable = new System.Windows.Forms.CheckBox();
-            this.bt_refresh = new System.Windows.Forms.Button();
+            this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.tb_vid = new System.Windows.Forms.TextBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.tb_pid = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -164,6 +169,7 @@
             this.tabPage2.SuspendLayout();
             this.groupBox17.SuspendLayout();
             this.groupBox18.SuspendLayout();
+            this.groupBox19.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -217,6 +223,16 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "测试仪器端口设置";
+            // 
+            // bt_refresh
+            // 
+            this.bt_refresh.Location = new System.Drawing.Point(427, 49);
+            this.bt_refresh.Name = "bt_refresh";
+            this.bt_refresh.Size = new System.Drawing.Size(72, 23);
+            this.bt_refresh.TabIndex = 2;
+            this.bt_refresh.Text = "刷新端口";
+            this.bt_refresh.UseVisualStyleBackColor = true;
+            this.bt_refresh.Click += new System.EventHandler(this.bt_refresh_Click);
             // 
             // cb_Relay
             // 
@@ -1170,6 +1186,7 @@
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage2.Controls.Add(this.groupBox17);
             this.tabPage2.Controls.Add(this.groupBox10);
+            this.tabPage2.Controls.Add(this.groupBox19);
             this.tabPage2.Controls.Add(this.groupBox15);
             this.tabPage2.Controls.Add(this.groupBox16);
             this.tabPage2.Controls.Add(this.groupBox14);
@@ -1282,15 +1299,51 @@
             this.cb_oneToTwoEnable.UseVisualStyleBackColor = true;
             this.cb_oneToTwoEnable.CheckedChanged += new System.EventHandler(this.cb_oneToTwoEnable_CheckedChanged);
             // 
-            // bt_refresh
+            // groupBox19
             // 
-            this.bt_refresh.Location = new System.Drawing.Point(427, 49);
-            this.bt_refresh.Name = "bt_refresh";
-            this.bt_refresh.Size = new System.Drawing.Size(72, 23);
-            this.bt_refresh.TabIndex = 2;
-            this.bt_refresh.Text = "刷新端口";
-            this.bt_refresh.UseVisualStyleBackColor = true;
-            this.bt_refresh.Click += new System.EventHandler(this.bt_refresh_Click);
+            this.groupBox19.Controls.Add(this.tb_vid);
+            this.groupBox19.Controls.Add(this.label34);
+            this.groupBox19.Controls.Add(this.tb_pid);
+            this.groupBox19.Controls.Add(this.label33);
+            this.groupBox19.Enabled = false;
+            this.groupBox19.Location = new System.Drawing.Point(293, 192);
+            this.groupBox19.Name = "groupBox19";
+            this.groupBox19.Size = new System.Drawing.Size(219, 63);
+            this.groupBox19.TabIndex = 13;
+            this.groupBox19.TabStop = false;
+            this.groupBox19.Text = "产品PID/VID";
+            // 
+            // tb_vid
+            // 
+            this.tb_vid.Location = new System.Drawing.Point(143, 29);
+            this.tb_vid.Name = "tb_vid";
+            this.tb_vid.Size = new System.Drawing.Size(70, 21);
+            this.tb_vid.TabIndex = 0;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(115, 32);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(23, 12);
+            this.label34.TabIndex = 0;
+            this.label34.Text = "VID";
+            // 
+            // tb_pid
+            // 
+            this.tb_pid.Location = new System.Drawing.Point(36, 28);
+            this.tb_pid.Name = "tb_pid";
+            this.tb_pid.Size = new System.Drawing.Size(74, 21);
+            this.tb_pid.TabIndex = 0;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(9, 31);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(23, 12);
+            this.label33.TabIndex = 0;
+            this.label33.Text = "PID";
             // 
             // ConfigSetting
             // 
@@ -1346,6 +1399,8 @@
             this.groupBox17.PerformLayout();
             this.groupBox18.ResumeLayout(false);
             this.groupBox18.PerformLayout();
+            this.groupBox19.ResumeLayout(false);
+            this.groupBox19.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1467,5 +1522,10 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.ComboBox cb_FixPort;
         private System.Windows.Forms.Button bt_refresh;
+        private System.Windows.Forms.GroupBox groupBox19;
+        private System.Windows.Forms.TextBox tb_vid;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.TextBox tb_pid;
+        private System.Windows.Forms.Label label33;
     }
 }

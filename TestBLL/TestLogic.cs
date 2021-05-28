@@ -35,6 +35,7 @@ namespace TestBLL
         public SerialPort FixPort;
         public string PackSN;
         public OperatrAiroha operatrAiroha;
+        public OperateBluetrumXlink Xlink;
 
         public TestLogic(Queue<string> queue, string path,Queue<string> statusQueue)
         {
@@ -56,6 +57,8 @@ namespace TestBLL
             operateMicroChip = new OperateMicroChip(config);
             operatrAiroha = new OperatrAiroha(config);
             operate = new OperateInstrument(config, testQueue);
+            Xlink = new OperateBluetrumXlink(config);
+
             if(config.AudioEnable)
             {
                 queue.Enqueue("加载Audio项目文件");
@@ -1279,6 +1282,16 @@ namespace TestBLL
                         data = Audio.SpeakerCrosstalk_Right(data);
                         break;
                     }
+                case "SpeakerDynamicRange_Left":
+                    {
+                        data = Audio.SpeakerDynamicRange_Left(data);
+                        break;
+                    }
+                case "SpeakerDynamicRange_Right":
+                    {
+                        data = Audio.SpeakerDynamicRange_Right(data);
+                        break;
+                    }
                 case "SpeakerNoise_Left":
                     {
                         data = Audio.SpeakerNoise_Left(data);
@@ -1390,6 +1403,16 @@ namespace TestBLL
                         data = operatrAiroha.AirohaMainMic(data);
                         break;
                     }
+                case "AirohaLightOut":
+                    {
+                        data = operatrAiroha.AirohaLightOut(data);
+                        break;
+                    }
+                case "AirohaLightInput":
+                    {
+                        data = operatrAiroha.AirohaLightInput(data);
+                        break;
+                    }
                 case "AirohaPowerOff":
                     {
                         data = operatrAiroha.AirohaPowerOff(data);
@@ -1405,6 +1428,53 @@ namespace TestBLL
                         data = operatrAiroha.AirohaClosePort(data);
                         break;
                     }
+
+                case "OpenXlink":
+                    {
+                        data = Xlink.OpenXlink(data);
+                        break;
+                    }
+                case "XlinkShutDown":
+                    {
+                        data = Xlink.XlinkShutDown(data);
+                        break;
+                    }
+                case "XlinkReadBtAddress":
+                    {
+                        data = Xlink.XlinkReadBtAddress(data);
+                        break;
+                    }
+                case "XlinkReadSoftVersion":
+                    {
+                        data = Xlink.XlinkReadSoftVersion(data);
+                        break;
+                    }
+                case "XlinkEnterDUT":
+                    {
+                        data = Xlink.XlinkEnterDUT(data);
+                        break;
+                    }
+                case "XlinkClsPair":
+                    {
+                        data = Xlink.XlinkClsPair(data);
+                        break;
+                    }
+                case "XlinkLoopBackON":
+                    {
+                        data = Xlink.XlinkLoopBackON(data);
+                        break;
+                    }
+                case "XlinkLoopBackOFF":
+                    {
+                        data = Xlink.XlinkLoopBackOFF(data);
+                        break;
+                    }
+                case "ClosedXlink":
+                    {
+                        data = Xlink.ClosedXlink(data);
+                        break;
+                    }
+
                 case "TouchTest":
                     {
                         List<double> list = GetConsoleData();

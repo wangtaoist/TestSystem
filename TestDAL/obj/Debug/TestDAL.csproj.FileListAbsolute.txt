@@ -189,3 +189,4 @@ D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.csproj.CopyComplet
 D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.dll
 D:\Lchse\Program\Program\TestSystem\TestDAL\obj\Debug\TestDAL.pdb
 D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\Newtonsoft.Json.dll
+D:\Lchse\Program\Program\TestSystem\TestDAL\bin\Debug\GetProductInfoDLL.dll

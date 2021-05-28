@@ -1144,6 +1144,17 @@ namespace TestDAL
                 TestItem = "SpeakerCrosstalk_Right",
                 Remark = "测试右SPK Crosstalk，单位dB"
             });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerDynamicRange_Left",
+                Remark = "测试左SPK 动态范围，单位dB"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SpeakerDynamicRange_Right",
+                Remark = "测试右SPK 动态范围，单位dB"
+            });
             list.Add(new InitTestItem()
             {
                 TestItem = "MicphoneLevel",
@@ -1263,8 +1274,64 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "AirohaLightOut",
+                Remark = "络达光感出耳校准"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "AirohaLightInput",
+                Remark = "络达光感入耳校准"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "AirohaClosePort",
                 Remark = "关闭络达串口"
+            });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "OpenXlink",
+                Remark = "打开中科蓝汛Xlink端口"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "XlinkShutDown",
+                Remark = "关闭中科蓝汛Xlink端口"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "XlinkReadBtAddress",
+                Remark = "读取中科蓝汛蓝牙地址"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "XlinkReadSoftVersion",
+                Remark = "读取中科蓝汛软件版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "XlinkEnterDUT",
+                Remark = "中科蓝汛进入DUT模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "XlinkClsPair",
+                Remark = "中科蓝汛清除配对记录"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "XlinkLoopBackON",
+                Remark = "中科蓝汛打开LoopBack"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "XlinkLoopBackOFF",
+                Remark = "中科蓝汛关闭LoopBack"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "ClosedXlink",
+                Remark = "关闭中科蓝汛串口"
             });
 
             return list;

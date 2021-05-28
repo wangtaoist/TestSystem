@@ -78,7 +78,7 @@ namespace TestDAL
             {
                 Thread.Sleep(100);
                 Session.Write("*RST\n");
-                Others.WriteTestLog("*RST");
+                //Others.WriteTestLog("*RST");
             }
             catch { }
         }
@@ -90,7 +90,7 @@ namespace TestDAL
             {
                 Thread.Sleep(500);
                 ret = int.Parse(Session.Query("*OPC?\n"));
-                Others.WriteTestLog("*OPC?");
+                //Others.WriteTestLog("*OPC?");
             }
             catch { }
             return ret;
@@ -102,7 +102,7 @@ namespace TestDAL
             {
                 Thread.Sleep(100);
                 Session.Write("*CLS\n");
-                Others.WriteTestLog("*CLS");
+                //Others.WriteTestLog("*CLS");
             }
             catch { }
         }
@@ -114,7 +114,7 @@ namespace TestDAL
                 Thread.Sleep(50);
                 //Cls();
                 Session.Write(string.Format("*OPC;{0}\n", cmd));
-                Others.WriteTestLog(string.Format("*OPC;{0}\n", cmd));
+                //Others.WriteTestLog(string.Format("*OPC;{0}\n", cmd));
             }
             catch { }
         }
@@ -123,9 +123,9 @@ namespace TestDAL
         {
             Thread.Sleep(50);
             string send = string.Format("*OPC;{0}\n", cmd);
-            Others.WriteTestLog(send);
+            //Others.WriteTestLog(send);
             string data = Session.Query(send).Trim();
-            Others.WriteTestLog(data);
+            //Others.WriteTestLog(data);
             return data;
         }
 

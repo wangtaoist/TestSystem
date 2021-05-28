@@ -125,3 +125,4 @@ D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\RJCP.SerialPortStream.xml
 D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.csproj.CopyComplete
 D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.dll
 D:\Lchse\Program\Program\TestSystem\TestBLL\obj\Debug\TestBLL.pdb
+D:\Lchse\Program\Program\TestSystem\TestBLL\bin\Debug\GetProductInfoDLL.dll
