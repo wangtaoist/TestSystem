@@ -187,6 +187,7 @@ namespace WinForm
                     lst_Test_selectFunction.Items.RemoveAt(i);
                     TestItems.RemoveAt(i);
                 }
+
             }
            else if(tabControl1.SelectedIndex == 1)
             {
@@ -198,6 +199,7 @@ namespace WinForm
                     FailItems.RemoveAt(i);
                 }
             }
+      
         }
 
         private void cmd_up_Click(object sender, EventArgs e)
@@ -248,6 +250,10 @@ namespace WinForm
                 if (collect.Count > 0)
                 {
                     int i = collect[0];
+                    if(i + 1 == lst_Test_selectFunction.Items.Count)
+                    {
+                        return;
+                    }
                     if (i != lst_Test_selectFunction.Items.Count)
                     {
                         TestData data = TestItems[i];

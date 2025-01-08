@@ -11,3 +11,12 @@ D:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.csproj.CoreCom
 D:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.csproj.CopyComplete
 D:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.dll
 D:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.pdb
+F:\Lchse\Program\Program\TestSystem\TestTool\bin\Release\TestTool.dll
+F:\Lchse\Program\Program\TestSystem\TestTool\bin\Release\TestTool.pdb
+F:\Lchse\Program\Program\TestSystem\TestTool\bin\Release\TestModel.dll
+F:\Lchse\Program\Program\TestSystem\TestTool\bin\Release\TestModel.pdb
+F:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.csprojAssemblyReference.cache
+F:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.csproj.CoreCompileInputs.cache
+F:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.csproj.CopyComplete
+F:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.dll
+F:\Lchse\Program\Program\TestSystem\TestTool\obj\Release\TestTool.pdb

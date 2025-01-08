@@ -79,6 +79,7 @@ namespace TestModel
         public bool RelayEnable;
         public string NowStation;
         public bool AutoSN;
+        public bool EVM;
     }
 
     public class TestRatio
@@ -109,6 +110,20 @@ namespace TestModel
     {
         public string TestItem;
         public string Remark;
+    }
+
+    public class SensitivityList
+    {
+        public double FerL;
+        public double FerM;
+        public double FerH;
+        public double LostPack;
+    }
+    public class ModulationList
+    {
+        public double F1;
+        public double F2;
+        public double F2F1;
     }
 
 }

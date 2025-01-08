@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using TestTool;
 
 namespace WinForm
 {
@@ -19,6 +20,7 @@ namespace WinForm
             {
                 if (createNew)
                 {
+                    Others.SetProcessDPIAware();
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new Winform());

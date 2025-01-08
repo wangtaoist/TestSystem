@@ -6,6 +6,7 @@ using ATCAPI;
 using TestModel;
 using System.Threading;
 using System.IO;
+using TestTool;
 
 namespace TestDAL
 {
@@ -26,9 +27,7 @@ namespace TestDAL
                 this.config = config;
                 this.queue = queue;
                 btAddress = string.Empty;
-                
-                //Thread thread = new Thread(() => 
-                //{
+
                 if (File.Exists(config.AudioPath))
                 {
                     queue.Enqueue("加载A2项目文件");
@@ -45,15 +44,13 @@ namespace TestDAL
                 {
                     queue.Enqueue("A2项目文件路径设置错误，请检查");
                 }
-                //ATc.BtsimSettings.Reset();
-                //});
-                // thread.Start();
+            
                 this.Operate = operate;
                 btStatus = true;
             }
             catch (Exception ex)
             {
-                queue.Enqueue(ex.Message);
+                queue.Enqueue("ex;" + ex.Message);
             }
             
         }
@@ -73,6 +70,7 @@ namespace TestDAL
                     data.Value = "Pass";
                     btStatus = true;
                 }
+               
                 else
                 {
                     btStatus = false;
@@ -158,6 +156,7 @@ namespace TestDAL
                     //ATc.BtsimSettings.SwitchToHfp();
                     //ATc.SignalPathSetup.OutputConnector.Type = OutputConnectorType.AnalogUnbalanced;
                     //ATc.SignalPathSetup.InputConnector.Type = InputConnectorType.Btsim;
+                    //Thread.Sleep(2000);
                     ATc.BtsimSettings.SwitchToHfp();
                 }
                 else
@@ -242,24 +241,16 @@ namespace TestDAL
             }
             return data;
         }
-          
-        public TestData CSR_EarPair(TestData data)
-        {
 
+        public TestData OppoEarPair(TestData data)
+        {
+            btAddress = Operate.BES_OppoReadBtAddress();
             for (int i = 0; i < 3; i++)
             {
                 //ATc.BtsimSettings.Reset();
-                //btAddress = Operate.BES_ReadBTAddress();
+
                 if (btStatus)
                 {
-                    //IBtsimDeviceCollection lists = ATc.BtsimSettings.ScanForDevices(5);
-
-                    //Dictionary<string, double> dic = new Dictionary<string, double>();
-                    //for (int i = 0; i < lists.Count; i++)
-                    //{
-                    //    dic.Add(lists[i].Address, double.Parse(lists[i].Rssi));
-                    //}
-                    //dic
                     try
                     {
                         ATc.BtsimSettings.Reset();
@@ -281,6 +272,137 @@ namespace TestDAL
                     {
                         data.Result = "Fail";
                         data.Value = "Fail";
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
+                        if (conn)
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                        }
+
+                    }
+                    //bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
+                    catch (Exception ex)
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+            }
+            return data;
+        }
+
+        public TestData XE25_EarPair(TestData data)
+        {
+            btAddress = Operate.BES_XE25_TWS_ReadMac();
+            for (int i = 0; i < 3; i++)
+            {
+                //ATc.BtsimSettings.Reset();
+
+                if (btStatus)
+                {
+                    try
+                    {
+                        ATc.BtsimSettings.Reset();
+                        ATc.BtsimSettings.ConnectToDevice(btAddress, "1", 10);
+                        if (ATc.BtsimSettings.AppState == BtsimAppState.Connected)
+                        //if(conn)
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
+                        if (conn)
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                        }
+
+                    }
+                    //bool conn = ATc.BluetoothSettings.PairWithDevice(btAddress);
+                    catch (Exception ex)
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                    }
+                }
+            }
+            return data;
+        }
+
+        public TestData CSR_EarPair(TestData data)
+        {
+
+            for (int i = 0; i < 3; i++)
+            {
+                //ATc.BtsimSettings.Reset();
+                //btAddress = Operate.BES_ReadBTAddress();
+                if (btStatus)
+                {
+                    //IBtsimDeviceCollection lists = ATc.BtsimSettings.ScanForDevices(5);
+
+                    //Dictionary<string, double> dic = new Dictionary<string, double>();
+                    //for (int i = 0; i < lists.Count; i++)
+                    //{
+                    //    dic.Add(lists[i].Address, double.Parse(lists[i].Rssi));
+                    //}
+                    //dic
+                    try
+                    {
+                        //ATc.BtsimSettings.Reset();
+                        ATc.BtsimSettings.ConnectToDevice(btAddress, "1", 10);
+                        if (ATc.BtsimSettings.AppState == BtsimAppState.Connected)
+                        //if(conn)
+                        {
+                            data.Result = "Pass";
+                            data.Value = "Pass";
+                            break;
+                        }
+                        else
+                        {
+                            data.Result = "Fail";
+                            data.Value = "Fail";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        data.Result = "Fail";
+                        data.Value = "Fail";
+                        break;
                     }
                 }
                 else
@@ -319,6 +441,64 @@ namespace TestDAL
             return data;
         }
 
+        public TestData ScanPair(TestData data)
+        {
+            try
+            {
+                if (btStatus)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        var lists = ATc.BtsimSettings.ScanForDevices(5);
+                        for (int i = 0; i < lists.Count; i++)
+                        {
+                            string name = lists[i].FriendlyName;
+                            string btaddress = lists[i].Address;
+                            if (name.Contains(data.LowLimit))
+                            {
+                                ATc.BtsimSettings.ConnectToDevice(btaddress, "1", 10);
+                                if (ATc.BtsimSettings.AppState == BtsimAppState.Connected)
+                                {
+                                    data.Result = "Pass";
+                                    data.Value = "Pass";
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                else
+                {
+                    ATc.BluetoothSettings.ClearDeviceList();
+                    var lists = ATc.BluetoothSettings.ScanForDevices(5);
+                    for (int i = 0; i < lists.Count; i++)
+                    {
+                        string name = lists[i].FriendlyName;
+                        string address = lists[i].Address;
+                        if (name.Contains(data.LowLimit))
+                        {
+                            bool status = ATc.BluetoothSettings.PairWithDevice(address);
+                            if (status)
+                            {
+                                data.Value = "Pass";
+                                data.Result = "Pass";
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                data.Result = "Fail";
+                data.Value = "Fail";
+
+            }
+            return data;
+        }
+
+        //SPK
         public TestData SpeakerLevel_Left(TestData data)
         {
             try
@@ -335,7 +515,6 @@ namespace TestDAL
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]["Level and Gain"]
                             .SequenceResults;
 
-                      
                         SpkLevels = results[0].GetMeterValues();
 
                         if (SpkLevels[0] + double.Parse(data.FillValue)
@@ -406,7 +585,8 @@ namespace TestDAL
                     {
                         ISequenceResultCollection results = ATc.Sequence["Speaker"]["THD+N"]
                             .SequenceResults;
-                        SpkTHD = results[2].GetMeterValues();
+                        SpkTHD = results.Count > 2 
+                            ? results[2].GetMeterValues() : results[0].GetMeterValues();
                         if (SpkTHD[0] + double.Parse(data.FillValue)
                             <= double.Parse(data.UppLimit)
                              && SpkTHD[0] + double.Parse(data.FillValue) 
@@ -771,6 +951,7 @@ namespace TestDAL
                                  + double.Parse(data.FillValue), 3).ToString();
                         }
                     }
+                    Thread.Sleep(500);
                 }
             }
             catch (Exception ex)
@@ -793,7 +974,8 @@ namespace TestDAL
                     {
                         ISequenceResultCollection results = ATc.Sequence["Micphone"]["THD+N"]
                             .SequenceResults;
-                        double[] MicTHD = results[2].GetMeterValues();
+                        double[] MicTHD = results.Count > 2
+                            ? results[2].GetMeterValues() : results[0].GetMeterValues();
                         if (MicTHD[0] + double.Parse(data.FillValue)
                             <= double.Parse(data.UppLimit)
                              && MicTHD[0] + double.Parse(data.FillValue)
@@ -866,15 +1048,21 @@ namespace TestDAL
         {
             try
             {
-                if(btStatus)
+                if (ATc.SignalPathSetup.OutputConnector.Type == OutputConnectorType.ASIO)
                 {
-                    ATc.BtsimSettings.Disconnect();
+                    ATc.Exit();
                 }
                 else
                 {
-                    ATc.BluetoothSettings.Disconnect();
+                    if (btStatus)
+                    {
+                        ATc.BtsimSettings.Disconnect();
+                    }
+                    else
+                    {
+                        ATc.BluetoothSettings.Disconnect();
+                    }
                 }
-                
                 data.Result = "Pass";
                 data.Value = "Pass";
             }
@@ -886,6 +1074,15 @@ namespace TestDAL
             return data;
         }
 
+        public TestData SetMaxVolume(TestData data)
+        {
+            for (int i = 0; i < 50; i++)
+            {
+                Others.MaxVolume();
+            }
+            return data;
+        }
+
         public void ExitA2()
         {
             if (ATc != null)
@@ -893,5 +1090,6 @@ namespace TestDAL
                 ATc.Exit();
             }
         }
+
     }
 }

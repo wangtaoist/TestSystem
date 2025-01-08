@@ -72,6 +72,7 @@
             this.cb_cd = new System.Windows.Forms.CheckBox();
             this.cb_mi = new System.Windows.Forms.CheckBox();
             this.cb_ss = new System.Windows.Forms.CheckBox();
+            this.cb_EVM = new System.Windows.Forms.CheckBox();
             this.cb_ic = new System.Windows.Forms.CheckBox();
             this.cb_op = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -548,6 +549,7 @@
             this.groupBox5.Controls.Add(this.cb_cd);
             this.groupBox5.Controls.Add(this.cb_mi);
             this.groupBox5.Controls.Add(this.cb_ss);
+            this.groupBox5.Controls.Add(this.cb_EVM);
             this.groupBox5.Controls.Add(this.cb_ic);
             this.groupBox5.Controls.Add(this.cb_op);
             this.groupBox5.Location = new System.Drawing.Point(7, 187);
@@ -586,6 +588,16 @@
             this.cb_ss.TabIndex = 0;
             this.cb_ss.Text = "Single sensitivity";
             this.cb_ss.UseVisualStyleBackColor = true;
+            // 
+            // cb_EVM
+            // 
+            this.cb_EVM.AutoSize = true;
+            this.cb_EVM.Location = new System.Drawing.Point(242, 43);
+            this.cb_EVM.Name = "cb_EVM";
+            this.cb_EVM.Size = new System.Drawing.Size(72, 16);
+            this.cb_EVM.TabIndex = 0;
+            this.cb_EVM.Text = "ECM(EVM)";
+            this.cb_EVM.UseVisualStyleBackColor = true;
             // 
             // cb_ic
             // 
@@ -1089,16 +1101,16 @@
             this.groupBox14.Size = new System.Drawing.Size(139, 63);
             this.groupBox14.TabIndex = 12;
             this.groupBox14.TabStop = false;
-            this.groupBox14.Text = "自动Hall测试";
+            this.groupBox14.Text = "自动Hall或脚踏测试";
             // 
             // cb_AutoHALL
             // 
             this.cb_AutoHALL.AutoSize = true;
             this.cb_AutoHALL.Location = new System.Drawing.Point(6, 29);
             this.cb_AutoHALL.Name = "cb_AutoHALL";
-            this.cb_AutoHALL.Size = new System.Drawing.Size(96, 16);
+            this.cb_AutoHALL.Size = new System.Drawing.Size(132, 16);
             this.cb_AutoHALL.TabIndex = 0;
-            this.cb_AutoHALL.Text = "自动Hall测试";
+            this.cb_AutoHALL.Text = "自动Hall或脚踏测试";
             this.cb_AutoHALL.UseVisualStyleBackColor = true;
             // 
             // groupBox15
@@ -1527,5 +1539,6 @@
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.TextBox tb_pid;
         private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.CheckBox cb_EVM;
     }
 }

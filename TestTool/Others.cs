@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.IO;
-using System.Data;
 using System.Diagnostics;
 using System.Threading;
+using Serilog;
 
 namespace TestTool
 {
-  public  class Others
+    public  class Others
     {
         [DllImport("User32.dll")]
         public static extern Int32 SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -35,6 +32,45 @@ namespace TestTool
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool Wow64RevertWow64FsRedirection(IntPtr ptr);
+
+        [DllImport("user32.dll")]
+        public static extern bool SetProcessDPIAware();
+
+        private const int APPCOMMAND_VOLUME_MUTE = 0x80000;
+        private const int APPCOMMAND_VOLUME_UP = 0xA0000;
+        private const int APPCOMMAND_VOLUME_DOWN = 0x90000;
+        private const int WM_APPCOMMAND = 0x319;
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessageW(IntPtr hWnd, int Msg,
+           IntPtr wParam, IntPtr lParam);
+        public static IntPtr handle;
+
+        public static void InitOthers(string version)
+        {
+            Log.Logger = new LoggerConfiguration()
+           .WriteTo.File(string.Format("CommLog\\log_{0}.txt", DateTime.Now.ToString("yyyyMMdd"))
+           , outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level}] {Message}{NewLine}{Exception}")
+           .CreateLogger();
+            WriteInformationLog(string.Format("软件版本：{0}，程序启动", version));
+        }
+
+        public static void WriteInformationLog(string data)
+        {
+            //Thread.Sleep(500);
+            Log.Information(data);
+        }
+
+        public static void WriteErrorLog(string data)
+        {
+            //Thread.Sleep(50);
+            Log.Error(data);
+        }
+
+        public static void WriteWarningLog(string data)
+        {
+            //Thread.Sleep(50);
+            Log.Warning(data);
+        }
 
         private static object obj = new object();
 
@@ -72,15 +108,16 @@ namespace TestTool
 
         public static bool isWin10()
         {
-            var info = System.Environment.OSVersion;
-            if(info.Version.Major == 6 && info.Version.Minor == 2)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            //var info = System.Environment.OSVersion;
+            //if(info.Version.Major == 6 && info.Version.Minor == 2)
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+            return false;
         }
 
         public static string CmdExcute(string cmdStr)
@@ -165,6 +202,86 @@ namespace TestTool
                         sw.WriteLine(data);
                     }
                 }
+            }
+        }
+
+        public static void MaxVolume()
+        {
+            for (int i = 0; i < 50; i++)
+            {
+                SendMessageW(handle, WM_APPCOMMAND, handle, (IntPtr)APPCOMMAND_VOLUME_UP);
+            }
+        }
+
+        public static byte[] DecodeZero(byte[] packet)
+        {
+            var i = packet.Length - 1;
+            while (packet[i] == 0)
+            {
+                --i;
+            }
+            var temp = new byte[i + 1];
+            Array.Copy(packet, temp, i + 1);
+            return temp;
+        }
+
+        public static string[] DecodeZero(string[] packet)
+        {
+            var i = packet.Length - 1;
+            while (packet[i] == "00" || packet[i] == "\0")
+            {
+                --i;
+            }
+            var temp = new string[i + 1];
+            Array.Copy(packet, temp, i + 1);
+            return temp;
+        }
+
+
+
+    }
+
+    [Guid("5CDF2C82-841E-4546-9722-0CF74078229A"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    interface IAudioEndpointVolume
+    {
+        int _0(); int _1(); int _2(); int _3();
+        int SetMasterVolumeLevelScalar(float fLevel, Guid pguidEventContext);
+        int _5();
+        int GetMasterVolumeLevelScalar(out float pfLevel);
+        int _7(); int _8(); int _9(); int _10(); int _11(); int _12();
+    }
+    [Guid("D666063F-1587-4E43-81F1-B948E807363F"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    interface IMMDevice
+    {
+        int Activate(ref System.Guid id, int clsCtx, int activationParams, out IAudioEndpointVolume aev);
+    }
+    [Guid("A95664D2-9614-4F35-A746-DE8DB63617E6"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    interface IMMDeviceEnumerator
+    {
+        int _0();
+        int GetDefaultAudioEndpoint(int dataFlow, int role, out IMMDevice endpoint);
+    }
+    [ComImport, Guid("BCDE0395-E52F-467C-8E3D-C4579291692E")] class MMDeviceEnumeratorComObject { }
+    public class Audio
+    {
+        private static readonly IAudioEndpointVolume _MMVolume;
+        static Audio()
+        {
+            var enumerator = new MMDeviceEnumeratorComObject() as IMMDeviceEnumerator;
+            enumerator.GetDefaultAudioEndpoint(0, 1, out IMMDevice dev);
+            var aevGuid = typeof(IAudioEndpointVolume).GUID;
+            dev.Activate(ref aevGuid, 1, 0, out _MMVolume);
+        }
+        public static int Volume
+        {
+            get
+            {
+                _MMVolume.GetMasterVolumeLevelScalar(out float level);
+                return (int)(level * 100);
+            }
+            set
+            {
+                _MMVolume.SetMasterVolumeLevelScalar((float)value / 100, new Guid());
             }
         }
     }

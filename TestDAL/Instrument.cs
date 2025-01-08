@@ -42,7 +42,7 @@ namespace TestDAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Others.WriteErrorLog(ex.Message);
             }
         }
 
@@ -62,7 +62,7 @@ namespace TestDAL
             string ret = string.Empty;
             try
             {
-                Thread.Sleep(100);
+                Thread.Sleep(60);
                 ret = Session.Query("*IDN?\n");
             }
             catch(Exception ex) 
@@ -76,11 +76,17 @@ namespace TestDAL
         {
             try
             {
-                Thread.Sleep(100);
-                Session.Write("*RST\n");
-                //Others.WriteTestLog("*RST");
+                if (Session != null)
+                {
+                    Thread.Sleep(50);
+                    Session.Write("*RST\n");
+                    Others.WriteInformationLog("*RST");
+                }
             }
-            catch { }
+            catch
+            {
+
+            }
         }
 
         public int Opc()
@@ -88,9 +94,12 @@ namespace TestDAL
             int ret = 0;
             try
             {
-                Thread.Sleep(500);
-                ret = int.Parse(Session.Query("*OPC?\n"));
-                //Others.WriteTestLog("*OPC?");
+                if (Session != null)
+                {
+                    Thread.Sleep(500);
+                    ret = int.Parse(Session.Query("*OPC?\n"));
+                    Others.WriteInformationLog("*OPC?");
+                }
             }
             catch { }
             return ret;
@@ -100,9 +109,12 @@ namespace TestDAL
         {
             try
             {
-                Thread.Sleep(100);
-                Session.Write("*CLS\n");
-                //Others.WriteTestLog("*CLS");
+                if (Session != null)
+                {
+                    Thread.Sleep(50);
+                    Session.Write("*CLS\n");
+                    Others.WriteInformationLog("*CLS");
+                }
             }
             catch { }
         }
@@ -111,21 +123,41 @@ namespace TestDAL
         {
             try
             {
-                Thread.Sleep(50);
-                //Cls();
-                Session.Write(string.Format("*OPC;{0}\n", cmd));
-                //Others.WriteTestLog(string.Format("*OPC;{0}\n", cmd));
+                if (Session != null )
+                {
+                    Thread.Sleep(50);
+                    //Cls();
+                    Session.Write(string.Format("*OPC;{0}\n", cmd));
+                    Others.WriteInformationLog(string.Format("*OPC;{0}\n", cmd));
+                }
             }
-            catch { }
+         
+            catch (Exception ex)
+            {
+                Others.WriteErrorLog(ex.Message);
+                throw;
+            }
         }
 
         public string VisaQuery(string cmd)
         {
-            Thread.Sleep(50);
-            string send = string.Format("*OPC;{0}\n", cmd);
-            //Others.WriteTestLog(send);
-            string data = Session.Query(send).Trim();
-            //Others.WriteTestLog(data);
+            string data = string.Empty;
+            try
+            {
+                if (Session != null)
+                {
+                    Thread.Sleep(50);
+                    string send = string.Format("*OPC;{0}\n", cmd);
+                    Others.WriteInformationLog(send);
+                    data = Session.Query(send).Trim();
+                    Others.WriteInformationLog(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                Others.WriteErrorLog(ex.Message);
+                throw;
+            }
             return data;
         }
 
@@ -134,6 +166,7 @@ namespace TestDAL
             if (Session != null)
             {
                 Session.Dispose();
+                Session = null;
             }
         }
     }

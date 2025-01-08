@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Lchse_TDE_Program")]
+[assembly: AssemblyTitle("生产工厂产线测试系统")]
 [assembly: AssemblyDescription("工厂产线测试系统")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("江西联创宏声电子股份有限公司")]
-[assembly: AssemblyProduct("Test_Program")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2020")]
+[assembly: AssemblyProduct("工厂产线测试系统")]
+[assembly: AssemblyCopyright("Copyright © Lchse 2019-2022")]
 [assembly: AssemblyTrademark("Lchse")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // 可以指定所有值，也可以使用以下所示的 "*" 预置版本号和修订号
 // 方法是按如下所示使用“*”: :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("19.04.11.01")]
-[assembly: AssemblyFileVersion("20.03.03.01")]
+[assembly: AssemblyVersion("22.03.25.01")]
+[assembly: AssemblyFileVersion("22.03.25.01")]
