@@ -8,3 +8,9 @@ D:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.csproj.CoreC
 D:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.dll
 D:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.pdb
 D:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.csprojAssemblyReference.cache
+F:\Lchse\Program\Program\TestSystem\TestModel\bin\Release\TestModel.dll
+F:\Lchse\Program\Program\TestSystem\TestModel\bin\Release\TestModel.pdb
+F:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.csprojAssemblyReference.cache
+F:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.csproj.CoreCompileInputs.cache
+F:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.dll
+F:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.pdb

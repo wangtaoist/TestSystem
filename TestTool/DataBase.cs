@@ -11,12 +11,12 @@ namespace TestTool
 {
     public class DataBase
     {
-        private string dbPath;
+        public string dbPath;
         private static OleDbConnection oleDbConnection;
 
         public DataBase(string path)
         {
-            dbPath = Path.Combine(path, "DataBase", "TestDB.mdb");
+            dbPath = path;
         }
 
         private OleDbConnection ConnectDB()
@@ -34,9 +34,9 @@ namespace TestTool
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
             return oleDbConnection;
         }
@@ -64,7 +64,7 @@ namespace TestTool
                 {
                     bool show = bool.Parse(dt.Rows[i].ItemArray[10].ToString()
                        == "" ? "false" : dt.Rows[i].ItemArray[10].ToString());
-                 
+
                     list.Add(new TestData()
                     {
                         ID = show == true ? (j += 1).ToString() : "",
@@ -77,12 +77,12 @@ namespace TestTool
                         AfterTime = int.Parse(dt.Rows[i].ItemArray[6].ToString()),
                         Remark = dt.Rows[i].ItemArray[7].ToString(),
                         Other = dt.Rows[i].ItemArray[8].ToString(),
-                        Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString() == "" 
-                        ? "false": dt.Rows[i].ItemArray[9].ToString()),
+                        Check = bool.Parse(dt.Rows[i].ItemArray[9].ToString() == ""
+                        ? "false" : dt.Rows[i].ItemArray[9].ToString()),
                         Show = bool.Parse(dt.Rows[i].ItemArray[10].ToString() == ""
                         ? "false" : dt.Rows[i].ItemArray[10].ToString()),
                         FillValue = dt.Rows[i].ItemArray[11].ToString() == "" ? "0"
-                        :dt.Rows[i].ItemArray[11].ToString()
+                        : dt.Rows[i].ItemArray[11].ToString()
                     });
                 }
             }
@@ -124,7 +124,7 @@ namespace TestTool
                         ? "false" : dt.Rows[i].ItemArray[9].ToString()),
                         Show = bool.Parse(dt.Rows[i].ItemArray[10].ToString() == ""
                         ? "false" : dt.Rows[i].ItemArray[10].ToString()),
-                         FillValue = dt.Rows[i].ItemArray[11].ToString() == "" ? "0"
+                        FillValue = dt.Rows[i].ItemArray[11].ToString() == "" ? "0"
                         : dt.Rows[i].ItemArray[11].ToString()
                     });
                 }
@@ -217,7 +217,9 @@ namespace TestTool
                 list.NowStation = dt.Rows[51].ItemArray[1].ToString();
 
                 list.AutoSN = bool.Parse(dt.Rows[52].ItemArray[1].ToString());
-                
+                list.EVM = bool.Parse(dt.Rows[53].ItemArray[1].ToString());
+
+                list.BLE = bool.Parse(dt.Rows[54].ItemArray[1].ToString());
             }
             catch (Exception)
             {
@@ -336,7 +338,6 @@ namespace TestTool
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             ClosedConnect();
@@ -354,7 +355,6 @@ namespace TestTool
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             ClosedConnect();
@@ -416,7 +416,6 @@ namespace TestTool
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             ClosedConnect();
@@ -498,7 +497,26 @@ namespace TestTool
             return dt;
         }
 
-        public void UpdateSN(string day,int num)
+        public void UpdateSN(string day, int num)
+        {
+            OleDbCommand cmd = new OleDbCommand();
+            try
+            {
+                cmd.Connection = ConnectDB();
+                //cmd.CommandText = string.Format("insert into Test_Message values('{0}','{1}','{2}')"
+                //    , radio.Total, radio.Pass, radio.PassRadio);
+                string command = string.Format("update SN set SN.day='{0}',SN.SN='{1}'"
+                    , day, num);
+                cmd.CommandText = command;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void UpdateTCLSN(string day, int num)
         {
             OleDbCommand cmd = new OleDbCommand();
             try
@@ -560,7 +578,7 @@ namespace TestTool
                 da.Fill(dt);
 
                 number = int.Parse(dt.Rows[0].ItemArray[0].ToString());
-               
+
             }
             catch (Exception ex)
             {
@@ -588,6 +606,77 @@ namespace TestTool
             {
                 throw ex;
             }
+        }
+
+        public void SaveConfig(string path,ConfigData config)
+        {
+            dbPath = path;
+            OleDbCommand cmd = new OleDbCommand();
+            try
+            {
+                cmd.Connection = ConnectDB();
+                //cmd.CommandText = "CREATE TABLE Application_Config(parameter varchar(255),data varchar(255))";
+                //cmd.ExecuteNonQuery();
+
+                Dictionary<string, object> dic = new Dictionary<string, object>();
+                dic.Add("Title", config.Title);
+                dic.Add("VisaPort", config.VisaPort);
+                dic.Add("SerialPort", config.SerialPort);
+                dic.Add("PowerPort", config.PowerPort);
+                dic.Add("Sen_TX_Power", config.Sen_TX_Power);
+                dic.Add("number_of_packets", config.number_of_packets);
+                dic.Add("Low_Freq", config.Low_Freq);
+                dic.Add("Mod_Freq", config.Mod_Freq);
+                dic.Add("Hi_Freq", config.Hi_Freq);
+                dic.Add("Low_Loss", config.Low_Loss);
+                dic.Add("Mod_Loss", config.Mod_Loss);
+                dic.Add("Hi_Loss", config.Hi_Loss);
+                dic.Add("Inquiry_TimeOut", config.Inquiry_TimeOut);
+
+                dic.Add("OP", config.OP);
+                dic.Add("IC", config.IC);
+                dic.Add("CD", config.CD);
+                dic.Add("SS", config.SS);
+                dic.Add("MI", config.MI);
+                dic.Add("Voltage1", config.Voltage1);
+                dic.Add("Voltage2", config.Voltage2);
+                dic.Add("Current", config.Current);
+                dic.Add("GPIB_Enable", config.GPIB_Enable);
+                dic.Add("Serial_Enable", config.Serial_Enable);
+                dic.Add("Power_Enable", config.Power_Enable);
+                dic.Add("CompareSN", config.CompareString);
+                dic.Add("SNLength", config.SNLength);
+                dic.Add("MultimeterPort", config.MultimeterPort);
+                dic.Add("Multimeter_Enable", config.Multimeter_Select);
+                dic.Add("AudioEnable", config.AudioEnable);
+                dic.Add("AudioPath", config.AudioPath);
+                dic.Add("SerialSelect", config.SerialSelect);
+                dic.Add("SNAuto", config.AutoSN);
+                dic.Add("SNHear", config.SNHear);
+                dic.Add("SNLine", config.SNLine);
+                dic.Add("FixAuto", config.AutoFixture);
+                dic.Add("FixPort", config.AutoFixture);
+                dic.Add("LEDEnable", config.LEDEnable);
+                dic.Add("LEDPort", config.LEDPort);
+                dic.Add("PlugEnable", config.PlugEnable);
+                dic.Add("MaxSet", config.MaxSet);
+                dic.Add("PlugNumber", config.PlugNumber);
+                dic.Add("_4010Port", config._4010Port);
+                dic.Add("_4010Enable", config._4010Enable);
+                dic.Add("AutoHALL", config.AutoHALL);
+                dic.Add("RelayPort", config.RelayPort);
+                dic.Add("RelayEnable", config.RelayEnable);
+                //dic.Add("NowStation", tb_NowStation.Text.Trim());
+                dic.Add("AutoSN", config.AutoSN);
+                dic.Add("EVM", config.EVM);
+                UpdateConfigData(dic);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //CREATE TABLE Application_Config(parameter varchar(255),data varchar(255));
+            //insert into Application_Config (parameter,data) values ("Title","wangatao")
         }
     }
 }

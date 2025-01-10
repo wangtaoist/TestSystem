@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.IO;
-using System.Data;
 using System.Diagnostics;
 using System.Threading;
+using Serilog;
 
 namespace TestTool
 {
-  public  class Others
+    public  class Others
     {
         [DllImport("User32.dll")]
         public static extern Int32 SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -35,6 +32,42 @@ namespace TestTool
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool Wow64RevertWow64FsRedirection(IntPtr ptr);
+
+        private const int APPCOMMAND_VOLUME_MUTE = 0x80000;
+        private const int APPCOMMAND_VOLUME_UP = 0xA0000;
+        private const int APPCOMMAND_VOLUME_DOWN = 0x90000;
+        private const int WM_APPCOMMAND = 0x319;
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessageW(IntPtr hWnd, int Msg,
+           IntPtr wParam, IntPtr lParam);
+        public static IntPtr handle;
+
+        public static void InitOthers(string version)
+        {
+            Log.Logger = new LoggerConfiguration()
+           .WriteTo.File(string.Format("CommLog\\log_{0}.txt", DateTime.Now.ToString("yyyyMMdd"))
+           , outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level}] {Message}{NewLine}{Exception}")
+           .CreateLogger();
+            WriteInformationLog(string.Format("软件版本：{0}，程序启动", version));
+        }
+
+        public static void WriteInformationLog(string data)
+        {
+            //Thread.Sleep(500);
+            Log.Information(data);
+        }
+
+        public static void WriteErrorLog(string data)
+        {
+            //Thread.Sleep(50);
+            Log.Error(data);
+        }
+
+        public static void WriteWarningLog(string data)
+        {
+            //Thread.Sleep(50);
+            Log.Warning(data);
+        }
 
         private static object obj = new object();
 
@@ -72,15 +105,16 @@ namespace TestTool
 
         public static bool isWin10()
         {
-            var info = System.Environment.OSVersion;
-            if(info.Version.Major == 6 && info.Version.Minor == 2)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            //var info = System.Environment.OSVersion;
+            //if(info.Version.Major == 6 && info.Version.Minor == 2)
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+            return false;
         }
 
         public static string CmdExcute(string cmdStr)
@@ -167,5 +201,38 @@ namespace TestTool
                 }
             }
         }
+
+        public static void MaxVolume()
+        {
+            for (int i = 0; i < 50; i++)
+            {
+                SendMessageW(handle, WM_APPCOMMAND, handle, (IntPtr)APPCOMMAND_VOLUME_UP);
+            }
+        }
+
+        public static byte[] DecodeZero(byte[] packet)
+        {
+            var i = packet.Length - 1;
+            while (packet[i] == 0)
+            {
+                --i;
+            }
+            var temp = new byte[i + 1];
+            Array.Copy(packet, temp, i + 1);
+            return temp;
+        }
+
+        public static string[] DecodeZero(string[] packet)
+        {
+            var i = packet.Length - 1;
+            while (packet[i] == "00" || packet[i] == "\0")
+            {
+                --i;
+            }
+            var temp = new string[i + 1];
+            Array.Copy(packet, temp, i + 1);
+            return temp;
+        }
+
     }
 }

@@ -12,6 +12,7 @@ namespace TestDAL
     public class SaveData
     {
         private string initPath;
+
         public SaveData(string path)
         {
             this.initPath = Path.Combine(path, "TestData");

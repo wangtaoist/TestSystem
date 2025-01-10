@@ -20,8 +20,8 @@ namespace TestDAL
             list.Add(new InitTestItem()
             {
                 TestItem = "MessageBox",
-                Remark = "弹出信息框,在其他配置中写入要提示的内容,格式:提示框内容;" +
-               "提示框超时时间,设置为0时就是取消超时.例:请拔出USB线;2000"
+                Remark = "弹出信息框,在其他配置中写入要提示的内容,格式:提示框内容:界面宽:界面高;" +
+               "提示框超时时间,设置为0时就是取消超时,默认宽450高200例:请拔出USB线;2000;500;300"
             });
 
             list.Add(new InitTestItem()
@@ -112,8 +112,7 @@ namespace TestDAL
             list.Add(new InitTestItem()
             {
                 TestItem = "MT8852_Compare_BD_Address",
-                Remark = "通过MT8852获取并比对耳机蓝牙地址是否在区间之内，在下限中设置蓝牙地址的下限最后6位，" +
-                "在上限中设置蓝牙地址的上限最后6位"
+                Remark = "通过MT8852获取并比对耳机蓝牙地址前6位，在下限中填入"
             });
             list.Add(new InitTestItem()
             {
@@ -148,6 +147,21 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "Run_MT8852_BLE",
+                Remark = "运行MT8852脚本，进行BLE测试"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Set8852LossOne",
+                Remark = "设置8852第一组Loss，设置时两组Loss中间用;分开，例如：-10;-10"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Set8852LossTwo",
+                Remark = "设置8852第二组Loss，设置时两组Loss中间用;分开，例如：-10;-10"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "DUT_Power",
                 Remark = "获取耳机相应频道功率，设置其他参数栏位:Freq:\"相应的频率\""
             });
@@ -175,6 +189,26 @@ namespace TestDAL
             {
                 TestItem = "DUT_CarrierDrift",
                 Remark = "获取耳机载波偏移"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "DUT_CarrierModRMS2M",
+                Remark = "获取耳机ECM(EVM)均方根2M数据，该项目要先测试，设置其他参数栏位:Freq:\"相应的频率\""
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "DUT_GetCarrierModRMS3M",
+                Remark = "获取耳机ECM(EVM)均方根3M数据，设置其他参数栏位:Freq:\"相应的频率\""
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "DUT_GetCarrierModPeak2M",
+                Remark = "获取耳机ECM(EVM)峰值2M数据，设置其他参数栏位:Freq:\"相应的频率\""
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "DUT_GetCarrierModPeak3M",
+                Remark = "获取耳机ECM(EVM)峰值3M数据，设置其他参数栏位:Freq:\"相应的频率\""
             });
             list.Add(new InitTestItem()
             {
@@ -247,6 +281,72 @@ namespace TestDAL
             {
                 TestItem = "Get4010BTAddress",
                 Remark = "获取Agilent测试耳机蓝牙地址"
+            });
+            //通用电源控制
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommon",
+                Remark = "检测电源型号，2303/2306/66319"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonOpen",
+                Remark = "通用电源打开"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonChannelOneOut",
+                Remark = "通用电源通道一输出"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonChannelTwoOut",
+                Remark = "通用电源通道二输出"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonChannelOneOverVoltage",
+                Remark = "通用电源通道1输出过压电压，电压在下限设置"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonChannelTwoOverVoltage",
+                Remark = "通用电源通道2输出过压电压，电压在下限设置"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonChannelOneReadCurrent",
+                Remark = "通用电源读取通道1电流"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonChannelOneReadVoltage",
+                Remark = "通用电源读取通道1电压"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonChannelTwoReadCurrent",
+                Remark = "通用电源读取通道2电流"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonChannelTwoReadVoltage",
+                Remark = "通用电源读取通道2电压"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonChannelOneStopOut",
+                Remark = "通用电源读取通道1关闭输出"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonChannelTwoStopOut",
+                Remark = "通用电源读取通道2关闭输出"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PowerSupplyCommonClose",
+                Remark = "通用电源关闭"
             });
 
             list.Add(new InitTestItem()
@@ -481,7 +581,58 @@ namespace TestDAL
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_OpenSerialPort",
-                Remark = "打开BES系列耳机串口"
+                Remark = "打开BES系列通讯串口，在其他配置中设置波特率" 
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OpenOppoSerialPort",
+                Remark = "打开BES系列OPPO耳机串口"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OpenOneLineSerialPort",
+                Remark = "打开BES系列耳机单线通讯串口"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PublicByteSerialPortCommand",
+                Remark = "通用串口指令(byte数据类型)，数据格式:指令;跳过几个byte;第几位byte是数据长度,偏移位数;编码方式：ASCII/16/10/bt/voltage;是否有返回;命令格式：ASCII/BYTE" +
+                "例如：55 AA FF 17 00 A5;5;3,2;16;true;BYTE"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PublicAsciiSerialPortCommand",
+                Remark = "通用串口指令(Aecii数据类型)，数据格式:指令;匹配字符;分割符;是否返回;读取延迟时间;是否写入;写入位置;写入数据" +
+                "例如：$L^PHYNUM?;^PHYNUM:;\r;true;300,true,0,0"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PublicWriteSerialNumber",
+                Remark = "通用写入产品SN，数据格式:指令;是否需要结尾指令;结尾指令;跳过几个byte;第几位byte是数据长度,偏移位数;编码方式：ASCII/16/10" +
+                "例如：4C 43 14 00 20;true;AA;3;1;16"
+
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PublicReadAndCompareSerialNumber",
+                Remark = "通用读取和比对SN，数据格式:指令;跳过几个byte;第几位byte是数据长度,偏移位数;编码方式：ASCII/16/10" +
+              "例如：4C 43 14 01 AA ;4;16;16"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CompareTestValue",
+                Remark = "通用串口指令(byte数据类型)，数据格式:测试界面那个项目和那个项目数据进行比对；如果比对4个地址，" +
+                "需要其中3个地址为一致，1和2位tws地址，3和4位耳机本地地址例如：2;3"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "EnterProductLineTestMode",
+                Remark = "X5i项目充电盒进入产线测试模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "Readx5sBattaryLevel",
+                Remark = "X5i项目充电盒读取电量"
             });
             list.Add(new InitTestItem()
             {
@@ -558,7 +709,7 @@ namespace TestDAL
                 TestItem = "BES_ReadProductColor",
                 Remark = "读取BES系列耳机产品颜色，在下限中输入，" +
                 "包括华为橙色/ 华为黑色/华为绿色/华为银色/华为紫色/华为橘红色" +
-                "和荣耀灰色/荣耀蓝色/荣耀红色/荣耀营销色"
+                "和荣耀灰色/荣耀蓝色/荣耀红色/荣耀营销色/荣耀黑色/荣耀绿色/荣耀橙色"
             });
             list.Add(new InitTestItem()
             {
@@ -752,8 +903,8 @@ namespace TestDAL
             {
                 TestItem = "BES_WriteProductColor",
                 Remark = "写入BES系列耳机产品颜色，在下限中输入，" +
-                "包括华为橙色/ 华为黑色/华为绿色/华为银色/华为紫色/华为橘红色" +
-                "和荣耀灰色/荣耀蓝色/荣耀红色/荣耀营销色"
+                 "包括华为橙色/ 华为黑色/华为绿色/华为银色/华为紫色/华为橘红色" +
+                "和荣耀灰色/荣耀蓝色/荣耀红色/荣耀营销色/荣耀黑色/荣耀绿色/荣耀橙色"
             });
             list.Add(new InitTestItem()
             {
@@ -874,6 +1025,118 @@ namespace TestDAL
                 TestItem = "BES_ReadWearData",
                 Remark = "读取佩戴触发值，要在远近距离测试各一次"
             });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_BD02CompareFirstPairRecord",
+                Remark = "BD02项目读取第一个蓝牙地址"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_BD02CompareSecondPairRecord",
+                Remark = "BD02项目读取第二个蓝牙地址"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_BD02ComparePairRecord",
+                Remark = "BD02项目读取二个蓝牙地址进行比对，要先读取两个蓝牙地址后再进行比对"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_BD02LeftCompareSoftVersion",
+                Remark = "BD02项目读取左耳并比对软件版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_BD02RightCompareSoftVersion",
+                Remark = "BD02项目读取右耳并比对软件版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_BD02ReadLeftPairMessage",
+                Remark = "BD02项目读取左耳组队信息"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_BD02ReadRightPairMessage",
+                Remark = "BD02项目读取右耳组队信息"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_BD02LeftRightCompare",
+                Remark = "BD02项目左右耳组队信息比对"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_T1207ReadMac",
+                Remark = "T1207项目读取蓝牙地址"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_T1207SoftVersion",
+                Remark = "T1207项目读取软件版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_T1207EnterDUT",
+                Remark = "T1207项目进入DUT模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_T1207Reset",
+                Remark = "T1207项目写入蓝牙地址后重启"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_T1207WriteBtAddress",
+                Remark = "T1207项目写蓝牙地址，需要扫描输入"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_T1207ClsPair",
+                Remark = "T1207项目清除耳机和手机的配对记录"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_T1207ReadLeftPairMessage",
+                Remark = "T1207项目读取左耳TWS组队信息"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_T1207ReadRightPairMessage",
+                Remark = "T1207项目读取右耳TWS组队信息"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_T1207LeftRightCompare",
+                Remark = "T1207项目比对左右耳TWS组队信息"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_T1207ReadLeftElectricity",
+                Remark = "T1207项目读取左耳电量"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_T1207ReadRightElectricity",
+                Remark = "T1207项目读取右耳电量"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_TW18LeftRightCompare",
+                Remark = "TW18项目比对左右耳TWS组队信息"
+            });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_JT51ReadLeftPairMessage",
+                Remark = "JT51项目读取左耳组队信息"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_JT51ReadRightPairMessage",
+                Remark = "JT51项目读取右耳组队信息"
+            });
+
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_TWS_TXMode",
@@ -1007,6 +1270,198 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "BES_XE25_TWS_EnterDUT",
+                Remark = "BES XE25 TWS 进入DUT模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_XE25_TWS_CloseLog",
+                Remark = "BES XE25 TWS 关闭Log打印"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_XE25_TWS_ReadVersion",
+                Remark = "BES XE25 TWS 读取版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_XE25_TWS_ReadMac",
+                Remark = "BES XE25 TWS 读取Mac地址"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_XE25_TWS_ReadName",
+                Remark = "BES XE25 TWS 读取名称"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_XE25_TWS_ClsRepair",
+                Remark = "BES XE25 TWS 清除配对记录"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_XE25_TWS_LoopBackOn",
+                Remark = "BES XE25 TWS 进入LoopBack模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_XE25_TWS_LoopBackOff",
+                Remark = "BES XE25 TWS 关闭LoopBack模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadSoftVersion",
+                Remark = "BES 读取OPPO耳机软件版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadHardVersion",
+                Remark = "BES 读取OPPO耳机硬件版本"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadElectricity",
+                Remark = "BES 读取OPPO耳机电量"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadButton",
+                Remark = "BES 读取OPPO耳机按键，01为暂停，02为音量+，04为音量-"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoHALLTest",
+                Remark = "BES OPPO耳机霍尔测试"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadNTC",
+                Remark = "BES 读取OPPO耳机NTC值，返回值2：0°-17°，" +
+                "19：17°-45°，47为45-53度， 55：53°-70°，55：53°-70°，71：>70°"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadVoltage",
+                Remark = "BES 读取OPPO耳机电压，包装线要等待10秒以上才准确"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoEnterDUT",
+                Remark = "BES OPPO耳机进入DUT"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReset",
+                Remark = "BES OPPO耳机复位"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoPowerOff",
+                Remark = "BES OPPO耳机关机"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoFactorySettings",
+                Remark = "BES OPPO耳机出厂设置，清除配对记录"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoChargeManage",
+                Remark = "BES 设置OPPO耳机充电模式，00为退出，01为进入"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadChargeManage",
+                Remark = "BES 读取OPPO耳机充电模式，00为退出，01为进入"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoShipping",
+                Remark = "BES OPPO耳机进入船运模式"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadBtName",
+                Remark = "BES 读取OPPO耳机名称并进行判断"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadBtAddress",
+                Remark = "BES 读取OPPO耳机蓝牙地址"
+            });
+           
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadBattarySN",
+                Remark = "BES 读取OPPO耳机电池SN"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoCompareBattarySN",
+                Remark = "BES 读取并比对OPPO耳机电池SN"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoWriteBattarySN",
+                Remark = "BES 写入OPPO耳机电池SN"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadTelecomSN",
+                Remark = "BES 读取OPPO耳机电信码"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoCompareTelecomSN",
+                Remark = "BES 读取并比对OPPO耳机电信码"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoWriteTelecomSN",
+                Remark = "BES 写入OPPO耳机电信码"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadEQ",
+                Remark = "BES 读取OPPO耳机EQ，01：国内  02：国外  其他值默认国内，中英文提示音切换"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoWriteEQ",
+                Remark = "BES 写入OPPO耳机EQ，01：国内  02：国外  其他值默认国内，中英文提示音切换"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadENC",
+                Remark = "BES 读取OPPO耳机ENC bypass，0为ENC有效，1为无效，可以测试Mic"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoWriteENC",
+                Remark = "BES 写入OPPO耳机ENC bypass，0为ENC有效，1为无效，可以测试Mic"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoClsElectricity",
+                Remark = "BES 清除OPPO耳机电量"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadColor",
+                Remark = "BES 读取OPPO耳机颜色"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoWriteColor",
+                Remark = "BES 写入OPPO耳机颜色"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "BES_OppoReadEncLicense",
+                Remark = "BES 读取OPPO耳机校验ENC 许可证，0为未进行校验，1为ENC校验成功"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "BES_ClosedSerialPort",
                 Remark = "关闭和释放BES系列耳机串口"
             });
@@ -1096,6 +1551,21 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "OppoEarPair",
+                Remark = "A2和BES芯片OPPO耳机配对"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "ScanPair",
+                Remark = "A2搜索进行配对,需要输入耳机名称"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "XE25_EarPair",
+                Remark = "XE25项目读取蓝牙地址配对"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "SpeakerLevel_Left",
                 Remark = "测试左SPK电平，单位：Vrmas"
             });
@@ -1169,6 +1639,12 @@ namespace TestDAL
             {
                 TestItem = "MicphoneSNR",
                 Remark = "测试Mic 信噪比，单位是dB"
+            });
+
+            list.Add(new InitTestItem()
+            {
+                TestItem = "SetMaxVolume",
+                Remark = "设置待测试设备的喇叭最大音量"
             });
             list.Add(new InitTestItem()
             {
@@ -1264,6 +1740,11 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "AirohaPowerReset",
+                Remark = "络达重启"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "AirohaMainMic",
                 Remark = "络达打开主MIC"
             });
@@ -1281,6 +1762,11 @@ namespace TestDAL
             {
                 TestItem = "AirohaLightInput",
                 Remark = "络达光感入耳校准"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "AirohaLightValue",
+                Remark = "络达光感值"
             });
             list.Add(new InitTestItem()
             {
@@ -1334,6 +1820,49 @@ namespace TestDAL
                 Remark = "关闭中科蓝汛串口"
             });
 
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CRY574Initialize",
+                Remark = "初始化CRY574 Dongle"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CRY574Release",
+                Remark = "释放CRY574资源"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CRY574ScanAndConnectMac",
+                Remark = "搜索蓝牙地址和连接蓝牙及SPP"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CRY574GetSppData",
+                Remark = "通用串口指令(byte数据类型)，指令;跳过几个byte;第几位byte是数据长度,偏移位数;编码方式：ASCII/16/10/bt;是否有返回;返回值识别数组" +
+                "例如：55 AA FF 17 00 A5;5;3,2;16;true;05 5b"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CRY574GetSppAnyData",
+                Remark = "通用串口指令(byte数据类型)，指令;跳过几个byte;第几位byte是数据长度,偏移位数;编码方式：ASCII/16/10/bt;是否有返回;返回值识别数组" +
+               "例如：55 AA FF 17 00 A5;5;3,2;16;true;05 5b"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "CRY574GetSppATData",
+                Remark = "通用串口指令(AT指令)，指令;分割符合;获取数据位数;返回值识别数组" +
+              "例如：at+name;:;1;4f 4b"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PDT40FarDiff",
+                Remark = "比对远空光感值与空域光感值的差"
+            });
+            list.Add(new InitTestItem()
+            {
+                TestItem = "PDT40NearDiff",
+                Remark = "比对近空光感值与空域光感值的差"
+            });
             return list;
         }
     }

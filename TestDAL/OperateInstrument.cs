@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using TestModel;
+using TestDAL;
 
 namespace TestDAL
 {
@@ -18,16 +19,22 @@ namespace TestDAL
         private CsrOperate csr;
         public string BtAddress;
         private WebReference.WebService1 web;
+        private string instrName;
+        private string Levm, Mevm, Hevm;
+        //public OperateBES operateBES;
+        public DateTime dateTime;
 
         public OperateInstrument(ConfigData data, Queue<string> queue)
         {
             this.data = data;
             this.queue = queue;
+            instrName = string.Empty;
             try
             {
                 if (data.GPIB_Enable)
                 {
                     instrument = new Instrument(data.VisaPort);
+                    dateTime = DateTime.Now;
                 }
                 if (data.Power_Enable)
                 {
@@ -37,7 +44,7 @@ namespace TestDAL
                 {
                     MultimeterInst = new Instrument(data.MultimeterPort);
                 }
-                if(data._4010Enable)
+                if (data._4010Enable)
                 {
                     _4010Inst = new Instrument(data._4010Port);
                     //double val = Read_4010_FreqOffset();
@@ -46,95 +53,195 @@ namespace TestDAL
             }
             catch (Exception ex)
             {
-                queue.Enqueue(ex.Message);
+                queue.Enqueue("ex;" + ex.Message);
             }
         }
 
         public void InitInstr()
         {
-            instrument.Rst();
-            instrument.Cls();
-            instrument.VisaWrite("OPMD SCRIPT");
-            instrument.VisaWrite("SCPTSEL 3");
-            instrument.VisaWrite("SCRIPTMODE 3,STANDARD");
-            instrument.VisaWrite("TXPWR 3,-40");
-            //SCPTCFG 3,OP,ON;MI;IC;CD;SS
-            //PC;MS;MP
-            //ALLTSTS
-            instrument.VisaWrite("SCPTCFG 3,ALLTSTS,OFF");
-            if (data.OP)
-                instrument.VisaWrite("SCPTCFG 3,OP,ON");
-            if (data.MI)
-                instrument.VisaWrite("SCPTCFG 3,MI,ON");
-            if (data.IC)
-                instrument.VisaWrite("SCPTCFG 3,IC,ON");
-            if (data.CD)
-                instrument.VisaWrite("SCPTCFG 3,CD,ON");
-            if (data.SS)
-                instrument.VisaWrite("SCPTCFG 3,SS,ON");
-            //instrument.VisaWrite("SCPTCFG 3,PC,OFF");
-            //instrument.VisaWrite("SCPTCFG 3,MS,OFF");
-            //instrument.VisaWrite("SCPTCFG 3,MP,OFF");
-            //TXPWR 3,-10.0
-            if (data.OP)
+            try
             {
-                // instrument.VisaWrite(string.Format("OPCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
-                //instrument.VisaWrite(string.Format("OPCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
-                //instrument.VisaWrite(string.Format("OPCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
-                instrument.VisaWrite("OPCFG 3,PKTTYPE, DH1");
-                instrument.VisaWrite("OPCFG 3,NUMPKTS,10");
-                instrument.VisaWrite("OPCFG 3,HOPPING,HOPOFF");
-            }
+                //instrument.Rst();
+                instrument.Cls();
+                instrument.VisaWrite("OPMD SCRIPT");
+                instrument.VisaWrite("SCPTSEL 3");
+                instrument.VisaWrite("SCRIPTMODE 3,STANDARD");
+                instrument.VisaWrite("TXPWR 3,-40");
 
-            if (data.IC)
-            {
-                //instrument.VisaWrite(string.Format("ICCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
-                //instrument.VisaWrite(string.Format("ICCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
-                //instrument.VisaWrite(string.Format("ICCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
-                //instrument.VisaWrite("ICCFG 3,HOPMODE, ANY");
-                instrument.VisaWrite("ICCFG 3,NUMPKTS,10");
-                instrument.VisaWrite("ICCFG 3,HOPPING,HOPOFF");
-            }
-            if (data.CD)
-            {
-                //instrument.VisaWrite(string.Format("CDCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
-                //instrument.VisaWrite(string.Format("CDCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
-                //instrument.VisaWrite(string.Format("CDCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
-                instrument.VisaWrite("CDCFG 3,PKTSIZE,ONESLOT,TRUE");
-                instrument.VisaWrite("CDCFG 3,PKTSIZE,THREESLOT,FALSE");
-                instrument.VisaWrite("CDCFG 3,PKTSIZE,FIVESLOT,FALSE");
-                instrument.VisaWrite("CDCFG 3,NUMPKTS,10");
-                instrument.VisaWrite("CDCFG 3,HOPPING,HOPOFF");
-            }
-            if (data.MI)
-            {
-                //instrument.VisaWrite(string.Format("MICFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
-                //instrument.VisaWrite(string.Format("MICFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
-                //instrument.VisaWrite(string.Format("MICFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
-                instrument.VisaWrite("MICFG 3,NUMPKTS,10");
-            }
-            if (data.SS)
-            {
-                //instrument.VisaWrite(string.Format("SSCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
-                //instrument.VisaWrite(string.Format("SSCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
-                //instrument.VisaWrite(string.Format("SSCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
-                instrument.VisaWrite(string.Format("SSCFG 3,NUMPKTS, {0}", data.number_of_packets));
-                instrument.VisaWrite(string.Format("SSCFG 3,TXPWR, {0}", data.Sen_TX_Power));
-                //SSCFG 3,HOPPING, HOPBOTH
-                //SSCFG 3,HOPMODE, DEFINED
-                instrument.VisaWrite("SSCFG 3,HOPPING, HOPBOTH");
-                //instrument.VisaWrite("CDCFG 3,PKTSIZE,FIVESLOT,FALSE");
-            }
-            //instrument.VisaWrite(string.Format("OPCFG 3,AVGMXLIM, {0}", data.AvgPowerHi));
-            //instrument.VisaWrite(string.Format("OPCFG 3,AVGMNLIM, {0}", data.AvgPowerLow));
-            //instrument.VisaWrite(string.Format("OPCFG 3,PEAKLIM, {0}", data.PeakPower));
+                //SCPTCFG 3,OP,ON;MI;IC;CD;SS
+                //PC;MS;MP
+                //ALLTSTS
+                instrument.VisaWrite("SCPTCFG 3,ALLTSTS,OFF");
+                if(data.BLE)
+                {
+                    instrument.VisaWrite("SYSCFG EUTSRCE,BLE2WIRE");
+                    //instrument.VisaWrite("SYSCFG EUTRS232,115200");
+                    instrument.VisaWrite("SYSCFG CONFIG, RANGE, AUTO");
+                   // instrument.VisaWrite("SCPTSEL 3");
+                    instrument.VisaWrite("SYSCFG USBADAPTOR,PORT,A");
+                    instrument.VisaWrite("SYSCFG EUTHANDSHAKE,RTS/CTS");
+                    instrument.VisaWrite("LESCPTCFG 3, LETSTMODE, STANDARD, TRUE");
+                    instrument.VisaWrite("SCPTSEL 3");
+                }
+                else
+                {
+                    instrument.VisaWrite("SYSCFG EUTSRCE,INQUIRY");
+                }
+                if (data.OP)
+                {
+                    if(data.BLE)
+                        instrument.VisaWrite("SCPTCFG 3,LEOP,ON");
+                    else
+                        instrument.VisaWrite("SCPTCFG 3,OP,ON");
 
-            instrument.VisaWrite(string.Format("PATHOFF 3,TABLE"));
-            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,0, {0}", data.Low_Loss));
-            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,39, {0}", data.Mod_Loss));
-            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,78, {0}", data.Hi_Loss));
+                }
+                if (data.MI)
+                    if (data.BLE)
+                    {
+                        instrument.VisaWrite("SCPTCFG 3,LEMI,ON");
+                    }
+                    else
+                    {
+                        instrument.VisaWrite("SCPTCFG 3,MI,ON");
+                    }
+                if (data.IC)
+                    instrument.VisaWrite("SCPTCFG 3,IC,ON");
+                if (data.CD)
+                    if (data.BLE)
+                    {
+                        instrument.VisaWrite("SCPTCFG 3,LEICD,ON");
+                    }
+                    else
+                    {
+                        instrument.VisaWrite("SCPTCFG 3,CD,ON");
+                    }
+                if (data.SS)
+                    if(data.BLE)
+                    {
+                        instrument.VisaWrite("SCPTCFG 3,LESS,ON");
+                    }
+                else
+                    {
+                        instrument.VisaWrite("SCPTCFG 3,SS,ON");
+                    }
+                   
+                if (data.EVM)
+                {
+                    //instrument.VisaWrite("SCPTTSTGP 3,EDRTSTS,ON");
+                    instrument.VisaWrite("SCPTCFG 3,ECM,ON");
+                }
+                //instrument.VisaWrite("SCPTCFG 3,PC,OFF");
+                //instrument.VisaWrite("SCPTCFG 3,MS,OFF");
+                //instrument.VisaWrite("SCPTCFG 3,MP,OFF");
+                //TXPWR 3,-10.0
+                if (data.OP)
+                {
+                    // instrument.VisaWrite(string.Format("OPCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
+                    //instrument.VisaWrite(string.Format("OPCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
+                    //instrument.VisaWrite(string.Format("OPCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
+                    if (data.BLE)
+                    {
+                        instrument.VisaWrite("LEOPCFG 3,NUMPKTS,10");
+                        instrument.VisaWrite("LEOPCFG 3,LEPKTTYPE,BLE,TRUE");
+                    }
+                    else
+                    {
+                        instrument.VisaWrite("OPCFG 3,PKTTYPE, DH1");
+                        instrument.VisaWrite("OPCFG 3,NUMPKTS,10");
+                        instrument.VisaWrite("OPCFG 3,HOPPING,HOPOFF");
+                    }
+                }
 
-            // instrument.Closed();
+                if (data.IC)
+                {
+                    //instrument.VisaWrite(string.Format("ICCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
+                    //instrument.VisaWrite(string.Format("ICCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
+                    //instrument.VisaWrite(string.Format("ICCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
+                    //instrument.VisaWrite("ICCFG 3,HOPMODE, ANY");
+                    instrument.VisaWrite("ICCFG 3,NUMPKTS,10");
+                    instrument.VisaWrite("ICCFG 3,HOPPING,HOPOFF");
+                }
+                if (data.CD)
+                {
+                    //instrument.VisaWrite(string.Format("CDCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
+                    //instrument.VisaWrite(string.Format("CDCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
+                    //instrument.VisaWrite(string.Format("CDCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
+                    if (data.BLE)
+                    {
+                        instrument.VisaWrite("LEICDCFG 3,LEPKTTYPE,BLE,TRUE");
+                        instrument.VisaWrite("LEICDCFG 3,NUMPKTS,10");
+                    }
+                    else
+                    {
+                        instrument.VisaWrite("CDCFG 3,PKTSIZE,ONESLOT,TRUE");
+                        instrument.VisaWrite("CDCFG 3,PKTSIZE,THREESLOT,FALSE");
+                        instrument.VisaWrite("CDCFG 3,PKTSIZE,FIVESLOT,FALSE");
+                        instrument.VisaWrite("CDCFG 3,NUMPKTS,10");
+                        instrument.VisaWrite("CDCFG 3,HOPPING,HOPOFF");
+                    }
+                }
+                if (data.MI)
+                {
+                    //instrument.VisaWrite(string.Format("MICFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
+                    //instrument.VisaWrite(string.Format("MICFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
+                    //instrument.VisaWrite(string.Format("MICFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
+                    if (data.BLE)
+                    {
+                        instrument.VisaWrite("LEMICFG 3,LEPKTTYPE,BLE,TRUE");
+                        instrument.VisaWrite("LEMICFG 3,DEFAULT");
+                        //instrument.VisaWrite("LEMICFG 3,NUMPKTS,10");
+                    }
+                    else
+                    {
+                        instrument.VisaWrite("MICFG 3,NUMPKTS,10");
+                    }
+                }
+                if (data.SS)
+                {
+                    //instrument.VisaWrite(string.Format("SSCFG 3,LTXFREQ, FREQ, {0}", data.Low_Freq));
+                    //instrument.VisaWrite(string.Format("SSCFG 3,MTXFREQ,FREQ, {0}", data.Mod_Freq));
+                    //instrument.VisaWrite(string.Format("SSCFG 3,HTXFREQ, FREQ, {0}", data.Hi_Freq));
+                    if (data.BLE)
+                    {
+                        instrument.VisaWrite(string.Format("LESSCFG 3,NUMPKTS, {0}", data.number_of_packets));
+                        instrument.VisaWrite(string.Format("LESSCFG 3,TXPWR, {0}", data.Sen_TX_Power));
+                    }
+                    else
+                    {
+                        instrument.VisaWrite(string.Format("SSCFG 3,NUMPKTS, {0}", data.number_of_packets));
+                        instrument.VisaWrite(string.Format("SSCFG 3,TXPWR, {0}", data.Sen_TX_Power));
+                        //SSCFG 3,HOPPING, HOPBOTH
+                        //SSCFG 3,HOPMODE, DEFINED
+                        instrument.VisaWrite("SSCFG 3,HOPPING, HOPBOTH");
+                        //instrument.VisaWrite("CDCFG 3,PKTSIZE,FIVESLOT,FALSE");
+                    }
+                }
+                if (data.EVM)
+                {
+                    instrument.VisaWrite("ECMCFG 3,NUMBLKS,100");
+                    instrument.VisaWrite(string.Format("ECMCFG 3,LTXFREQ, FREQ,{0}000000", "2418"));
+                    instrument.VisaWrite(string.Format("ECMCFG 3,MTXFREQ,FREQ, {0}000000", "2444"));
+                    instrument.VisaWrite(string.Format("ECMCFG 3,HTXFREQ,FREQ, {0}000000", "2470"));
+
+                    //instrument.VisaWrite("ECMCFG 3,TSTCTRL on");
+                }
+                //instrument.VisaWrite(string.Format("OPCFG 3,AVGMXLIM, {0}", data.AvgPowerHi));
+                //instrument.VisaWrite(string.Format("OPCFG 3,AVGMNLIM, {0}", data.AvgPowerLow));
+                //instrument.VisaWrite(string.Format("OPCFG 3,PEAKLIM, {0}", data.PeakPower));
+
+                if (!data.Low_Loss.Contains(";"))
+                {
+                    instrument.VisaWrite(string.Format("PATHOFF 3,TABLE"));
+                    instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,0, {0}", data.Low_Loss));
+                    instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,39, {0}", data.Mod_Loss));
+                    instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,78, {0}", data.Hi_Loss));
+                }
+                // instrument.Closed();
+            }
+            catch(Exception ex)
+            {
+                queue.Enqueue("ex;" + ex.Message);
+            }
         }
 
         public void Set8852()
@@ -221,7 +328,7 @@ namespace TestDAL
         public void InitPower()
         {
             PowerInst.Rst();
-            
+
             //PowerInst.VisaWrite(string.Format(":SOUR1:VOLT:LEVel {0}"
             //    , data.Voltage1));
             //PowerInst.VisaWrite(string.Format(":SOUR2:VOLT:LEVel {0}"
@@ -243,22 +350,22 @@ namespace TestDAL
         {
             //_4010Inst.Rst();
             _4010Inst.VisaWrite("SEQuence:CLEar");
-            if(data.OP)
+            if (data.OP)
                 _4010Inst.VisaWrite("SEQ:ADD OPOW");
-                _4010Inst.VisaWrite("LINK:CONF:CHAN:HOPP OFF");
+            _4010Inst.VisaWrite("LINK:CONF:CHAN:HOPP OFF");
             if (data.SS)
                 _4010Inst.VisaWrite("SEQuence:ADD SSENsitivity");
-                _4010Inst.VisaWrite(string.Format("LINK:CONFigure:BITS {0}", data.number_of_packets));
-               _4010Inst.VisaWrite("LINK:CONF:CHAN:HOPP OFF");
+            _4010Inst.VisaWrite(string.Format("LINK:CONFigure:BITS {0}", data.number_of_packets));
+            _4010Inst.VisaWrite("LINK:CONF:CHAN:HOPP OFF");
             if (data.MI)
                 _4010Inst.VisaWrite("SEQuence:ADD MCHar");
             if (data.IC)
                 _4010Inst.VisaWrite("SEQuence:ADD ICFT");
-                _4010Inst.VisaWrite("LINK:CONF:CHAN:HOPP OFF");
+            _4010Inst.VisaWrite("LINK:CONF:CHAN:HOPP OFF");
             if (data.CD)
                 _4010Inst.VisaWrite("SEQuence:ADD CFDRift");
-           
-            
+
+
             _4010Inst.VisaWrite("LINK:TYPE TESTmode");
             _4010Inst.VisaWrite("SENS:CORR:LOSS:STAT ON");
             Thread.Sleep(500);
@@ -270,7 +377,7 @@ namespace TestDAL
             _4010Inst.VisaWrite(string.Format("LINK:CONFigure:TX:POWer:LEVel {0}"
      , data.Sen_TX_Power));
             _4010Inst.VisaWrite(string.Format("LINK:INQ:DUR {0}", data.Inquiry_TimeOut));
-           
+
 
             //_4010Inst.VisaWrite("");
             //_4010Inst.VisaWrite("");
@@ -318,7 +425,7 @@ namespace TestDAL
             _4010Inst.VisaWrite("SEQuence:CLEar");
             _4010Inst.VisaWrite("SEQuence:ADD ICFT");
             _4010Inst.VisaWrite("LINK:CONF:CHAN:HOPP OFF");
-            
+
             Run_4010Script(new TestData());
         }
 
@@ -345,9 +452,17 @@ namespace TestDAL
             try
             {
                 instrument.VisaWrite("DISCONNECT");
+                //DateTime now = DateTime.Now;
+                //TimeSpan span = now - dateTime;
+                //if (span.Hours >= 1)
+                //{
+                //    queue.Enqueue("程序使用一小时，复位一次设备");
+                //    dateTime = DateTime.Now;
+
+                instrument.Rst();
                 InitInstr();
-                //instrument.Rst();
-                //Set8852();
+                ////Set8852();
+                //}
                 instrument.Cls();
                 instrument.Closed();
                 //InitInstr();
@@ -361,7 +476,38 @@ namespace TestDAL
                 item.Value = "Fail";
             }
             return item;
-        }  
+        }
+
+        public TestData Set8852LossOne(TestData item)
+        {
+            //string low = data.Low_Loss.Split(';')[0];
+            instrument.VisaWrite(string.Format("PATHOFF 3,TABLE"));
+            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,0, {0}"
+                , data.Low_Loss.Split(';')[0]));
+            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,39, {0}"
+                , data.Mod_Loss.Split(';')[0]));
+            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,78, {0}"
+                , data.Hi_Loss.Split(';')[0]));
+            item.Result = "Pass";
+            item.Value = "Pass";
+            return item;
+        }
+
+        public TestData Set8852LossTwo(TestData item)
+        {
+
+            instrument.VisaWrite(string.Format("PATHOFF 3,TABLE"));
+            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,0, {0}"
+                , data.Low_Loss.Split(';')[1]));
+            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,39, {0}"
+                , data.Mod_Loss.Split(';')[1]));
+            instrument.VisaWrite(string.Format("PATHEDIT 1,CHAN,78, {0}"
+                , data.Hi_Loss.Split(';')[1]));
+
+            item.Result = "Pass";
+            item.Value = "Pass";
+            return item;
+        }
 
         public TestData Open_QCC_Port(TestData item)
         {
@@ -410,7 +556,7 @@ namespace TestDAL
 
         public TestData QCC_Write_BtAddress(TestData item)
         {
-            if(csr.WriteBtAddress(BtAddress) == 1)
+            if (csr.WriteBtAddress(BtAddress) == 1)
             {
                 item.Result = "Pass";
                 item.Value = BtAddress;
@@ -532,18 +678,19 @@ namespace TestDAL
 
         public TestData Run_Script(TestData item)
         {
-            instrument.VisaWrite("DISCONNECT");
-            instrument.VisaWrite("SYSCFG EUTSRCE,INQUIR");
-            //instrument.VisaWrite("SYSCFG INQSET,RNUM,12");
             instrument.VisaWrite(string.Format("SYSCFG INQSET,TIMEOUT,{0}", data.Inquiry_TimeOut));
+            //instrument.VisaWrite("DISCONNECT");
+            //instrument.VisaWrite("SYSCFG EUTSRCE,INQUIRY");
+            //instrument.VisaWrite("SYSCFG INQSET,RNUM,12");
             //INQUIRY   INQRSP?
             instrument.VisaWrite("INQUIRY");
 
             //instrument.VisaWrite("CONNECT");
             string btAddress = string.Empty;
-            bool page = false;
+            bool page = true;
             queue.Enqueue("呼叫开始");
             instrument.Cls();
+
             for (int i = 0; i < 30; i++)
             {
                 string ret = instrument.VisaQuery("INQRSP?");
@@ -557,16 +704,33 @@ namespace TestDAL
                     page = true;
                     break;
                 }
-               
+                //else if (i == 15)
+                //{
+                //    queue.Enqueue("搜索不到");
+                //    //instrument.VisaWrite("INQCANCEL");
+                //    //instrument.Rst();
+                //    //InitInstr();
+                //    queue.Enqueue("再次发送指令进入QBQ模式");
+                //    string result = operateBES.Serial.VisaQuery1("$L^BQBOF=1", 500);
+                //    queue.Enqueue("再次进入QBQ模式：" + result);
+                //    Thread.Sleep(500);
+                //    //instrument.VisaWrite("SYSCFG EUTSRCE,INQUIR");
+                //    //instrument.VisaWrite("INQUIRY");
+                //    queue.Enqueue("重新搜索开始");
+                //}
+
                 if (i == 29 && !(ret.StartsWith("1")))
                 {
                     item.Result = "Fail";
                     item.Value = "Fail";
                     queue.Enqueue("呼叫超时，请检查耳机");
                     instrument.VisaWrite("INQCANCEL");
+                    page = false;
                 }
-                Thread.Sleep(250);
+                Thread.Sleep(200);
             }
+
+
             //SYSCFG EUTSRCE, MANUAL
             //SYSCFG EUTADDR, E09DFA349168,
             //instrument.VisaWrite("SYSCFG EUTSRCE, MANUAL");
@@ -574,25 +738,35 @@ namespace TestDAL
             //0003OP1A0100002
             if (page)
             {
-                instrument.VisaWrite("CONNECT");
-                queue.Enqueue("连接中");
-                instrument.Cls();
+                //instrument.VisaWrite("CONNECT");
+                //queue.Enqueue("连接中");
+
                 bool connStatus = false;
+                instrument.VisaWrite("RUN");
                 for (int j = 0; j < 30; j++)
                 {
-                    string conn = instrument.VisaQuery("STATUS").Substring(6, 1);
-                    if (conn == "1")
+                    instrument.Cls();
+                    queue.Enqueue("连接中......");
+                    string conn = instrument.VisaQuery("*INS?");
+
+                    if (conn == "42" || conn == "10")
                     {
                         connStatus = true;
                         queue.Enqueue("连接成功");
                         break;
                     }
-                    else if (conn == "0" && (j == 15))
+                    else if(conn == "41" || conn == "9")
                     {
-                        instrument.VisaWrite("DISCONNECT");
-                        queue.Enqueue("再次连接中......");
-                        instrument.VisaWrite("CONNECT");
+                        connStatus = true;
+                        queue.Enqueue("连接成功，测试中");
+                        break;
                     }
+                    //else if (conn == "0" && (j == 15))
+                    //{
+                    //    instrument.VisaWrite("DISCONNECT");
+                    //    queue.Enqueue("再次连接中......");
+                    //    instrument.VisaWrite("CONNECT");
+                    //}
 
                     if (j == 29 && connStatus != true)
                     {
@@ -601,54 +775,54 @@ namespace TestDAL
                         queue.Enqueue("连接超时，请检查耳机");
                         connStatus = false;
                     }
-                    Thread.Sleep(250);
+                    Thread.Sleep(200);
                 }
                 if (connStatus)
                 {
                     string error = string.Empty;
                     instrument.Cls();
                     Thread.Sleep(100);
-                    instrument.VisaWrite("RUN");
+
                     queue.Enqueue("Script 运行中");
                     instrument.Cls();
                     int index = 0;
                     string val = "";
                     for (int i = 0; i < 100; i++)
                     {
-                        error = instrument.VisaQuery("ERRLST");
-                        if (error.Split('!')[1].Contains("NO") && error.Split('!')[2].Contains("NO"))
-                        {
+                        //error = instrument.VisaQuery("ERRLST");
+                        //if (error.Split('!')[1].Contains("NO") && error.Split('!')[2].Contains("NO"))
+                        //{
 
-                            val = instrument.VisaQuery("*INS?");
+                        val = instrument.VisaQuery("*INS?");
 
-                            //instrument.Cls();
-                            //queue.Enqueue(val);
-                            if (val == "45" || val == "13")
-                            {
-                                item.Result = "Pass";
-                                item.Value = "Pass";
-                                queue.Enqueue("Script 运行完成");
-                                break;
-                            }
-                            else if (val == "41" || val == "9")
-                            {
-                                queue.Enqueue("连接耳机成功，测试中");
-                            }
-                            else if (val == "46")
-                            {
-                                item.Result = "Fail";
-                                item.Value = "Fail";
-                                queue.Enqueue("通讯超时，请检查耳机");
-                                break;
-                            }
-                        }
-                        else
+                        //instrument.Cls();
+                        //queue.Enqueue(val);
+                        if (val == "45" || val == "13")
                         {
-                            item.Result = "Fail";
-                            item.Value = "Fail";
-                            queue.Enqueue("仪器或者耳机报错，请检查");
+                            item.Result = "Pass";
+                            item.Value = "Pass";
+                            queue.Enqueue("Script 运行完成");
                             break;
                         }
+                        else if (val == "41" || val == "9")
+                        {
+                            queue.Enqueue("连接耳机成功，测试中");
+                        }
+                        //else if (val == "46")
+                        //{
+                        //    item.Result = "Fail";
+                        //    item.Value = "Fail";
+                        //    queue.Enqueue("通讯超时，请检查耳机");
+                        //    break;
+                        //}
+                        //}
+                        //else
+                        //{
+                        //    item.Result = "Fail";
+                        //    item.Value = "Fail";
+                        //    queue.Enqueue("仪器或者耳机报错，请检查");
+                        //    break;
+                        //}
                         if (index == 99 && val != "45")
                         {
                             item.Result = "Fail";
@@ -656,7 +830,7 @@ namespace TestDAL
                             queue.Enqueue("Script 运行超时");
                             break;
                         }
-                        Thread.Sleep(500);
+                        Thread.Sleep(200);
 
                     }
                     queue.Enqueue("断开耳机连接");
@@ -857,7 +1031,7 @@ namespace TestDAL
             short TrimValue = 0;
             short offset = 0;
             short writeOffset = 0;
-          
+
             //csr.AdjustFreq(0, 11);
             //uint TrimLoadCap = csr.ReadOffset(out TrimValue) + 1;
             //csr.AdjustFreq(11, TrimValue);
@@ -869,7 +1043,7 @@ namespace TestDAL
                 csr.ResetConnCsr();
                 csr.CsrReadOffset(out TrimValue);
                 csr.CsrEnterTxStart(2441);
-               
+
                 double freqError = Read_8852B_FreqOffect() / 1000;
                 csr.CalFreq(2441, 2441 + freqError, out offset);
                 writeOffset = (short)(TrimValue + offset);
@@ -891,7 +1065,7 @@ namespace TestDAL
                 }
             }
             //Thread.Sleep(500);
-            
+
             Thread.Sleep(500);
             instrument.VisaWrite("OPMD SCRIPT");
             instrument.VisaWrite("SCPTSEL 3");
@@ -904,49 +1078,123 @@ namespace TestDAL
             return item;
         }
 
+        public TestData Run_MT8852_BLE(TestData item)
+        {
+            try
+            {
+                string baud = item.Other;
+                if (baud == "")
+                {
+                    baud = "115200";
+                }
+                instrument.VisaWrite(string.Format("SYSCFG EUTRS232,{0}", baud));
+                Thread.Sleep(500);
+                instrument.VisaWrite("RUN");
+                string val = string.Empty;
+                for (int i = 0; i < 100; i++)
+                {
+                    val = instrument.VisaQuery("*INS?");
+                    if (val == "46" || val == "13")
+                    {
+                        item.Result = "Pass";
+                        item.Value = "Pass";
+                        queue.Enqueue("Script 运行完成");
+                        break;
+                    }
+                    else if (val == "42" || val == "9")
+                    {
+                        queue.Enqueue("连接耳机成功，测试中");
+                    }
+
+                    Thread.Sleep(200);
+                }
+            }
+            catch (Exception ex)
+            {
+                queue.Enqueue(ex.Message);
+                item.Result = "Fail";
+                item.Value = "Fail";
+            }
+            return item;
+        }
+
         public TestData GetTXPower(TestData item)
         {
             //XOP,HOPONL,TRUE,-15.73,-15.76,-15.22,-15.75,0,10,PASS
-            string retureVal = string.Empty;
-            double avgPower = 0;
-            instrument.Cls();
-            if (item.Other.Split(':')[1] == data.Low_Freq)
-            {
-                retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFL");            
-            }
-            else if(item.Other.Split(':')[1] == data.Mod_Freq)
-            {
-                retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFM");
-            }
-            else if(item.Other.Split(':')[1] == data.Hi_Freq)
-            {
-                retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFH");
-            }
-            if (bool.Parse(retureVal.Split(',')[2]))
-            {
-                if (retureVal.Contains("XOP"))
-                {
-                    avgPower = double.Parse(retureVal.Split(',')[6])
-                        + double.Parse(item.FillValue);
+            //XLEOP,HOPOFFL,TRUE,-7.10,-7.09,-7.11,0.13,0,10,PASS\n
 
-                }
-                if (avgPower >= double.Parse(item.LowLimit)
-                    && avgPower <= double.Parse(item.UppLimit))
+            for (int i = 0; i < 3; i++)
+            {
+                string retureVal = string.Empty;
+                double avgPower = 0;
+                instrument.Cls();
+                if (item.Other.Split(':')[1] == data.Low_Freq)
                 {
-                    item.Value = avgPower.ToString();
-                    item.Result = "Pass";
+                    if (data.BLE)
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT LEOP,HOPOFFL");
+                    }
+                    else
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFL");
+                    }
+                }
+                else if (item.Other.Split(':')[1] == data.Mod_Freq)
+                {
+                    if (data.BLE)
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT LEOP,HOPOFFM");
+                    }
+                    else
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFM");
+                    }
+                }
+                else if (item.Other.Split(':')[1] == data.Hi_Freq)
+                {
+                    if (data.BLE)
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT LEOP,HOPOFFH");
+                    }
+                    else
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT OP,HOPOFFH");
+                    }
+                }
+
+                if (retureVal.Contains("XOP") || retureVal.Contains("XLEOP"))
+                {
+                    if (bool.Parse(retureVal.Split(',')[2]))
+                    {
+                        avgPower = double.Parse(retureVal.Split(',')[3])
+                       + double.Parse(item.FillValue);
+
+                        if (avgPower >= double.Parse(item.LowLimit)
+                   && avgPower <= double.Parse(item.UppLimit))
+                        {
+                            item.Value = avgPower.ToString();
+                            item.Result = "Pass";
+                        }
+                        else
+                        {
+                            item.Value = avgPower.ToString();
+                            item.Result = "Fail";
+                        }
+                    }
+                    else
+                    {
+                        item.Value = "Fail";
+                        item.Result = "Fail";
+                        queue.Enqueue("测试过程中通讯超时，测试Fail");
+                    }
+                    break;
                 }
                 else
                 {
-                    item.Value = avgPower.ToString();
+                    item.Value = "Fail";
                     item.Result = "Fail";
                 }
-            }
-            else
-            {
-                item.Value = "Fail";
-                item.Result = "Fail";
-                queue.Enqueue("测试过程中通讯超时，测试Fail");
+                //Thread.Sleep(300);
             }
             return item;
         }
@@ -954,37 +1202,69 @@ namespace TestDAL
         public TestData GetSingleSensitivity(TestData item)
         {
             //XSS,HOPOFFL,FALSE,0.016,3.361,FAIL,246,4,3,7405,252,249,7408
+            //XLESS,HOPOFFL,TRUE,32.800,672,1000,FAIL\n
+            for (int i = 0; i < 5; i++)
+            {
+                string retureVal = string.Empty;
+                double avgPower = 0;
+                instrument.Cls();
+                if (item.Other.Split(':')[1] == data.Low_Freq)
+                {
+                    if (data.BLE)
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT LESS,HOPOFFL");
+                    }
+                    else
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFL");
+                    }
+                }
+                else if (item.Other.Split(':')[1] == data.Mod_Freq)
+                {
+                    if (data.BLE)
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT LESS,HOPOFFM");
+                    }
+                    else
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFM");
+                    }
+                }
+                else if (item.Other.Split(':')[1] == data.Hi_Freq)
+                {
+                    if (data.BLE)
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT LESS,HOPOFFH");
+                    }
+                    else
+                    {
+                        retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFH");
+                    }
+                }
+                if (retureVal.Contains("XSS") || retureVal.Contains("XLESS"))
+                {
+                    avgPower = double.Parse(retureVal.Split(',')[3])
+                        + double.Parse(item.FillValue);
 
-            string retureVal = string.Empty;
-            double avgPower = 0;
-            instrument.Cls();
-            if (item.Other.Split(':')[1] == data.Low_Freq)
-            {
-                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFL");
-            }
-            else if (item.Other.Split(':')[1] == data.Mod_Freq)
-            {
-                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFM");
-            }
-            else if (item.Other.Split(':')[1] == data.Hi_Freq)
-            {
-                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFH");
-            }
-            if (retureVal.Contains("XSS"))
-            {
-                avgPower = double.Parse(retureVal.Split(',')[3]) 
-                    + double.Parse(item.FillValue);
-            }
-            if (avgPower >= double.Parse(item.LowLimit)
-                && avgPower <= double.Parse(item.UppLimit))
-            {
-                item.Value = avgPower.ToString();
-                item.Result = "Pass";
-            }
-            else
-            {
-                item.Value = avgPower.ToString();
-                item.Result = "Fail";
+                    if (avgPower >= double.Parse(item.LowLimit)
+                   && avgPower <= double.Parse(item.UppLimit))
+                    {
+                        item.Value = avgPower.ToString();
+                        item.Result = "Pass";
+                    }
+                    else
+                    {
+                        item.Value = avgPower.ToString();
+                        item.Result = "Fail";
+                    }
+                    break;
+                }
+                else
+                {
+                    item.Value = "Fail";
+                    item.Result = "Fail";
+                }
+                //Thread.Sleep(300);
             }
             return item;
         }
@@ -992,76 +1272,270 @@ namespace TestDAL
         public TestData GetSingleSensitivity_FER(TestData item)
         {
             //XSS,HOPOFFL,FALSE,0.016,3.361,FAIL,246,4,3,7405,252,249,7408
+            for (int i = 0; i < 5; i++)
+            {
+                string retureVal = string.Empty;
+                double avgPower = 0;
+                instrument.Cls();
+                if (item.Other.Split(':')[1] == data.Low_Freq)
+                {
+                    retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFL");
+                }
+                else if (item.Other.Split(':')[1] == data.Mod_Freq)
+                {
+                    retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFM");
+                }
+                else if (item.Other.Split(':')[1] == data.Hi_Freq)
+                {
+                    retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFH");
+                }
+                if (retureVal.Contains("XSS"))
+                {
+                    avgPower = double.Parse(retureVal.Split(',')[4])
+                        + double.Parse(item.FillValue);
 
-            string retureVal = string.Empty;
-            double avgPower = 0;
-            instrument.Cls();
-            if (item.Other.Split(':')[1] == data.Low_Freq)
-            {
-                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFL");
+                    if (avgPower >= double.Parse(item.LowLimit)
+                   && avgPower <= double.Parse(item.UppLimit))
+                    {
+                        item.Value = avgPower.ToString();
+                        item.Result = "Pass";
+                    }
+                    else
+                    {
+                        item.Value = avgPower.ToString();
+                        item.Result = "Fail";
+                    }
+                    break;
+                }
+                else
+                {
+                    item.Value = "Fail";
+                    item.Result = "Fail";
+                }
+
+                //Thread.Sleep(300);
             }
-            else if (item.Other.Split(':')[1] == data.Mod_Freq)
+            return item;
+        }
+
+        public TestData GetCarrierModRMS2M(TestData item)
+        {
+            //XECM,HOPOFFL,TRUE,0.102,0.284,100.00,0.086,-15.0,14.7,
+            //-2.1,FAIL,TRUE,0.107,0.282,98.56,0.085,-8.9,8.6,-2.5,FAIL\n
+            try
             {
-                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFM");
+                string retureVal = string.Empty;
+                double evm = 0;
+                instrument.Cls();
+                if (item.Other.Split(':')[1] == data.Low_Freq)
+                {
+                    retureVal = instrument.VisaQuery("XRESULT ECM,HOPOFFL");
+                    Levm = retureVal;
+                }
+                else if (item.Other.Split(':')[1] == data.Mod_Freq)
+                {
+                    retureVal = instrument.VisaQuery("XRESULT ECM,HOPOFFM");
+                   Mevm = retureVal;
+                }
+                else if (item.Other.Split(':')[1] == data.Hi_Freq)
+                {
+                    retureVal = instrument.VisaQuery("XRESULT ECM,HOPOFFH");
+                    Hevm = retureVal;
+                }
+                evm = double.Parse(retureVal.Split(',')[3]);
+
+                if (retureVal.Contains("XECM"))
+                {
+                    evm = evm + double.Parse(item.FillValue);
+                }
+               
+                if (evm >= double.Parse(item.LowLimit)
+               && evm <= double.Parse(item.UppLimit))
+                {
+                    item.Value = evm.ToString();
+                    item.Result = "Pass";
+                }
+                else
+                {
+                    item.Value = evm.ToString();
+                    item.Result = "Fail";
+                }
             }
-            else if (item.Other.Split(':')[1] == data.Hi_Freq)
+            catch (Exception)
             {
-                retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFH");
-            }
-            if (retureVal.Contains("XSS"))
-            {
-                avgPower = double.Parse(retureVal.Split(',')[4])
-                    + double.Parse(item.FillValue);
-            }
-            if (avgPower >= double.Parse(item.LowLimit)
-                && avgPower <= double.Parse(item.UppLimit))
-            {
-                item.Value = avgPower.ToString();
-                item.Result = "Pass";
-            }
-            else
-            {
-                item.Value = avgPower.ToString();
                 item.Result = "Fail";
+                item.Value = "Fail";
+            }
+            return item;
+        }
+
+        public TestData GetCarrierModRMS3M(TestData item)
+        {
+            double evm = 0;
+            try
+            {
+                if (item.Other.Split(':')[1] == data.Low_Freq)
+                {
+                    evm = double.Parse(Levm.Split(',')[12]);
+                }
+                else if (item.Other.Split(':')[1] == data.Mod_Freq)
+                {
+                    evm = double.Parse(Mevm.Split(',')[12]);
+                }
+                else if (item.Other.Split(':')[1] == data.Hi_Freq)
+                {
+                    evm = double.Parse(Hevm.Split(',')[12]);
+                }
+
+                evm = evm + double.Parse(item.FillValue);
+
+                if (evm >= double.Parse(item.LowLimit)
+               && evm <= double.Parse(item.UppLimit))
+                {
+                    item.Value = evm.ToString();
+                    item.Result = "Pass";
+                }
+                else
+                {
+                    item.Value = evm.ToString();
+                    item.Result = "Fail";
+                }
+            }
+            catch (Exception ex)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+            }
+            return item;
+        }
+
+        public TestData GetCarrierModPeak2M(TestData item)
+        {
+            double evm = 0;
+            try
+            {
+                if (item.Other.Split(':')[1] == data.Low_Freq)
+                {
+                    evm = double.Parse(Levm.Split(',')[4]);
+                }
+                else if (item.Other.Split(':')[1] == data.Mod_Freq)
+                {
+                    evm = double.Parse(Mevm.Split(',')[4]);
+                }
+                else if (item.Other.Split(':')[1] == data.Hi_Freq)
+                {
+                    evm = double.Parse(Hevm.Split(',')[4]);
+                }
+
+                evm = evm + double.Parse(item.FillValue);
+
+                if (evm >= double.Parse(item.LowLimit)
+               && evm <= double.Parse(item.UppLimit))
+                {
+                    item.Value = evm.ToString();
+                    item.Result = "Pass";
+                }
+                else
+                {
+                    item.Value = evm.ToString();
+                    item.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+            }
+            return item;
+        }
+
+        public TestData GetCarrierModPeak3M(TestData item)
+        {
+            double evm = 0;
+            try
+            {
+                if (item.Other.Split(':')[1] == data.Low_Freq)
+                {
+                    evm = double.Parse(Levm.Split(',')[13]);
+                }
+                else if (item.Other.Split(':')[1] == data.Mod_Freq)
+                {
+                    evm = double.Parse(Mevm.Split(',')[13]);
+                }
+                else if (item.Other.Split(':')[1] == data.Hi_Freq)
+                {
+                    evm = double.Parse(Hevm.Split(',')[13]);
+                }
+
+                evm = evm + double.Parse(item.FillValue);
+
+                if (evm >= double.Parse(item.LowLimit)
+               && evm <= double.Parse(item.UppLimit))
+                {
+                    item.Value = evm.ToString();
+                    item.Result = "Pass";
+                }
+                else
+                {
+                    item.Value = evm.ToString();
+                    item.Result = "Fail";
+                }
+            }
+            catch (Exception)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
             }
             return item;
         }
 
         public TestData GetModulationindex(TestData item)
         {
+            for (int i = 0; i < 5; i++)
+            {
+                string retureVal = string.Empty;
+                double avgPower = 0;
+                instrument.Cls();
+                #region
+                //if (item.Other.Split(':')[1] == data.Low_Freq)
+                //{
+                //    retureVal = instrument.VisaQuery("XRESULT SS,HOPONL");
+                //}
+                //else if (item.Other.Split(':')[1] == data.Mod_Freq)
+                //{
+                //    retureVal = instrument.VisaQuery("XRESULT SS,HOPONM");
+                //}
+                //else if (item.Other.Split(':')[1] == data.Hi_Freq)
+                //{
+                //    retureVal = instrument.VisaQuery("XRESULT SS,HOPONH");
+                //}
+                //MI0,TRUE,1.830e+005,1.750e+005,1.224e+005,1.398e+005,0.790,FAIL
+#endregion
+                retureVal = instrument.VisaQuery("ORESULT TEST,0,MI");
+                if (retureVal.Contains("MI0"))
+                {
+                    avgPower = (double.Parse(retureVal.Split(',')[3]) / 1000)
+                        + double.Parse(item.FillValue);
 
-            string retureVal = string.Empty;
-            double avgPower = 0;
-            instrument.Cls();
-            //if (item.Other.Split(':')[1] == data.Low_Freq)
-            //{
-            //    retureVal = instrument.VisaQuery("XRESULT SS,HOPONL");
-            //}
-            //else if (item.Other.Split(':')[1] == data.Mod_Freq)
-            //{
-            //    retureVal = instrument.VisaQuery("XRESULT SS,HOPONM");
-            //}
-            //else if (item.Other.Split(':')[1] == data.Hi_Freq)
-            //{
-            //    retureVal = instrument.VisaQuery("XRESULT SS,HOPONH");
-            //}
-            //MI0,TRUE,1.830e+005,1.750e+005,1.224e+005,1.398e+005,0.790,FAIL
-            retureVal = instrument.VisaQuery("ORESULT TEST,0,MI");
-            if (retureVal.Contains("MI0"))
-            {
-                avgPower = (double.Parse(retureVal.Split(',')[3]) / 1000)
-                    + double.Parse(item.FillValue);
-            }
-            if (avgPower >= double.Parse(item.LowLimit)
-                && avgPower <= double.Parse(item.UppLimit))
-            {
-                item.Value = avgPower.ToString();
-                item.Result = "Pass";
-            }
-            else
-            {
-                item.Value = avgPower.ToString();
-                item.Result = "Fail";
+                    if (avgPower >= double.Parse(item.LowLimit)
+                    && avgPower <= double.Parse(item.UppLimit))
+                    {
+                        item.Value = avgPower.ToString();
+                        item.Result = "Pass";
+                    }
+                    else
+                    {
+                        item.Value = avgPower.ToString();
+                        item.Result = "Fail";
+                    }
+                    break;
+                }
+                else
+                {
+                    item.Value ="Fail";
+                    item.Result = "Fail";
+                }
+                //Thread.Sleep(300);
             }
             return item;
         }
@@ -1069,81 +1543,269 @@ namespace TestDAL
         public TestData GetInitialcarrier(TestData item)
         {
             //IC0,TRUE,-7300.0,-8500.0,-5900.0,-12400.0,PASS
-            string retureVal = string.Empty;
-            double avgPower = 0;
-            instrument.Cls();
-            //if (item.Other.Split(':')[1] == data.Low_Freq)
-            //{
-            //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONL");
-            //}
-            //else if (item.Other.Split(':')[1] == data.Mod_Freq)
-            //{
-            //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONM");
-            //}
-            //else if (item.Other.Split(':')[1] == data.Hi_Freq)
-            //{
-            //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONH");
-            //}
-            //IC0,TRUE,-9400.0,-8300.0,-4900.0,-10600.0,PASS
-            retureVal = instrument.VisaQuery("ORESULT TEST,0,IC");
-            if (retureVal.Contains("IC0"))
+            for (int i = 0; i < 5; i++)
             {
-                avgPower = (double.Parse(retureVal.Split(',')[3]) / 1000)
-                    + double.Parse(item.FillValue);
-            }
-            if (avgPower >= double.Parse(item.LowLimit)
-                && avgPower <= double.Parse(item.UppLimit))
-            {
-                item.Value = avgPower.ToString();
-                item.Result = "Pass";
-            }
-            else
-            {
-                item.Value = avgPower.ToString();
-                item.Result = "Fail";
+                string retureVal = string.Empty;
+                double avgPower = 0;
+                instrument.Cls();
+                //if (item.Other.Split(':')[1] == data.Low_Freq)
+                //{
+                //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONL");
+                //}
+                //else if (item.Other.Split(':')[1] == data.Mod_Freq)
+                //{
+                //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONM");
+                //}
+                //else if (item.Other.Split(':')[1] == data.Hi_Freq)
+                //{
+                //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONH");
+                //}
+                //IC0,TRUE,-9400.0,-8300.0,-4900.0,-10600.0,PASS
+                retureVal = instrument.VisaQuery("ORESULT TEST,0,IC");
+                if (retureVal.Contains("IC0"))
+                {
+                    avgPower = (double.Parse(retureVal.Split(',')[3]) / 1000)
+                        + double.Parse(item.FillValue);
+
+                    if (avgPower >= double.Parse(item.LowLimit)
+                   && avgPower <= double.Parse(item.UppLimit))
+                    {
+                        item.Value = avgPower.ToString();
+                        item.Result = "Pass";
+                    }
+                    else
+                    {
+                        item.Value = avgPower.ToString();
+                        item.Result = "Fail";
+                    }
+                    break;
+                }
+                else
+                {
+                    item.Value = "Fail";
+                    item.Result = "Fail";
+                }
+                //Thread.Sleep(300);
             }
             return item;
         }
 
         public TestData GetCarrierdrift(TestData item)
         {
-            string retureVal = string.Empty;
-            double avgPower = 0;
-            instrument.Cls();
-            //if (item.Other.Split(':')[1] == data.Low_Freq)
-            //{
-            //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONL");
-            //}
-            //else if (item.Other.Split(':')[1] == data.Mod_Freq)
-            //{
-            //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONM");
-            //}
-            //else if (item.Other.Split(':')[1] == data.Hi_Freq)
-            //{
-            //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONH");
-            //}
-            //CD0,TRUE,3931,TRUE,8.0e+003,FALSE,0.0e+000,FALSE,0.0e+000,PASS
-            retureVal = instrument.VisaQuery("ORESULT TEST,0,CD");
-            if (retureVal.Contains("CD0"))
+            for (int i = 0; i < 5; i++)
             {
-                avgPower = (double.Parse(retureVal.Split(',')[2]) / 1000)
-                    + double.Parse(item.FillValue);
-            }
-            if (avgPower >= double.Parse(item.LowLimit)
-                && avgPower <= double.Parse(item.UppLimit))
-            {
-                item.Value = avgPower.ToString();
-                item.Result = "Pass";
-            }
-            else
-            {
-                item.Value = avgPower.ToString();
-                item.Result = "Fail";
+                string retureVal = string.Empty;
+                double avgPower = 0;
+                instrument.Cls();
+                //if (item.Other.Split(':')[1] == data.Low_Freq)
+                //{
+                //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONL");
+                //}
+                //else if (item.Other.Split(':')[1] == data.Mod_Freq)
+                //{
+                //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONM");
+                //}
+                //else if (item.Other.Split(':')[1] == data.Hi_Freq)
+                //{
+                //    retureVal = instrument.VisaQuery("XRESULT IC,HOPONH");
+                //}
+                //CD0,TRUE,3931,TRUE,8.0e+003,FALSE,0.0e+000,FALSE,0.0e+000,PASS
+                //LEICD1,TRUE,8.000e+003,9.400e+003,6.500e+003,2039,1.0e+003,3.0e+003,0,30,PASS,-1481\n
+                if (data.BLE)
+                {
+                    retureVal = instrument.VisaQuery("ORESULT TEST,0,LEICD");
+                }
+                else
+                {
+                    retureVal = instrument.VisaQuery("ORESULT TEST,0,CD");
+                }
+                if (retureVal.Contains("CD0") || retureVal.Contains("LECD0"))
+                {
+                    avgPower = (double.Parse(retureVal.Split(',')[2]) / 1000)
+                        + double.Parse(item.FillValue);
+
+                    if (avgPower >= double.Parse(item.LowLimit)
+                   && avgPower <= double.Parse(item.UppLimit))
+                    {
+                        item.Value = avgPower.ToString();
+                        item.Result = "Pass";
+                    }
+                    else
+                    {
+                        item.Value = avgPower.ToString();
+                        item.Result = "Fail";
+                    }
+                    break;
+                }
+               else
+                {
+                    item.Value = "Fail";
+                    item.Result = "Fail";
+                }
             }
             return item;
         }
 
         public TestData GetBTAddress(TestData item)
+        {
+            instrument.Cls();
+            string address = instrument.VisaQuery("SYSCFG? EUTADDR");
+            //address = "E09DFA4D9B0D";
+            if (address.Length == 12)
+            {
+                if (data.MesEnable)
+                {
+                    queue.Enqueue("检查蓝牙地址是否过站及测试三次:" + address);
+                    web = new WebReference.WebService1();
+                    //ServiceReference1.WebService1SoapClient web = null;
+                    //web = new ServiceReference1.WebService1SoapClient("WebService1Soap");
+                    string reslut = web.SnCx(address, data.MesStation);
+                    //string btResult = web.SnCx_LY(address);
+                    string failResult = web.SnCx_SC(address, data.NowStation);
+                    //web.Close();
+                    //reslut = "F";
+                    web.Abort();
+                    if (reslut.Contains("F"))
+                    {
+                        item.Value = address;
+                        item.Result = "Fail";
+                        queue.Enqueue(string.Format("上一个工位:{0}:连续测试NG品,请检查 "
+                            , data.MesStation));
+                    }
+                    else
+                    {
+                        queue.Enqueue("检查蓝牙地址: " + address + ",过站Pass");
+                        item.Result = "Pass";
+                        item.Value = address;
+                        //if (btResult.Contains("P"))
+                        //{
+                        //    queue.Enqueue("该蓝牙地址: " + address + ",无重复");
+                        //    item.Result = "Pass";
+                        //    item.Value = address;
+                        if (failResult.Contains("P"))
+                        {
+                            queue.Enqueue("该蓝牙地址: " + address + ",无重复测试");
+
+                            //if(btResult.Contains("P"))
+                            //{
+                            //    item.Result = "Pass";
+                            //    item.Value = address;
+                            //    queue.Enqueue("该蓝牙地址: " + address + ",无重复");
+                            //}
+                            //else
+                            //{
+                            //    item.Result = "Fail";
+                            //    item.Value = address;
+                            //    queue.Enqueue("该蓝牙地址: " + address + ",重复，请检查");
+                            //}
+                        }
+                        else
+                        {
+                            item.Value = address;
+                            item.Result = "Fail";
+                            queue.Enqueue("该蓝牙地址: " + address + ",重复测试三次");
+                        }
+                        //}
+                        //else
+                        //{
+                        //    item.Value = address;
+                        //    item.Result = "Fail";
+                        //    queue.Enqueue("该蓝牙地址: " + address + ",重复,请检查");
+                        //}
+                    }
+
+
+                }
+                else
+                {
+                    item.Value = address;
+                    item.Result = "Pass";
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    address = instrument.VisaQuery("SYSCFG? EUTADDR");
+                    if (address.Length == 12)
+                    {
+                        if (data.MesEnable)
+                        {
+                            queue.Enqueue("检查蓝牙地址是否过站及测试三次:" + address);
+                            web = new WebReference.WebService1();
+                            //ServiceReference1.WebService1SoapClient web = null;
+                            //web = new ServiceReference1.WebService1SoapClient("WebService1Soap");
+                            string reslut = web.SnCx(address, data.MesStation);
+                            //string btResult = web.SnCx_LY(address);
+                            string failResult = web.SnCx_SC(address, data.NowStation);
+                            //web.Close();
+                            //reslut = "F";
+                            web.Abort();
+                            if (reslut.Contains("F"))
+                            {
+                                item.Value = address;
+                                item.Result = "Fail";
+                                queue.Enqueue(string.Format("上一个工位:{0}:连续测试NG品,请检查 "
+                                    , data.MesStation));
+                            }
+                            else
+                            {
+                                queue.Enqueue("检查蓝牙地址: " + address + ",过站Pass");
+                                item.Result = "Pass";
+                                item.Value = address;
+                                //if (btResult.Contains("P"))
+                                //{
+                                //    queue.Enqueue("该蓝牙地址: " + address + ",无重复");
+                                //    item.Result = "Pass";
+                                //    item.Value = address;
+                                if (failResult.Contains("P"))
+                                {
+                                    queue.Enqueue("该蓝牙地址: " + address + ",无重复测试");
+
+                                    //if(btResult.Contains("P"))
+                                    //{
+                                    //    item.Result = "Pass";
+                                    //    item.Value = address;
+                                    //    queue.Enqueue("该蓝牙地址: " + address + ",无重复");
+                                    //}
+                                    //else
+                                    //{
+                                    //    item.Result = "Fail";
+                                    //    item.Value = address;
+                                    //    queue.Enqueue("该蓝牙地址: " + address + ",重复，请检查");
+                                    //}
+                                }
+                                else
+                                {
+                                    item.Value = address;
+                                    item.Result = "Fail";
+                                    queue.Enqueue("该蓝牙地址: " + address + ",重复测试三次");
+                                }
+                                //}
+                                //else
+                                //{
+                                //    item.Value = address;
+                                //    item.Result = "Fail";
+                                //    queue.Enqueue("该蓝牙地址: " + address + ",重复,请检查");
+                                //}
+                            }
+
+
+                        }
+                        else
+                        {
+                            item.Value = address;
+                            item.Result = "Pass";
+                        }
+                        break;
+                    }
+                    //Thread.Sleep(300);
+                }
+            }
+            return item;
+        }
+
+        public TestData CompareBTAddress(TestData item)
         {
             instrument.Cls();
             string address = instrument.VisaQuery("SYSCFG? EUTADDR");
@@ -1180,7 +1842,7 @@ namespace TestDAL
                     if (failResult.Contains("P"))
                     {
                         queue.Enqueue("该蓝牙地址: " + address + ",无重复测试");
-                       
+
                         //if(btResult.Contains("P"))
                         //{
                         //    item.Result = "Pass";
@@ -1208,13 +1870,21 @@ namespace TestDAL
                     //    queue.Enqueue("该蓝牙地址: " + address + ",重复,请检查");
                     //}
                 }
-               
-              
+
+
             }
             else
             {
-                item.Value = address;
-                item.Result = "Pass";
+                if (address.StartsWith(item.LowLimit))
+                {
+                    item.Value = address;
+                    item.Result = "Pass";
+                }
+                else
+                {
+                    item.Value = address;
+                    item.Result = "Fail";
+                }
             }
             return item;
         }
@@ -1236,26 +1906,26 @@ namespace TestDAL
             return item;
         }
 
-        public TestData CompareBTAddress(TestData item)
-        {
-            instrument.Cls();
-            string address = instrument.VisaQuery("SYSCFG? EUTADDR");
-            //address = "E09DFA4D9B0D";
-            int add = int.Parse(address.Substring(6, 6), System.Globalization.NumberStyles.HexNumber);
-            int lowAdd = int.Parse(item.LowLimit);
-            int upAdd = int.Parse(item.UppLimit);
-            if (add >= lowAdd && add <= upAdd)
-            {
-                item.Value = address;
-                item.Result = "Pass";
-            }
-            else
-            {
-                item.Value = address;
-                item.Result = "Fail";
-            }
-            return item;
-        }
+        //public TestData CompareBTAddress(TestData item)
+        //{
+        //    instrument.Cls();
+        //    string address = instrument.VisaQuery("SYSCFG? EUTADDR");
+        //    //address = "E09DFA4D9B0D";
+        //    int add = int.Parse(address.Substring(6, 6), System.Globalization.NumberStyles.HexNumber);
+        //    int lowAdd = int.Parse(item.LowLimit);
+        //    int upAdd = int.Parse(item.UppLimit);
+        //    if (add >= lowAdd && add <= upAdd)
+        //    {
+        //        item.Value = address;
+        //        item.Result = "Pass";
+        //    }
+        //    else
+        //    {
+        //        item.Value = address;
+        //        item.Result = "Fail";
+        //    }
+        //    return item;
+        //}
 
         public TestData Open_4010(TestData item)
         {
@@ -1885,6 +2555,334 @@ namespace TestDAL
             return item;
         }
 
+        public TestData PowerSupplyCommon(TestData item)
+        {
+            try
+            {
+                string instr = PowerInst.IDN();
+                if (instr.Contains("2306"))
+                {
+                    instrName = "2306";
+                }
+                else if(instr.Contains("2303"))
+                {
+                    instrName = "2303";
+                }
+                else if (instr.Contains("66319"))
+                {
+                    instrName = "66319";
+                }
+                item.Result = "Pass";
+                item.Value = "Pass";
+            }
+            catch (Exception)
+            {
+                item.Result = "Fail";
+                item.Value = "Fail";
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonOpen(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2300Series_Open(item);
+                }
+                else if (instrName == "2303")
+                {
+                    item  = K2303Series_Open(item);
+                }
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_Open(item);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonClose(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2300Series_Closed(item);
+                }
+                else if (instrName == "2303")
+                {
+                    item = K2303Series_Closed(item);
+                }
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_Closed(item);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonChannelOneOut(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2300Series_ChannelOne_OutPut(item);
+                }
+                else if (instrName == "2303")
+                {
+                    item = K2303Series_ChannelOne_OutPut(item);
+                }
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_ChannelOne_OutPut(item);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonChannelTwoOut(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2300Series_ChannelTwo_OutPut(item);
+                }
+                //else if (instrName == "2303")
+                //{
+                //    item = K2303Series_ChannelOne_OutPut(item);
+                //}
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_ChannelTwo_OutPut(item);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonChannelOneOverVoltage(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2303Series_ChannelOne_OverVoltage(item);
+                }
+                else if (instrName == "2303")
+                {
+                    item = K2303Series_ChannelOne_OverVoltage(item);
+                }
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_ChannelOne_OverVoltage(item);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonChannelTwoOverVoltage(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2300Series_ChannelTwo_OverVoltage(item);
+                }
+                //else if (instrName == "2303")
+                //{
+                //    item = K2303Series_ChannelOne_OverVoltage(item);
+                //}
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_ChannelTwo_OverVoltage(item);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonChannelOneReadCurrent(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2300Series_ChannelOne_ReadCurrent(item);
+                }
+                else if (instrName == "2303")
+                {
+                    item = K2303Series_ChannelOne_ReadCurrent(item);
+                }
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_ChannelOne_ReadCurrent(item);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonChannelOneReadVoltage(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2300Series_ChannelOne_ReadVoltage(item);
+                }
+                else if (instrName == "2303")
+                {
+                    item = K2303Series_ChannelOne_ReadVoltage(item);
+                }
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_ChannelOne_ReadVoltage(item);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonChannelTwoReadCurrent(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2300Series_ChannelTwo_ReadCurrent(item);
+                }
+                //else if (instrName == "2303")
+                //{
+                //    item = K2303Series_ChannelOne_ReadCurrent(item);
+                //}
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_ChannelTwo_ReadCurrent(item);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonChannelTwoReadVoltage(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2300Series_ChannelTwo_ReadVoltage(item);
+                }
+                //else if (instrName == "2303")
+                //{
+                //    item = K2303Series_ChannelOne_ReadVoltage(item);
+                //}
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_ChannelTwo_ReadVoltage(item);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonChannelOneStopOut(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2300Series_ChannelOne_StopOut(item);
+                }
+                else if (instrName == "2303")
+                {
+                    item = K2303Series_ChannelOne_StopOut(item);
+                }
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_ChannelOne_StopOut(item);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return item;
+        }
+
+        public TestData PowerSupplyCommonChannelTwoStopOut(TestData item)
+        {
+            try
+            {
+                if (instrName == "2306")
+                {
+                    item = K2300Series_ChannelTwo_StopOut(item);
+                }
+                //else if (instrName == "2303")
+                //{
+                //    item = K2303Series_ChannelOne_StopOut(item);
+                //}
+                else if (instrName == "66319")
+                {
+                    item = HP66319D_ChannelTwo_StopOut(item);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return item;
+        }
+
         public TestData K2300Series_Open(TestData item)
         {
             try
@@ -1905,6 +2903,7 @@ namespace TestDAL
 
         public TestData K2300Series_ChannelOne_OutPut(TestData item)
         {
+
             try
             {
                 //PowerInst.OpenVisa(data.PowerPort);
@@ -1925,6 +2924,7 @@ namespace TestDAL
                 item.Value = "Fail";
                 PowerInst.Rst();
             }
+
             return item;
         }
 
@@ -2014,6 +3014,11 @@ namespace TestDAL
                 {
                     voltage *= 1000;
                     voltage += double.Parse(item.FillValue);
+                    voltage = Math.Round(voltage, 3);
+                }
+                else
+                {
+                    voltage = Math.Round(voltage, 3);
                 }
                 if (voltage <= double.Parse(item.UppLimit)
                     && voltage >= double.Parse(item.LowLimit))
@@ -2141,11 +3146,16 @@ namespace TestDAL
             {
                 //PowerInst.OpenVisa(data.PowerPort);
                 //InitPower();
-                double voltage = double.Parse(PowerInst.VisaQuery(":MEASure2:VOLTage:DC?"));
+                double voltage  = double.Parse(PowerInst.VisaQuery(":MEASure2:VOLTage:DC?"));
                 if (item.Unit.ToUpper() == "MV")
                 {
                     voltage *= 1000;
                     voltage += double.Parse(item.FillValue);
+                    voltage = Math.Round(voltage, 3);
+                }
+                else
+                {
+                    voltage = Math.Round(voltage, 3);
                 }
                 if (voltage <= double.Parse(item.UppLimit)
                     && voltage >= double.Parse(item.LowLimit))

@@ -1,7 +1,0 @@
-SN,TestTime,MAC,TotalStatus,HP66319D_Open,Key34461_Open,ChannelOne_OutPut,ChannelTwo_OutPut,ChannelTwo_StopOut,PowerON_Current,BES_OpenSerialPort,BES_SoftVersion,BES_HWVersion,BES_ReadBTAddress,BES_Shutdown,PowerOFF_Current,Channel_Two_OutPut,Channel_Two_StopOut,BES_ShippingMode,ShippingMode_Current,BES_ClosedSerialPort,ChannelOne_StopOut
-,,,,NA,NA,NA,NA,NA,1,NA,CM70-L-BD 1.0.0.102,B816_V10,NA,NA,10,NA,NA,NA,3,NA,NA
-,,,,NA,NA,NA,NA,NA,1,NA,CM70-L-BD 1.0.0.102,B816_V10,NA,NA,10,NA,NA,NA,3,NA,NA
-,20190621232149,,Fail,Pass,Pass,Pass,Pass,Pass,0,,,,,,,,,,,,
-,20190621232117,,Fail,Pass,Pass,Pass,Pass,Pass,0.069,,,,,,,,,,,,
-,20190621232113,,Fail,Fail,,,,,,,,,,,,,,,,,
-,20190621232118,,Fail,Pass,Pass,Pass,Pass,Pass,0.037,,,,,,,,,,,,

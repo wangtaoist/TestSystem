@@ -28,22 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Winform));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TestItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ReLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mES功能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mESToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.label_Test_Version = new System.Windows.Forms.Label();
             this.cht_PassRadio = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
@@ -57,6 +60,8 @@
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lb_Message = new System.Windows.Forms.ListBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
@@ -67,43 +72,39 @@
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label_PassNumber = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label_TestResult = new System.Windows.Forms.Label();
-            this.tb_SN = new System.Windows.Forms.TextBox();
-            this.btTest = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.label_TestResult = new Sunny.UI.UILabel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.groupBox1.SuspendLayout();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.uiStyleManager1 = new Sunny.UI.UIStyleManager(this.components);
+            this.btTest = new Sunny.UI.UIButton();
+            this.tb_SN = new Sunny.UI.UITextBox();
+            this.ProgressEnd = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.StopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.程序重新加载ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            this.groupBox10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cht_PassRadio)).BeginInit();
             this.groupBox13.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Data)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.ProgressEnd.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.pictureBox1);
-            this.groupBox1.Location = new System.Drawing.Point(3, 24);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(191, 112);
-            this.groupBox1.TabIndex = 14;
-            this.groupBox1.TabStop = false;
             // 
             // pictureBox1
             // 
             this.pictureBox1.ErrorImage = null;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(4, 10);
+            this.pictureBox1.Location = new System.Drawing.Point(6, 56);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(181, 99);
+            this.pictureBox1.Size = new System.Drawing.Size(185, 80);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -112,42 +113,43 @@
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.文件ToolStripMenuItem,
             this.配置ToolStripMenuItem,
             this.mES功能ToolStripMenuItem,
+            this.StyleToolStripMenuItem,
             this.关于ToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Location = new System.Drawing.Point(0, 31);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(764, 25);
             this.menuStrip1.TabIndex = 15;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // 配置ToolStripMenuItem
+            // 文件ToolStripMenuItem
             // 
-            this.配置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ConfigToolStripMenuItem,
-            this.TestItemToolStripMenuItem,
+            this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenToolStripMenuItem,
+            this.SaveAsToolStripMenuItem,
             this.ReLoadToolStripMenuItem,
             this.ExitToolStripMenuItem});
-            this.配置ToolStripMenuItem.Name = "配置ToolStripMenuItem";
-            this.配置ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
-            this.配置ToolStripMenuItem.Text = "配置";
+            this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
+            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.文件ToolStripMenuItem.Text = "文件";
             // 
-            // ConfigToolStripMenuItem
+            // OpenToolStripMenuItem
             // 
-            this.ConfigToolStripMenuItem.Name = "ConfigToolStripMenuItem";
-            this.ConfigToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.ConfigToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.ConfigToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.ConfigToolStripMenuItem.Text = "测试参数配置";
-            this.ConfigToolStripMenuItem.Click += new System.EventHandler(this.ConfigToolStripMenuItem_Click);
+            this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
+            this.OpenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.OpenToolStripMenuItem.Text = "打开";
+            this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
-            // TestItemToolStripMenuItem
+            // SaveAsToolStripMenuItem
             // 
-            this.TestItemToolStripMenuItem.Name = "TestItemToolStripMenuItem";
-            this.TestItemToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.TestItemToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.TestItemToolStripMenuItem.Text = "测试项目配置";
-            this.TestItemToolStripMenuItem.Click += new System.EventHandler(this.TestItemToolStripMenuItem_Click);
+            this.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
+            this.SaveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.SaveAsToolStripMenuItem.Text = "另存为";
+            this.SaveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // ReLoadToolStripMenuItem
             // 
@@ -165,6 +167,32 @@
             this.ExitToolStripMenuItem.Text = "退出";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
+            // 配置ToolStripMenuItem
+            // 
+            this.配置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ConfigToolStripMenuItem,
+            this.TestItemToolStripMenuItem});
+            this.配置ToolStripMenuItem.Name = "配置ToolStripMenuItem";
+            this.配置ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.配置ToolStripMenuItem.Text = "配置";
+            // 
+            // ConfigToolStripMenuItem
+            // 
+            this.ConfigToolStripMenuItem.Name = "ConfigToolStripMenuItem";
+            this.ConfigToolStripMenuItem.ShortcutKeyDisplayString = "";
+            this.ConfigToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.ConfigToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.ConfigToolStripMenuItem.Text = "测试参数配置";
+            this.ConfigToolStripMenuItem.Click += new System.EventHandler(this.ConfigToolStripMenuItem_Click);
+            // 
+            // TestItemToolStripMenuItem
+            // 
+            this.TestItemToolStripMenuItem.Name = "TestItemToolStripMenuItem";
+            this.TestItemToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.TestItemToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.TestItemToolStripMenuItem.Text = "测试项目配置";
+            this.TestItemToolStripMenuItem.Click += new System.EventHandler(this.TestItemToolStripMenuItem_Click);
+            // 
             // mES功能ToolStripMenuItem
             // 
             this.mES功能ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -180,6 +208,13 @@
             this.mESToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.mESToolStripMenuItem.Text = "MES功能设置";
             this.mESToolStripMenuItem.Click += new System.EventHandler(this.mESToolStripMenuItem_Click);
+            // 
+            // StyleToolStripMenuItem
+            // 
+            this.StyleToolStripMenuItem.Name = "StyleToolStripMenuItem";
+            this.StyleToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.StyleToolStripMenuItem.Text = "主题";
+            this.StyleToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.StyleToolStripMenuItem_DropDownItemClicked);
             // 
             // 关于ToolStripMenuItem
             // 
@@ -197,22 +232,12 @@
             this.AboutToolStripMenuItem.Text = "关于";
             this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
-            // groupBox10
-            // 
-            this.groupBox10.Controls.Add(this.label_Test_Version);
-            this.groupBox10.Location = new System.Drawing.Point(197, 24);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(563, 111);
-            this.groupBox10.TabIndex = 17;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "测试程序标题";
-            // 
             // label_Test_Version
             // 
             this.label_Test_Version.Font = new System.Drawing.Font("Arial", 35F, System.Drawing.FontStyle.Bold);
-            this.label_Test_Version.Location = new System.Drawing.Point(6, 14);
+            this.label_Test_Version.Location = new System.Drawing.Point(196, 63);
             this.label_Test_Version.Name = "label_Test_Version";
-            this.label_Test_Version.Size = new System.Drawing.Size(551, 92);
+            this.label_Test_Version.Size = new System.Drawing.Size(551, 67);
             this.label_Test_Version.TabIndex = 1;
             this.label_Test_Version.Text = "RF Function Test";
             this.label_Test_Version.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -223,7 +248,7 @@
             chartArea1.BackColor = System.Drawing.SystemColors.Control;
             chartArea1.Name = "ChartArea1";
             this.cht_PassRadio.ChartAreas.Add(chartArea1);
-            this.cht_PassRadio.Location = new System.Drawing.Point(162, 20);
+            this.cht_PassRadio.Location = new System.Drawing.Point(162, 25);
             this.cht_PassRadio.Name = "cht_PassRadio";
             this.cht_PassRadio.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
             series1.ChartArea = "ChartArea1";
@@ -238,7 +263,7 @@
             // groupBox13
             // 
             this.groupBox13.Controls.Add(this.label_Time);
-            this.groupBox13.Location = new System.Drawing.Point(84, 74);
+            this.groupBox13.Location = new System.Drawing.Point(84, 79);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(70, 57);
             this.groupBox13.TabIndex = 4;
@@ -247,12 +272,13 @@
             // 
             // label_Time
             // 
+            this.label_Time.BackColor = System.Drawing.SystemColors.Control;
             this.label_Time.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label_Time.Font = new System.Drawing.Font("Arial", 9F);
-            this.label_Time.Location = new System.Drawing.Point(5, 15);
+            this.label_Time.Location = new System.Drawing.Point(4, 20);
             this.label_Time.Name = "label_Time";
-            this.label_Time.Size = new System.Drawing.Size(58, 35);
-            this.label_Time.TabIndex = 5;
+            this.label_Time.Size = new System.Drawing.Size(59, 29);
+            this.label_Time.TabIndex = 4;
             this.label_Time.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox4
@@ -278,6 +304,8 @@
             this.dgv_Data.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dgv_Data.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgv_Data.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_Data.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            this.dgv_Data.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_Data.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
@@ -286,13 +314,14 @@
             this.Column7,
             this.Column5,
             this.Column6});
+            this.dgv_Data.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv_Data.Location = new System.Drawing.Point(5, 19);
+            this.dgv_Data.MultiSelect = false;
             this.dgv_Data.Name = "dgv_Data";
             this.dgv_Data.ReadOnly = true;
             this.dgv_Data.RowHeadersVisible = false;
             this.dgv_Data.RowHeadersWidth = 10;
             this.dgv_Data.RowTemplate.Height = 24;
-            this.dgv_Data.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgv_Data.Size = new System.Drawing.Size(455, 328);
             this.dgv_Data.TabIndex = 11;
             // 
@@ -357,12 +386,26 @@
             this.Column6.ReadOnly = true;
             this.Column6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.lb_Message);
-            this.groupBox2.Location = new System.Drawing.Point(4, 496);
+            this.groupBox2.Location = new System.Drawing.Point(4, 492);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(466, 91);
+            this.groupBox2.Size = new System.Drawing.Size(466, 94);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "程序运行信息";
@@ -374,7 +417,7 @@
             this.lb_Message.ForeColor = System.Drawing.Color.Black;
             this.lb_Message.FormattingEnabled = true;
             this.lb_Message.ItemHeight = 16;
-            this.lb_Message.Location = new System.Drawing.Point(6, 15);
+            this.lb_Message.Location = new System.Drawing.Point(6, 20);
             this.lb_Message.Name = "lb_Message";
             this.lb_Message.ScrollAlwaysVisible = true;
             this.lb_Message.Size = new System.Drawing.Size(456, 84);
@@ -387,9 +430,9 @@
             this.groupBox11.Controls.Add(this.groupBox7);
             this.groupBox11.Controls.Add(this.groupBox9);
             this.groupBox11.Controls.Add(this.groupBox8);
-            this.groupBox11.Location = new System.Drawing.Point(473, 137);
+            this.groupBox11.Location = new System.Drawing.Point(473, 133);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(287, 134);
+            this.groupBox11.Size = new System.Drawing.Size(287, 140);
             this.groupBox11.TabIndex = 22;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "产品测试信息";
@@ -397,7 +440,8 @@
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.label_TotalNumber);
-            this.groupBox7.Location = new System.Drawing.Point(6, 14);
+            this.groupBox7.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.groupBox7.Location = new System.Drawing.Point(6, 19);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(70, 57);
             this.groupBox7.TabIndex = 1;
@@ -409,16 +453,16 @@
             this.label_TotalNumber.BackColor = System.Drawing.SystemColors.Control;
             this.label_TotalNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label_TotalNumber.Font = new System.Drawing.Font("Arial", 9F);
-            this.label_TotalNumber.Location = new System.Drawing.Point(5, 14);
+            this.label_TotalNumber.Location = new System.Drawing.Point(5, 19);
             this.label_TotalNumber.Name = "label_TotalNumber";
-            this.label_TotalNumber.Size = new System.Drawing.Size(59, 35);
+            this.label_TotalNumber.Size = new System.Drawing.Size(59, 29);
             this.label_TotalNumber.TabIndex = 2;
             this.label_TotalNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.label_Defect_rate);
-            this.groupBox9.Location = new System.Drawing.Point(6, 74);
+            this.groupBox9.Location = new System.Drawing.Point(6, 79);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(68, 57);
             this.groupBox9.TabIndex = 3;
@@ -430,16 +474,16 @@
             this.label_Defect_rate.BackColor = System.Drawing.SystemColors.Control;
             this.label_Defect_rate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label_Defect_rate.Font = new System.Drawing.Font("Arial", 9F);
-            this.label_Defect_rate.Location = new System.Drawing.Point(4, 14);
+            this.label_Defect_rate.Location = new System.Drawing.Point(4, 20);
             this.label_Defect_rate.Name = "label_Defect_rate";
-            this.label_Defect_rate.Size = new System.Drawing.Size(58, 35);
+            this.label_Defect_rate.Size = new System.Drawing.Size(59, 29);
             this.label_Defect_rate.TabIndex = 4;
             this.label_Defect_rate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.label_PassNumber);
-            this.groupBox8.Location = new System.Drawing.Point(84, 14);
+            this.groupBox8.Location = new System.Drawing.Point(84, 19);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(70, 57);
             this.groupBox8.TabIndex = 2;
@@ -451,9 +495,9 @@
             this.label_PassNumber.BackColor = System.Drawing.SystemColors.Control;
             this.label_PassNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label_PassNumber.Font = new System.Drawing.Font("Arial", 9F);
-            this.label_PassNumber.Location = new System.Drawing.Point(4, 14);
+            this.label_PassNumber.Location = new System.Drawing.Point(4, 20);
             this.label_PassNumber.Name = "label_PassNumber";
-            this.label_PassNumber.Size = new System.Drawing.Size(59, 35);
+            this.label_PassNumber.Size = new System.Drawing.Size(59, 29);
             this.label_PassNumber.TabIndex = 3;
             this.label_PassNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -470,93 +514,138 @@
             // label_TestResult
             // 
             this.label_TestResult.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label_TestResult.Font = new System.Drawing.Font("Courier New", 58F);
-            this.label_TestResult.ForeColor = System.Drawing.Color.Black;
-            this.label_TestResult.Location = new System.Drawing.Point(3, 12);
+            this.label_TestResult.Font = new System.Drawing.Font("Courier New", 58F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_TestResult.Location = new System.Drawing.Point(7, 24);
             this.label_TestResult.Name = "label_TestResult";
-            this.label_TestResult.Size = new System.Drawing.Size(280, 197);
-            this.label_TestResult.TabIndex = 7;
+            this.label_TestResult.Size = new System.Drawing.Size(276, 185);
+            this.label_TestResult.Style = Sunny.UI.UIStyle.Custom;
+            this.label_TestResult.TabIndex = 0;
             this.label_TestResult.Text = "Ready";
             this.label_TestResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tb_SN
-            // 
-            this.tb_SN.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.tb_SN.Location = new System.Drawing.Point(475, 504);
-            this.tb_SN.Name = "tb_SN";
-            this.tb_SN.Size = new System.Drawing.Size(286, 38);
-            this.tb_SN.TabIndex = 0;
-            this.tb_SN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tb_SN.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_SN_KeyDown);
-            // 
-            // btTest
-            // 
-            this.btTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F);
-            this.btTest.Location = new System.Drawing.Point(474, 542);
-            this.btTest.Name = "btTest";
-            this.btTest.Size = new System.Drawing.Size(287, 45);
-            this.btTest.TabIndex = 10;
-            this.btTest.Text = "测试";
-            this.btTest.UseVisualStyleBackColor = true;
-            this.btTest.Click += new System.EventHandler(this.btTest_Click);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // btTest
+            // 
+            this.btTest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btTest.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btTest.Location = new System.Drawing.Point(473, 547);
+            this.btTest.MinimumSize = new System.Drawing.Size(1, 1);
+            this.btTest.Name = "btTest";
+            this.btTest.Size = new System.Drawing.Size(288, 40);
+            this.btTest.Style = Sunny.UI.UIStyle.Custom;
+            this.btTest.TabIndex = 24;
+            this.btTest.Text = "测试";
+            this.btTest.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btTest.Click += new System.EventHandler(this.btTest_Click);
+            // 
+            // tb_SN
+            // 
+            this.tb_SN.ButtonSymbol = 61761;
+            this.tb_SN.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tb_SN.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            this.tb_SN.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_SN.Location = new System.Drawing.Point(474, 504);
+            this.tb_SN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tb_SN.Maximum = 2147483647D;
+            this.tb_SN.Minimum = -2147483648D;
+            this.tb_SN.MinimumSize = new System.Drawing.Size(1, 16);
+            this.tb_SN.Name = "tb_SN";
+            this.tb_SN.Size = new System.Drawing.Size(285, 35);
+            this.tb_SN.Style = Sunny.UI.UIStyle.Custom;
+            this.tb_SN.TabIndex = 25;
+            this.tb_SN.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tb_SN.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_SN_KeyDown);
+            // 
+            // ProgressEnd
+            // 
+            this.ProgressEnd.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StopToolStripMenuItem,
+            this.程序重新加载ToolStripMenuItem,
+            this.退出ToolStripMenuItem});
+            this.ProgressEnd.Name = "ProgressEnd";
+            this.ProgressEnd.Size = new System.Drawing.Size(149, 70);
+            // 
+            // StopToolStripMenuItem
+            // 
+            this.StopToolStripMenuItem.Name = "StopToolStripMenuItem";
+            this.StopToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.StopToolStripMenuItem.Text = "测试停止";
+            this.StopToolStripMenuItem.Click += new System.EventHandler(this.StopToolStripMenuItem_Click);
+            // 
+            // 程序重新加载ToolStripMenuItem
+            // 
+            this.程序重新加载ToolStripMenuItem.Name = "程序重新加载ToolStripMenuItem";
+            this.程序重新加载ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.程序重新加载ToolStripMenuItem.Text = "程序重新加载";
+            this.程序重新加载ToolStripMenuItem.Click += new System.EventHandler(this.ReLoadToolStripMenuItem_Click);
+            // 
+            // 退出ToolStripMenuItem
+            // 
+            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.退出ToolStripMenuItem.Text = "退出";
+            this.退出ToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            // 
             // Winform
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.AutoSize = true;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(764, 591);
+            this.ContextMenuStrip = this.ProgressEnd;
             this.Controls.Add(this.tb_SN);
             this.Controls.Add(this.btTest);
+            this.Controls.Add(this.label_Test_Version);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox10);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Winform";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Padding = new System.Windows.Forms.Padding(0, 31, 0, 0);
+            this.ShowDragStretch = true;
+            this.ShowRadius = false;
+            this.ShowShadow = true;
+            this.ShowTitleIcon = true;
+            this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "WinForm";
+            this.TitleHeight = 31;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Winform_FormClosed);
             this.Load += new System.EventHandler(this.Winform_Load);
-            this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.groupBox10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cht_PassRadio)).EndInit();
             this.groupBox13.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Data)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
+            this.ProgressEnd.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ConfigToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem;
-        private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.Label label_Test_Version;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -568,15 +657,9 @@
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.Label label_TestResult;
-        private System.Windows.Forms.TextBox tb_SN;
-        private System.Windows.Forms.Button btTest;
         private System.Windows.Forms.DataGridView dgv_Data;
         private System.Windows.Forms.ToolStripMenuItem TestItemToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label_Time;
-        private System.Windows.Forms.ToolStripMenuItem ReLoadToolStripMenuItem;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label label_PassNumber;
         private System.Windows.Forms.Label label_Defect_rate;
         private System.Windows.Forms.Label label_TotalNumber;
@@ -590,6 +673,24 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 文件ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SaveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ReLoadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StyleToolStripMenuItem;
+        private Sunny.UI.UIStyleManager uiStyleManager1;
+        private System.Windows.Forms.Label label_Time;
+        private Sunny.UI.UIButton btTest;
+        private Sunny.UI.UILabel label_TestResult;
+        private Sunny.UI.UITextBox tb_SN;
+        private System.Windows.Forms.ContextMenuStrip ProgressEnd;
+        private System.Windows.Forms.ToolStripMenuItem StopToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 程序重新加载ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
     }
 }
 

@@ -79,6 +79,8 @@ namespace TestModel
         public bool RelayEnable;
         public string NowStation;
         public bool AutoSN;
+        public bool EVM;
+        public bool BLE;
     }
 
     public class TestRatio

@@ -23,6 +23,8 @@ namespace TestDAL
             try
             {
                 relayPort = new SerialPort(config.RelayPort, 9600);
+                relayPort.ReadTimeout = 5000;
+                relayPort.WriteTimeout = 5000;
                 if (relayPort.IsOpen)
                 {
                     relayPort.Close();

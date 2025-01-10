@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using TestTool;
-using TestModel;
-using TestDAL;
 using System.IO.Ports;
+using System.Windows.Forms;
+using TestDAL;
+using TestModel;
+using TestTool;
 
 namespace WinForm
 {
@@ -108,6 +103,9 @@ namespace WinForm
             //tb_NowStation.Text = configData.NowStation;
 
             cb_AutoSN.Checked = configData.AutoSN;
+            cb_EVM.Checked = configData.EVM;
+            cb_ble.Checked = configData.BLE;
+
         }
 
         public void GetInstPort()
@@ -198,6 +196,8 @@ namespace WinForm
             dic.Add("RelayEnable", cb_RelayEnable.Checked);
             //dic.Add("NowStation", tb_NowStation.Text.Trim());
             dic.Add("AutoSN", cb_AutoSN.Checked);
+            dic.Add("EVM", cb_EVM.Checked);
+            dic.Add("BLE", cb_ble.Checked);
             dataBase.UpdateConfigData(dic);
             this.DialogResult = System.Windows.Forms.DialogResult.Yes;
         }

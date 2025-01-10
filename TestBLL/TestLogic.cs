@@ -12,7 +12,7 @@ using System.Web.Services.Description;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-
+using wtMessageBox;
 
 namespace TestBLL
 {
@@ -36,27 +36,33 @@ namespace TestBLL
         public string PackSN;
         public OperatrAiroha operatrAiroha;
         public OperateBluetrumXlink Xlink;
+        public CRY474 cry574;
+        public  List<TestData> TestItmes;
 
         public TestLogic(Queue<string> queue, string path,Queue<string> statusQueue)
         {
             this.testQueue = queue;
             this.statusQueue = statusQueue;
             this.initPath = path;
+
             dataBase = new DataBase(path);
             config = GetConfigData();
+            //TestItmes = GetTestItem();
+
             //csr = new CsrOperate();
-            operateBES = new OperateBES(config.SerialPort
-                , testQueue, config.SerialSelect, statusQueue);
+            operateBES = new OperateBES(config , testQueue, statusQueue);
             //if(config.AutoSNTest)
             //{
             operateBES.config = config;
             operateBES.dataBase = dataBase;
+            operateBES.TestItmes = TestItmes;
             //operateBES.BES_WriteSN(new TestData());
             //}
 
             operateMicroChip = new OperateMicroChip(config);
             operatrAiroha = new OperatrAiroha(config);
             operate = new OperateInstrument(config, testQueue);
+            //operate.operateBES = operateBES;
             Xlink = new OperateBluetrumXlink(config);
 
             if(config.AudioEnable)
@@ -75,7 +81,9 @@ namespace TestBLL
                 queue.Enqueue("打开继电器");
                 operateRelay = new OperateRelay(config);
             }
+            //operateBES.BES_T1207CalcFreq(10);
 
+            cry574 = new CRY474(queue); 
         }
 
         public void InitTestPort(object obj)
@@ -109,25 +117,40 @@ namespace TestBLL
             }
             catch (Exception ex)
             {
-                testQueue.Enqueue(ex.Message);
+                testQueue.Enqueue("ex;" + ex.Message);
             }
            
         }
 
         public TestData TestProcess(TestData data)
         {
+            Others.WriteInformationLog(string.Format("{0}开始测试"
+                , data.TestItemName));
+
             switch (data.TestItem)
             {
+
                 case "MessageBox":
                     {
+                        infoBox infobox;
                         string[] agrm = data.Other.Split(';');
-                       
-                        var box = AutoClosingMessageBox.Show(agrm[0], "Message"
-                            , int.Parse(agrm[1]), MessageBoxButtons.YesNo);
+                        if (agrm.Length != 2)
+                        {
+                            infobox = new infoBox("Message", agrm[0]
+                                , timeOut: int.Parse(agrm[1])
+                                , width: int.Parse(agrm[2]), height: int.Parse(agrm[3]));
+                        }
+                        else
+                        {
+                            infobox = new infoBox("Message", agrm[0], timeOut: int.Parse(agrm[1]));
+                        }
+                        var box = infobox.ShowDialog();
+                        //var box = AutoClosingMessageBox.Show(agrm[0], "Message"
+                        //    , int.Parse(agrm[1]), MessageBoxButtons.YesNo);
                         //var box = MessageBox.Show(data.Other, "Message"
                         //    , MessageBoxButtons.YesNo,
                         //    MessageBoxIcon.Question);
-                        if(box == DialogResult.Yes)
+                        if (box == DialogResult.Yes)
                         {
                             data.Result = "Pass";
                             data.Value = "Pass";
@@ -137,6 +160,13 @@ namespace TestBLL
                             data.Result = "Fail";
                             data.Value = "Fail";
                         }
+                        
+                        infobox.Dispose();
+                        break;
+                    }
+                case "SetMaxVolume":
+                    {
+                        data = Audio.SetMaxVolume(data);
                         break;
                     }
                 case "QCC_Open_Connection":
@@ -220,6 +250,21 @@ namespace TestBLL
                         data = operate.Run_Script(data);
                         break;
                     }
+                case "Run_MT8852_BLE":
+                    {
+                        data = operate.Run_MT8852_BLE(data);
+                        break;
+                    }
+                case "Set8852LossOne":
+                    {
+                        data = operate.Set8852LossOne(data);
+                        break;
+                    }
+                case "Set8852LossTwo":
+                    {
+                        data = operate.Set8852LossTwo(data);
+                        break;
+                    }
                 case "Run_MT8852_CalcFreq":
                     {
                         data = operate.Run_MT8852_CalcFreq(data);
@@ -276,15 +321,18 @@ namespace TestBLL
 
                 case "Run_MT8852_Lchse_CalcFreqScript":
                     {
-                        byte sampTrim = 0x3f;
+                        int sampTrim = 35;
                         TestData calData = null;
-                        operateBES.BES_Lchse_WriteTrim(sampTrim);
+                        //operateBES.BES_Lchse_WriteTrim(sampTrim);
+                        operateBES.BES_T1207CalcFreq(sampTrim);
+                        double first, second;
                         for (int i = 0; i < 10; i++)
                         {
                             if (operate.Run_MT8852_CalcFreqScript(data).Result == "Pass")
                             {
                                 calData = operate.GetInitialcarrier(data);
                                 testQueue.Enqueue("频率偏移:" + calData.Value);
+                               
                                 if (calData.Result == "Pass")
                                 {
                                     data.Result = "Pass";
@@ -294,14 +342,27 @@ namespace TestBLL
                                 }
                                 else
                                 {
-                                    int freqOff = (int)double.Parse(calData.Value) * 2;
-                                   // int tr = operateBES.BES_Lchse_ReadTrim();
-                                    byte trim = (byte)(sampTrim -
-                                        Convert.ToByte(Math.Abs(freqOff)));
+                                    int trim = 0;
+                                    if (double.Parse(calData.Value) >0)
+                                    {
+                                        trim = sampTrim + 2 + i;
+                                    }
+                                    else
+                                    {
+                                        trim = sampTrim - 2 - i;
+                                    }
+
+                                    //int freqOff = (int)double.Parse(calData.Value) * 2;
+                                    //// int tr = operateBES.BES_Lchse_ReadTrim();
+                                    //int trim = (byte)(sampTrim -
+                                    //    Convert.ToByte(Math.Abs(freqOff)));
+                                    //byte trim = 0;
+
+
                                     testQueue.Enqueue("写入Trim:" + trim);
                                     //Thread.Sleep(500);
-                                    operateBES.BES_Lchse_WriteTrim(trim);
-                                    sampTrim = trim;
+                                    operateBES.BES_T1207CalcFreq(trim);
+                                    //sampTrim = trim;
                                 }
                                 Thread.Sleep(1000);
                                 if (i == 4)
@@ -338,7 +399,7 @@ namespace TestBLL
                     }
                 case "DUT_Power":
                     {
-                       data = operate.GetTXPower(data);
+                        data = operate.GetTXPower(data);
                         break;
                     }
                 case "DUT_Sensitivity":
@@ -366,6 +427,26 @@ namespace TestBLL
                         data = operate.GetCarrierdrift(data);
                         break;
                     }
+                case "DUT_CarrierModRMS2M":
+                    {
+                        data = operate.GetCarrierModRMS2M(data);
+                        break;
+                    }
+                case "DUT_GetCarrierModRMS3M":
+                    {
+                        data = operate.GetCarrierModRMS3M(data);
+                        break;
+                    }
+                case "DUT_GetCarrierModPeak2M":
+                    {
+                        data = operate.GetCarrierModPeak2M(data);
+                        break;
+                    }
+                case "DUT_GetCarrierModPeak3M":
+                    {
+                        data = operate.GetCarrierModPeak3M(data);
+                        break;
+                    }
 
                 case "Open_4010":
                     {
@@ -386,7 +467,7 @@ namespace TestBLL
                         {
                             operate.Agilent4010_CalcFreq();
                             TestData calData = operate.Get4010Initialcarrier(data);
-                            if(calData.Result == "Pass")
+                            if (calData.Result == "Pass")
                             {
                                 data.Result = "Pass";
                                 data.Value = calData.Value;
@@ -395,18 +476,18 @@ namespace TestBLL
                             else
                             {
                                 int freqOff = (int)double.Parse(calData.Value) * 2;
-                               byte trim =(byte) (sampTrim - Convert.ToByte(Math.Abs(freqOff)));
+                                byte trim = (byte)(sampTrim - Convert.ToByte(Math.Abs(freqOff)));
                                 Thread.Sleep(1000);
                                 operateBES.BES_WriteTrim(trim);
                             }
                             Thread.Sleep(200);
-                            if(i == 4 )
+                            if (i == 4)
                             {
                                 data.Result = "Fail";
                                 data.Value = "Fail";
                             }
                         }
-                       
+
                         break;
                     }
                 case "Run_4010CalcFreqAfterScript":
@@ -462,6 +543,71 @@ namespace TestBLL
                 case "K2300Series_Open":
                     {
                         data = operate.K2300Series_Open(data);
+                        break;
+                    }
+                case "PowerSupplyCommon":
+                    {
+                        data = operate.PowerSupplyCommon(data);
+                        break;
+                    }
+                case "PowerSupplyCommonOpen":
+                    {
+                        data = operate.PowerSupplyCommonOpen(data);
+                        break;
+                    }
+                case "PowerSupplyCommonClose":
+                    {
+                        data = operate.PowerSupplyCommonClose(data);
+                        break;
+                    }
+                case "PowerSupplyCommonChannelOneOut":
+                    {
+                        data = operate.PowerSupplyCommonChannelOneOut(data);
+                        break;
+                    }
+                case "PowerSupplyCommonChannelTwoOut":
+                    {
+                        data = operate.PowerSupplyCommonChannelTwoOut(data);
+                        break;
+                    }
+                case "PowerSupplyCommonChannelOneOverVoltage":
+                    {
+                        data = operate.PowerSupplyCommonChannelOneOverVoltage(data);
+                        break;
+                    }
+                case "PowerSupplyCommonChannelTwoOverVoltage":
+                    {
+                        data = operate.PowerSupplyCommonChannelTwoOverVoltage(data);
+                        break;
+                    }
+                case "PowerSupplyCommonChannelOneReadCurrent":
+                    {
+                        data = operate.PowerSupplyCommonChannelOneReadCurrent(data);
+                        break;
+                    }
+                case "PowerSupplyCommonChannelOneReadVoltage":
+                    {
+                        data = operate.PowerSupplyCommonChannelOneReadVoltage(data);
+                        break;
+                    }
+                case "PowerSupplyCommonChannelTwoReadCurrent":
+                    {
+                        data = operate.PowerSupplyCommonChannelTwoReadCurrent(data);
+                        break;
+                    }
+                case "PowerSupplyCommonChannelTwoReadVoltage":
+                    {
+                        data = operate.K2300Series_Open(data);
+                        break;
+                    }
+                case "PowerSupplyCommonChannelOneStopOut":
+                    {
+                        data = operate.PowerSupplyCommonChannelOneStopOut(data);
+                        break;
+                    }
+                case "PowerSupplyCommonChannelTwoStopOut":
+                    {
+                        data = operate.PowerSupplyCommonChannelTwoStopOut(data);
                         break;
                     }
                 case "K2300Series_ChannelOne_OutPut":
@@ -651,14 +797,39 @@ namespace TestBLL
                     {
                         data = operate.Key34461_Closed(data);
                         break;
-                    }               
-                case "BES_Enter_TestMode":
-                    {                    
+                    }
+
+                case "PublicByteSerialPortCommand":
+                    {
+                        data = operateBES.PublicByteSerialPortCommand(data);
+                        break;
+                    }
+                case "PublicAsciiSerialPortCommand":
+                    {
+                        operateBES.PackSN = PackSN;
+                        data = operateBES.PublicAsciiSerialPortCommand(data);
+                        break;
+                    }
+                case "PublicWriteSerialNumber":
+                    {
+                        operateBES.PackSN = PackSN;
+                        data = operateBES.PublicWriteSerialNumber(data);
+                        break;
+                    }
+                case "PublicReadAndCompareSerialNumber":
+                    {
+                        operateBES.PackSN = PackSN;
+                        data = operateBES.PublicReadAndCompareSerialNumber(data);
                         break;
                     }
                 case "BES_Enter_DUTMode":
                     {
                         data = operateBES.BES_Enter_DUTMode(data);
+                        break;
+                    }
+                case "EnterProductLineTestMode":
+                    {
+                        data = operateBES.EnterProductLineTestMode(data);
                         break;
                     }
                 case "BES_SoftVersion":
@@ -693,11 +864,11 @@ namespace TestBLL
                     }
                 case "BES_ReadSN":
                     {
-                        if(PackSN != null && PackSN.Length == 20)
+                        if (PackSN != null && PackSN.Length == 20)
                         {
                             operateBES.PackSN = PackSN;
                         }
-                        
+
                         data = operateBES.BES_ReadSN(data);
                         break;
                     }
@@ -743,7 +914,7 @@ namespace TestBLL
                     }
                 case "BES_HALLTest":
                     {
-                        if(config.AutoHALL)
+                        if (config.AutoHALL)
                         {
                             operateBES.FixPort = this.FixPort;
                         }
@@ -752,7 +923,7 @@ namespace TestBLL
                     }
                 case "BES_PowerKeyTest":
                     {
-                        operateBES.BES_PowerKeyTest(data);
+                        //operateBES.BES_PowerKeyTest(data);
                         break;
                     }
                 case "BES_HALLClosedTest":
@@ -1012,6 +1183,16 @@ namespace TestBLL
                         data = operateBES.BES_ControlMicAllOpen(data);
                         break;
                     }
+                case "BES_OpenOneLineSerialPort":
+                    {
+                        data = operateBES.OpenOneLineSerialPort(data);
+                        break;
+                    }
+                case "BES_OpenOppoSerialPort":
+                    {
+                        data = operateBES.OpenOppoSerialPort(data);
+                        break;
+                    }
                 case "BES_OpenSerialPort":
                     {
                         data = operateBES.OpenSerialPort(data);
@@ -1040,6 +1221,120 @@ namespace TestBLL
                 case "BES_ReadWearData":
                     {
                         data = operateBES.BES_ReadWearData(data);
+                        break;
+                    }
+                case "BES_BD02CompareFirstPairRecord":
+                    {
+                        data = operateBES.BES_BD02CompareFirstPairRecord(data);
+                        break;
+                    }
+                case "BES_BD02CompareSecondPairRecord":
+                    {
+                        data = operateBES.BES_BD02CompareSecondPairRecord(data);
+                        break;
+                    }
+                case "BES_BD02ComparePairRecord":
+                    {
+                        data = operateBES.BES_BD02ComparePairRecord(data);
+                        break;
+                    }
+                case "BES_BD02LeftCompareSoftVersion":
+                    {
+                        data = operateBES.BES_BD02LeftCompareSoftVersion(data);
+                        break;
+
+                    }
+                case "BES_BD02RightCompareSoftVersion":
+                    {
+                        data = operateBES.BES_BD02RightCompareSoftVersion(data);
+                        break;
+                    }
+                case "BES_BD02ReadLeftPairMessage":
+                    {
+                        data = operateBES.BES_BD02ReadLeftPairMessage(data);
+                        break;
+                    }
+                case "BES_BD02ReadRightPairMessage":
+                    {
+                        data = operateBES.BES_BD02ReadRightPairMessage(data);
+                        break;
+                    }
+                case "BES_BD02LeftRightCompare":
+                    {
+                        data = operateBES.BES_BD02LeftRightCompare(data);
+                        break;
+                    }
+                case "BES_T1207ReadMac":
+                    {
+                        data = operateBES.BES_T1207ReadMac(data);
+                        break;
+                    }
+                case "BES_T1207SoftVersion":
+                    {
+                        data = operateBES.BES_T1207SoftVersion(data);
+                        break;
+                    }
+                case "BES_T1207EnterDUT":
+                    {
+                        data = operateBES.BES_T1207EnterDUT(data);
+                        //operateBES.BES_T1207CalcFreq(33);
+                        break;
+                    }
+                case "BES_T1207Reset":
+                    {
+                        data = operateBES.BES_T1207Reset(data);
+                        //operateBES.BES_T1207CalcFreq(33);
+                        break;
+                    }
+                case "BES_T1207WriteBtAddress":
+                    {
+                        operateBES.btAddress = BTAddress;
+                        data = operateBES.BES_T1207WriteBtAddress(data);
+                        break;
+                    }
+                case "BES_T1207ClsPair":
+                    {
+                        data = operateBES.BES_T1207ClsPair(data);
+                        break;
+                    }
+                case "BES_T1207ReadLeftPairMessage":
+                    {
+                        data = operateBES.BES_T1207ReadLeftPairMessage(data);
+                        break;
+                    }
+                case "BES_T1207ReadRightPairMessage":
+                    {
+                        data = operateBES.BES_T1207ReadRightPairMessage(data);
+                        break;
+                    }
+                case "BES_T1207LeftRightCompare":
+                    {
+                        data = operateBES.BES_T1207LeftRightCompare(data);
+                        break;
+                    }
+                case "BES_T1207ReadLeftElectricity":
+                    {
+                        data = operateBES.BES_T1207ReadLeftElectricity(data);
+                        break;
+                    }
+                case "BES_T1207ReadRightElectricity":
+                    {
+                        data = operateBES.BES_T1207ReadRightElectricity(data);
+                        break;
+                    }
+                case "BES_TW18LeftRightCompare":
+                    {
+                        data = operateBES.BES_TW18LeftRightCompare(data);
+                        break;
+                    }
+                case "BES_JT51ReadLeftPairMessage":
+                    {
+                        data = operateBES.BES_JT51ReadLeftPairMessage(data);
+                        break;
+                    }
+                case "BES_JT51ReadRightPairMessage":
+                    {
+                        data = operateBES.BES_JT51ReadRightPairMessage(data);
                         break;
                     }
                 case "BES_TWS_TXMode":
@@ -1175,6 +1470,198 @@ namespace TestBLL
                         data = operateBES.BES_Lchse_TWS_FBMIC(data);
                         break;
                     }
+                case "BES_XE25_TWS_EnterDUT":
+                    {
+                        data = operateBES.BES_XE25_TWS_EnterDUT(data);
+                        break;
+                    }
+                case "BES_XE25_TWS_CloseLog":
+                    {
+                        data = operateBES.BES_XE25_TWS_CloseLog(data);
+                        break;
+                    }
+                case "BES_XE25_TWS_ReadVersion":
+                    {
+                        data = operateBES.BES_XE25_TWS_ReadVersion(data);
+                        break;
+                    }
+                case "BES_XE25_TWS_ReadMac":
+                    {
+                        data = operateBES.BES_XE25_TWS_ReadMac(data);
+                        break;
+                    }
+                case "BES_XE25_TWS_ReadName":
+                    {
+                        data = operateBES.BES_XE25_TWS_ReadName(data);
+                        break;
+                    }
+                case "BES_XE25_TWS_ClsRepair":
+                    {
+                        data = operateBES.BES_XE25_TWS_ClsRepair(data);
+                        break;
+                    }
+                case "BES_XE25_TWS_LoopBackOn":
+                    {
+                        data = operateBES.BES_XE25_TWS_LoopBackOn(data);
+                        break;
+                    }
+                case "BES_XE25_TWS_LoopBackOff":
+                    {
+                        data = operateBES.BES_XE25_TWS_LoopBackOff(data);
+                        break;
+                    }
+                case "BES_OppoReadSoftVersion":
+                    {
+                        data = operateBES.BES_OppoReadSoftVersion(data);
+                        break;
+                    }
+                case "BES_OppoReadHardVersion":
+                    {
+                        data = operateBES.BES_OppoReadHardVersion(data);
+                        break;
+                    }
+                case "BES_OppoReadElectricity":
+                    {
+                        data = operateBES.BES_OppoReadElectricity(data);
+                        break;
+                    }
+                case "BES_OppoReadButton":
+                    {
+                        data = operateBES.BES_OppoReadButton(data);
+                        break;
+                    }
+                case "BES_OppoHALLTest":
+                    {
+                        data = operateBES.BES_OppoHALLTest(data);
+                        break;
+                    }
+                case "BES_OppoReadNTC":
+                    {
+                        data = operateBES.BES_OppoReadNTC(data);
+                        break;
+                    }
+                case "BES_OppoReadVoltage":
+                    {
+                        data = operateBES.BES_OppoReadVoltage(data);
+                        break;
+                    }
+                case "BES_OppoEnterDUT":
+                    {
+                        data = operateBES.BES_OppoEnterDUT(data);
+                        break;
+                    }
+                case "BES_OppoReset":
+                    {
+                        data = operateBES.BES_OppoReset(data);
+                        break;
+                    }
+                case "BES_OppoPowerOff":
+                    {
+                        data = operateBES.BES_OppoPowerOff(data);
+                        break;
+                    }
+                case "BES_OppoFactorySettings":
+                    {
+                        data = operateBES.BES_OppoFactorySettings(data);
+                        break;
+                    }
+                case "BES_OppoChargeManage":
+                    {
+                        data = operateBES.BES_OppoChargeManage(data);
+                        break;
+                    }
+                case "BES_OppoReadChargeManage":
+                    {
+                        data = operateBES.BES_OppoReadChargeManage(data);
+                        break;
+                    }
+                case "BES_OppoShipping":
+                    {
+                        data = operateBES.BES_OppoShipping(data);
+                        break;
+                    }
+                case "BES_OppoReadBtName":
+                    {
+                        data = operateBES.BES_OppoReadBtName(data);
+                        break;
+                    }
+                case "BES_OppoReadBtAddress":
+                    {
+                        data = operateBES.BES_OppoReadBtAddress(data);
+                        break;
+                    }
+                case "BES_OppoReadBattarySN":
+                    {
+                        data = operateBES.BES_OppoReadBattarySN(data);
+                        break;
+                    }
+                case "BES_OppoCompareBattarySN":
+                    {
+                        data = operateBES.BES_OppoCompareBattarySN(data);
+                        break;
+                    }
+                case "BES_OppoWriteBattarySN":
+                    {
+                        operateBES.btAddress = BTAddress;
+                        data = operateBES.BES_OppoWriteBattarySN(data);
+                        break;
+                    }
+                case "BES_OppoReadTelecomSN":
+                    {
+                        data = operateBES.BES_OppoReadTelecomSN(data);
+                        break;
+                    }
+                case "BES_OppoCompareTelecomSN":
+                    {
+                        data = operateBES.BES_OppoCompareTelecomSN(data);
+                        break;
+                    }
+                case "BES_OppoWriteTelecomSN":
+                    {
+                        operateBES.btAddress = BTAddress;
+                        data = operateBES.BES_OppoWriteTelecomSN(data);
+                        break;
+                    }
+                case "BES_OppoReadEQ":
+                    {
+                        data = operateBES.BES_OppoReadEQ(data);
+                        break;
+                    }
+                case "BES_OppoWriteEQ":
+                    {
+                        data = operateBES.BES_OppoWriteEQ(data);
+                        break;
+                    }
+                case "BES_OppoReadENC":
+                    {
+                        data = operateBES.BES_OppoReadENC(data);
+                        break;
+                    }
+                case "BES_OppoWriteENC":
+                    {
+                        data = operateBES.BES_OppoWriteENC(data);
+                        break;
+                    }
+                case "BES_OppoReadColor":
+                    {
+                        data = operateBES.BES_OppoReadColor(data);
+                        break;
+                    }
+                case "BES_OppoWriteColor":
+                    {
+                        data = operateBES.BES_OppoWriteColor(data);
+                        break;
+                    }
+                case "BES_OppoReadEncLicense":
+                    {
+                        data = operateBES.BES_OppoReadEncLicense(data);
+                        break;
+                    }
+                case "BES_OppoClsElectricity":
+                    {
+                        data = operateBES.BES_OppoClsElectricity(data);
+                        break;
+                    }
                 case "OpenMicroChipPort":
                     {
                         data = operateMicroChip.OpenMicroChipPort(data);
@@ -1236,10 +1723,25 @@ namespace TestBLL
                         data = Audio.EarPair(data);
                         break;
                     }
+                case "OppoEarPair":
+                    {
+                        data = Audio.OppoEarPair(data);
+                        break;
+                    }
                 case "CSR_EarPair":
                     {
                         Audio.btAddress = BTAddress;
                         data = Audio.CSR_EarPair(data);
+                        break;
+                    }
+                case "ScanPair":
+                    {
+                        data = Audio.ScanPair(data);
+                        break;
+                    }
+                case "XE25_EarPair":
+                    {
+                        data = Audio.XE25_EarPair(data);
                         break;
                     }
                 case "SpeakerLevel_Left":
@@ -1423,6 +1925,16 @@ namespace TestBLL
                         data = operatrAiroha.AirohaFFMic(data);
                         break;
                     }
+                case "AirohaPowerReset":
+                    {
+                        data = operatrAiroha.AirohaPowerReset(data);
+                        break;
+                    }
+                case "AirohaLightValue":
+                    {
+                        data = operatrAiroha.AirohaLightValue(data);
+                        break;
+                    }
                 case "AirohaClosePort":
                     {
                         data = operatrAiroha.AirohaClosePort(data);
@@ -1475,13 +1987,54 @@ namespace TestBLL
                         break;
                     }
 
+                case "CRY574Initialize":
+                    {
+                        data = cry574.CRY574Initialize(data);
+                        break;
+                    }
+                case "CRY574Release":
+                    {
+                        data = cry574.CRY574Release(data);
+                        break;
+                    }
+                case "CRY574ScanAndConnectMac":
+                    {
+                        data = cry574.CRY574ScanAndConnectMac(data);
+                        break;
+                    }
+                case "CRY574GetSppData":
+                    {
+                        data = cry574.CRY574GetSppData(data);
+                        break;
+                    }
+                case "CRY574GetSppAnyData":
+                    {
+                        data = cry574.CRY574GetSppAnyData(data);
+                        break;
+                    }
+                case "CRY574GetSppATData":
+                    {
+                        data = cry574.CRY574GetSppATData(data);
+                        break;
+                    }
+                case "PDT40FarDiff":
+                    {
+                        data = cry574.PDT40FarDiff(data);
+                        break;
+                    }
+                case "PDT40NearDiff":
+                    {
+                        data = cry574.PDT40NearDiff(data);
+                        break;
+                    }
+
                 case "TouchTest":
                     {
                         List<double> list = GetConsoleData();
                         data.Value = string.Join(";", list);
                         for (int i = 0; i < list.Count; i++)
                         {
-                            if(list[i] >= double.Parse(data.LowLimit) 
+                            if (list[i] >= double.Parse(data.LowLimit)
                                 && list[i] <= double.Parse(data.UppLimit))
                             {
                                 data.Result = "Pass";
@@ -1496,7 +2049,22 @@ namespace TestBLL
                         break;
                     }
 
+                case "CompareTestValue":
+                    {
+                        operateBES.TestItmes = TestItmes;
+                        data = operateBES.CompareMacAddress(data);
+                        break;
+                    }
+                case "Readx5sBattaryLevel":
+                    {
+                      //operateBES.TestItmes = TestItmes;
+                        data = operateBES.Readx5sBattaryLevel(data);
+                        break;
+                    }
             }
+
+            Others.WriteInformationLog(string.Format("{0}测试结束"
+                , data.TestItemName));
             return data;
         }
 
@@ -1521,6 +2089,19 @@ namespace TestBLL
         public ConfigData GetConfigData()
         {
             return dataBase.GetConfigData();
+        }
+
+        public void SaveConfig(string path,ConfigData config)
+        {
+            dataBase.SaveConfig(path, config);
+        }
+
+        public void SaveTestItem(List<TestData> tests,List<TestData> fails)
+        {
+            dataBase.DelTestItem();
+            dataBase.InsterTestItem(tests);
+            dataBase.DelFailItem();
+            dataBase.InsterFailItem(fails);
         }
 
         public void ConfigInitInstrument()
@@ -1555,9 +2136,9 @@ namespace TestBLL
             dataBase.ClsRadio();
         }
 
-        public void SaveTestLog(List<TestData> datas,LogColume col)
+        public void SaveTestLog(List<TestData> datas, LogColume col)
         {
-            SaveData saveData = new SaveData(initPath);
+            SaveData saveData = new SaveData(Application.StartupPath);
             saveData.SaveTestLog(datas, col);
         }
 
@@ -1603,6 +2184,11 @@ namespace TestBLL
             }
             p.Close();
             return list;
+        }
+
+        public string GetDbPath()
+        {
+            return dataBase.dbPath;
         }
     }
 }
