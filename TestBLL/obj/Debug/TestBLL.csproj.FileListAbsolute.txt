@@ -233,12 +233,12 @@ F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Serilog.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Serilog.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Serilog.FullNetFx.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Serilog.FullNetFx.xml
-F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.csproj.AssemblyReference.cache
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.csproj.CoreCompileInputs.cache
-F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.csproj.Up2Date
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\TestBLL.dll.config
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\HslCommunication.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\HslCommunication.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Newtonsoft.Json.xml
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.csprojAssemblyReference.cache
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.csproj.CopyComplete

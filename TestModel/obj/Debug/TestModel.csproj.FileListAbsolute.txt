@@ -57,7 +57,7 @@ G:\Lchse\Program\Program\TestSystem_UI\TestModel\obj\Debug\TestModel.dll
 G:\Lchse\Program\Program\TestSystem_UI\TestModel\obj\Debug\TestModel.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestModel\bin\Debug\TestModel.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestModel\bin\Debug\TestModel.pdb
-F:\Lchse\Program\Program\TestSystem_UI\TestModel\obj\Debug\TestModel.csproj.AssemblyReference.cache
 F:\Lchse\Program\Program\TestSystem_UI\TestModel\obj\Debug\TestModel.csproj.CoreCompileInputs.cache
 F:\Lchse\Program\Program\TestSystem_UI\TestModel\obj\Debug\TestModel.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestModel\obj\Debug\TestModel.pdb
+F:\Lchse\Program\Program\TestSystem_UI\TestModel\obj\Debug\TestModel.csprojAssemblyReference.cache

@@ -289,12 +289,12 @@ F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Serilog.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Serilog.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Serilog.FullNetFx.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Serilog.FullNetFx.xml
-F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.csproj.AssemblyReference.cache
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.csproj.CoreCompileInputs.cache
-F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.csproj.Up2Date
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\HslCommunication.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Newtonsoft.Json.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\HslCommunication.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Newtonsoft.Json.xml
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.csprojAssemblyReference.cache
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.csproj.CopyComplete

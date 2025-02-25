@@ -20,7 +20,7 @@ namespace WinForm
             {
                 if (createNew)
                 {
-                    Others.SetProcessDPIAware();
+                    //Others.SetProcessDPIAware();
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new Winform());

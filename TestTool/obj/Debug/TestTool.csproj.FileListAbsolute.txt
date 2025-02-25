@@ -100,8 +100,8 @@ F:\Lchse\Program\Program\TestSystem_UI\TestTool\bin\Debug\Serilog.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestTool\bin\Debug\Serilog.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestTool\bin\Debug\Serilog.FullNetFx.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestTool\bin\Debug\Serilog.FullNetFx.xml
-F:\Lchse\Program\Program\TestSystem_UI\TestTool\obj\Debug\TestTool.csproj.AssemblyReference.cache
 F:\Lchse\Program\Program\TestSystem_UI\TestTool\obj\Debug\TestTool.csproj.CoreCompileInputs.cache
-F:\Lchse\Program\Program\TestSystem_UI\TestTool\obj\Debug\TestTool.csproj.Up2Date
 F:\Lchse\Program\Program\TestSystem_UI\TestTool\obj\Debug\TestTool.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestTool\obj\Debug\TestTool.pdb
+F:\Lchse\Program\Program\TestSystem_UI\TestTool\obj\Debug\TestTool.csprojAssemblyReference.cache
+F:\Lchse\Program\Program\TestSystem_UI\TestTool\obj\Debug\TestTool.csproj.CopyComplete

@@ -1183,16 +1183,19 @@ namespace TestDAL
                     byte[] values = Serial.VisaQuery(bytes, int.Parse(times[0]));
                     //if(ByteArrayCompare(values,ret))
                     //TestTool.Others.WriteInformationLog("Send--->" +SerialOperate.ToHexStrFromByte(values));
-                    if (values[0] == 0xFB && values[1] == 0x04)
+                    if (values.Length > 7)
                     {
-                        data.Value = "Pass";
-                        data.Result = "Pass";
-                        break;
-                    }
-                    else
-                    {
-                        data.Value = "Fail";
-                        data.Result = "Fail";
+                        if (values[6] == 0xFB && values[7] == 0x04)
+                        {
+                            data.Value = "Pass";
+                            data.Result = "Pass";
+                            break;
+                        }
+                        else
+                        {
+                            data.Value = "Fail";
+                            data.Result = "Fail";
+                        }
                     }
                     Thread.Sleep(times[1] == "" ? 200 : int.Parse(times[1]));
                 }

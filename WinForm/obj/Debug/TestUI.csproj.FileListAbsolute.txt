@@ -410,9 +410,9 @@ F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Debug\TestUI.csproj.CoreCompi
 F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Debug\Test_Program.exe
 F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Debug\Test_Program.pdb
 F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Debug\WinForm.Winform.resources
-F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Debug\TestUI.csproj.AssemblyReference.cache
-F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Debug\TestUI.csproj.Up2Date
-F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Debug\TestUI.csproj.Fody.CopyLocal.cache
 F:\Lchse\Program\Program\TestSystem_UI\WinForm\bin\Debug\TestBLL.dll.config
 F:\Lchse\Program\Program\TestSystem_UI\WinForm\bin\Debug\HslCommunication.xml
 F:\Lchse\Program\Program\TestSystem_UI\WinForm\bin\Debug\Newtonsoft.Json.xml
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Debug\TestUI.csproj.Fody.CopyLocal.cache
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Debug\TestUI.csprojAssemblyReference.cache
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Debug\TestUI.csproj.CopyComplete

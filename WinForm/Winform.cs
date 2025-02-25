@@ -9,6 +9,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Management;
+using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -46,7 +47,9 @@ namespace WinForm
         private Thread thread;
         private SerialPortSwitch portSwitch;
         private License license;
+        private float DPI;
 
+        
         public Winform()
         {
             InitializeComponent();
@@ -58,6 +61,7 @@ namespace WinForm
             Others.InitOthers(SoftVersion);
             Others.handle = this.Handle;
             Control.CheckForIllegalCrossThreadCalls = false;
+            DPI = getDPI();
 
             #region 调试
             //string da = "真我";
@@ -96,37 +100,6 @@ namespace WinForm
             #endregion
         }
 
-        /// <summary>
-        /// 从16进制转换成汉字
-        /// </summary>
-        /// <param name="hex"></param>
-        /// <returns></returns>
-        public static string GetChsFromHex(string hex)
-        {
-            if (hex == null)
-                throw new ArgumentNullException("hex");
-            if (hex.Length % 2 != 0)
-            {
-                hex += "20";//空格
-            }
-            // 需要将 hex 转换成 byte 数组。
-            byte[] bytes = new byte[hex.Length / 2];
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                try
-                {
-                    // 每两个字符是一个 byte。
-                    bytes[i] = byte.Parse(hex.Substring(i * 2, 2),
-                        System.Globalization.NumberStyles.HexNumber);
-                }
-                catch
-                {
-                    throw new ArgumentException("hex is not a valid hex number!", "hex");
-                }
-            }
-            return Encoding.GetEncoding("utf-8").GetString(bytes);
-        }
-
         private void Winform_Load(object sender, EventArgs e)
         {
             queueFlag = true;
@@ -154,6 +127,7 @@ namespace WinForm
 
             FillTestItem();
             FillTestRadio();
+
 
             this.Text = config.Title;
             label_Test_Version.Text = this.Text;
@@ -263,7 +237,7 @@ namespace WinForm
         {
             double xRate = ((double)base.Width) / this.widthX;
             double yRate = ((double)base.Height) / this.heightY;
-            Others.setResolution(xRate, yRate, this);
+            Others.setResolution(xRate, yRate, this, DPI);
             if (xRate > 1.1)
             {
                 this.dgv_Data.ColumnHeadersHeight = Convert.ToInt16((double)(this.columnHeiht * xRate)) - 8;
@@ -290,6 +264,10 @@ namespace WinForm
                     j,TestItmes[i].TestItemName,TestItmes[i].LowLimit
                     ,TestItmes[i].UppLimit,TestItmes[i].Unit,"",""
                     });
+
+                    int count = dgv_Data.Rows.Count;
+                    dgv_Data.Rows[count -1].Height = int.Parse((dgv_Data.Rows[count -1].Height * DPI).ToString());
+
                 }
             }
         }
@@ -1353,5 +1331,40 @@ namespace WinForm
             Properties.Settings.Default.location = location;
             Properties.Settings.Default.Save();
         }
+
+        public float getDPI()
+        {
+            Graphics graphics = this.CreateGraphics();
+            float dpiX = graphics.DpiX;
+            float dpi = 1;
+            switch (dpiX)
+            {
+                case 96:
+                case 120:
+                    {
+                        dpi = (float)(Others.isWin11() == true ? 1.5 : 1);
+                        break;
+                    }
+                case 144:
+                    {
+                        dpi = (float)1.5;
+                        break;
+                    }
+                case 168:
+                    {
+                        dpi = (float)1.75;
+                        break;
+                    }
+                case 192:
+                    {
+                        dpi = (float)2;
+                        break;
+                    }
+            }
+            return dpi;
+
+        }
+
+        
     }
 }

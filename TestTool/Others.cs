@@ -6,7 +6,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Threading;
 using Serilog;
-
+using System.Management;
 namespace TestTool
 {
     public  class Others
@@ -33,8 +33,8 @@ namespace TestTool
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool Wow64RevertWow64FsRedirection(IntPtr ptr);
 
-        [DllImport("user32.dll")]
-        public static extern bool SetProcessDPIAware();
+        //[DllImport("user32.dll")]
+        //public static extern bool SetProcessDPIAware();
 
         private const int APPCOMMAND_VOLUME_MUTE = 0x80000;
         private const int APPCOMMAND_VOLUME_UP = 0xA0000;
@@ -44,7 +44,6 @@ namespace TestTool
         public static extern IntPtr SendMessageW(IntPtr hWnd, int Msg,
            IntPtr wParam, IntPtr lParam);
         public static IntPtr handle;
-
         public static void InitOthers(string version)
         {
             Log.Logger = new LoggerConfiguration()
@@ -74,8 +73,9 @@ namespace TestTool
 
         private static object obj = new object();
 
-        public static void setResolution(double newx, double newy, Control cons)
+        public static void setResolution(double newx, double newy, Control cons ,float dpi)
         {
+           
             foreach (Control con in cons.Controls)
             {
                 string[] mytag = con.Tag.ToString().Split(new char[] { ':' });
@@ -88,10 +88,12 @@ namespace TestTool
                 a = Convert.ToSingle(mytag[3]) * newy;
                 con.Top = (int)(a);
                 double currentSize = Convert.ToSingle(mytag[4]) * Math.Min(newx, newy);
-                con.Font = new Font(con.Font.Name, (float)currentSize, con.Font.Style, con.Font.Unit);
+
+                con.Font = new Font(con.Font.Name,(float)currentSize / dpi,
+                    con.Font.Style, con.Font.Unit);
                 if (con.Controls.Count > 0)
                 {
-                    setResolution(newx, newy, con);
+                    setResolution(newx, newy, con,dpi);
                 }
             }
         }
@@ -109,7 +111,7 @@ namespace TestTool
         public static bool isWin10()
         {
             //var info = System.Environment.OSVersion;
-            //if(info.Version.Major == 6 && info.Version.Minor == 2)
+            //if (info.Version.Major == 6 && info.Version.Minor == 2)
             //{
             //    return true;
             //}
@@ -120,6 +122,32 @@ namespace TestTool
             return false;
         }
 
+        public static bool isWin11()
+        {
+            bool Win11 = false;
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem"))
+            {
+                foreach (ManagementObject obj in searcher.Get())
+                {
+                    //Console.WriteLine("Caption: " + obj["Caption"]); // 例如 "Microsoft Windows 10 Enterprise"//Microsoft Windows 11 家庭中文版
+                    //Console.WriteLine("Version: " + obj["Version"]); // 例如 "10.0.19042"
+                    //Console.WriteLine("BuildNumber: " + obj["BuildNumber"]); // 例如 "19042"
+                    //Console.WriteLine("OSArchitecture: " + obj["OSArchitecture"]); // 例如 "64-bit"
+                    string cap = obj["Caption"].ToString();
+                    if(cap.Contains("11"))
+                    {  
+                        Win11 = true;
+                   }
+                    else
+                    {
+                        Win11 = false;
+                    }
+                }
+            }
+            return Win11;
+        }
+
+        
         public static string CmdExcute(string cmdStr)
         {
             Process process = new Process();
