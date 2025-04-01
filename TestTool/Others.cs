@@ -33,9 +33,6 @@ namespace TestTool
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool Wow64RevertWow64FsRedirection(IntPtr ptr);
 
-        //[DllImport("user32.dll")]
-        //public static extern bool SetProcessDPIAware();
-
         private const int APPCOMMAND_VOLUME_MUTE = 0x80000;
         private const int APPCOMMAND_VOLUME_UP = 0xA0000;
         private const int APPCOMMAND_VOLUME_DOWN = 0x90000;
@@ -78,6 +75,7 @@ namespace TestTool
            
             foreach (Control con in cons.Controls)
             {
+                
                 string[] mytag = con.Tag.ToString().Split(new char[] { ':' });
                 double a = Convert.ToSingle(mytag[0]) * newx;
                 con.Width = (int)a;

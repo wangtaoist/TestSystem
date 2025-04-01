@@ -82,3 +82,17 @@ F:\Lchse\Program\Program\TestSystem\WinForm\obj\Release\TestUI.csproj.CopyComple
 F:\Lchse\Program\Program\TestSystem\WinForm\obj\Release\Test_Program.exe
 F:\Lchse\Program\Program\TestSystem\WinForm\obj\Release\Test_Program.pdb
 F:\Lchse\Program\Program\TestSystem\WinForm\obj\Release\Test_Program.XmlSerializers.dll
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\TestUI.csprojAssemblyReference.cache
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\WinForm.About.resources
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\WinForm.ConfigSetting.resources
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\WinForm.frmSettingLogin.resources
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\WinForm.ItemConfig.resources
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\WinForm.MesWindow.resources
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\WinForm.Properties.Resources.resources
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\WinForm.Winform.resources
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\TestUI.csproj.GenerateResource.cache
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\TestUI.csproj.CoreCompileInputs.cache
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\Test_Program.exe
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\Test_Program.pdb
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\Test_Program.XmlSerializers.dll
+F:\Lchse\Program\Program\TestSystem_UI\WinForm\obj\Release\TestUI.csproj.AssemblyReference.cache

@@ -274,7 +274,9 @@ F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\TestDAL.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\TestDAL.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\ATCAPI.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\HidLibrary.dll
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\HslCommunication.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\ICSharpCode.SharpZipLib.dll
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Newtonsoft.Json.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\RJCP.SerialPortStream.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\TestModel.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\TestTool.dll
@@ -283,6 +285,8 @@ F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Serilog.FullNetFx.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\TestModel.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\TestTool.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\HidLibrary.pdb
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\HslCommunication.xml
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Newtonsoft.Json.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\RJCP.SerialPortStream.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\RJCP.SerialPortStream.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Serilog.pdb
@@ -292,9 +296,5 @@ F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Serilog.FullNetFx.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.csproj.CoreCompileInputs.cache
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.pdb
-F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\HslCommunication.dll
-F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Newtonsoft.Json.dll
-F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\HslCommunication.xml
-F:\Lchse\Program\Program\TestSystem_UI\TestDAL\bin\Debug\Newtonsoft.Json.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.csprojAssemblyReference.cache
 F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Debug\TestDAL.csproj.CopyComplete

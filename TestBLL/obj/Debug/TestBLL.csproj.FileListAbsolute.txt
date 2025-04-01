@@ -207,6 +207,7 @@ G:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.pdb
 G:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\HidLibrary.dll
 G:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\HidLibrary.pdb
 G:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\NationalInstruments.VisaNS.dll
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\TestBLL.dll.config
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\TestBLL.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\TestBLL.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\TestDAL.dll
@@ -216,6 +217,7 @@ F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\wtMessageBox.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\ATCAPI.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\HidLibrary.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\NationalInstruments.VisaNS.dll
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\HslCommunication.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\RJCP.SerialPortStream.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Newtonsoft.Json.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\GetProductInfoDLL.dll
@@ -227,8 +229,10 @@ F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\TestModel.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\TestTool.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\wtMessageBox.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\HidLibrary.pdb
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\HslCommunication.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\RJCP.SerialPortStream.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\RJCP.SerialPortStream.xml
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Newtonsoft.Json.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Serilog.pdb
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Serilog.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Serilog.FullNetFx.pdb
@@ -236,9 +240,7 @@ F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Serilog.FullNetFx.xml
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.csproj.CoreCompileInputs.cache
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.dll
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.pdb
-F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\TestBLL.dll.config
-F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\HslCommunication.dll
-F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\HslCommunication.xml
-F:\Lchse\Program\Program\TestSystem_UI\TestBLL\bin\Debug\Newtonsoft.Json.xml
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestDAL.EnterSN.resources
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.csproj.GenerateResource.cache
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.csprojAssemblyReference.cache
 F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Debug\TestBLL.csproj.CopyComplete

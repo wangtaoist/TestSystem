@@ -387,7 +387,7 @@ namespace TestDAL
                 //TimeSpan span = now - dateTime;
                 //if (span.Hours >= 1)
                 //{
-                queue.Enqueue("程序使用一小时，复位一次设备");
+                //queue.Enqueue("程序使用一小时，复位一次设备");
                 //dateTime = DateTime.Now;
 
                 instrument.Rst();
@@ -1633,25 +1633,25 @@ namespace TestDAL
             string retureVal = string.Empty;
             double avgPower = sensitivityList.LostPack;
 
-            //instrument.Cls();
+            instrument.Cls();
 
-            //retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFM");
-            //if (!retureVal.Contains("XSS"))
-            //{
-            //    for (int i = 0; i < 3; i++)
-            //    {
-            //        retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFM");
-            //        if (retureVal.Contains("XSS"))
-            //        {
-            //            break;
-            //        }
-            //    }
-            //}
-            //if (retureVal.Contains("XSS"))
-            //{
-            //    avgPower = double.Parse(retureVal.Split(',')[8])
-            //        + double.Parse(item.FillValue);
-            //}
+            retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFM");
+            if (!retureVal.Contains("XSS"))
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    retureVal = instrument.VisaQuery("XRESULT SS,HOPOFFM");
+                    if (retureVal.Contains("XSS"))
+                    {
+                        break;
+                    }
+                }
+            }
+            if (retureVal.Contains("XSS"))
+            {
+                avgPower = double.Parse(retureVal.Split(',')[8])
+                    + double.Parse(item.FillValue);
+            }
             if (avgPower >= double.Parse(item.LowLimit)
                 && avgPower <= double.Parse(item.UppLimit))
             {

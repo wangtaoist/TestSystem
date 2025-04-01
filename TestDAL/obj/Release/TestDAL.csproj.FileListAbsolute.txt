@@ -64,3 +64,9 @@ F:\Lchse\Program\Program\TestSystem\TestDAL\obj\Release\TestDAL.csproj.CopyCompl
 F:\Lchse\Program\Program\TestSystem\TestDAL\obj\Release\TestDAL.dll
 F:\Lchse\Program\Program\TestSystem\TestDAL\obj\Release\TestDAL.pdb
 F:\Lchse\Program\Program\TestSystem\TestDAL\obj\Release\TestDAL.XmlSerializers.dll
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Release\TestDAL.csprojAssemblyReference.cache
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Release\TestDAL.csproj.CoreCompileInputs.cache
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Release\TestDAL.dll
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Release\TestDAL.pdb
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Release\TestDAL.XmlSerializers.dll
+F:\Lchse\Program\Program\TestSystem_UI\TestDAL\obj\Release\TestDAL.csproj.AssemblyReference.cache

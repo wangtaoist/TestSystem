@@ -50,3 +50,8 @@ F:\Lchse\Program\Program\TestSystem\TestBLL\obj\Release\TestBLL.csproj.CoreCompi
 F:\Lchse\Program\Program\TestSystem\TestBLL\obj\Release\TestBLL.csproj.CopyComplete
 F:\Lchse\Program\Program\TestSystem\TestBLL\obj\Release\TestBLL.dll
 F:\Lchse\Program\Program\TestSystem\TestBLL\obj\Release\TestBLL.pdb
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Release\TestBLL.csprojAssemblyReference.cache
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Release\TestBLL.csproj.CoreCompileInputs.cache
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Release\TestBLL.dll
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Release\TestBLL.pdb
+F:\Lchse\Program\Program\TestSystem_UI\TestBLL\obj\Release\TestBLL.csproj.AssemblyReference.cache

@@ -25,6 +25,11 @@ namespace TestDAL
             });
             list.Add(new InitTestItem()
             {
+                TestItem = "EnterSN",
+                Remark = "可以输入第二个SN，在其他设置中输入SN标识即可"
+            });
+            list.Add(new InitTestItem()
+            {
                 TestItem = "CheckUpStation",
                 Remark = "检测上一工站是否测试Pass，在其他配置中输入要检查那一项的SN的ID"
             });
@@ -40,74 +45,74 @@ namespace TestDAL
                 Remark = "屏蔽箱控制，指令发送，指令写在Other中"
             });
 
-            list.Add(new InitTestItem()
-            {
-                TestItem = "QCC_Open_Connection",
-                Remark = "打开QCC端口，使用方式：USBDBG;SPI,TRB，" +
-                "在Other中设置端口及端口号，例：USBDBG:100;1,SPI:23675;1,TRB:23456;1"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "QCC_ReadBtAdress",
-                Remark = "读取QCC蓝牙地址"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "QCC_Write_BtAddress",
-                Remark = "写QCC蓝牙地址"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "QCC_Cal_Freq",
-                Remark = "QCC校正频率，校正时需要一直处于开机状态"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "QCC_Offset_Gain",
-                Remark = "读取QCC校正Trim值"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "QCC_Enter_TestMode",
-                Remark = "QCC进入测试模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "QCC_StartAudioLoop",
-                Remark = "QCC进入AudioLoopBack模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "QCC_StopAudioLoop",
-                Remark = "QCC退出AudioLoopBack模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "QCC_Cloesd_Port",
-                Remark = "关闭QCC端口"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "QCC_Open_Connection",
+            //    Remark = "打开QCC端口，使用方式：USBDBG;SPI,TRB，" +
+            //    "在Other中设置端口及端口号，例：USBDBG:100;1,SPI:23675;1,TRB:23456;1"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "QCC_ReadBtAdress",
+            //    Remark = "读取QCC蓝牙地址"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "QCC_Write_BtAddress",
+            //    Remark = "写QCC蓝牙地址"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "QCC_Cal_Freq",
+            //    Remark = "QCC校正频率，校正时需要一直处于开机状态"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "QCC_Offset_Gain",
+            //    Remark = "读取QCC校正Trim值"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "QCC_Enter_TestMode",
+            //    Remark = "QCC进入测试模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "QCC_StartAudioLoop",
+            //    Remark = "QCC进入AudioLoopBack模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "QCC_StopAudioLoop",
+            //    Remark = "QCC退出AudioLoopBack模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "QCC_Cloesd_Port",
+            //    Remark = "关闭QCC端口"
+            //});
 
-            list.Add(new InitTestItem()
-            {
-                TestItem = "OpenCsrDev",
-                Remark = "打开CSR端口,使用方式：USB;SPI;UART;USB-SPI," +
-                "在Other中设置端口及端口号，例：USB-SPI:0"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "ReadCsrBDAddress",
-                Remark = "读取CSR芯片蓝牙地址"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "CsrEnableTestMode",
-                Remark = "读取CSR芯片进入DUT"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "CsrClosedPort",
-                Remark = "关闭CSR端口"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "OpenCsrDev",
+            //    Remark = "打开CSR端口,使用方式：USB;SPI;UART;USB-SPI," +
+            //    "在Other中设置端口及端口号，例：USB-SPI:0"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "ReadCsrBDAddress",
+            //    Remark = "读取CSR芯片蓝牙地址"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "CsrEnableTestMode",
+            //    Remark = "读取CSR芯片进入DUT"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "CsrClosedPort",
+            //    Remark = "关闭CSR端口"
+            //});
 
             list.Add(new InitTestItem()
             {
@@ -665,832 +670,832 @@ namespace TestDAL
                 TestItem = "Readx5sBattaryLevel",
                 Remark = "X5i项目充电盒读取电量"
             });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Enter_TestMode",
-                Remark = "BES系列耳机进入测试模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Enter_DUTMode",
-                Remark = "BES系列耳机DUT模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_SoftVersion",
-                Remark = "读取BES系列耳机软体版本"
-            });
             //list.Add(new InitTestItem()
             //{
-            //    TestItem = "BES_HWVersion",
-            //    Remark = "读取BES系列耳机固体版本"
+            //    TestItem = "BES_Enter_TestMode",
+            //    Remark = "BES系列耳机进入测试模式"
             //});
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadTrim",
-                Remark = "读取BES系列耳机校正频率Trim值"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_HWVersion_ASCII",
-                Remark = "读取BES系列耳机固体版本_ASCII"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_HALLTest",
-                Remark = "BES系列耳机HALL测试，要特别注意测试时未吸合状态"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_HALLClosedTest",
-                Remark = "BES系列耳机HALL测试，只测试霍尔在吸合状态"
-            });
             //list.Add(new InitTestItem()
             //{
-            //    TestItem = "BES_PowerKeyTest",
-            //    Remark = "BES系列耳机开机键测试(侧按键)"
+            //    TestItem = "BES_Enter_DUTMode",
+            //    Remark = "BES系列耳机DUT模式"
             //});
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_WhiteLight",
-                Remark = "BES系列耳机白灯测试"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_RedLight",
-                Remark = "BES系列耳机红灯测试"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadBTAddress",
-                Remark = "读取BES系列耳机蓝牙地址"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadSN",
-                Remark = "读取BES系列耳机SN"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadBattarySN",
-                Remark = "读取BES系列耳机电池SN"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadProductColor",
-                Remark = "读取BES系列耳机产品颜色，在下限中输入，" +
-                "包括华为橙色/ 华为黑色/华为绿色/华为银色/华为紫色/华为橘红色" +
-                "和荣耀灰色/荣耀蓝色/荣耀红色/荣耀营销色/荣耀黑色/荣耀绿色/荣耀橙色"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Pair",
-                Remark = "BES系列耳机配对"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_SoftVersion",
+            //    Remark = "读取BES系列耳机软体版本"
+            //});
+            ////list.Add(new InitTestItem()
+            ////{
+            ////    TestItem = "BES_HWVersion",
+            ////    Remark = "读取BES系列耳机固体版本"
+            ////});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadTrim",
+            //    Remark = "读取BES系列耳机校正频率Trim值"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_HWVersion_ASCII",
+            //    Remark = "读取BES系列耳机固体版本_ASCII"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_HALLTest",
+            //    Remark = "BES系列耳机HALL测试，要特别注意测试时未吸合状态"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_HALLClosedTest",
+            //    Remark = "BES系列耳机HALL测试，只测试霍尔在吸合状态"
+            //});
+            ////list.Add(new InitTestItem()
+            ////{
+            ////    TestItem = "BES_PowerKeyTest",
+            ////    Remark = "BES系列耳机开机键测试(侧按键)"
+            ////});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_WhiteLight",
+            //    Remark = "BES系列耳机白灯测试"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_RedLight",
+            //    Remark = "BES系列耳机红灯测试"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadBTAddress",
+            //    Remark = "读取BES系列耳机蓝牙地址"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadSN",
+            //    Remark = "读取BES系列耳机SN"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadBattarySN",
+            //    Remark = "读取BES系列耳机电池SN"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadProductColor",
+            //    Remark = "读取BES系列耳机产品颜色，在下限中输入，" +
+            //    "包括华为橙色/ 华为黑色/华为绿色/华为银色/华为紫色/华为橘红色" +
+            //    "和荣耀灰色/荣耀蓝色/荣耀红色/荣耀营销色/荣耀黑色/荣耀绿色/荣耀橙色"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Pair",
+            //    Remark = "BES系列耳机配对"
+            //});
 
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_SetVolume",
-                Remark = "BES系列耳机到最大音量"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Shutdown",
-                Remark = "BES系列耳机关机"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ShippingMode",
-                Remark = "BES系列耳机进入ShippingMode"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Reset",
-                Remark = "BES系列耳机重启"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ClearPair",
-                Remark = "BES系列耳机清除配对"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_BurnIN",
-                Remark = "BES老化测试"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadBurnIN",
-                Remark = "BES读取老化测试数据"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_SetVolume",
+            //    Remark = "BES系列耳机到最大音量"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Shutdown",
+            //    Remark = "BES系列耳机关机"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ShippingMode",
+            //    Remark = "BES系列耳机进入ShippingMode"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Reset",
+            //    Remark = "BES系列耳机重启"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ClearPair",
+            //    Remark = "BES系列耳机清除配对"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_BurnIN",
+            //    Remark = "BES老化测试"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadBurnIN",
+            //    Remark = "BES读取老化测试数据"
+            //});
 
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Read_NormalBurnIN_HALL",
-                Remark = "BES读取老化正常情况下HALL测试数据"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Read_NormalBurnIN_Power",
-                Remark = "BES读取老化正常情况下电量计测试数据"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Read_NormalBurnIN_Charge",
-                Remark = "BES读取老化正常情况下充电测试数据"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Read_MaxPowerBurnIN_HALL",
-                Remark = "BES读取老化最大功率情况下HALL测试数据"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Read_MaxPowerBurnIN_Power",
-                Remark = "BES读取老化最大功率情况下电量计测试数据"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Read_MaxPowerBurnIN_Charge",
-                Remark = "BES读取老化最大功率情况下充电测试数据"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Read_SleepBurnIN_HALL",
-                Remark = "BES读取老化休眠情况下HALL测试数据"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Read_SleepBurnIN_Power",
-                Remark = "BES读取老化休眠情况下电量计测试数据"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Read_SleepBurnIN_Charge",
-                Remark = "BES读取老化休眠情况下充电测试数据"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Read_BurnIN_Memory",
-                Remark = "BES读取老化读取写入内存数据"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Read_BurnIN_LowBattery",
-                Remark = "BES读取老化低电压关机数据"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Read_NormalBurnIN_HALL",
+            //    Remark = "BES读取老化正常情况下HALL测试数据"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Read_NormalBurnIN_Power",
+            //    Remark = "BES读取老化正常情况下电量计测试数据"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Read_NormalBurnIN_Charge",
+            //    Remark = "BES读取老化正常情况下充电测试数据"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Read_MaxPowerBurnIN_HALL",
+            //    Remark = "BES读取老化最大功率情况下HALL测试数据"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Read_MaxPowerBurnIN_Power",
+            //    Remark = "BES读取老化最大功率情况下电量计测试数据"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Read_MaxPowerBurnIN_Charge",
+            //    Remark = "BES读取老化最大功率情况下充电测试数据"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Read_SleepBurnIN_HALL",
+            //    Remark = "BES读取老化休眠情况下HALL测试数据"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Read_SleepBurnIN_Power",
+            //    Remark = "BES读取老化休眠情况下电量计测试数据"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Read_SleepBurnIN_Charge",
+            //    Remark = "BES读取老化休眠情况下充电测试数据"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Read_BurnIN_Memory",
+            //    Remark = "BES读取老化读取写入内存数据"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Read_BurnIN_LowBattery",
+            //    Remark = "BES读取老化低电压关机数据"
+            //});
 
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadBattaryVoltage",
-                Remark = "读取BES系列耳机电池电压"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadNTC",
-                Remark = "读取BES系列耳机NTC值"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadWaterProof",
-                Remark = "读取BES系列耳机防水值"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadWarningTone",
-                Remark = "读取BES系列耳机提示音，在下限中输入，包括：华为中文/英文和荣耀中文/英文"
-            });
-            //list.Add("BES_OpenSerialPort");
-            //list.Add("BES_Enter_TestMode");
-            //list.Add("BES_Enter_DUTMode");
-            //list.Add("BES_SoftVersion");
-            //list.Add("BES_HWVersion");
-            //list.Add("BES_HALLTest");
-            //list.Add("BES_WhiteLight");
-            //list.Add("BES_RedLight");
-            //list.Add("BES_ReadSN");
-            //list.Add("BES_ReadBTName");
-            //list.Add("BES_ReadBTAddress");
-            //list.Add("BES_ReadBattarySN");
-            //list.Add("BES_ReadProductColor");
-            //list.Add("BES_Pair");
-            //list.Add("BES_Shutdown");
-            //list.Add("BES_Reset");
-            //list.Add("BES_ClearPair");
-            //list.Add("BES_ReadBattaryVoltage");
-            //list.Add("BES_ReadNTC");
-            //list.Add("BES_ReadWaterProof");
-            //list.Add("BES_ReadWarningTone");
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadBattaryVoltage",
+            //    Remark = "读取BES系列耳机电池电压"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadNTC",
+            //    Remark = "读取BES系列耳机NTC值"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadWaterProof",
+            //    Remark = "读取BES系列耳机防水值"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadWarningTone",
+            //    Remark = "读取BES系列耳机提示音，在下限中输入，包括：华为中文/英文和荣耀中文/英文"
+            //});
+            ////list.Add("BES_OpenSerialPort");
+            ////list.Add("BES_Enter_TestMode");
+            ////list.Add("BES_Enter_DUTMode");
+            ////list.Add("BES_SoftVersion");
+            ////list.Add("BES_HWVersion");
+            ////list.Add("BES_HALLTest");
+            ////list.Add("BES_WhiteLight");
+            ////list.Add("BES_RedLight");
+            ////list.Add("BES_ReadSN");
+            ////list.Add("BES_ReadBTName");
+            ////list.Add("BES_ReadBTAddress");
+            ////list.Add("BES_ReadBattarySN");
+            ////list.Add("BES_ReadProductColor");
+            ////list.Add("BES_Pair");
+            ////list.Add("BES_Shutdown");
+            ////list.Add("BES_Reset");
+            ////list.Add("BES_ClearPair");
+            ////list.Add("BES_ReadBattaryVoltage");
+            ////list.Add("BES_ReadNTC");
+            ////list.Add("BES_ReadWaterProof");
+            ////list.Add("BES_ReadWarningTone");
 
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadChargeMode",
-                Remark = "读取BES系列耳机充电模式，设置测试项目时下限请设置工厂模式/用户模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadTestStation",
-                Remark = "读取BES系列耳机工站信息，设置测试项目时下限请设置0-F"
-            });
-            //list.Add("BES_ReadChargeMode");
-            //list.Add("BES_ReadTestStation");
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadChargeMode",
+            //    Remark = "读取BES系列耳机充电模式，设置测试项目时下限请设置工厂模式/用户模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadTestStation",
+            //    Remark = "读取BES系列耳机工站信息，设置测试项目时下限请设置0-F"
+            //});
+            ////list.Add("BES_ReadChargeMode");
+            ////list.Add("BES_ReadTestStation");
 
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_CompareSN",
-                Remark = "比对BES系列耳机SN，该项目会和输入的耳机SN进行比对，该项目不能和电池SN比对一起测试"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_CompareBattarySN",
-                Remark = "比对BES系列耳机电池SN，该项目会和输入的电池SN进行比对，该项目不能和耳机SN比对一起测试"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadPackSN",
-                Remark = "读取并比对扫描枪输入的20位包装整机SN"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_WritePackSN",
-                Remark = "写入扫描枪输入的20位包装整机SN"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_WriteSN",
-                Remark = "写入BES系列耳机SN，不能和电池SN一起写入"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_WriteBattarySN",
-                Remark = "写入BES系列耳机电池SN，不能和耳机SN一起写入"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_WriteBTAddress",
-                Remark = "写入BES系列耳机蓝牙地址，不能和耳机SN/电池SN一起写入"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_WriteProductColor",
-                Remark = "写入BES系列耳机产品颜色，在下限中输入，" +
-                 "包括华为橙色/ 华为黑色/华为绿色/华为银色/华为紫色/华为橘红色" +
-                "和荣耀灰色/荣耀蓝色/荣耀红色/荣耀营销色/荣耀黑色/荣耀绿色/荣耀橙色"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_WriteWarningTone",
-                Remark = "写入BES系列耳机蓝牙提示音，在下限中输入，包括：华为中文/英文和荣耀中文/英文"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_WriteChargeMode",
-                Remark = "写入BES系列耳机蓝牙充电模式，设置测试项目时下限请设置工厂模式/用户模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_WriteTestStation",
-                Remark = "写入BES系列耳机蓝牙工站信息，设置测试项目时下限请设置0-F"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_WriteHWVersion",
-                Remark = "写入BES系列耳机蓝牙硬件版本"
-            });
-            //BES_WriteHWVersion_ASCII
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_WriteHWVersion_ASCII",
-                Remark = "写入BES系列耳机蓝牙硬件版本_ASCII"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_CompareSN",
+            //    Remark = "比对BES系列耳机SN，该项目会和输入的耳机SN进行比对，该项目不能和电池SN比对一起测试"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_CompareBattarySN",
+            //    Remark = "比对BES系列耳机电池SN，该项目会和输入的电池SN进行比对，该项目不能和耳机SN比对一起测试"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadPackSN",
+            //    Remark = "读取并比对扫描枪输入的20位包装整机SN"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_WritePackSN",
+            //    Remark = "写入扫描枪输入的20位包装整机SN"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_WriteSN",
+            //    Remark = "写入BES系列耳机SN，不能和电池SN一起写入"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_WriteBattarySN",
+            //    Remark = "写入BES系列耳机电池SN，不能和耳机SN一起写入"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_WriteBTAddress",
+            //    Remark = "写入BES系列耳机蓝牙地址，不能和耳机SN/电池SN一起写入"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_WriteProductColor",
+            //    Remark = "写入BES系列耳机产品颜色，在下限中输入，" +
+            //     "包括华为橙色/ 华为黑色/华为绿色/华为银色/华为紫色/华为橘红色" +
+            //    "和荣耀灰色/荣耀蓝色/荣耀红色/荣耀营销色/荣耀黑色/荣耀绿色/荣耀橙色"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_WriteWarningTone",
+            //    Remark = "写入BES系列耳机蓝牙提示音，在下限中输入，包括：华为中文/英文和荣耀中文/英文"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_WriteChargeMode",
+            //    Remark = "写入BES系列耳机蓝牙充电模式，设置测试项目时下限请设置工厂模式/用户模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_WriteTestStation",
+            //    Remark = "写入BES系列耳机蓝牙工站信息，设置测试项目时下限请设置0-F"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_WriteHWVersion",
+            //    Remark = "写入BES系列耳机蓝牙硬件版本"
+            //});
+            ////BES_WriteHWVersion_ASCII
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_WriteHWVersion_ASCII",
+            //    Remark = "写入BES系列耳机蓝牙硬件版本_ASCII"
+            //});
 
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Semi_Product_CheckMacAddress",
-                Remark = "半成品工站检查蓝牙地址是否重复"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Semi_Product_CheckProductSN",
-                Remark = "半成品工站检查产品SN是否重复"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Pack_CheckMacAddress",
-                Remark = "包装段检查蓝牙地址是否重复"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Pack_CheckProductSN",
-                Remark = "包装段检查产品SN是否重复"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Pack_CheckPackSN",
-                Remark = "包装段检查包装20位SN是否重复"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Semi_Product_CheckBatterySN",
-                Remark = "电池信息写入工站检查电池SN是否重复"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Semi_Product_CheckMacAddress",
+            //    Remark = "半成品工站检查蓝牙地址是否重复"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Semi_Product_CheckProductSN",
+            //    Remark = "半成品工站检查产品SN是否重复"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Pack_CheckMacAddress",
+            //    Remark = "包装段检查蓝牙地址是否重复"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Pack_CheckProductSN",
+            //    Remark = "包装段检查产品SN是否重复"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Pack_CheckPackSN",
+            //    Remark = "包装段检查包装20位SN是否重复"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Semi_Product_CheckBatterySN",
+            //    Remark = "电池信息写入工站检查电池SN是否重复"
+            //});
 
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Assy_CRCBatterySN",
-                Remark = "组装段CRC工站检查电池SN是否重复"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Pack_CRCBatterySN",
-                Remark = "包装段CRC工站检查电池SN是否重复"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Assy_CRCCheckMacAddress",
-                Remark = "组装段CRC检查蓝牙地址是否重复"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Assy_CRCCheckProductSN",
-                Remark = "组装段CRC检查蓝牙地址是否重复"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ControlMic1",
-                Remark = "控制NTG主板主Mic打开"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Assy_CRCBatterySN",
+            //    Remark = "组装段CRC工站检查电池SN是否重复"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Pack_CRCBatterySN",
+            //    Remark = "包装段CRC工站检查电池SN是否重复"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Assy_CRCCheckMacAddress",
+            //    Remark = "组装段CRC检查蓝牙地址是否重复"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Assy_CRCCheckProductSN",
+            //    Remark = "组装段CRC检查蓝牙地址是否重复"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ControlMic1",
+            //    Remark = "控制NTG主板主Mic打开"
+            //});
           
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ControlMic2",
-                Remark = "控制NTG主板副Mic1打开"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ControlMic3",
-                Remark = "控制NTG主板副Mic2打开"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ControlMicAllOpen",
-                Remark = "控制NTG主板Mic全部打开"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ExitCDC",
-                Remark = "永久退出CDC模式，适用于包装前一工站"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Enter_UsbAudio",
-                Remark = "仅退出一次 CDC，可重复进入"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadTouchData",
-                Remark = "读取触摸板实时触摸时的值"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_ReadWearData",
-                Remark = "读取佩戴触发值，要在远近距离测试各一次"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_BD02CompareFirstPairRecord",
-                Remark = "BD02项目读取第一个蓝牙地址"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_BD02CompareSecondPairRecord",
-                Remark = "BD02项目读取第二个蓝牙地址"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_BD02ComparePairRecord",
-                Remark = "BD02项目读取二个蓝牙地址进行比对，要先读取两个蓝牙地址后再进行比对"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_BD02LeftCompareSoftVersion",
-                Remark = "BD02项目读取左耳并比对软件版本"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_BD02RightCompareSoftVersion",
-                Remark = "BD02项目读取右耳并比对软件版本"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_BD02ReadLeftPairMessage",
-                Remark = "BD02项目读取左耳组队信息"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_BD02ReadRightPairMessage",
-                Remark = "BD02项目读取右耳组队信息"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_BD02LeftRightCompare",
-                Remark = "BD02项目左右耳组队信息比对"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_T1207ReadMac",
-                Remark = "T1207项目读取蓝牙地址"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_T1207SoftVersion",
-                Remark = "T1207项目读取软件版本"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_T1207EnterDUT",
-                Remark = "T1207项目进入DUT模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_T1207Reset",
-                Remark = "T1207项目写入蓝牙地址后重启"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_T1207WriteBtAddress",
-                Remark = "T1207项目写蓝牙地址，需要扫描输入"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_T1207ClsPair",
-                Remark = "T1207项目清除耳机和手机的配对记录"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_T1207ReadLeftPairMessage",
-                Remark = "T1207项目读取左耳TWS组队信息"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_T1207ReadRightPairMessage",
-                Remark = "T1207项目读取右耳TWS组队信息"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_T1207LeftRightCompare",
-                Remark = "T1207项目比对左右耳TWS组队信息"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_T1207ReadLeftElectricity",
-                Remark = "T1207项目读取左耳电量"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_T1207ReadRightElectricity",
-                Remark = "T1207项目读取右耳电量"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_TW18LeftRightCompare",
-                Remark = "TW18项目比对左右耳TWS组队信息"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ControlMic2",
+            //    Remark = "控制NTG主板副Mic1打开"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ControlMic3",
+            //    Remark = "控制NTG主板副Mic2打开"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ControlMicAllOpen",
+            //    Remark = "控制NTG主板Mic全部打开"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ExitCDC",
+            //    Remark = "永久退出CDC模式，适用于包装前一工站"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Enter_UsbAudio",
+            //    Remark = "仅退出一次 CDC，可重复进入"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadTouchData",
+            //    Remark = "读取触摸板实时触摸时的值"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_ReadWearData",
+            //    Remark = "读取佩戴触发值，要在远近距离测试各一次"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_BD02CompareFirstPairRecord",
+            //    Remark = "BD02项目读取第一个蓝牙地址"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_BD02CompareSecondPairRecord",
+            //    Remark = "BD02项目读取第二个蓝牙地址"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_BD02ComparePairRecord",
+            //    Remark = "BD02项目读取二个蓝牙地址进行比对，要先读取两个蓝牙地址后再进行比对"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_BD02LeftCompareSoftVersion",
+            //    Remark = "BD02项目读取左耳并比对软件版本"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_BD02RightCompareSoftVersion",
+            //    Remark = "BD02项目读取右耳并比对软件版本"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_BD02ReadLeftPairMessage",
+            //    Remark = "BD02项目读取左耳组队信息"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_BD02ReadRightPairMessage",
+            //    Remark = "BD02项目读取右耳组队信息"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_BD02LeftRightCompare",
+            //    Remark = "BD02项目左右耳组队信息比对"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_T1207ReadMac",
+            //    Remark = "T1207项目读取蓝牙地址"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_T1207SoftVersion",
+            //    Remark = "T1207项目读取软件版本"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_T1207EnterDUT",
+            //    Remark = "T1207项目进入DUT模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_T1207Reset",
+            //    Remark = "T1207项目写入蓝牙地址后重启"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_T1207WriteBtAddress",
+            //    Remark = "T1207项目写蓝牙地址，需要扫描输入"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_T1207ClsPair",
+            //    Remark = "T1207项目清除耳机和手机的配对记录"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_T1207ReadLeftPairMessage",
+            //    Remark = "T1207项目读取左耳TWS组队信息"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_T1207ReadRightPairMessage",
+            //    Remark = "T1207项目读取右耳TWS组队信息"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_T1207LeftRightCompare",
+            //    Remark = "T1207项目比对左右耳TWS组队信息"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_T1207ReadLeftElectricity",
+            //    Remark = "T1207项目读取左耳电量"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_T1207ReadRightElectricity",
+            //    Remark = "T1207项目读取右耳电量"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_TW18LeftRightCompare",
+            //    Remark = "TW18项目比对左右耳TWS组队信息"
+            //});
 
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_JT51ReadLeftPairMessage",
-                Remark = "JT51项目读取左耳组队信息"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_JT51ReadRightPairMessage",
-                Remark = "JT51项目读取右耳组队信息"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_JT51ReadLeftPairMessage",
+            //    Remark = "JT51项目读取左耳组队信息"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_JT51ReadRightPairMessage",
+            //    Remark = "JT51项目读取右耳组队信息"
+            //});
 
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_TWS_TXMode",
-                Remark = "BES TWS耳机进入TX模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_TWS_DUTMode",
-                Remark = "BES TWS耳机进入DUT模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_TWS_ReadVersion",
-                Remark = "BES TWS耳机读取软件版本并比对版本"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_TWS_ReadMACAddress",
-                Remark = "BES TWS耳机读取耳机蓝牙地址"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_TWS_MainMic",
-                Remark = "BES TWS耳机切换为主Mic"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_TWS_FFMic",
-                Remark = "BES TWS耳机FF Mic"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_TWS_ClearAll",
-                Remark = "BES TWS耳机清除所有配对记录"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_TWS_AudioLoop",
-                Remark = "BES TWS耳机进入AudioLoop模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_TWS_ComparePairName",
-                Remark = "BES TWS耳机比对配对名称"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_TWS_TXMode",
+            //    Remark = "BES TWS耳机进入TX模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_TWS_DUTMode",
+            //    Remark = "BES TWS耳机进入DUT模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_TWS_ReadVersion",
+            //    Remark = "BES TWS耳机读取软件版本并比对版本"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_TWS_ReadMACAddress",
+            //    Remark = "BES TWS耳机读取耳机蓝牙地址"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_TWS_MainMic",
+            //    Remark = "BES TWS耳机切换为主Mic"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_TWS_FFMic",
+            //    Remark = "BES TWS耳机FF Mic"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_TWS_ClearAll",
+            //    Remark = "BES TWS耳机清除所有配对记录"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_TWS_AudioLoop",
+            //    Remark = "BES TWS耳机进入AudioLoop模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_TWS_ComparePairName",
+            //    Remark = "BES TWS耳机比对配对名称"
+            //});
            
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_EnterDUT",
-                Remark = "BES  Lchse TWS耳机进入DUT模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_ReadSoftVersion",
-                Remark = "BES  Lchse TWS耳机读取软件版本"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_ReadHWVersion",
-                Remark = "BES Lchse TWS耳机读取硬件版本"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_ReadVoltage",
-                Remark = "BES Lchse TWS耳机读取电池电压"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_ReadElectricity",
-                Remark = "BES Lchse TWS耳机读取电池电量"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_ReadBTAddress",
-                Remark = "BES Lchse TWS耳机读取蓝牙地址"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_WriteBTAddress",
-                Remark = "BES Lchse TWS耳机写蓝牙地址"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_ReadBTName",
-                Remark = "BES Lchse TWS耳机读取蓝牙名称"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_WriteBTName",
-                Remark = "BES Lchse TWS耳机写入蓝牙名称，在设置下限参数时设置蓝牙名称"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_ShutDown",
-                Remark = "BES Lchse TWS耳机关机"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_Reset",
-                Remark = "BES Lchse TWS耳机复位"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_CloseLog",
-                Remark = "BES Lchse TWS关闭Log功能"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_04cCharge",
-                Remark = "BES Lchse TWS 0.4c充电"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_1cCharge",
-                Remark = "BES Lchse TWS 1c充电"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_TalkMic",
-                Remark = "BES Lchse TWS 打开通话Mic，测试LoopBack"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_FFMIC",
-                Remark = "BES Lchse TWS 打开通话FFMic，测试LoopBack"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_Lchse_TWS_FBMIC",
-                Remark = "BES Lchse TWS 打开通话FBMic，测试LoopBack"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_XE25_TWS_EnterDUT",
-                Remark = "BES XE25 TWS 进入DUT模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_XE25_TWS_CloseLog",
-                Remark = "BES XE25 TWS 关闭Log打印"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_XE25_TWS_ReadVersion",
-                Remark = "BES XE25 TWS 读取版本"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_XE25_TWS_ReadMac",
-                Remark = "BES XE25 TWS 读取Mac地址"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_XE25_TWS_ReadName",
-                Remark = "BES XE25 TWS 读取名称"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_XE25_TWS_ClsRepair",
-                Remark = "BES XE25 TWS 清除配对记录"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_XE25_TWS_LoopBackOn",
-                Remark = "BES XE25 TWS 进入LoopBack模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_XE25_TWS_LoopBackOff",
-                Remark = "BES XE25 TWS 关闭LoopBack模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadSoftVersion",
-                Remark = "BES 读取OPPO耳机软件版本"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadHardVersion",
-                Remark = "BES 读取OPPO耳机硬件版本"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadElectricity",
-                Remark = "BES 读取OPPO耳机电量"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadButton",
-                Remark = "BES 读取OPPO耳机按键，01为暂停，02为音量+，04为音量-"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoHALLTest",
-                Remark = "BES OPPO耳机霍尔测试"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadNTC",
-                Remark = "BES 读取OPPO耳机NTC值，返回值2：0°-17°，" +
-                "19：17°-45°，47为45-53度， 55：53°-70°，55：53°-70°，71：>70°"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadVoltage",
-                Remark = "BES 读取OPPO耳机电压，包装线要等待10秒以上才准确"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoEnterDUT",
-                Remark = "BES OPPO耳机进入DUT"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReset",
-                Remark = "BES OPPO耳机复位"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoPowerOff",
-                Remark = "BES OPPO耳机关机"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoFactorySettings",
-                Remark = "BES OPPO耳机出厂设置，清除配对记录"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoChargeManage",
-                Remark = "BES 设置OPPO耳机充电模式，00为退出，01为进入"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadChargeManage",
-                Remark = "BES 读取OPPO耳机充电模式，00为退出，01为进入"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoShipping",
-                Remark = "BES OPPO耳机进入船运模式"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadBtName",
-                Remark = "BES 读取OPPO耳机名称并进行判断"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadBtAddress",
-                Remark = "BES 读取OPPO耳机蓝牙地址"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_EnterDUT",
+            //    Remark = "BES  Lchse TWS耳机进入DUT模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_ReadSoftVersion",
+            //    Remark = "BES  Lchse TWS耳机读取软件版本"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_ReadHWVersion",
+            //    Remark = "BES Lchse TWS耳机读取硬件版本"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_ReadVoltage",
+            //    Remark = "BES Lchse TWS耳机读取电池电压"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_ReadElectricity",
+            //    Remark = "BES Lchse TWS耳机读取电池电量"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_ReadBTAddress",
+            //    Remark = "BES Lchse TWS耳机读取蓝牙地址"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_WriteBTAddress",
+            //    Remark = "BES Lchse TWS耳机写蓝牙地址"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_ReadBTName",
+            //    Remark = "BES Lchse TWS耳机读取蓝牙名称"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_WriteBTName",
+            //    Remark = "BES Lchse TWS耳机写入蓝牙名称，在设置下限参数时设置蓝牙名称"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_ShutDown",
+            //    Remark = "BES Lchse TWS耳机关机"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_Reset",
+            //    Remark = "BES Lchse TWS耳机复位"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_CloseLog",
+            //    Remark = "BES Lchse TWS关闭Log功能"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_04cCharge",
+            //    Remark = "BES Lchse TWS 0.4c充电"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_1cCharge",
+            //    Remark = "BES Lchse TWS 1c充电"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_TalkMic",
+            //    Remark = "BES Lchse TWS 打开通话Mic，测试LoopBack"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_FFMIC",
+            //    Remark = "BES Lchse TWS 打开通话FFMic，测试LoopBack"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_Lchse_TWS_FBMIC",
+            //    Remark = "BES Lchse TWS 打开通话FBMic，测试LoopBack"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_XE25_TWS_EnterDUT",
+            //    Remark = "BES XE25 TWS 进入DUT模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_XE25_TWS_CloseLog",
+            //    Remark = "BES XE25 TWS 关闭Log打印"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_XE25_TWS_ReadVersion",
+            //    Remark = "BES XE25 TWS 读取版本"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_XE25_TWS_ReadMac",
+            //    Remark = "BES XE25 TWS 读取Mac地址"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_XE25_TWS_ReadName",
+            //    Remark = "BES XE25 TWS 读取名称"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_XE25_TWS_ClsRepair",
+            //    Remark = "BES XE25 TWS 清除配对记录"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_XE25_TWS_LoopBackOn",
+            //    Remark = "BES XE25 TWS 进入LoopBack模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_XE25_TWS_LoopBackOff",
+            //    Remark = "BES XE25 TWS 关闭LoopBack模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadSoftVersion",
+            //    Remark = "BES 读取OPPO耳机软件版本"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadHardVersion",
+            //    Remark = "BES 读取OPPO耳机硬件版本"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadElectricity",
+            //    Remark = "BES 读取OPPO耳机电量"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadButton",
+            //    Remark = "BES 读取OPPO耳机按键，01为暂停，02为音量+，04为音量-"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoHALLTest",
+            //    Remark = "BES OPPO耳机霍尔测试"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadNTC",
+            //    Remark = "BES 读取OPPO耳机NTC值，返回值2：0°-17°，" +
+            //    "19：17°-45°，47为45-53度， 55：53°-70°，55：53°-70°，71：>70°"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadVoltage",
+            //    Remark = "BES 读取OPPO耳机电压，包装线要等待10秒以上才准确"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoEnterDUT",
+            //    Remark = "BES OPPO耳机进入DUT"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReset",
+            //    Remark = "BES OPPO耳机复位"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoPowerOff",
+            //    Remark = "BES OPPO耳机关机"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoFactorySettings",
+            //    Remark = "BES OPPO耳机出厂设置，清除配对记录"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoChargeManage",
+            //    Remark = "BES 设置OPPO耳机充电模式，00为退出，01为进入"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadChargeManage",
+            //    Remark = "BES 读取OPPO耳机充电模式，00为退出，01为进入"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoShipping",
+            //    Remark = "BES OPPO耳机进入船运模式"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadBtName",
+            //    Remark = "BES 读取OPPO耳机名称并进行判断"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadBtAddress",
+            //    Remark = "BES 读取OPPO耳机蓝牙地址"
+            //});
            
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadBattarySN",
-                Remark = "BES 读取OPPO耳机电池SN"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoCompareBattarySN",
-                Remark = "BES 读取并比对OPPO耳机电池SN"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoWriteBattarySN",
-                Remark = "BES 写入OPPO耳机电池SN"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadTelecomSN",
-                Remark = "BES 读取OPPO耳机电信码"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoCompareTelecomSN",
-                Remark = "BES 读取并比对OPPO耳机电信码"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoWriteTelecomSN",
-                Remark = "BES 写入OPPO耳机电信码"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadEQ",
-                Remark = "BES 读取OPPO耳机EQ，01：国内  02：国外  其他值默认国内，中英文提示音切换"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoWriteEQ",
-                Remark = "BES 写入OPPO耳机EQ，01：国内  02：国外  其他值默认国内，中英文提示音切换"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadENC",
-                Remark = "BES 读取OPPO耳机ENC bypass，0为ENC有效，1为无效，可以测试Mic"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoWriteENC",
-                Remark = "BES 写入OPPO耳机ENC bypass，0为ENC有效，1为无效，可以测试Mic"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoClsElectricity",
-                Remark = "BES 清除OPPO耳机电量"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadColor",
-                Remark = "BES 读取OPPO耳机颜色"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoWriteColor",
-                Remark = "BES 写入OPPO耳机颜色"
-            });
-            list.Add(new InitTestItem()
-            {
-                TestItem = "BES_OppoReadEncLicense",
-                Remark = "BES 读取OPPO耳机校验ENC 许可证，0为未进行校验，1为ENC校验成功"
-            });
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadBattarySN",
+            //    Remark = "BES 读取OPPO耳机电池SN"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoCompareBattarySN",
+            //    Remark = "BES 读取并比对OPPO耳机电池SN"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoWriteBattarySN",
+            //    Remark = "BES 写入OPPO耳机电池SN"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadTelecomSN",
+            //    Remark = "BES 读取OPPO耳机电信码"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoCompareTelecomSN",
+            //    Remark = "BES 读取并比对OPPO耳机电信码"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoWriteTelecomSN",
+            //    Remark = "BES 写入OPPO耳机电信码"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadEQ",
+            //    Remark = "BES 读取OPPO耳机EQ，01：国内  02：国外  其他值默认国内，中英文提示音切换"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoWriteEQ",
+            //    Remark = "BES 写入OPPO耳机EQ，01：国内  02：国外  其他值默认国内，中英文提示音切换"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadENC",
+            //    Remark = "BES 读取OPPO耳机ENC bypass，0为ENC有效，1为无效，可以测试Mic"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoWriteENC",
+            //    Remark = "BES 写入OPPO耳机ENC bypass，0为ENC有效，1为无效，可以测试Mic"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoClsElectricity",
+            //    Remark = "BES 清除OPPO耳机电量"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadColor",
+            //    Remark = "BES 读取OPPO耳机颜色"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoWriteColor",
+            //    Remark = "BES 写入OPPO耳机颜色"
+            //});
+            //list.Add(new InitTestItem()
+            //{
+            //    TestItem = "BES_OppoReadEncLicense",
+            //    Remark = "BES 读取OPPO耳机校验ENC 许可证，0为未进行校验，1为ENC校验成功"
+            //});
             list.Add(new InitTestItem()
             {
                 TestItem = "BES_ClosedSerialPort",

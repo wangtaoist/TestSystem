@@ -281,7 +281,7 @@ namespace TestDAL
             }
             catch (Exception ex)
             {
-                queue.Enqueue("ex" + ex.Message);
+                queue.Enqueue("ex:" + ex.Message);
             }
             finally
             {

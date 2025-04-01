@@ -62,6 +62,7 @@ namespace WinForm
             Others.handle = this.Handle;
             Control.CheckForIllegalCrossThreadCalls = false;
             DPI = getDPI();
+            
 
             #region 调试
             //string da = "真我";
@@ -179,22 +180,30 @@ namespace WinForm
                 }
                 else
                 {
-                    FixturePort = new SerialPort();
-                    FixturePort.BaudRate = 9600;
-                    FixturePort.PortName = config.FixturePort;
-                    FixturePort.DataBits = 8;
-                    FixturePort.Parity = Parity.None;
-                    FixturePort.StopBits = StopBits.One;
-                    FixturePort.DataReceived += FixturePort_DataReceived;
-
-                    if (FixturePort.IsOpen)
+                    try
                     {
-                        FixturePort.Close();
+                        FixturePort = new SerialPort();
+                        FixturePort.BaudRate = 9600;
+                        FixturePort.PortName = config.FixturePort;
+                        FixturePort.DataBits = 8;
+                        FixturePort.Parity = Parity.None;
+                        FixturePort.StopBits = StopBits.One;
+                        FixturePort.DataReceived += FixturePort_DataReceived;
+
+                        if (FixturePort.IsOpen)
+                        {
+                            FixturePort.Close();
+                        }
+                        FixturePort.Open();
+                        //FixturePort.Write("OPEN\r");
+                        FixturePort.DiscardInBuffer();
+                        FixturePort.DiscardOutBuffer();
                     }
-                    FixturePort.Open();
-                    //FixturePort.Write("OPEN\r");
-                    FixturePort.DiscardInBuffer();
-                    FixturePort.DiscardOutBuffer();
+                    catch (Exception ex)
+                    {
+                        TestQueue.Enqueue("ex:" + "屏蔽箱" + ex.Message);
+                        MessageBox.Show("屏蔽箱" + ex.Message);
+                    }
                 }
             }
 
@@ -246,6 +255,7 @@ namespace WinForm
             {
                 this.dgv_Data.ColumnHeadersHeight = (int)this.columnHeiht;
             }
+            
         }
 
         public void FillTestItem()
@@ -266,7 +276,7 @@ namespace WinForm
                     });
 
                     int count = dgv_Data.Rows.Count;
-                    dgv_Data.Rows[count -1].Height = int.Parse((dgv_Data.Rows[count -1].Height * DPI).ToString());
+                    dgv_Data.Rows[count - 1].Height =Convert.ToInt32(dgv_Data.Rows[count - 1].Height * 1.2);
 
                 }
             }
@@ -1361,7 +1371,7 @@ namespace WinForm
                         break;
                     }
             }
-            return dpi;
+            return 1;
 
         }
 

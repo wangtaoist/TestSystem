@@ -1,16 +1,12 @@
 {
   "SN": "",
-  "TestTime": "20250209090947",
+  "TestTime": "20250325172501",
   "MAC": "",
-  "TotalStatus": "Fail",
-  "打开串口": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
-  "进入工厂模式": "{\r\n  \"isPass\": \"Fail\",\r\n  \"data\": \"Fail\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
-  "充电盒版本": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"8\",\r\n  \"upperLimit\": \"NA\"\r\n}",
-  "充电盒电量": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"%\",\r\n  \"lowerLimit\": \"40\",\r\n  \"upperLimit\": \"80\"\r\n}",
-  "充电盒电压": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"mV\",\r\n  \"lowerLimit\": \"3600\",\r\n  \"upperLimit\": \"4200\"\r\n}",
-  "进入充电管控": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"1\",\r\n  \"upperLimit\": \"NA\"\r\n}",
-  "查询充电管控": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"1\",\r\n  \"upperLimit\": \"NA\"\r\n}",
-  "退出产测模式": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"0\",\r\n  \"upperLimit\": \"NA\"\r\n}",
-  "关闭串口": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
-  "读取电流": "{\r\n  \"isPass\": \"\",\r\n  \"data\": \"\",\r\n  \"unit\": \"mA\",\r\n  \"lowerLimit\": \"-60\",\r\n  \"upperLimit\": \"1\"\r\n}"
+  "TotalStatus": "Pass",
+  "打开和连接Modbus": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "设备开始运行": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "设备运行状态": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}",
+  "读取当前压力值": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"0.047\",\r\n  \"unit\": \"kPa\",\r\n  \"lowerLimit\": \"0\",\r\n  \"upperLimit\": \"20\"\r\n}",
+  "读取当前泄露值": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"0.016\",\r\n  \"unit\": \"kPa\",\r\n  \"lowerLimit\": \"0\",\r\n  \"upperLimit\": \"0.1\"\r\n}",
+  "关闭Modbus": "{\r\n  \"isPass\": \"Pass\",\r\n  \"data\": \"Pass\",\r\n  \"unit\": \"NA\",\r\n  \"lowerLimit\": \"NA\",\r\n  \"upperLimit\": \"NA\"\r\n}"
 }

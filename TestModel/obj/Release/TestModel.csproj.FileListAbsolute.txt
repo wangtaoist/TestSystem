@@ -14,3 +14,9 @@ F:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.csprojAssemb
 F:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.csproj.CoreCompileInputs.cache
 F:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.dll
 F:\Lchse\Program\Program\TestSystem\TestModel\obj\Release\TestModel.pdb
+F:\Lchse\Program\Program\TestSystem_UI\TestModel\bin\Release\TestModel.dll
+F:\Lchse\Program\Program\TestSystem_UI\TestModel\bin\Release\TestModel.pdb
+F:\Lchse\Program\Program\TestSystem_UI\TestModel\obj\Release\TestModel.csproj.CoreCompileInputs.cache
+F:\Lchse\Program\Program\TestSystem_UI\TestModel\obj\Release\TestModel.dll
+F:\Lchse\Program\Program\TestSystem_UI\TestModel\obj\Release\TestModel.pdb
+F:\Lchse\Program\Program\TestSystem_UI\TestModel\obj\Release\TestModel.csproj.AssemblyReference.cache

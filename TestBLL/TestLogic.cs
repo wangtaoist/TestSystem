@@ -168,6 +168,19 @@ namespace TestBLL
                         break;
                     }
 
+                case "EnterSN":
+                    {
+                        string retSN = string.Empty;
+                        EnterSN sn = new EnterSN(data.Other);
+                       if( sn.ShowDialog() ==  DialogResult.OK)
+                        {
+                            retSN = sn.sn;
+                        }
+                        data.Value = retSN;
+                        data.Result = "Pass";
+                        break;
+                    }
+
                 case "CheckUpStation":
                     {
                         operateBES.TestItmes = TestItmes;
@@ -188,82 +201,98 @@ namespace TestBLL
                         web.Dispose();
                         break;
                     }
+
                 case "SetMaxVolume":
                     {
                         data = Audio.SetMaxVolume(data);
                         break;
                     }
+
                 case "QCC_Open_Connection":
                     {
                         data = operate.Open_QCC_Port(data);
                         break;
                     }
+
                 case "QCC_ReadBtAdress":
                     {
                         data = operate.QCC_ReadBtAdress(data);
                         break;
                     }
+
                 case "QCC_Write_BtAddress":
                     {
                         operate.BtAddress = BTAddress;
                         data = operate.QCC_Write_BtAddress(data);
                         break;
                     }
+
                 case "QCC_Cal_Freq":
                     {
                         data = operate.QCC_CalFreq(data);
                         break;
                     }
+
                 case "QCC_Offset_Gain":
                     {
                         data = operate.QCC_Read_Trim(data);
                         break;
                     }
+
                 case "QCC_Enter_TestMode":
                     {
                         data = operate.QCC_EnableTestMode(data);
                         break;
                     }
+
                 case "QCC_StartAudioLoop":
                     {
                         data = operate.QCC_StartAudioLoop(data);
                         break;
                     }
+
                 case "QCC_StopAudioLoop":
                     {
                         data = operate.QCC_StopAudioLoop(data);
                         break;
                     }
+
                 case "QCC_Cloesd_Port":
                     {
                         data = operate.QCC_Closed_Port(data);
                         break;
                     }
+
                 case "OpenCsrDev":
                     {
                         data = operate.OpenCsrDev(data);
                         break;
                     }
+
                 case "ReadCsrBDAddress":
                     {
                         data = operate.ReadCsrBDAddress(data);
                         break;
                     }
+
                 case "CsrEnableTestMode":
                     {
                         data = operate.CsrEnableTestMode(data);
                         break;
                     }
+
                 case "CsrClosedPort":
                     {
                         data = operate.CsrClosedPort(data);
                         break;
                     }
+
                 case "Open_MT8852":
                     {
                         data = operate.Open_MT8852(data);
                         break;
                     }
+
                 case "Closed_MT8852":
                     {
                         data = operate.Closed_MT8852(data);
@@ -274,16 +303,19 @@ namespace TestBLL
                         data = operate.Run_Script(data);
                         break;
                     }
+
                 case "Run_MT8852_CalcFreq":
                     {
                         data = operate.Run_MT8852_CalcFreq(data);
                         break;
                     }
+
                 case "Run_MT8852_CsrCalcFreq":
                     {
                         data = operate.Run_MT8852_CsrCalcFreq(data);
                         break;
                     }
+
                 case "Run_MT8852_CalcFreqScript":
                     {
                         byte sampTrim = 0x44;
@@ -396,66 +428,79 @@ namespace TestBLL
                         data = operate.GetBTAddress(data);
                         break;
                     }
+
                 case "MT8852_Read_BD_Name":
                     {
                         data = operate.GetBTName(data);
                         break;
                     }
+
                 case "MT8852_Compare_BD_Address":
                     {
                         data = operate.CompareBTAddress(data);
                         break;
                     }
+
                 case "DUT_Power":
                     {
                         data = operate.GetTXPower(data);
                         break;
                     }
+
                 case "DUT_Sensitivity":
                     {
                         data = operate.GetSingleSensitivity(data);
                         break;
                     }
+
                 case "DUT_Sensitivity_FER":
                     {
                         data = operate.GetSingleSensitivity_FER(data);
                         break;
                     }
+
                 case "DUT_InitCarrier":
                     {
                         data = operate.GetInitialcarrier(data);
                         break;
                     }
+
                 //case "DUT_ModulationIndex":
                 //    {
                 //        data = operate.GetModulationindex(data);
                 //        break;
                 //    }
+
                 case "DUT_CarrierDrift":
                     {
                         data = operate.GetCarrierdrift(data);
                         break;
                     }
+
                 case "DUT_CarrierModRMS2M":
                     {
                         data = operate.GetCarrierModRMS2M(data);
                         break;
                     }
+
                 case "DUT_GetCarrierModRMS3M":
                     {
                         data = operate.GetCarrierModRMS3M(data);
                         break;
                     }
+
                 case "DUT_GetCarrierModPeak2M":
                     {
                         data = operate.GetCarrierModPeak2M(data);
                         break;
                     }
+
                 case "DUT_GetCarrierModPeak3M":
                     {
                         data = operate.GetCarrierModPeak3M(data);
                         break;
                     }
+
                 case "DUT_GetCarrierMod992M":
                     {
                         data = operate.GetCarrierMod992M(data);
@@ -466,21 +511,25 @@ namespace TestBLL
                         data = operate.GetCarrierMod993M(data);
                         break;
                     }
+
                 case "GetModulationindexF1Avg":
                     {
                         data = operate.GetModulationindexF1Avg(data);
                         break;
                     }
+
                 case "GetModulationindexF2Max":
                     {
                         data = operate.GetModulationindexF2Max(data);
                         break;
                     }
+
                 case "GetModulationindexF2F1":
                     {
                         data = operate.GetModulationindexF2F1(data);
                         break;
                     }
+
                 case "GetSingleSensitivity_LostPack":
                     {
                         data = operate.GetSingleSensitivity_LostPack(data);

@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Winform));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -112,6 +112,7 @@
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem,
             this.配置ToolStripMenuItem,
@@ -245,16 +246,16 @@
             // cht_PassRadio
             // 
             this.cht_PassRadio.BackColor = System.Drawing.SystemColors.Control;
-            chartArea3.BackColor = System.Drawing.SystemColors.Control;
-            chartArea3.Name = "ChartArea1";
-            this.cht_PassRadio.ChartAreas.Add(chartArea3);
+            chartArea2.BackColor = System.Drawing.SystemColors.Control;
+            chartArea2.Name = "ChartArea1";
+            this.cht_PassRadio.ChartAreas.Add(chartArea2);
             this.cht_PassRadio.Location = new System.Drawing.Point(162, 25);
             this.cht_PassRadio.Name = "cht_PassRadio";
             this.cht_PassRadio.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series3.Name = "Series1";
-            this.cht_PassRadio.Series.Add(series3);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series2.Name = "Series1";
+            this.cht_PassRadio.Series.Add(series2);
             this.cht_PassRadio.Size = new System.Drawing.Size(120, 109);
             this.cht_PassRadio.TabIndex = 6;
             this.cht_PassRadio.Text = "chart1";
@@ -388,6 +389,7 @@
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
@@ -420,7 +422,7 @@
             this.lb_Message.Location = new System.Drawing.Point(6, 20);
             this.lb_Message.Name = "lb_Message";
             this.lb_Message.ScrollAlwaysVisible = true;
-            this.lb_Message.Size = new System.Drawing.Size(456, 84);
+            this.lb_Message.Size = new System.Drawing.Size(456, 68);
             this.lb_Message.TabIndex = 8;
             // 
             // groupBox11
@@ -543,11 +545,12 @@
             // 
             // tb_SN
             // 
+            this.tb_SN.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tb_SN.ButtonSymbol = 61761;
             this.tb_SN.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.tb_SN.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
             this.tb_SN.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_SN.Location = new System.Drawing.Point(474, 504);
+            this.tb_SN.Location = new System.Drawing.Point(474, 505);
             this.tb_SN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tb_SN.Maximum = 2147483647D;
             this.tb_SN.Minimum = -2147483648D;
@@ -561,6 +564,7 @@
             // 
             // ProgressEnd
             // 
+            this.ProgressEnd.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.ProgressEnd.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StopToolStripMenuItem,
             this.程序重新加载ToolStripMenuItem,
@@ -594,6 +598,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(764, 591);
             this.ContextMenuStrip = this.ProgressEnd;
